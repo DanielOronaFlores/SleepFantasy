@@ -11,8 +11,8 @@ import Database.Avatar.AvatarManager;
 import Database.DatabaseConnection;
 
 public class characterChoice extends AppCompatActivity {
-    private ImageView left, right, currentCharacter;
-    private int[] characters = { //TODO: Cambiar por los personajes reales.
+    private ImageView currentCharacter;
+    private final int[] characters = { //TODO: Cambiar por los personajes reales.
             R.drawable.placeholder_cono,
             R.drawable.placeholder_jaime,
             R.drawable.placeholder_bruja,
@@ -20,7 +20,7 @@ public class characterChoice extends AppCompatActivity {
             R.drawable.placeholder_quick
     };
     private int idCharacter = 0;
-    DatabaseConnection connection;
+    private DatabaseConnection connection;
     private AvatarManager avatarManager;
 
     @Override
@@ -31,8 +31,8 @@ public class characterChoice extends AppCompatActivity {
         connection = DatabaseConnection.getInstance(this);
         avatarManager  = new AvatarManager(connection);
 
-        left = findViewById(R.id.leftButton);
-        right = findViewById(R.id.rightButton);
+        ImageView left = findViewById(R.id.leftButton);
+        ImageView right = findViewById(R.id.rightButton);
         currentCharacter = findViewById(R.id.selectCharacter);
 
         Intent getAvatarData = getIntent();
@@ -59,7 +59,7 @@ public class characterChoice extends AppCompatActivity {
                 name,
                 age,
                 (byte) 1,
-                avatarClass,
+                (byte) 0, //TODO: Cambiar por avatarClass cuando se tengan las imagenes.
                 0,
                 SystemExperience.calculateRequiredExperience((byte)1),
                 (byte)4

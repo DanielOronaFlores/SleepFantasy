@@ -29,9 +29,9 @@ public class DatabaseTableCreator {
         db.execSQL(queryCreatePreferencesTable);
     }
     private static void createMissionTable(SQLiteDatabase db) {
-        String queryCreateMissionTable = "CREATE TABLE Mission (" +
+        String queryCreateMissionTable = "CREATE TABLE MissionsDifficult (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "currentDifficult INTEGER DEFAULT 1);";
+                "currentDifficult INTEGER);";
         db.execSQL(queryCreateMissionTable);
     }
 }

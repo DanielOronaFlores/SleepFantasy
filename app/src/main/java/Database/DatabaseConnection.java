@@ -21,6 +21,7 @@ public class DatabaseConnection extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         DatabaseTableCreator.createTables(db);
+        DatabaseTableFiller.fillTables(db);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -18,10 +18,7 @@ import Database.Preferences.PreferencesDataAccess;
 public class configuration extends AppCompatActivity {
     private EditText etName, etAge;
     private CheckBox ckSaveAudios, ckRecordSnoring;
-    private Button btSave;
-    private String[] pereferencesData = new String[2];
-    DatabaseConnection connection;
-    private AvatarDataAccess avatarDataAccess;
+    private DatabaseConnection connection;
     private AvatarManager avatarManager;
     private AvatarDataUpdate avatarDataUpdate;
     private PreferencesDataAccess preferencesManager;
@@ -35,12 +32,12 @@ public class configuration extends AppCompatActivity {
         etAge = findViewById(R.id.age);
         ckRecordSnoring = findViewById(R.id.recordSnoring);
         ckSaveAudios = findViewById(R.id.saveAudios);
-        btSave = findViewById(R.id.savePreferences);
+        Button btSave = findViewById(R.id.savePreferences);
 
         connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
 
-        avatarDataAccess = new AvatarDataAccess(connection);
+        AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
         avatarManager = new AvatarManager(connection);
         avatarDataUpdate = new AvatarDataUpdate(connection);
         preferencesManager = new PreferencesDataAccess(connection);
@@ -49,7 +46,7 @@ public class configuration extends AppCompatActivity {
             etName.setText(avatarDataAccess.getAvatarName());
             etAge.setText(String.valueOf(avatarDataAccess.getAvatarAge()));
 
-            pereferencesData = preferencesManager.getPreferencesData();
+            String[] pereferencesData = PreferencesDataAccess.getPreferencesData();
             if (pereferencesData[0].equals("1")) ckRecordSnoring.setChecked(true);
             if (pereferencesData[1].equals("1")) ckSaveAudios.setChecked(true);
         }
