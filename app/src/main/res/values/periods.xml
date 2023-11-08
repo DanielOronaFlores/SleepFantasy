@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="days_level1">3 DÍAS SEGUIDOS</string>
+    <string name="days_level2">2 SEMANAS SEGUIDAS</string>
+    <string name="days_level3">1 MES SEGUIDO</string>
+
+    <string name="avatar_level1">NIVEL 10</string>
+    <string name="avatar_level2">NIVEL 25</string>
+    <string name="avatar_level3">NIVEL 50</string>
+
+    <string name="times_level1">1 OCASIÓN</string>
+    <string name="times_level2">3 OCASIONES</string>
+    <string name="times_level3">20 OCASIONES</string>
+
+    <string name="monsters_level1">3 MONSTRUOS</string>
+    <string name="monsters_level2">15 MONSTRUOS</string>
+    <string name="monsters_level3">30 MONSTRUOS</string>
+
+    <string name="tips_level1">10 CONSEJOS</string>
+    <string name="tips_level2">5 CONSEJOS</string>
+    <string name="tips_level3">2 CONSEJOS</string>
+</resources>

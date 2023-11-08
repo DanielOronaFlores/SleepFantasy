@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#210630"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:onClick="onSelectAudioClicked"
+                android:src="@drawable/placeholder_bruja"
+                android:padding="4dp"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/buttonPlace"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:onClick="onAudioMonitorClicked"
+                android:src="@drawable/placeholder_jaime"
+                android:padding="4dp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/avatarDisplay"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="8dp"
+            android:clickable="true"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/gameSelector"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:src="@drawable/placeholder_quick"
+                android:padding="4dp"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:onClick="onGraphsClicked"
+                android:src="@drawable/placeholder_jirafa"
+                android:padding="4dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/userData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Nombre de Usuario"
+        android:textStyle="bold"
+        android:textColor="#009688"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"/>
+
+
+    <TextView
+        android:id="@+id/avatarData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Avatar - Nivel 5"
+        android:textColor="#009688"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Experiencia: "
+            android:textColor="#009688"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/avatarExperience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="250 / 500"
+            android:textColor="#009688"
+            android:textSize="12sp"/>
+    </LinearLayout>
+</LinearLayout>

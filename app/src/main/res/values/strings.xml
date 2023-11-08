@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Sleep Fantasy</string>
+    <string name="nombre">NOMBRE</string>
+    <string name="edad">EDAD</string>
+    <string name="almacenar">ALMACENAR</string>
+    <string name="grabar">GRABAR</string>
+    <string name="salvar">SALVAR</string>
+    <string name="configuraci_n">CONFIGURACIÓN</string>
+    <string name="misiones">MISIONES</string>
+    <string name="desaf_os">DESAFÍOS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="guardar">GUARDAR</string>
 </resources>
