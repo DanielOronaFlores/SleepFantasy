@@ -10,19 +10,47 @@ import androidx.fragment.app.Fragment;
 
 public class Mission_Description extends Fragment {
     private TextView missionDescription;
+    private TextView missionPeriod;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mission__description, container, false);
         missionDescription = view.findViewById(R.id.missionDescription);
+        missionPeriod = view.findViewById(R.id.missionPeriod);
         Bundle args = getArguments();
 
         int missionId = args.getInt("missionId", -1);
         missionDescription.setText(getMissionDescription(missionId));
+        missionPeriod.setText(getMissionPeriod(missionId));
 
         return view;
     }
 
+    private String getMissionDifficultText() {
+        String difficultText = "";
+        return difficultText;
+    }
 
+    private String getMissionPeriod(int id) {
+        String period;
+        switch (id) {
+            case 7:
+                period = getResources().getString(R.string.avatar_level1);
+                break;
+            case 13:
+                period = getResources().getString(R.string.times_level1);
+                break;
+            case 18:
+                period = getResources().getString(R.string.monsters_level1);
+                break;
+            case 19:
+                period = getResources().getString(R.string.tips_level1);
+                break;
+            default:
+                period = getResources().getString(R.string.days_level1);
+                break;
+        }
+        return period;
+    }
 
     private String getMissionDescription(int id) {
         String mission;

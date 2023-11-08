@@ -6,6 +6,7 @@ public class DatabaseTableCreator {
     public static void createTables(SQLiteDatabase db) {
         createAvatarTable(db);
         createPreferencesTable(db);
+        createMissionTable(db);
     }
 
     private static void createAvatarTable(SQLiteDatabase db) {
@@ -26,5 +27,11 @@ public class DatabaseTableCreator {
                 "saveRecordings BOOLEAN, " +
                 "recordSnorings BOOLEAN);";
         db.execSQL(queryCreatePreferencesTable);
+    }
+    private static void createMissionTable(SQLiteDatabase db) {
+        String queryCreateMissionTable = "CREATE TABLE Mission (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "currentDifficult INTEGER DEFAULT 1);";
+        db.execSQL(queryCreateMissionTable);
     }
 }

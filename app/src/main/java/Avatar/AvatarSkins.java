@@ -19,7 +19,6 @@ public class AvatarSkins {
 
     public int[] getAvatarSkins(byte avatarClass) { //TODO: Agregar los skins de los personajes reales.
         int[] skins;
-
         switch (avatarClass) {
             case 0:
                 skins = placeHolderSkins;
