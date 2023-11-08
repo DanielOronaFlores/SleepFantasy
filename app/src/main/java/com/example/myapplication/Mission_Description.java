@@ -44,125 +44,59 @@ public class Mission_Description extends Fragment {
     private int getMissionDifficult(int missionId) {
         return missionDataAccess.getCurrentDifficult(missionId);
     }
-
     private String getMissionPeriod(int id) {
-        String period;
+        int difficulty = getMissionDifficult(id);
+        int resourceId;
+
         switch (id) {
             case 7:
-                if (getMissionDifficult(id) == 1) {
-                    period = getResources().getString(R.string.avatar_level1);
-                } else if (getMissionDifficult(id) == 2) {
-                    period = getResources().getString(R.string.avatar_level2);
-                } else {
-                    period = getResources().getString(R.string.avatar_level3);
-                }
+                resourceId = R.string.avatar_level1;
                 break;
             case 13:
-                if (getMissionDifficult(id) == 1) {
-                    period = getResources().getString(R.string.times_level1);
-                } else if (getMissionDifficult(id) == 2) {
-                    period = getResources().getString(R.string.times_level2);
-                } else {
-                    period = getResources().getString(R.string.times_level3);
-                }
+                resourceId = R.string.times_level1;
                 break;
             case 18:
-                if (getMissionDifficult(id) == 1) {
-                    period = getResources().getString(R.string.monsters_level1);
-                } else if (getMissionDifficult(id) == 2) {
-                    period = getResources().getString(R.string.monsters_level2);
-                } else {
-                    period = getResources().getString(R.string.monsters_level3);
-                }
+                resourceId = R.string.monsters_level1;
                 break;
             case 19:
-                if (getMissionDifficult(id) == 1) {
-                    period = getResources().getString(R.string.tips_level1);
-                } else if (getMissionDifficult(id) == 2) {
-                    period = getResources().getString(R.string.tips_level2);
-                } else {
-                    period = getResources().getString(R.string.tips_level3);
-                }
+                resourceId = R.string.tips_level1;
                 break;
             default:
-                if (getMissionDifficult(id) == 1) {
-                    period = getResources().getString(R.string.days_level1);
-                } else if (getMissionDifficult(id) == 2) {
-                    period = getResources().getString(R.string.days_level2);
-                } else {
-                    period = getResources().getString(R.string.days_level3);
-                }
-                break;
+                resourceId = R.string.days_level1;
         }
-        return period;
+
+        if (difficulty == 2) resourceId = resourceId + 1;
+        else if (difficulty == 3) resourceId = resourceId + 2;
+
+        return getResources().getString(resourceId);
     }
 
     private String getMissionDescription(int id) {
-        String mission;
+        int resourceId;
+
         switch (id) {
-            case 1:
-                mission = getResources().getString(R.string.mission1);
-                break;
-            case 2:
-                mission = getResources().getString(R.string.mission2);
-                break;
-            case 3:
-                mission = getResources().getString(R.string.mission3);
-                break;
-            case 4:
-                mission = getResources().getString(R.string.mission4);
-                break;
-            case 5:
-                mission = getResources().getString(R.string.mission5);
-                break;
-            case 6:
-                mission = getResources().getString(R.string.mission6);
-                break;
-            case 7:
-                mission = getResources().getString(R.string.mission7);
-                break;
-            case 8:
-                mission = getResources().getString(R.string.mission8);
-                break;
-            case 9:
-                mission = getResources().getString(R.string.mission9);
-                break;
-            case 10:
-                mission = getResources().getString(R.string.mission10);
-                break;
-            case 11:
-                mission = getResources().getString(R.string.mission11);
-                break;
-            case 12:
-                mission = getResources().getString(R.string.mission12);
-                break;
-            case 13:
-                mission = getResources().getString(R.string.mission13);
-                break;
-            case 14:
-                mission = getResources().getString(R.string.mission14);
-                break;
-            case 15:
-                mission = getResources().getString(R.string.mission15);
-                break;
-            case 16:
-                mission = getResources().getString(R.string.mission16);
-                break;
-            case 17:
-                mission = getResources().getString(R.string.mission17);
-                break;
-            case 18:
-                mission = getResources().getString(R.string.mission18);
-                break;
-            case 19:
-                mission = getResources().getString(R.string.mission19);
-                break;
-            case 20:
-                mission = getResources().getString(R.string.mission20);
-                break;
-            default:
-                mission = getResources().getString(R.string.missionDefault);
+            case 1: resourceId = R.string.mission1; break;
+            case 2: resourceId = R.string.mission2; break;
+            case 3: resourceId = R.string.mission3; break;
+            case 4: resourceId = R.string.mission4; break;
+            case 5: resourceId = R.string.mission5; break;
+            case 6: resourceId = R.string.mission6; break;
+            case 7: resourceId = R.string.mission7; break;
+            case 8: resourceId = R.string.mission8; break;
+            case 9: resourceId = R.string.mission9; break;
+            case 10: resourceId = R.string.mission10; break;
+            case 11: resourceId = R.string.mission11; break;
+            case 12: resourceId = R.string.mission12; break;
+            case 13: resourceId = R.string.mission13; break;
+            case 14: resourceId = R.string.mission14; break;
+            case 15: resourceId = R.string.mission15; break;
+            case 16: resourceId = R.string.mission16; break;
+            case 17: resourceId = R.string.mission17; break;
+            case 18: resourceId = R.string.mission18; break;
+            case 19: resourceId = R.string.mission19; break;
+            case 20: resourceId = R.string.mission20; break;
+            default: resourceId = R.string.missionDefault;
         }
-        return mission;
+        return getResources().getString(resourceId);
     }
 }
