@@ -1,6 +1,6 @@
 package Avatar;
 
-import com.example.sleepfantasy.R;
+import com.example.myapplication.R;
 
 public class AvatarSkins {
     public int[] getCharacters() {
