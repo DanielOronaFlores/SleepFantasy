@@ -78,11 +78,7 @@ public class configuration extends AppCompatActivity {
     }
 
     public boolean isValidUserData(String name, byte age) {
-        if (name.isEmpty() || age <= 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return !name.isEmpty() && age > 0;
     }
     public void savePreferencesData() {
         boolean recordSnoring = ckRecordSnoring.isChecked();

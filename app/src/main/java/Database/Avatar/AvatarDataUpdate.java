@@ -14,11 +14,9 @@ public class AvatarDataUpdate {
     }
 
     public void updateExperience(int experience) {
-        Log.d("MiApp", "Se llama a updateExperience.");
         ContentValues values = new ContentValues();
         values.put("currentExperience", experience);
         database.update("Avatar", values, null, null);
-        Log.d("Tag", "Se actualiza la experiencia.");
     }
 
     public void updateRequiredExperience(int requiredExperience) {
@@ -27,9 +25,9 @@ public class AvatarDataUpdate {
         database.update("Avatar", values, null, null);
     }
 
-    public void updateLevel(int currenteLevel) {
+    public void updateLevel(int currentLevel) {
         ContentValues values = new ContentValues();
-        values.put("level", currenteLevel);
+        values.put("level", currentLevel);
         database.update("Avatar", values, null, null);
     }
 
