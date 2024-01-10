@@ -27,7 +27,6 @@ public class ChallengesDataAccess {
             return false;
         }
     }
-
     public boolean allChallengesDisplayed() {
         String query = "SELECT Displayed FROM Challenges WHERE Displayed = 0;";
         Cursor cursor = database.rawQuery(query, null);
@@ -38,6 +37,19 @@ public class ChallengesDataAccess {
         } else {
             cursor.close();
             return true;
+        }
+    }
+    public int getActiveChallenge() {
+        String query = "SELECT id FROM Challenges WHERE Active = 1;";
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            int challenge = cursor.getInt(0);
+            cursor.close();
+            return challenge;
+        } else {
+            cursor.close();
+            return 0;
         }
     }
 }

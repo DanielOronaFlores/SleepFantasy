@@ -21,6 +21,7 @@
 
         <!-- Primer TextView -->
         <TextView
+            android:id="@+id/challenge1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#72773EAA"
@@ -31,6 +32,7 @@
 
         <!-- Segundo TextView -->
         <TextView
+            android:id="@+id/challenge2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -42,6 +44,7 @@
 
         <!-- Tercer TextView -->
         <TextView
+            android:id="@+id/challenge3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge3"
@@ -53,6 +56,7 @@
 
         <!-- Cuarto TextView -->
         <TextView
+            android:id="@+id/challenge4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge4"
@@ -64,6 +68,7 @@
 
         <!-- Quinto TextView -->
         <TextView
+            android:id="@+id/challenge5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge5"
@@ -75,6 +80,7 @@
 
         <!-- Sexto TextView -->
         <TextView
+            android:id="@+id/challenge6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge6"
@@ -86,6 +92,7 @@
 
         <!-- Septimo TextView -->
         <TextView
+            android:id="@+id/challenge7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge7"
@@ -97,6 +104,7 @@
 
         <!-- Octavo TextView -->
         <TextView
+            android:id="@+id/challenge8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge8"
@@ -108,6 +116,7 @@
 
         <!-- Noveno TextView -->
         <TextView
+            android:id="@+id/challenge9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge9"
@@ -119,6 +128,7 @@
 
         <!-- Decimo TextView -->
         <TextView
+            android:id="@+id/challenge10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge10"
@@ -130,6 +140,7 @@
 
         <!-- Onceavo TextView -->
         <TextView
+            android:id="@+id/challenge11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge11"
@@ -141,6 +152,7 @@
 
         <!-- Doceavo TextView -->
         <TextView
+            android:id="@+id/challenge12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge12"
@@ -152,6 +164,7 @@
 
         <!-- Treceavo TextView -->
         <TextView
+            android:id="@+id/challenge13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge13"
@@ -163,6 +176,7 @@
 
         <!-- Catorceavo TextView -->
         <TextView
+            android:id="@+id/challenge14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge14"
@@ -174,6 +188,7 @@
 
         <!-- Quinceavo TextView -->
         <TextView
+            android:id="@+id/challenge15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/challenge15"
