@@ -31,4 +31,11 @@ public class MissionDataAccess {
         statement.bindLong(1, mission);
         return (int) statement.simpleQueryForLong();
     }
+
+    public String getDate(int mission) {
+        String query = "SELECT date FROM Missions WHERE id = ?;";
+        SQLiteStatement statement = database.compileStatement(query);
+        statement.bindLong(1, mission);
+        return statement.simpleQueryForString();
+    }
 }

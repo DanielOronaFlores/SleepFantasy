@@ -6,19 +6,23 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Avatar.SystemExperience;
 import Database.DatabaseConnection;
 import Database.Missions.MissionDataAccess;
 import Database.Missions.MissionDataUpdate;
-import Missions.MissionsManager;
+import GameManagers.MissionsManager;
 
 public class missions extends AppCompatActivity {
     private final ImageView[] missions = new ImageView[20];
     private DatabaseConnection connection;
     private MissionDataAccess missionDataAccess;
 
+    //TODO: PLACEHOLDER
     private TextView placeholder;
-    private MissionsManager missionsManager; //placeholder
-    private MissionDataUpdate missi; //placeholder
+    private MissionsManager missionsManager;
+    private MissionDataUpdate missionDataUpdate;
+    private SystemExperience systemExperience;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +35,16 @@ public class missions extends AppCompatActivity {
         initializeViews();
         setMissionClickListeners();
 
+        //TODO: PLACEHOLDER
         placeholder = findViewById(R.id.title);
-        missi = new MissionDataUpdate(connection); //placeholder
-        missionsManager = new MissionsManager(missionDataAccess, missi); //placeholder
+        missionDataUpdate = new MissionDataUpdate(connection);
+        systemExperience = new SystemExperience(connection);
+        missionsManager = new MissionsManager(missionDataAccess, missionDataUpdate, systemExperience);
         placeholder.setOnClickListener(view ->
             placeholderFunction()
         );
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

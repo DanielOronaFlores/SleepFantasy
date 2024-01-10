@@ -1,29 +1,87 @@
-package Missions;
+package GameManagers;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
+
+import Avatar.SystemExperience;
 import Database.Missions.MissionDataAccess;
 import Database.Missions.MissionDataUpdate;
 
 public class MissionsManager {
-    private MissionDataAccess missionDataAccess;
-    private MissionDataUpdate missionDataUpdate;
+    private final MissionDataAccess missionDataAccess;
+    private final MissionDataUpdate missionDataUpdate;
+    private final SystemExperience systemExperience;
 
-    public MissionsManager(MissionDataAccess missionDataAccess, MissionDataUpdate missionDataUpdate) {
+    public MissionsManager(MissionDataAccess missionDataAccess, MissionDataUpdate missionDataUpdate, SystemExperience systemExperience) {
         this.missionDataAccess = missionDataAccess;
         this.missionDataUpdate = missionDataUpdate;
+        this.systemExperience = systemExperience;
     }
 
     public void updateMission(int id, int quantity) {
         if (isMissionAvailable(id)) {
+            String missionType = getMissionType(id);
+            if (missionType.equals("dias") && !areConsecutiveDays(id)) {
+                return;
+            }
+
+            missionDataUpdate.updateDate(id);
             missionDataUpdate.updateCurrentQuantity(id, quantity);
+
             if (isMissionCompleted(id, quantity)) {
-                int difficult = missionDataAccess.getCurrentDifficult(id);
-                missionDataUpdate.updateCurrentDifficult(id, difficult + 1); //Aumenta la dificultad de la misión
-                updateRequiredQuantity(id, difficult + 1); //Actualiza la cantidad requerida para la siguiente dificultad
+                addExperience(missionDataAccess.getCurrentDifficult(id));
+                increaseMissionDifficulty(id);
             }
         }
+        checkAndUpdateMissionStatus(id);
+    }
+
+    private boolean areConsecutiveDays(int id) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date(System.currentTimeMillis());
+        String oldDay = dateFormat.format(date);
+
+        LocalDate localDate1;
+        LocalDate localDate2;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            localDate1 = LocalDate.parse(oldDay);
+            localDate2 = LocalDate.parse(missionDataAccess.getDate(id));
+
+            return localDate2.isEqual(localDate1.plusDays(1));
+        }
+        return false;
+    }
+
+    private void checkAndUpdateMissionStatus(int id) {
         if (missionDataAccess.getCurrentDifficult(id) > 3) {
             missionDataUpdate.updateCompleteStatus(id);
         }
+    }
+
+    private void increaseMissionDifficulty(int id) {
+        int difficult = missionDataAccess.getCurrentDifficult(id);
+        missionDataUpdate.updateCurrentDifficult(id, difficult + 1);
+        updateRequiredQuantity(id, difficult + 1);
+    }
+
+    private void addExperience(int difficult) {
+        int experience;
+        switch (difficult) {
+            case 1:
+                experience = 50;
+                break;
+            case 2:
+                experience = 200;
+                break;
+            case 3:
+                experience = 500;
+                break;
+            default:
+                experience = 0;
+        }
+        systemExperience.addExperience(experience);
     }
     private boolean isMissionAvailable(int id) {
         return missionDataAccess.getCurrentDifficult(id) <= 3;
@@ -85,7 +143,6 @@ public class MissionsManager {
             default:
                 newRequiredQuantity = 0;
         }
-
         missionDataUpdate.updateRequiredQuantity(id, newRequiredQuantity);
     }
 }

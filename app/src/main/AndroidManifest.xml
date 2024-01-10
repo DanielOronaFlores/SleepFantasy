@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
+            android:name=".challenges"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".selector"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

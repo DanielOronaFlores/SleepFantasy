@@ -10,6 +10,7 @@ import java.util.Locale;
 public class DatabaseTableFiller {
     public static void fillTables(SQLiteDatabase db) {
         fillMissionTable(db);
+        fillChallengeTable(db);
     }
     private static void fillMissionTable(SQLiteDatabase db) {
         for (int i = 0; i < 20; i++) {
@@ -29,7 +30,18 @@ public class DatabaseTableFiller {
             values.put("date", currentDate);
 
             values.put("completed", false);
-            db.insert("Missions", null, values);
+            db.insert("GameManagers", null, values);
+        }
+    }
+
+    private static void fillChallengeTable(SQLiteDatabase db) {
+        for (int i = 0; i < 15; i++) {
+            ContentValues values = new ContentValues();
+            values.put("Displayed", false);
+            values.put("Completed", false);
+            values.put("Counter", 0);
+            values.put("Active", false);
+            db.insert("Challenges", null, values);
         }
     }
 

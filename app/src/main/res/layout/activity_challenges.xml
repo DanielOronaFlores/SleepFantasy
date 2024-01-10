@@ -1,0 +1,185 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#210630">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Button -->
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:text="Button"
+            android:textSize="15sp" />
+
+        <!-- Primer TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#72773EAA"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/challenge1"
+            android:textSize="15sp" />
+
+        <!-- Segundo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#72773EAA"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/challenge2"
+            android:textSize="15sp" />
+
+        <!-- Tercer TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge3"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Cuarto TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge4"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Quinto TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge5"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Sexto TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge6"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Septimo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge7"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Octavo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge8"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Noveno TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge9"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Decimo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge10"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Onceavo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge11"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Doceavo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge12"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Treceavo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge13"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Catorceavo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge14"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Quinceavo TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge15"
+            android:textSize="15sp"
+            android:background="#72773EAA"
+            android:padding="8dp"
+            android:gravity="center"/>
+    </LinearLayout>
+</ScrollView>

@@ -7,6 +7,7 @@ public class DatabaseTableCreator {
         createAvatarTable(db);
         createPreferencesTable(db);
         createMissionTable(db);
+        createChallengeTable(db);
     }
 
     private static void createAvatarTable(SQLiteDatabase db) {
@@ -37,5 +38,16 @@ public class DatabaseTableCreator {
                 "date TEXT, " +
                 "completed BOOLEAN);";
         db.execSQL(queryCreateMissionTable);
+    }
+
+    //En proceso
+    private static void createChallengeTable(SQLiteDatabase db) {
+        String queryCreateChallengeTable = "CREATE TABLE Challenges (" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "Displayed BOOLEAN, " +
+                "Completed BOOLEAN, " +
+                "Counter INT, " +
+                "Active BOOLEAN);";
+        db.execSQL(queryCreateChallengeTable);
     }
 }
