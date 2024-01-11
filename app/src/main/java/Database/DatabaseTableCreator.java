@@ -48,6 +48,8 @@ public class DatabaseTableCreator {
                 "Completed BOOLEAN, " +
                 "Counter INT, " +
                 "Active BOOLEAN);";
+        //AssignedDate (?)
+        //OldDate (?)
         db.execSQL(queryCreateChallengeTable);
     }
 }

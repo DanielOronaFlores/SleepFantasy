@@ -55,13 +55,11 @@ public class challenges extends AppCompatActivity {
     private void displayActiveChallenge() {
         int currentChallenge = challengesDataAccess.getActiveChallenge();
 
-        // Crear un drawable de forma para representar el contorno dorado
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setStroke(2, Color.parseColor("#FFD700")); // Borde de color dorado
         drawable.setColor(Color.parseColor("#72773EAA")); // Fondo transparente
 
-        // Aplicar el drawable de forma como fondo del TextView
         challengeTextViews[currentChallenge - 1].setBackground(drawable);
     }
 

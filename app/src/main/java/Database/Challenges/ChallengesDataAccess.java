@@ -52,4 +52,20 @@ public class ChallengesDataAccess {
             return 0;
         }
     }
+
+    public String getDate(int challenge) {
+        String query = "SELECT OldDate FROM Challenges WHERE id = " + challenge + ";";
+        Cursor cursor = database.rawQuery(query, null);
+        String date = cursor.getString(0);
+        cursor.close();
+        return date;
+    }
+
+    public int getCounter(int mission) {
+        String query = "SELECT Counter FROM Challenges WHERE id = " + mission + ";";
+        Cursor cursor = database.rawQuery(query, null);
+        int counter = cursor.getInt(0);
+        cursor.close();
+        return counter;
+    }
 }

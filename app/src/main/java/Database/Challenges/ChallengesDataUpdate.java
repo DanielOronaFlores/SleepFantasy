@@ -35,4 +35,14 @@ public class ChallengesDataUpdate {
         String query = "UPDATE Challenges SET Displayed = 0, Completed = 0, Active = 0, Counter = 0;";
         database.execSQL(query);
     }
+
+    public void updateCounter(int challenge, int quantity) {
+        String query = "UPDATE Challenges SET Counter = " + quantity + " WHERE id = " + challenge + ";";
+        database.execSQL(query);
+    }
+
+    public void updateOldDate(int challenge, String currentDate) {
+        String query = "UPDATE Challenges SET OldDate = '" + currentDate + "' WHERE id = " + challenge + ";";
+        database.execSQL(query);
+    }
 }
