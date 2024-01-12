@@ -33,7 +33,7 @@ public class mainMenu extends AppCompatActivity {
         avatarDataAccess = new AvatarDataAccess(connection);
 
         imgAvatar = findViewById(R.id.avatarDisplay);
-        imgSelector = findViewById(R.id.gameSelector); //TODO: Cambiar a un mejor nombre.
+        imgSelector = findViewById(R.id.gameSelector);
 
         txUserData = findViewById(R.id.userData);
         txAvatarData = findViewById(R.id.avatarData);

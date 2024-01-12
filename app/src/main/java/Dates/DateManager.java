@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DatesManager {
+public class DateManager {
     public boolean compareDates(String oldDateStr) throws ParseException {
         String currentDateStr = getCurrentDate();
         Date currentDateFormatted;

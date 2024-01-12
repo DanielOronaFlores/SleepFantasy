@@ -13,7 +13,7 @@ public class ChallengesDataAccess {
         this.database = connection.getDatabase();
     }
 
-    public boolean isChallengeAvaible(int challenge) {
+    public boolean isChallengeAvailable(int challenge) {
         String query = "SELECT Displayed FROM Challenges WHERE id = " + challenge + ";";
         Cursor cursor = database.rawQuery(query, null);
 

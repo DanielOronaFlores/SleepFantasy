@@ -46,9 +46,9 @@ public class configuration extends AppCompatActivity {
             etName.setText(avatarDataAccess.getAvatarName());
             etAge.setText(String.valueOf(avatarDataAccess.getAvatarAge()));
 
-            String[] pereferencesData = PreferencesDataAccess.getPreferencesData();
-            if (pereferencesData[0].equals("1")) ckRecordSnoring.setChecked(true);
-            if (pereferencesData[1].equals("1")) ckSaveAudios.setChecked(true);
+            String[] preferencesData = preferencesManager.getPreferencesData();
+            if (preferencesData[0].equals("1")) ckRecordSnoring.setChecked(true);
+            if (preferencesData[1].equals("1")) ckSaveAudios.setChecked(true);
         }
         btSave.setOnClickListener(view ->
 

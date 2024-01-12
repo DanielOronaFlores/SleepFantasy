@@ -12,13 +12,13 @@ import android.widget.TextView;
 import Database.Challenges.ChallengesDataAccess;
 import Database.Challenges.ChallengesDataUpdate;
 import Database.DatabaseConnection;
+import Database.Preferences.PreferencesDataAccess;
+import Database.Records.RecordsDataAccess;
 import GameManagers.ChallengesManager;
 
 public class challenges extends AppCompatActivity {
-    private Button button; //TODO: Placeholder
     private TextView[] challengeTextViews;
     private ChallengesDataAccess challengesDataAccess;
-    private ChallengesDataUpdate challengesDataUpdate;
     private ChallengesManager challengesManager;
     private DatabaseConnection connection;
 
@@ -29,12 +29,18 @@ public class challenges extends AppCompatActivity {
 
         connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
-        challengesDataAccess = new ChallengesDataAccess(connection);
-        challengesDataUpdate = new ChallengesDataUpdate(connection);
-        challengesManager = new ChallengesManager(challengesDataAccess, challengesDataUpdate);
 
-        //TODO: Placeholder
-        button = findViewById(R.id.button);
+        challengesDataAccess = new ChallengesDataAccess(connection);
+        ChallengesDataUpdate challengesDataUpdate = new ChallengesDataUpdate(connection);
+        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
+        RecordsDataAccess recordsDataAccess = new RecordsDataAccess(connection);
+        challengesManager = new ChallengesManager(challengesDataAccess,
+                challengesDataUpdate,
+                preferencesDataAccess,
+                recordsDataAccess);
+
+        //TODO: Placeholder de button (ELIMINAR)
+        Button button = findViewById(R.id.button);
         button.setOnClickListener(v -> button());
 
         initializeChallengeTextViews();
@@ -47,7 +53,7 @@ public class challenges extends AppCompatActivity {
         connection.closeDatabase();
     }
 
-    private void button() { //TODO: Placeholder
+    private void button() { //TODO: Placeholder (ELIMINAR)
         Log.d("INTERFACE", "Boton presionado");
         challengesManager.selectNewChallenge();
     }
