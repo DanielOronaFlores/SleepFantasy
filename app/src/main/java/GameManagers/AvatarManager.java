@@ -1,4 +1,4 @@
-package Database.Avatar;
+package GameManagers;
 
 import android.content.ContentValues;
 import android.database.Cursor;

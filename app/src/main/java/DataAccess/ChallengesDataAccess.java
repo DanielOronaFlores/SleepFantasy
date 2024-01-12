@@ -1,4 +1,4 @@
-package Database.Challenges;
+package DataAccess;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,7 +7,7 @@ import android.util.Log;
 import Database.DatabaseConnection;
 
 public class ChallengesDataAccess {
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
     public ChallengesDataAccess(DatabaseConnection connection) {
         this.database = connection.getDatabase();
@@ -56,10 +56,20 @@ public class ChallengesDataAccess {
     public String getDate(int challenge) {
         String query = "SELECT OldDate FROM Challenges WHERE id = " + challenge + ";";
         Cursor cursor = database.rawQuery(query, null);
-        String date = cursor.getString(0);
-        cursor.close();
+
+        String date = null;
+
+        try {
+            if (cursor.moveToFirst()) date = cursor.getString(0);
+        } catch (Exception e) {
+            Log.e("ChallengesDataAccess", "Error al obtener la fecha", e);
+        } finally {
+            cursor.close();
+        }
+
         return date;
     }
+
 
     public int getCounter(int mission) {
         String query = "SELECT Counter FROM Challenges WHERE id = " + mission + ";";

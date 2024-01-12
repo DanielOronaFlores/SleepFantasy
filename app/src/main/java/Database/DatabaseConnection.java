@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseConnection extends SQLiteOpenHelper {
-    private static DatabaseConnection instance;
+    private static volatile DatabaseConnection instance;
     private static final String databaseName = "Sleep Fantasy";
     private static final int databaseVersion = 1;
 

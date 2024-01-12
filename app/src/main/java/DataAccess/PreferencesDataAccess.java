@@ -1,4 +1,4 @@
-package Database.Preferences;
+package DataAccess;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import Database.DatabaseConnection;
 
 public class PreferencesDataAccess {
-    private static SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
     public PreferencesDataAccess(DatabaseConnection connection) {
-        this.database = connection.getDatabase();;
+        database = connection.getDatabase();
     }
 
     public void updatePreferences(boolean saveRecordings, boolean recordSnorings) {

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import Database.DatabaseConnection;
-import Database.Missions.MissionDataAccess;
+import DataAccess.MissionDataAccess;
 
 public class Mission_Description extends Fragment {
     private DatabaseConnection connection;

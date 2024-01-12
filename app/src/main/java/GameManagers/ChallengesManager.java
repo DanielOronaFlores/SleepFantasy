@@ -5,17 +5,17 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.JobIntentService;
 
 import java.text.ParseException;
 import java.util.Random;
 
-import Database.Challenges.ChallengesDataAccess;
-import Database.Challenges.ChallengesDataUpdate;
-import Database.Preferences.PreferencesDataAccess;
-import Database.Records.RecordsDataAccess;
+import AppContext.MyApplication;
+import DataAccess.ChallengesDataAccess;
+import DataUpdates.ChallengesDataUpdate;
+import Database.DatabaseConnection;
+import DataAccess.PreferencesDataAccess;
+import DataAccess.RecordsDataAccess;
 import Dates.DateManager;
 
 public class ChallengesManager extends Service {
@@ -30,28 +30,21 @@ public class ChallengesManager extends Service {
 
     public ChallengesManager() {
         super();
-        challengesDataAccess = null;
-        challengesDataUpdate = null;
-        preferencesDataAccess = null;
-        recordsDataAccess = null;
+        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+
+        challengesDataAccess = new ChallengesDataAccess(connection);
+        challengesDataUpdate = new ChallengesDataUpdate(connection);
+        preferencesDataAccess = new PreferencesDataAccess(connection);
+        recordsDataAccess = new RecordsDataAccess(connection);
     }
 
-    public ChallengesManager(ChallengesDataAccess challengesDataAccess,
-                             ChallengesDataUpdate challengesDataUpdate,
-                             PreferencesDataAccess preferencesDataAccess,
-                             RecordsDataAccess recordsDataAccess) {
-        this.challengesDataAccess = challengesDataAccess;
-        this.challengesDataUpdate = challengesDataUpdate;
-        this.preferencesDataAccess = preferencesDataAccess;
-        this.recordsDataAccess = recordsDataAccess;
-    }
-
+    //Metodos de la clase Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         new Thread(() -> ((Runnable) () -> {
             while (true) {
                 Log.d("ChallengesManagerService", "onStartCommand: Iniciando el servicio");
-
+                Update();
                 Log.d("ChallengesManagerService", "onStartCommand: Terminando el servicio");
             }
         }).run()).start();
@@ -63,10 +56,14 @@ public class ChallengesManager extends Service {
         return null;
     }
 
-    public void selectNewChallenge() {
-        if (challengesDataAccess.allChallengesDisplayed()) {
-            challengesDataUpdate.resetChallenges();
-        }
+    //Metodos de la clase
+    private void Update() {
+        if (dateManager.isSunday()) selectNewChallenge();
+        else currentChallengeConditions(challengesDataAccess.getActiveChallenge());
+    }
+
+    private void selectNewChallenge() {
+        if (challengesDataAccess.allChallengesDisplayed()) challengesDataUpdate.resetChallenges();
 
         int challenge = getRandomChallenge();
         updateChallengeStatus(challenge);
@@ -86,8 +83,6 @@ public class ChallengesManager extends Service {
     private void updateChallengeStatus(int challenge) {
         challengesDataUpdate.markAsDisplayed(challenge);
         challengesDataUpdate.markAsActive(challenge);
-
-        currentChallengeConditions(challenge);
     }
 
     private void currentChallengeConditions(int challenge) {

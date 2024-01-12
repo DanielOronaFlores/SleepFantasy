@@ -1,4 +1,4 @@
-package Database.Records;
+package DataAccess;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,10 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import Database.DatabaseConnection;
 
 public class RecordsDataAccess {
-    private static SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
     public RecordsDataAccess(DatabaseConnection connection) {
-        this.database = connection.getDatabase();;
+        database = connection.getDatabase();;
     }
 
     public boolean isPlayingMusic() {

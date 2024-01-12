@@ -10,17 +10,13 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import Database.Challenges.ChallengesDataAccess;
-import Database.Challenges.ChallengesDataUpdate;
+import DataAccess.ChallengesDataAccess;
 import Database.DatabaseConnection;
-import Database.Preferences.PreferencesDataAccess;
-import Database.Records.RecordsDataAccess;
 import GameManagers.ChallengesManager;
 
 public class challenges extends AppCompatActivity {
     private TextView[] challengeTextViews;
     private ChallengesDataAccess challengesDataAccess;
-    private ChallengesManager challengesManager;
     private DatabaseConnection connection;
 
     @Override
@@ -32,23 +28,17 @@ public class challenges extends AppCompatActivity {
         connection.openDatabase();
 
         challengesDataAccess = new ChallengesDataAccess(connection);
-        ChallengesDataUpdate challengesDataUpdate = new ChallengesDataUpdate(connection);
-        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
-        RecordsDataAccess recordsDataAccess = new RecordsDataAccess(connection);
-        challengesManager = new ChallengesManager(challengesDataAccess,
-                challengesDataUpdate,
-                preferencesDataAccess,
-                recordsDataAccess);
+        ChallengesManager challengesManager = new ChallengesManager();
 
         Intent intent = new Intent(this, challengesManager.getClass());
         startService(intent);
 
+        initializeChallengeTextViews();
+        displayActiveChallenge();
+
         //TODO: Placeholder de button (ELIMINAR)
         Button button = findViewById(R.id.button);
         button.setOnClickListener(v -> button());
-
-        initializeChallengeTextViews();
-        displayActiveChallenge();
     }
 
     @Override
@@ -59,7 +49,7 @@ public class challenges extends AppCompatActivity {
 
     private void button() { //TODO: Placeholder (ELIMINAR)
         Log.d("INTERFACE", "Boton presionado");
-        challengesManager.selectNewChallenge();
+        //Para pruebas
     }
 
     private void displayActiveChallenge() {

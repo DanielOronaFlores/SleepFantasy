@@ -9,11 +9,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import Database.Avatar.AvatarDataAccess;
-import Database.Avatar.AvatarDataUpdate;
-import Database.Avatar.AvatarManager;
+import DataAccess.AvatarDataAccess;
+import DataUpdates.AvatarDataUpdate;
+import GameManagers.AvatarManager;
 import Database.DatabaseConnection;
-import Database.Preferences.PreferencesDataAccess;
+import DataAccess.PreferencesDataAccess;
 
 public class configuration extends AppCompatActivity {
     private EditText etName, etAge;

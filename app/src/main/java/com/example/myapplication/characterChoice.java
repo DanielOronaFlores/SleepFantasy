@@ -6,8 +6,8 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import Avatar.SystemExperience;
-import Database.Avatar.AvatarManager;
+import GameManagers.ExperienceManager;
+import GameManagers.AvatarManager;
 import Database.DatabaseConnection;
 
 public class characterChoice extends AppCompatActivity {
@@ -61,7 +61,7 @@ public class characterChoice extends AppCompatActivity {
                 (byte) 1,
                 (byte) 0, //TODO: Cambiar por avatarClass cuando se tengan las imagenes.
                 0,
-                SystemExperience.calculateRequiredExperience((byte)1),
+                ExperienceManager.calculateRequiredExperience((byte)1),
                 (byte)4
         );
         connection.closeDatabase();

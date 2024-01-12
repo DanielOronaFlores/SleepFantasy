@@ -1,4 +1,4 @@
-package Database.Missions;
+package DataUpdates;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +10,7 @@ import java.util.Locale;
 import Database.DatabaseConnection;
 
 public class MissionDataUpdate {
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
     public MissionDataUpdate(DatabaseConnection connection) {
         this.database = connection.getDatabase();

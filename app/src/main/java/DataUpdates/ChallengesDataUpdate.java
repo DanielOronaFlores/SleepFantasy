@@ -1,4 +1,4 @@
-package Database.Challenges;
+package DataUpdates;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import Database.DatabaseConnection;
 
 public class ChallengesDataUpdate {
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
     public ChallengesDataUpdate(DatabaseConnection connection) {
         this.database = connection.getDatabase();

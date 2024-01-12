@@ -2,6 +2,7 @@ package Dates;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,6 +23,13 @@ public class DateManager {
         String currentDateStr = getDateFormat().format(currentDate);
 
         return currentDateStr;
+    }
+
+    public boolean isSunday() {
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        return dayOfWeek == Calendar.SUNDAY;
     }
 
     private boolean isConsecutive(Date currentDate, Date oldDate) {

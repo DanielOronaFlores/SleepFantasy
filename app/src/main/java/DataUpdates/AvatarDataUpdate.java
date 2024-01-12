@@ -1,4 +1,4 @@
-package Database.Avatar;
+package DataUpdates;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,7 +7,7 @@ import android.util.Log;
 import Database.DatabaseConnection;
 
 public class AvatarDataUpdate {
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
     public AvatarDataUpdate(DatabaseConnection connection) {
         this.database = connection.getDatabase();

@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import Avatar.AvatarSkins;
 import Avatar.NameClasses;
-import Database.Avatar.AvatarDataAccess;
+import DataAccess.AvatarDataAccess;
 import Database.DatabaseConnection;
 
 public class mainMenu extends AppCompatActivity {

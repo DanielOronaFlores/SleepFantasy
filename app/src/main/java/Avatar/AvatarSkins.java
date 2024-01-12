@@ -6,9 +6,11 @@ public class AvatarSkins {
     public int[] getCharacters() {
         return characters;
     }
+
     public void setCharacters(int[] characters) {
         this.characters = characters;
     }
+
     private int[] characters = { //TODO: Cambiar por los personajes reales.
             R.drawable.placeholder_cono,
             R.drawable.placeholder_jaime,
@@ -16,7 +18,6 @@ public class AvatarSkins {
             R.drawable.placeholder_jirafa,
             R.drawable.placeholder_quick
     };
-
     public int[] getAvatarSkins(byte avatarClass) { //TODO: Agregar los skins de los personajes reales.
         int[] skins;
         switch (avatarClass) {
@@ -29,7 +30,7 @@ public class AvatarSkins {
         }
         return skins;
     }
-    private int[] placeHolderSkins = {
+    private final int[] placeHolderSkins = {
             R.drawable.avatar_default_1,
             R.drawable.avatar_default_2,
             R.drawable.avatar_default_3,

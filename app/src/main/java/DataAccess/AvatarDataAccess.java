@@ -1,4 +1,4 @@
-package Database.Avatar;
+package DataAccess;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import Database.DatabaseConnection;
 
 public class AvatarDataAccess {
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
     public AvatarDataAccess(DatabaseConnection connection) {
         this.database = connection.getDatabase();

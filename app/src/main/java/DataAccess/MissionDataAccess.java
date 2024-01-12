@@ -1,4 +1,4 @@
-package Database.Missions;
+package DataAccess;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;

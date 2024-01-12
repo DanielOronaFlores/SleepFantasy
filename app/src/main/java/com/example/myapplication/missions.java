@@ -6,10 +6,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import Avatar.SystemExperience;
+import GameManagers.ExperienceManager;
 import Database.DatabaseConnection;
-import Database.Missions.MissionDataAccess;
-import Database.Missions.MissionDataUpdate;
+import DataAccess.MissionDataAccess;
+import DataUpdates.MissionDataUpdate;
 import GameManagers.MissionsManager;
 
 public class missions extends AppCompatActivity {
@@ -20,8 +20,6 @@ public class missions extends AppCompatActivity {
     //TODO: PLACEHOLDER
     private TextView placeholder;
     private MissionsManager missionsManager;
-    private MissionDataUpdate missionDataUpdate;
-    private SystemExperience systemExperience;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +35,7 @@ public class missions extends AppCompatActivity {
 
         //TODO: PLACEHOLDER
         placeholder = findViewById(R.id.title);
-        missionDataUpdate = new MissionDataUpdate(connection);
-        systemExperience = new SystemExperience(connection);
-        missionsManager = new MissionsManager(missionDataAccess, missionDataUpdate, systemExperience);
+        missionsManager = new MissionsManager();
         placeholder.setOnClickListener(view ->
             placeholderFunction()
         );

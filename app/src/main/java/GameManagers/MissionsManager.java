@@ -5,19 +5,22 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 
-import Avatar.SystemExperience;
-import Database.Missions.MissionDataAccess;
-import Database.Missions.MissionDataUpdate;
+import AppContext.MyApplication;
+import DataAccess.MissionDataAccess;
+import DataUpdates.MissionDataUpdate;
+import Database.DatabaseConnection;
 
 public class MissionsManager {
     private final MissionDataAccess missionDataAccess;
     private final MissionDataUpdate missionDataUpdate;
-    private final SystemExperience systemExperience;
+    private final ExperienceManager systemExperience;
 
-    public MissionsManager(MissionDataAccess missionDataAccess, MissionDataUpdate missionDataUpdate, SystemExperience systemExperience) {
-        this.missionDataAccess = missionDataAccess;
-        this.missionDataUpdate = missionDataUpdate;
-        this.systemExperience = systemExperience;
+    public MissionsManager() {
+        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+
+        missionDataAccess = new MissionDataAccess(connection);
+        missionDataUpdate = new MissionDataUpdate(connection);
+        systemExperience = new ExperienceManager();
     }
 
     public void updateMission(int id, int quantity) {

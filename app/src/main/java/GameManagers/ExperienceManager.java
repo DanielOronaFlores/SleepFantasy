@@ -1,23 +1,23 @@
-package Avatar;
+package GameManagers;
 
-import Database.Avatar.AvatarDataAccess;
-import Database.Avatar.AvatarDataUpdate;
+import AppContext.MyApplication;
+import DataAccess.AvatarDataAccess;
+import DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
 
-public class SystemExperience {
-    private AvatarDataAccess avatarDataAccess;
-    private AvatarDataUpdate avatarDataUpdate;
-    private DatabaseConnection connection;
+public class ExperienceManager {
+    private final AvatarDataAccess avatarDataAccess;
+    private final AvatarDataUpdate avatarDataUpdate;
 
-    public SystemExperience(DatabaseConnection connection) {
-        this.connection = connection;
-        this.avatarDataAccess = new AvatarDataAccess(connection);
-        this.avatarDataUpdate = new AvatarDataUpdate(connection);
+    public ExperienceManager() {
+        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+
+        avatarDataAccess = new AvatarDataAccess(connection);
+        avatarDataUpdate = new AvatarDataUpdate(connection);
     }
 
     public static int calculateRequiredExperience(byte level) {
-        int requiredExperience = 100 * (level + 1) * (level + 2);
-        return requiredExperience;
+        return 100 * (level + 1) * (level + 2);
     }
 
     public void addExperience(int experience) {
