@@ -1,5 +1,14 @@
 package GameManagers;
 
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.JobIntentService;
+
 import java.text.ParseException;
 import java.util.Random;
 
@@ -9,7 +18,7 @@ import Database.Preferences.PreferencesDataAccess;
 import Database.Records.RecordsDataAccess;
 import Dates.DateManager;
 
-public class ChallengesManager {
+public class ChallengesManager extends Service {
     private final ChallengesDataAccess challengesDataAccess;
     private final ChallengesDataUpdate challengesDataUpdate;
     private final PreferencesDataAccess preferencesDataAccess;
@@ -19,6 +28,14 @@ public class ChallengesManager {
     private static final int MAX_CHALLENGE_NUMBER = 15;
     private static final int MIN_CHALLENGE_NUMBER = 1;
 
+    public ChallengesManager() {
+        super();
+        challengesDataAccess = null;
+        challengesDataUpdate = null;
+        preferencesDataAccess = null;
+        recordsDataAccess = null;
+    }
+
     public ChallengesManager(ChallengesDataAccess challengesDataAccess,
                              ChallengesDataUpdate challengesDataUpdate,
                              PreferencesDataAccess preferencesDataAccess,
@@ -27,6 +44,23 @@ public class ChallengesManager {
         this.challengesDataUpdate = challengesDataUpdate;
         this.preferencesDataAccess = preferencesDataAccess;
         this.recordsDataAccess = recordsDataAccess;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        new Thread(() -> ((Runnable) () -> {
+            while (true) {
+                Log.d("ChallengesManagerService", "onStartCommand: Iniciando el servicio");
+
+                Log.d("ChallengesManagerService", "onStartCommand: Terminando el servicio");
+            }
+        }).run()).start();
+        return super.onStartCommand(intent, flags, startId);
+    }
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     public void selectNewChallenge() {

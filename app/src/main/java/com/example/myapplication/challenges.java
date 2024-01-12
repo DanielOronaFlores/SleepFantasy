@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ public class challenges extends AppCompatActivity {
                 preferencesDataAccess,
                 recordsDataAccess);
 
+        Intent intent = new Intent(this, challengesManager.getClass());
+        startService(intent);
+
         //TODO: Placeholder de button (ELIMINAR)
         Button button = findViewById(R.id.button);
         button.setOnClickListener(v -> button());
@@ -66,7 +70,9 @@ public class challenges extends AppCompatActivity {
         drawable.setStroke(2, Color.parseColor("#FFD700")); // Borde de color dorado
         drawable.setColor(Color.parseColor("#72773EAA")); // Fondo transparente
 
-        challengeTextViews[currentChallenge - 1].setBackground(drawable);
+        if (currentChallenge > 0) {
+            challengeTextViews[currentChallenge - 1].setBackground(drawable);
+        }
     }
 
     private void initializeChallengeTextViews() {

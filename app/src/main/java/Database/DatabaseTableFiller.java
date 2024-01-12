@@ -11,6 +11,7 @@ public class DatabaseTableFiller {
     public static void fillTables(SQLiteDatabase db) {
         fillMissionTable(db);
         fillChallengeTable(db);
+        fillRecordTable(db);
     }
     private static void fillMissionTable(SQLiteDatabase db) {
         for (int i = 0; i < 20; i++) {
@@ -43,6 +44,24 @@ public class DatabaseTableFiller {
             values.put("Active", false);
             db.insert("Challenges", null, values);
         }
+    }
+
+    //Fill full table with false values
+    public static void fillRecordTable(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        values.put("isPlayingMusic", false);
+        values.put("isTemporizerActive", false);
+        values.put("hasMonsterAppeared", false);
+        values.put("isCategoryValid", false);
+        values.put("hasDeletedAudio", false);
+        values.put("hasAvatarVisualChanged", false);
+        values.put("isNewSoundSet", false);
+        values.put("isNewInterface", false);
+        values.put("isNewAudioUpoloaded", false);
+        values.put("hasAudiosPlayed", false);
+        values.put("isGraphDisplayed", false);
+        values.put("hasObtainedExperience", false);
+        db.insert("Records", null, values);
     }
 
     private static String getCurrentDate() {

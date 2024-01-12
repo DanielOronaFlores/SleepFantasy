@@ -195,6 +195,7 @@
             android:textSize="15sp"
             android:background="#72773EAA"
             android:padding="8dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 </ScrollView>
