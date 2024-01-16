@@ -19,19 +19,20 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/placeholder_ramon"
+            android:src="@drawable/menu_challenges"
             android:scaleType="centerCrop"/>
 
         <Button
             android:id="@+id/challenges"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="@string/desaf_os"
             android:textAllCaps="true"
             android:elevation="4dp"
             android:textSize="11sp"
+            android:layout_marginTop="10dp"
             android:textColor="#FFFFFF"
-            android:layout_marginTop="10dp"/>
+            android:background="#721B81"/>
     </LinearLayout>
 
     <LinearLayout
@@ -45,19 +46,20 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/placeholder_jirafa"
+            android:src="@drawable/menu_missions"
             android:scaleType="centerCrop"/>
 
         <Button
             android:id="@+id/missions"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="@string/misiones"
             android:textAllCaps="true"
             android:elevation="4dp"
             android:textSize="11sp"
+            android:layout_marginTop="10dp"
             android:textColor="#FFFFFF"
-            android:layout_marginTop="10dp"/>
+            android:background="#721B81"/>
     </LinearLayout>
 
 </LinearLayout>

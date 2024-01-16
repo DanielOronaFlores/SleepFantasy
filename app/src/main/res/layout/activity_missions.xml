@@ -28,7 +28,8 @@
         <FrameLayout
             android:id="@+id/missionFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"/>
 
         <!-- Fila 1 -->
         <LinearLayout
@@ -40,19 +41,19 @@
 
             <ImageView
                 android:id="@+id/mission1"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission2"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 2 -->
@@ -65,19 +66,19 @@
 
             <ImageView
                 android:id="@+id/mission3"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission4"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 3 -->
@@ -90,19 +91,19 @@
 
             <ImageView
                 android:id="@+id/mission5"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission6"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 4 -->
@@ -115,19 +116,19 @@
 
             <ImageView
                 android:id="@+id/mission7"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission8"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 5 -->
@@ -140,19 +141,19 @@
 
             <ImageView
                 android:id="@+id/mission9"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission10"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 6-->
@@ -165,19 +166,19 @@
 
             <ImageView
                 android:id="@+id/mission11"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission12"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 7 -->
@@ -190,19 +191,19 @@
 
             <ImageView
                 android:id="@+id/mission13"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission14"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 8 -->
@@ -215,19 +216,19 @@
 
             <ImageView
                 android:id="@+id/mission15"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission16"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 9 -->
@@ -240,19 +241,19 @@
 
             <ImageView
                 android:id="@+id/mission17"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission18"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
         <!-- Fila 10 -->
@@ -265,19 +266,19 @@
 
             <ImageView
                 android:id="@+id/mission19"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
 
             <ImageView
                 android:id="@+id/mission20"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/medals_noone"/>
+                android:src="@drawable/medals_none"/>
         </LinearLayout>
 
     </LinearLayout>

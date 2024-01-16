@@ -1,5 +1,7 @@
 package Dates;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,6 +16,9 @@ public class DateManager {
 
         currentDateFormatted = getDateFormat().parse(currentDateStr);
         oldDateFormatted = getDateFormat().parse(oldDateStr);
+
+        Log.d("Dates", "Current date: " + currentDateFormatted);
+        Log.d("Dates", "Old date: " + oldDateFormatted);
 
         return isConsecutive(currentDateFormatted, oldDateFormatted);
     }

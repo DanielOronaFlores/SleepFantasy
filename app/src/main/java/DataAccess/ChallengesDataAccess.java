@@ -53,6 +53,34 @@ public class ChallengesDataAccess {
         }
     }
 
+    public boolean isCompleted(int challenge) {
+        String query = "SELECT Completed FROM Challenges WHERE id = " + challenge + ";";
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            boolean completed = cursor.getInt(0) == 1;
+            cursor.close();
+            return completed;
+        } else {
+            cursor.close();
+            return false;
+        }
+    }
+
+    public boolean isDisplayed(int challenge) {
+        String query = "SELECT Displayed FROM Challenges WHERE id = " + challenge + ";";
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            boolean displayed = cursor.getInt(0) == 1;
+            cursor.close();
+            return displayed;
+        } else {
+            cursor.close();
+            return false;
+        }
+    }
+
     public String getDate(int challenge) {
         String query = "SELECT OldDate FROM Challenges WHERE id = " + challenge + ";";
         Cursor cursor = database.rawQuery(query, null);
@@ -72,10 +100,24 @@ public class ChallengesDataAccess {
 
 
     public int getCounter(int mission) {
+        int counter = -1; // Valor predeterminado en caso de que no haya resultados
+
         String query = "SELECT Counter FROM Challenges WHERE id = " + mission + ";";
-        Cursor cursor = database.rawQuery(query, null);
-        int counter = cursor.getInt(0);
-        cursor.close();
+        Cursor cursor = null;
+
+        try {
+            cursor = database.rawQuery(query, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                counter = cursor.getInt(cursor.getColumnIndexOrThrow("Counter"));
+            }
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
         return counter;
     }
+
 }

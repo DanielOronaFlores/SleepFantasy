@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 
 import DataAccess.ChallengesDataAccess;
@@ -34,36 +32,35 @@ public class challenges extends AppCompatActivity {
         startService(intent);
 
         initializeChallengeTextViews();
-        displayActiveChallenge();
+        setStrokeColors();
 
-        //TODO: Placeholder de button (ELIMINAR)
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(v -> button());
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        connection.closeDatabase();
-    }
+    private void setStrokeColors() {
+        for (int i = 0; i < challengeTextViews.length; i++) {
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setShape(GradientDrawable.RECTANGLE);
+            drawable.setColor(Color.parseColor("#72773EAA")); // Fondo transparente
 
-    private void button() { //TODO: Placeholder (ELIMINAR)
-        Log.d("INTERFACE", "Boton presionado");
-        //Para pruebas
-    }
+            int currentChallenge = challengesDataAccess.getActiveChallenge();
 
-    private void displayActiveChallenge() {
-        int currentChallenge = challengesDataAccess.getActiveChallenge();
+            if (i == currentChallenge - 1) {
+                // Configura el borde de color dorado para el reto activo
+                drawable.setStroke(2, Color.parseColor("#FFD700"));
+            } else {
+                // Si el reto está completado, el borde es verde; si no, rojo
+                if (challengesDataAccess.isCompleted(i + 1)) {
+                    drawable.setStroke(2, Color.parseColor("#119000")); // Verde
+                } else if (!challengesDataAccess.isCompleted(i + 1) && challengesDataAccess.isDisplayed(i + 1)) {
+                    drawable.setStroke(2, Color.parseColor("#950505")); // Rojo
+                }
+            }
 
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setStroke(2, Color.parseColor("#FFD700")); // Borde de color dorado
-        drawable.setColor(Color.parseColor("#72773EAA")); // Fondo transparente
-
-        if (currentChallenge > 0) {
-            challengeTextViews[currentChallenge - 1].setBackground(drawable);
+            // Establece el fondo y borde para la vista de texto actual
+            challengeTextViews[i].setBackground(drawable);
         }
     }
+
 
     private void initializeChallengeTextViews() {
         challengeTextViews = new TextView[15]; // Número total de TextViews

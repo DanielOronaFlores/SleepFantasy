@@ -58,10 +58,10 @@
 
             <ImageView
                 android:id="@+id/gameSelector"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:clickable="true"
-                android:src="@drawable/placeholder_quick"
+                android:src="@drawable/menu_selector"
                 android:padding="4dp"/>
 
             <ImageView

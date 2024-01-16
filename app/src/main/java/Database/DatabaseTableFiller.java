@@ -31,7 +31,7 @@ public class DatabaseTableFiller {
             values.put("date", currentDate);
 
             values.put("completed", false);
-            db.insert("GameManagers", null, values);
+            db.insert("Missions", null, values);
         }
     }
 

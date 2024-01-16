@@ -60,7 +60,7 @@ public class missions extends AppCompatActivity {
             int difficult = missionDataAccess.getCurrentDifficult(i + 1);
             switch (difficult) {
                 case 1:
-                    missions[i].setImageResource(R.drawable.medals_noone);
+                    missions[i].setImageResource(R.drawable.medals_none);
                     break;
                 case 2:
                     missions[i].setImageResource(R.drawable.medals_bronze);

@@ -25,10 +25,13 @@ public class ChallengesDataUpdate {
     }
 
     public void markAsActive(int challenge) {
-        Log.d("UPDATE", "Active inicio");
         String query = "UPDATE Challenges SET Active = 1 WHERE id = " + challenge + ";";
         database.execSQL(query);
-        Log.d("UPDATE", "Active fin");
+    }
+
+    public void markAsInactive(int challenge) {
+        String query = "UPDATE Challenges SET Active = 0 WHERE id = " + challenge + ";";
+        database.execSQL(query);
     }
 
     public void resetChallenges() {

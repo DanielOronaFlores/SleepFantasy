@@ -24,6 +24,7 @@ public class ChallengesManager extends Service {
     private final PreferencesDataAccess preferencesDataAccess;
     private final RecordsDataAccess recordsDataAccess;
     private final DateManager dateManager = new DateManager();
+    private final ExperienceManager experienceManager = new ExperienceManager();
 
     private static final int MAX_CHALLENGE_NUMBER = 15;
     private static final int MIN_CHALLENGE_NUMBER = 1;
@@ -43,9 +44,7 @@ public class ChallengesManager extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         new Thread(() -> ((Runnable) () -> {
             while (true) {
-                Log.d("ChallengesManagerService", "onStartCommand: Iniciando el servicio");
                 Update();
-                Log.d("ChallengesManagerService", "onStartCommand: Terminando el servicio");
             }
         }).run()).start();
         return super.onStartCommand(intent, flags, startId);
@@ -93,18 +92,25 @@ public class ChallengesManager extends Service {
 
     private void handleChallenge(int challenge) {
         String currentDate = dateManager.getCurrentDate();
+        Log.d("ChallengesManager", "handleChallenge: " + challenge);
 
         if (challengeConditionsMet(challenge)) {
             int days = challengesDataAccess.getCounter(challenge);
+            Log.d("Counter", "counter: " + days);
             challengesDataUpdate.updateCounter(challenge, days + 1);
             challengesDataUpdate.updateOldDate(challenge, currentDate);
 
             if (consecutiveWeek(challenge)) {
                 challengesDataUpdate.markAsCompleted(challenge);
+                challengesDataUpdate.markAsInactive(challenge);
+                experienceManager.addExperience(500);
             }
         } else {
-            challengesDataUpdate.updateCounter(challenge, 0);
-            challengesDataUpdate.updateOldDate(challenge, currentDate);
+            if (!currentDate.equals(challengesDataAccess.getDate(challenge))) {
+                Log.d("ChallengesManager", "reset");
+                challengesDataUpdate.updateCounter(challenge, 0);
+                challengesDataUpdate.updateOldDate(challenge, currentDate);
+            }
         }
     }
 
@@ -113,6 +119,7 @@ public class ChallengesManager extends Service {
             case 1:
                 return consecutiveDaysCondition(challenge);
             case 2:
+                Log.d("ChallengesManager", "challengeConditionsMet: " + preferencesDataAccess.getSaveRecordings() + " " + consecutiveDaysCondition(challenge));
                 return preferencesDataAccess.getSaveRecordings() && consecutiveDaysCondition(challenge);
             case 3:
                 return preferencesDataAccess.getRecordSnorings() && consecutiveDaysCondition(challenge);
@@ -147,14 +154,18 @@ public class ChallengesManager extends Service {
 
     private boolean consecutiveDaysCondition(int challenge) {
         String oldDate = challengesDataAccess.getDate(challenge);
-        try {
-            return dateManager.compareDates(oldDate);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        if (oldDate != null)
+        {
+            try {
+                return dateManager.compareDates(oldDate);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
+        return false;
     }
 
     private boolean consecutiveWeek(int challenge) {
-        return challengesDataAccess.getCounter(challenge) == 7;
+        return challengesDataAccess.getCounter(challenge) >= 7;
     }
 }
