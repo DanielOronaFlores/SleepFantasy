@@ -18,7 +18,7 @@ public class MonstersManager {
         return movements > 30 && lpm > 80;
     }
 
-    private boolean isSomnanbulism(int movements) { //Cada hora
+    private boolean isSomnambulism(int movements) { //Cada hora
         boolean vertical = true; //TODO: Debe comprobar el valor del acelerometro.
         return movements > 30 && vertical;
     }
