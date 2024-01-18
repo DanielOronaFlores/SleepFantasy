@@ -9,6 +9,7 @@ public class DatabaseTableCreator {
         createMissionTable(db);
         createChallengeTable(db);
         createRecordsTable(db);
+        createSleepDataTable(db);
     }
 
     private static void createAvatarTable(SQLiteDatabase db) {
@@ -71,5 +72,19 @@ public class DatabaseTableCreator {
                 "hasObtainedExperience BOOLEAN " +
                 "); ";
         db.execSQL(queryCreateRecordsTable);
+    }
+
+    private static void createSleepDataTable(SQLiteDatabase db) {
+        String queryCreateSleepDataTable = "CREATE TABLE SleepData (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "efficiency INTEGER, " +
+                "awakeningAmount INTEGER, " +
+                "loudSoundsAmount INTEGER, " +
+                "suddenMovementsAmount INTEGER, " +
+                "snoringAmount INTEGER, " +
+                "positionChangesAmount INTEGER, " +
+                "sonoringTime INTEGER, " +
+                "date TEXT);";
+        db.execSQL(queryCreateSleepDataTable);
     }
 }
