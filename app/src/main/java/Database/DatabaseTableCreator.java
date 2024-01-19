@@ -10,6 +10,7 @@ public class DatabaseTableCreator {
         createChallengeTable(db);
         createRecordsTable(db);
         createSleepDataTable(db);
+        createMonsterTable(db);
     }
 
     private static void createAvatarTable(SQLiteDatabase db) {
@@ -86,5 +87,13 @@ public class DatabaseTableCreator {
                 "sonoringTime INTEGER, " +
                 "date TEXT);";
         db.execSQL(queryCreateSleepDataTable);
+    }
+
+    private static void createMonsterTable(SQLiteDatabase db) {
+        String queryCreateMonsterTable = "CREATE TABLE Monster (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "active BOOLEAN, " +
+                "dateAppeared TEXT);";
+        db.execSQL(queryCreateMonsterTable);
     }
 }

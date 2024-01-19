@@ -2,27 +2,36 @@ package GameManagers;
 
 import android.util.Log;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Random;
 
 import AppContext.MyApplication;
+import DataAccess.MonstersDataAccess;
 import DataAccess.RecordsDataAccess;
+import DataUpdates.MonstersDataUpdate;
 import DataUpdates.RecordsDataUpdate;
 import Database.DatabaseConnection;
+import Dates.DateManager;
 
 public class MonstersManager {
-    private RecordsDataAccess recordsDataAccess;
+    private MonstersDataAccess monstersDataAccess;
+    private MonstersDataUpdate monstersDataUpdate;
     private RecordsDataUpdate recordsDataUpdate;
+    private DateManager dateManager = new DateManager();
+    private ExperienceManager experienceManager = new ExperienceManager();
 
     public MonstersManager() {
         DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
-        recordsDataAccess = new RecordsDataAccess(connection);
+        monstersDataAccess = new MonstersDataAccess(connection);
         recordsDataUpdate = new RecordsDataUpdate(connection);
+        monstersDataUpdate = new MonstersDataUpdate(connection);
     }
 
-    public void updateMonster() {
-        if (!recordsDataAccess.hasMonsterAppeared())
+    public void updateMonster() throws ParseException {
+        if (monstersDataAccess.getActiveMonster() == -1)
         {
+            Log.d("MonstersManager", "No hay monstruos activos. Se procede a buscar uno.");
             int efficiency = 60; //TODO: Obtener eficiencia
             int time = 50; //TODO: Obtener tiempo
             int lpm = 50; //TODO: Obtener lpm
@@ -32,18 +41,35 @@ public class MonstersManager {
 
             ArrayList<Integer> monsters = selectMonster(efficiency, time, lpm, sdnn, movements);
             if (!monsters.isEmpty()) {
-                if (monsters.size() > 1) {
+                if (monsters.size() >= 1) {
+                    Log.d("MonstersManager", "Se ha encontrado un monstruo.");
                     int index = selectRandomMonster(monsters.size() - 1);
                     selectedMonster = monsters.get(index); //TODO: Se debe alamcenar el mosntruo seleccionado en algun lado
                 }
                 if (probability()) {
+                    Log.d("MonstersManager", "El monstruo ha aparecido.");
+                    monstersDataUpdate.updateMonsterActiveStatus(selectedMonster, dateManager.getCurrentDate());
                     recordsDataUpdate.updateMonsterAppeared();
                 }
             } else {
-               Log.d("MonstersManager", "No hay monstruos disponibles");
+               Log.d("MonstersManager", "No se ha encontrado ningún monstruo.");
+            }
+        } else {
+            if (dateManager.haveThreeDaysPassed(monstersDataAccess.getDateAppearedActiveMonster())) {
+               Log.d("MonstersManager", "El monstruo ha desaparecido.");
+                monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
+            } else {
+                Log.d("MonstersManager", "El monstruo sigue activo.");
+                if (isDefeatedMonster(monstersDataAccess.getActiveMonster())) {
+                    Log.d("MonstersManager", "El monstruo ha sido derrotado.");
+                    monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
+                    experienceManager.addExperience(500);
+                } else {
+                    Log.d("MonstersManager", "El monstruo sigue activo. Actualizando fecha.");
+                    monstersDataUpdate.updateMonsterOldDate(monstersDataAccess.getActiveMonster(), dateManager.getCurrentDate());
+                }
             }
         }
-        Log.d("MonstersManager", "El monstruo esta activo");
     }
 
     private ArrayList<Integer> selectMonster(int efficiency, int time, int lpm, int sdnn, int movements) {
@@ -62,29 +88,65 @@ public class MonstersManager {
     private boolean isInsomnia(int efficiency) {
         return efficiency < 80;
     }
-
     private boolean isLoudSound(int time) {
         return time > 30; // Las cantidades se guardan en minutos
     }
-
     private boolean isAnxiety(int lpm, int sdnn, int movements) { // Cada hora
         return lpm > 80 && sdnn < 50 && movements > 20;
     }
-
     private boolean isNightmare(int movements, int lpm) { // Cada hora
         return movements > 30 && lpm > 80;
     }
-
     private boolean isSomnambulism(int movements) { // Cada hora
         boolean vertical = true; // TODO: Debe comprobar el valor del acelerómetro.
         return movements > 30 && vertical;
+    }
+
+    //CONDICIONES DE DESAPARICIÓN DE MONSTRUOS
+    private boolean isDefeatedMonster(int monster) {
+        int efficiency = 60; //TODO: Obtener eficiencia
+        int time = 50; //TODO: Obtener tiempo
+        int lpm = 50; //TODO: Obtener lpm
+        int sdnn = 30; //TODO: Obtener sdnn
+        int movements = 35; //TODO: Obtener movimientos
+
+        switch (monster) {
+            case 1:
+                return wonInsomnia(efficiency);
+            case 2:
+                return wonLoudSound(time);
+            case 3:
+                return wonAnxiety(lpm, sdnn, movements);
+            case 4:
+                return wonNightmare(movements, lpm);
+            case 5:
+                return wonSomnambulism(movements);
+            default:
+                return false;
+        }
+    }
+
+    private boolean wonInsomnia(int efficiency) {
+        return efficiency >= 80;
+    }
+    private boolean wonLoudSound(int time) {
+        return time <= 30; // Las cantidades se guardan en minutos
+    }
+    private boolean wonAnxiety(int lpm, int sdnn, int movements) { // Cada hora
+        return lpm < 80 && sdnn > 50 && movements < 20;
+    }
+    private boolean wonNightmare(int movements, int lpm) { // Cada hora
+        return movements < 20 && lpm < 80;
+    }
+    private boolean wonSomnambulism(int movements) { // Cada hora
+        boolean vertical = false; // TODO: Debe comprobar el valor del acelerómetro.
+        return vertical;
     }
 
     //OTROS METODOS PARA LA CLASE
     private static boolean probability() {
         return new Random().nextBoolean();
     }
-
     private static int selectRandomMonster(int size) {
         return new Random().nextInt(size);
     }

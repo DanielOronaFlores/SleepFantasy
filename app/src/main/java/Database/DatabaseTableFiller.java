@@ -12,6 +12,7 @@ public class DatabaseTableFiller {
         fillMissionTable(db);
         fillChallengeTable(db);
         fillRecordTable(db);
+        fillMonsterTable(db);
     }
     private static void fillMissionTable(SQLiteDatabase db) {
         for (int i = 0; i < 20; i++) {
@@ -62,6 +63,14 @@ public class DatabaseTableFiller {
         values.put("isGraphDisplayed", false);
         values.put("hasObtainedExperience", false);
         db.insert("Records", null, values);
+    }
+
+    public static void fillMonsterTable(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        for (int i = 0; i < 5; i++) {
+            values.put("id", i + 1);
+            db.insert("Monsters", null, values);
+        }
     }
 
     private static String getCurrentDate() {

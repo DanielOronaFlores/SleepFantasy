@@ -43,6 +43,16 @@ public class DateManager {
         return Math.abs(differenceDays) == 1;
     }
 
+    public boolean haveThreeDaysPassed(String endDateStr) throws ParseException {
+        Date startDateFormatted = getDateFormat().parse(getCurrentDate());
+        Date endDateFormatted = getDateFormat().parse(endDateStr);
+
+        long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
+        long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
+
+        return differenceDays > 3;
+    }
+
     private SimpleDateFormat getDateFormat() {
         return  new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
