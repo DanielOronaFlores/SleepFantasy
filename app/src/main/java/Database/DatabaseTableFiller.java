@@ -69,7 +69,8 @@ public class DatabaseTableFiller {
         ContentValues values = new ContentValues();
         for (int i = 0; i < 5; i++) {
             values.put("id", i + 1);
-            db.insert("Monsters", null, values);
+            values.put("active", false);
+            db.insert("Monster", null, values);
         }
     }
 

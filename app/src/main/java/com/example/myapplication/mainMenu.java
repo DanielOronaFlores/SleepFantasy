@@ -14,13 +14,7 @@ import DataAccess.AvatarDataAccess;
 import Database.DatabaseConnection;
 
 public class mainMenu extends AppCompatActivity {
-    private ImageView imgAvatar, imgSelector;
-    private TextView txUserData, txAvatarData, txExperience;
     private DatabaseConnection connection;
-    private AvatarDataAccess avatarDataAccess;
-    private AvatarSkins avatarSkins;
-    private NameClasses nameClasses;
-    private int[] skins;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -30,22 +24,23 @@ public class mainMenu extends AppCompatActivity {
 
         connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
-        avatarDataAccess = new AvatarDataAccess(connection);
+        AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
 
-        imgAvatar = findViewById(R.id.avatarDisplay);
-        imgSelector = findViewById(R.id.gameSelector);
+        ImageView imgAvatar = findViewById(R.id.avatarDisplay);
+        ImageView imgSelector = findViewById(R.id.gameSelector);
+        ImageView BUTTONPLCE = findViewById(R.id.buttonPlace);
 
-        txUserData = findViewById(R.id.userData);
-        txAvatarData = findViewById(R.id.avatarData);
-        txExperience = findViewById(R.id.avatarExperience);
+        TextView txUserData = findViewById(R.id.userData);
+        TextView txAvatarData = findViewById(R.id.avatarData);
+        TextView txExperience = findViewById(R.id.avatarExperience);
 
-        avatarSkins = new AvatarSkins();
-        skins = avatarSkins.getAvatarSkins(avatarDataAccess.getCharacterClass());
+        AvatarSkins avatarSkins = new AvatarSkins();
+        int[] skins = avatarSkins.getAvatarSkins(avatarDataAccess.getCharacterClass());
         imgAvatar.setImageResource(skins[avatarDataAccess.getCharacterPhase() -1]); //TODO: Establecer como apariencia predeterminada la 4.
 
         txUserData.setText(avatarDataAccess.getAvatarName() + " | " + avatarDataAccess.getAvatarAge());
 
-        nameClasses = new NameClasses();
+        NameClasses nameClasses = new NameClasses();
         txAvatarData.setText(
                 nameClasses.getNameClass(avatarDataAccess.getCharacterClass()) + " - Level " +
                 String.valueOf(avatarDataAccess.getLevel())); //TODO: Agregar el nombre de la clase del avatar.
@@ -58,6 +53,10 @@ public class mainMenu extends AppCompatActivity {
         });
         imgSelector.setOnClickListener(view -> {
             Intent intent = new Intent(this, selector.class);
+            startActivity(intent);
+        });
+        BUTTONPLCE.setOnClickListener(view -> {
+            Intent intent = new Intent(this, monsters.class);
             startActivity(intent);
         });
 

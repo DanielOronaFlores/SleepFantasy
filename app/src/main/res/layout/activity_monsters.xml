@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#210630"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <!-- ImageView del monstruo de pesadilla -->
+    <ImageView
+        android:id="@+id/monsterImageView"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        ></ImageView>
+
+    <TextView
+        android:id="@+id/monsterNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/monsterImageView"
+        android:layout_centerHorizontal="true"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:text="Nombre del Monstruo" />
+
+    <!-- TextView de los días restantes -->
+    <TextView
+        android:id="@+id/daysRemainingTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/monsterNameTextView"
+        android:layout_centerHorizontal="true"
+        android:textSize="17dp"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:text="Días restantes: 0" />
+
+</LinearLayout>

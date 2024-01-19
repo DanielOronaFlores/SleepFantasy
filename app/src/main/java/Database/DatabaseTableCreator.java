@@ -93,7 +93,8 @@ public class DatabaseTableCreator {
         String queryCreateMonsterTable = "CREATE TABLE Monster (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "active BOOLEAN, " +
-                "dateAppeared TEXT);";
+                "dateAppeared TEXT, " +
+                "dateDisappeared TEXT);";
         db.execSQL(queryCreateMonsterTable);
     }
 }
