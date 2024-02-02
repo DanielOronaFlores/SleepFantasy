@@ -31,7 +31,7 @@
                 android:layout_gravity="center"/>
 
             <ImageView
-                android:id="@+id/buttonPlace"
+                android:id="@+id/recordVisualizer"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:clickable="true"

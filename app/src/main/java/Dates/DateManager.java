@@ -66,22 +66,13 @@ public class DateManager {
         return differenceMillis / (24 * 60 * 60 * 1000);
     }
 
-    public String calculateThreeDaysAhead(String startDateStr) throws ParseException {
-        Date startDateFormatted = getDateFormat().parse(startDateStr);
+    public boolean havePassed24Hours(String oldDateStr) throws ParseException {
+        Date currentDateFormatted = new Date(System.currentTimeMillis());
+        Date oldDateFormatted = getDateFormat().parse(oldDateStr);
 
-        // Crear un objeto Calendar y establecer la fecha de inicio
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startDateFormatted);
+        long differenceMillis = currentDateFormatted.getTime() - oldDateFormatted.getTime();
+        long differenceHours = differenceMillis / (60 * 60 * 1000);
 
-        // Sumar tres días a la fecha de inicio
-        calendar.add(Calendar.DAY_OF_MONTH, 3);
-
-        // Obtener la nueva fecha después de sumar tres días
-        Date threeDaysAhead = calendar.getTime();
-
-        // Formatear la nueva fecha como una cadena
-        return getDateFormat().format(threeDaysAhead);
+        return differenceHours >= 24;
     }
-
-
 }

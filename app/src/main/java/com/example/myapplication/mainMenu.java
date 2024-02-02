@@ -28,7 +28,7 @@ public class mainMenu extends AppCompatActivity {
 
         ImageView imgAvatar = findViewById(R.id.avatarDisplay);
         ImageView imgSelector = findViewById(R.id.gameSelector);
-        ImageView BUTTONPLCE = findViewById(R.id.buttonPlace);
+        ImageView imgRecordVisualizer = findViewById(R.id.recordVisualizer);
 
         TextView txUserData = findViewById(R.id.userData);
         TextView txAvatarData = findViewById(R.id.avatarData);
@@ -44,7 +44,6 @@ public class mainMenu extends AppCompatActivity {
         txAvatarData.setText(
                 nameClasses.getNameClass(avatarDataAccess.getCharacterClass()) + " - Level " +
                 String.valueOf(avatarDataAccess.getLevel())); //TODO: Agregar el nombre de la clase del avatar.
-
         txExperience.setText(avatarDataAccess.getCurrentExperience() + "/" + avatarDataAccess.getRequiredExperience());
 
         imgAvatar.setOnClickListener(view -> {
@@ -55,8 +54,8 @@ public class mainMenu extends AppCompatActivity {
             Intent intent = new Intent(this, selector.class);
             startActivity(intent);
         });
-        BUTTONPLCE.setOnClickListener(view -> {
-            Intent intent = new Intent(this, monsters.class);
+        imgRecordVisualizer.setOnClickListener(view -> {
+            Intent intent = new Intent(this, recordsVisualizer.class);
             startActivity(intent);
         });
 
