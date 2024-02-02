@@ -29,7 +29,8 @@ public class DatabaseTableCreator {
         String queryCreatePreferencesTable = "CREATE TABLE Preferences ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "saveRecordings BOOLEAN, " +
-                "recordSnorings BOOLEAN); ";
+                "recordSnorings BOOLEAN, " +
+                "audioQuality BOOLEAN);";
         db.execSQL(queryCreatePreferencesTable);
     }
     private static void createMissionTable(SQLiteDatabase db) {

@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -8,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import DataAccess.AvatarDataAccess;
 import DataUpdates.AvatarDataUpdate;
@@ -51,9 +54,13 @@ public class configuration extends AppCompatActivity {
             if (preferencesData[1].equals("1")) ckSaveAudios.setChecked(true);
         }
         btSave.setOnClickListener(view ->
-
                 setUserData(etName.getText().toString(), Byte.parseByte(etAge.getText().toString()))
         );
+
+        // Pedir permisos para grabar audio
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, 0);
+        }
     }
     @Override
     protected void onDestroy() {

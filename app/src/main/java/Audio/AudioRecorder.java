@@ -4,13 +4,20 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.IBinder;
+import android.os.StatFs;
 
 import androidx.annotation.Nullable;
 
 import java.io.IOException;
+import java.sql.Connection;
+
+import AppContext.MyApplication;
+import DataAccess.PreferencesDataAccess;
+import Database.DatabaseConnection;
 
 public class AudioRecorder extends Service {
-    private final MediaRecorder mediaRecorder = new MediaRecorder();
+    private MediaRecorder mediaRecorder;
+    private final AudioManager manager = new AudioManager();
 
     @Nullable
     @Override
@@ -18,24 +25,35 @@ public class AudioRecorder extends Service {
         return null;
     }
 
-    //Metodos de la clase
     public void startRecording(String outputFile) {
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setOutputFile(outputFile);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        if (manager.hasSufficientStorage()) {
+            mediaRecorder = new MediaRecorder();
 
-        try {
-            mediaRecorder.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setOutputFile(outputFile);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.setAudioSamplingRate(manager.getPreferredSamplingRate());
+
+            try {
+                mediaRecorder.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mediaRecorder.start();
+        } else {
+            manager.notifyLowStorage();
         }
-
-        mediaRecorder.start();
     }
 
     public void stopRecording() {
-        mediaRecorder.stop();
-        mediaRecorder.release();
+        if (mediaRecorder != null) {
+            mediaRecorder.stop();
+            mediaRecorder.release();
+            mediaRecorder = null;
+        }
+
+        if (manager.shouldSaveRecording()) manager.transferRecordingToSmartphone();
     }
 }

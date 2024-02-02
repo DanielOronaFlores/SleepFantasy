@@ -23,7 +23,7 @@
     <com.chibde.visualizer.LineVisualizer
         android:id="@+id/visualizer"
         android:layout_width="match_parent"
-        android:layout_height="250dp"/>
+        android:layout_height="70dp"/>
 
     <!-- Línea horizontal con dos botones -->
     <LinearLayout
@@ -44,12 +44,12 @@
 
             <!-- Segundo botón -->
             <Button
-                android:id="@+id/btn_guardar"
+                android:id="@+id/btn_calidad"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#009688"
-                android:text="@string/guardar"
+                android:text="@string/calidad"
                 android:textColor="@android:color/black"/>
         </LinearLayout>
 

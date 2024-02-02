@@ -25,6 +25,17 @@ public class PreferencesDataAccess {
         }
     }
 
+    public void updateAudioQuality(boolean audioQuality) {
+        ContentValues values = new ContentValues();
+        values.put("audioQuality", audioQuality);
+
+        if (isPreferencesCreated()) {
+            database.update("Preferences", values, null, null);
+        } else {
+            database.insert("Preferences", null, values);
+        }
+    }
+
     public String[] getPreferencesData() {
         String[] columns = {"saveRecordings", "recordSnorings"};
         Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
@@ -63,6 +74,19 @@ public class PreferencesDataAccess {
 
         cursor.close();
         return recordSnorings;
+    }
+
+    public boolean getAudioQuality() {
+        String[] columns = {"audioQuality"};
+        Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
+        boolean audioQuality = false;
+
+        if (cursor.moveToFirst()) {
+            audioQuality = cursor.getInt(0) == 1;
+        }
+
+        cursor.close();
+        return audioQuality;
     }
 
     public boolean isPreferencesCreated() {
