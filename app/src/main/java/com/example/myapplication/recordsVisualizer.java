@@ -1,28 +1,26 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chibde.visualizer.LineVisualizer;
 
+import Audio.AudioRecorder;
 import DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
-
 
 public class recordsVisualizer extends AppCompatActivity {
     TextView textView;
     MediaPlayer mediaPlayer = new MediaPlayer();
-    Button calidadButton;
+    Button calidadButton, elimnarButton;
     DatabaseConnection connection;
-    String filePath = "/storage/emulated/0/Android/data/com.example.myapplication/cache/ejemplo.wav";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +35,7 @@ public class recordsVisualizer extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this, R.raw.c);
 
         lineVisualizer.setColor(ContextCompat.getColor(this, R.color.black));
-        lineVisualizer.setStrokeWidth(1);
+        lineVisualizer.setStrokeWidth(5);
         lineVisualizer.setPlayer(mediaPlayer.getAudioSessionId());
 
         textView = findViewById(R.id.bttn);
@@ -51,11 +49,27 @@ public class recordsVisualizer extends AppCompatActivity {
 
         calidadButton = findViewById(R.id.btn_calidad);
         calidadButton.setOnClickListener(v -> updateQuality());
+
+        elimnarButton = findViewById(R.id.btn_eliminar);
+        elimnarButton.setOnClickListener(v -> placeHolderFuncion());
     }
 
     private void updateQuality() {
         PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
         boolean audioQuality = preferencesDataAccess.getAudioQuality();
         preferencesDataAccess.updateAudioQuality(!audioQuality);
+
+        String quality = audioQuality ? "baja" : "alta";
+        Toast toast = Toast.makeText(this, "Calidad de audio actualizada a " + quality, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+    private void placeHolderFuncion() {
+        Log.d("PLACEHOLDER", "Función de eliminación de grabación");
+
+        String filePath = getExternalFilesDir(null).getAbsolutePath() + "/record.3gp";
+        Log.d("RUTA", filePath);
+
+        AudioRecorder audioRecorder = new AudioRecorder();
+        audioRecorder.startRecording(filePath);
     }
 }

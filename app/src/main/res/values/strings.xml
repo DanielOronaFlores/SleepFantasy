@@ -11,4 +11,5 @@
     <string name="guardar">GUARDAR</string>
     <string name="eliminar">ELIMINAR</string>
     <string name="calidad">CALIDAD</string>
+    <string name="sonidos_captados">SONIDOS CAPTADOS</string>
 </resources>

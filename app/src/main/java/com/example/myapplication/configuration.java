@@ -57,10 +57,7 @@ public class configuration extends AppCompatActivity {
                 setUserData(etName.getText().toString(), Byte.parseByte(etAge.getText().toString()))
         );
 
-        // Pedir permisos para grabar audio
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, 0);
-        }
+        askPermission();
     }
     @Override
     protected void onDestroy() {
@@ -71,16 +68,17 @@ public class configuration extends AppCompatActivity {
     private void setUserData(String name, byte age) {
         if (isValidUserData(name, age)) {
             savePreferencesData();
-            Toast.makeText(this, "PREFERENCIAS GUARDADAS", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "PREFERENCIAS GUARDADAS", Toast.LENGTH_SHORT).show();
 
             if (avatarManager.isAvatarCreated()) {
                 avatarDataUpdate.updateNameAndAge(name, age);
                 goToMainMenu();
             } else {
+                preferencesManager.setDefaultAudioQuality();
                 goToCharacterChoice(name, age);
             }
         } else {
-            Toast.makeText(this, "DATOS INGRESADOS NO VALIDOS", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "DATOS INGRESADOS NO VALIDOS", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -102,5 +100,11 @@ public class configuration extends AppCompatActivity {
         intent.putExtra("name", name);
         intent.putExtra("age", age);
         startActivity(intent);
+    }
+
+    private void askPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, 1);
+        }
     }
 }

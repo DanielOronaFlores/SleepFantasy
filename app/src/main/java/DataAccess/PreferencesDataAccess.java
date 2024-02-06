@@ -89,6 +89,12 @@ public class PreferencesDataAccess {
         return audioQuality;
     }
 
+    public void setDefaultAudioQuality() {
+        ContentValues values = new ContentValues();
+        values.put("audioQuality", false);
+        database.insert("Preferences", null, values);
+    }
+
     public boolean isPreferencesCreated() {
         String query = "SELECT 1 FROM Preferences LIMIT 1;";
         Cursor cursor = database.rawQuery(query, null);

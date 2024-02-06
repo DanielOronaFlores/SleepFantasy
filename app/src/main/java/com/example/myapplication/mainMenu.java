@@ -2,12 +2,18 @@ package com.example.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import Audio.AudioRecorder;
 import Avatar.AvatarSkins;
 import Avatar.NameClasses;
 import DataAccess.AvatarDataAccess;
@@ -21,6 +27,9 @@ public class mainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        String filePath = getExternalFilesDir(null).getAbsolutePath();
+        Log.d("Ruta", filePath);
 
         connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
