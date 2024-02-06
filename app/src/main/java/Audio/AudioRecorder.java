@@ -21,11 +21,12 @@ public class AudioRecorder {
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mediaRecorder.setOutputFile(outputFile);
             mediaRecorder.setAudioSamplingRate(manager.getPreferredSamplingRate());
-
+            Log.d("AudioRecorder", "Recording started");
             try {
                 mediaRecorder.prepare();
                 mediaRecorder.start();
             } catch (IOException e) {
+                Log.d("AudioRecorder", "prepare() failed");
                 e.printStackTrace();
             }
         } else {

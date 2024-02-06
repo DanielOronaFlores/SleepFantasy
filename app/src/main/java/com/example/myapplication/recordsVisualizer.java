@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.chibde.visualizer.LineVisualizer;
 
+import java.io.File;
+
 import Audio.AudioRecorder;
 import DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
@@ -69,6 +71,15 @@ public class recordsVisualizer extends AppCompatActivity {
         //TODO: Implementar método de eliminación de grabación
         Log.d("PLACEHOLDER", "Función de eliminación de grabación");
 
+        Log.d("ELIMINAR AUDIO", audiosFiles.getRecordingsPath());
+        Log.d("ELIMINAR AUDIO", String.valueOf(audiosFiles.doesRecordingFileExist()));
 
+        File file = new File(audiosFiles.getRecordingsPath());
+        if (file.exists()) {
+            if (file.delete()) Toast.makeText(this, "Audio Eliminado", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "No se pudo eliminar el archivo", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No hay audio disponible", Toast.LENGTH_SHORT).show();
+        }
     }
 }
