@@ -1,7 +1,5 @@
 package Dates;
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,23 +11,25 @@ public class DateManager {
         return  new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
 
+    private boolean isConsecutive(Date currentDate, Date oldDate) {
+        long differenceMillis = currentDate.getTime() - oldDate.getTime();
+        long differenceDays = differenceMillis / (24 * 60 * 60 * 1000); // 24 hours in a day, 60 minutes in an hour, 60 seconds in a minute, 1000 milliseconds in a second
+        return Math.abs(differenceDays) == 1;
+    }
+
     public String getCurrentDate() {
         Date currentDate = new Date(System.currentTimeMillis());
-        String currentDateStr = getDateFormat().format(currentDate);
-
-        return currentDateStr;
+        return getDateFormat().format(currentDate);
     }
 
     public boolean compareDates(String oldDateStr) throws ParseException {
         String currentDateStr = getCurrentDate();
-        Date currentDateFormatted;
-        Date oldDateFormatted;
+        Date currentDateFormatted = getDateFormat().parse(currentDateStr);
+        Date oldDateFormatted = getDateFormat().parse(oldDateStr);
 
-        currentDateFormatted = getDateFormat().parse(currentDateStr);
-        oldDateFormatted = getDateFormat().parse(oldDateStr);
-
-        Log.d("Dates", "Current date: " + currentDateFormatted);
-        Log.d("Dates", "Old date: " + oldDateFormatted);
+        if (currentDateFormatted == null || oldDateFormatted == null) {
+            throw new ParseException("Error parsing dates", 0);
+        }
 
         return isConsecutive(currentDateFormatted, oldDateFormatted);
     }
@@ -41,16 +41,15 @@ public class DateManager {
         return dayOfWeek == Calendar.SUNDAY;
     }
 
-    private boolean isConsecutive(Date currentDate, Date oldDate) {
-        long differenceMillis = currentDate.getTime() - oldDate.getTime();
-        long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
-        return Math.abs(differenceDays) == 1;
-    }
 
 
     public boolean haveThreeDaysPassed(String endDateStr) throws ParseException {
         Date startDateFormatted = getDateFormat().parse(getCurrentDate());
         Date endDateFormatted = getDateFormat().parse(endDateStr);
+
+        if (startDateFormatted == null || endDateFormatted == null) {
+            throw new ParseException("Error parsing dates", 0);
+        }
 
         long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
         long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
@@ -62,6 +61,10 @@ public class DateManager {
         Date startDateFormatted = getDateFormat().parse(startDateStr);
         Date endDateFormatted = getDateFormat().parse(endDateStr);
 
+        if (startDateFormatted == null || endDateFormatted == null) {
+            throw new ParseException("Error parsing dates", 0);
+        }
+
         long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
         return differenceMillis / (24 * 60 * 60 * 1000);
     }
@@ -69,6 +72,10 @@ public class DateManager {
     public boolean havePassed24Hours(String oldDateStr) throws ParseException {
         Date currentDateFormatted = new Date(System.currentTimeMillis());
         Date oldDateFormatted = getDateFormat().parse(oldDateStr);
+
+        if (oldDateFormatted == null) {
+            throw new ParseException("Error parsing date", 0);
+        }
 
         long differenceMillis = currentDateFormatted.getTime() - oldDateFormatted.getTime();
         long differenceHours = differenceMillis / (60 * 60 * 1000);

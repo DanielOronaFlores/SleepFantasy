@@ -15,11 +15,11 @@ import Database.DatabaseConnection;
 import Dates.DateManager;
 
 public class MonstersManager {
-    private MonstersDataAccess monstersDataAccess;
-    private MonstersDataUpdate monstersDataUpdate;
-    private RecordsDataUpdate recordsDataUpdate;
-    private DateManager dateManager = new DateManager();
-    private ExperienceManager experienceManager = new ExperienceManager();
+    private final MonstersDataAccess monstersDataAccess;
+    private final MonstersDataUpdate monstersDataUpdate;
+    private final RecordsDataUpdate recordsDataUpdate;
+    private final DateManager dateManager = new DateManager();
+    private final ExperienceManager experienceManager = new ExperienceManager();
 
     public MonstersManager() {
         DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());

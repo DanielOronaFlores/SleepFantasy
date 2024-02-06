@@ -15,10 +15,12 @@ import com.chibde.visualizer.LineVisualizer;
 import Audio.AudioRecorder;
 import DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
+import Files.AudiosFiles;
 
 public class recordsVisualizer extends AppCompatActivity {
     TextView textView;
     MediaPlayer mediaPlayer = new MediaPlayer();
+    AudiosFiles audiosFiles = new AudiosFiles();
     Button calidadButton, elimnarButton;
     DatabaseConnection connection;
     @Override
@@ -64,12 +66,9 @@ public class recordsVisualizer extends AppCompatActivity {
         toast.show();
     }
     private void placeHolderFuncion() {
+        //TODO: Implementar método de eliminación de grabación
         Log.d("PLACEHOLDER", "Función de eliminación de grabación");
 
-        String filePath = getExternalFilesDir(null).getAbsolutePath() + "/record.3gp";
-        Log.d("RUTA", filePath);
 
-        AudioRecorder audioRecorder = new AudioRecorder();
-        audioRecorder.startRecording(filePath);
     }
 }

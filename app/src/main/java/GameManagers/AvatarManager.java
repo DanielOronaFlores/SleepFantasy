@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import Database.DatabaseConnection;
 
 public class AvatarManager {
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
     public AvatarManager(DatabaseConnection connection) {
         this.database = connection.getDatabase();
     }
