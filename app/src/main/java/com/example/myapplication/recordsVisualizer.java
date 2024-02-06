@@ -55,7 +55,7 @@ public class recordsVisualizer extends AppCompatActivity {
         calidadButton.setOnClickListener(v -> updateQuality());
 
         elimnarButton = findViewById(R.id.btn_eliminar);
-        elimnarButton.setOnClickListener(v -> placeHolderFuncion());
+        elimnarButton.setOnClickListener(v -> deleteRecording());
     }
 
     private void updateQuality() {
@@ -67,13 +67,7 @@ public class recordsVisualizer extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "Calidad de audio actualizada a " + quality, Toast.LENGTH_SHORT);
         toast.show();
     }
-    private void placeHolderFuncion() {
-        //TODO: Implementar método de eliminación de grabación
-        Log.d("PLACEHOLDER", "Función de eliminación de grabación");
-
-        Log.d("ELIMINAR AUDIO", audiosFiles.getRecordingsPath());
-        Log.d("ELIMINAR AUDIO", String.valueOf(audiosFiles.doesRecordingFileExist()));
-
+    private void deleteRecording() {
         File file = new File(audiosFiles.getRecordingsPath());
         if (file.exists()) {
             if (file.delete()) Toast.makeText(this, "Audio Eliminado", Toast.LENGTH_SHORT).show();
