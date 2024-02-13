@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#210630"
+    android:orientation="vertical">
+
+    <!-- TextView "ESTADÍSTICAS" -->
+    <TextView
+        android:id="@+id/textViewEstadisticas"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_marginTop="35sp"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:text="@string/estad_sticas"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Primera fila -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/tipo_de_filtro"/>
+
+                <Spinner
+                    android:id="@+id/spinnerTipoFiltro"
+                    android:layout_width="0dp"
+                    android:layout_height="48sp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
+            </LinearLayout>
+
+            <!-- Segunda fila con TextView y Spinner para "DATO" -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48sp"
+                android:orientation="horizontal"
+                android:layout_marginTop="5sp">
+
+                <TextView
+                    android:id="@+id/textViewDato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/dato"/>
+
+                <Spinner
+                    android:id="@+id/spinnerDato"
+                    android:layout_width="0dp"
+                    android:layout_height="48sp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="10dp"/>
+            </LinearLayout>
+
+            <!-- Botón "CONSULTAR" -->
+            <Button
+                android:id="@+id/btnConsultar"
+                android:layout_width="wrap_content"
+                android:layout_height="48sp"
+                android:layout_marginBottom="30sp"
+                android:background="@color/button"
+                android:textColor="#FFF"
+                android:layout_gravity="center"
+                android:text="@string/consultar"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -34,6 +34,10 @@ public class AudioRecorder {
         }
     }
 
+    private void createSoundsList() {
+
+    }
+
     public void stopRecording() {
         if (mediaRecorder != null) {
             mediaRecorder.stop();

@@ -2,18 +2,13 @@ package com.example.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import Audio.AudioRecorder;
+
 import Avatar.AvatarSkins;
 import Avatar.NameClasses;
 import DataAccess.AvatarDataAccess;
@@ -28,9 +23,6 @@ public class mainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        String filePath = getExternalFilesDir(null).getAbsolutePath();
-        Log.d("Ruta", filePath);
-
         connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
         AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
@@ -38,6 +30,7 @@ public class mainMenu extends AppCompatActivity {
         ImageView imgAvatar = findViewById(R.id.avatarDisplay);
         ImageView imgSelector = findViewById(R.id.gameSelector);
         ImageView imgRecordVisualizer = findViewById(R.id.recordVisualizer);
+        ImageView imgChartsVisualizer = findViewById(R.id.chartsVisualizer);
 
         TextView txUserData = findViewById(R.id.userData);
         TextView txAvatarData = findViewById(R.id.avatarData);
@@ -67,7 +60,10 @@ public class mainMenu extends AppCompatActivity {
             Intent intent = new Intent(this, recordsVisualizer.class);
             startActivity(intent);
         });
-
+        imgChartsVisualizer.setOnClickListener(view -> {
+            Intent intent = new Intent(this, chartSelector.class);
+            startActivity(intent);
+        });
     }
 
     @Override

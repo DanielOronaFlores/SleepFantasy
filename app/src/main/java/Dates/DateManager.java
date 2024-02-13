@@ -82,4 +82,16 @@ public class DateManager {
 
         return differenceHours >= 24;
     }
+
+    public String formatDate(String date) {
+        Date dateFormatted;
+
+        try {
+            dateFormatted = getDateFormat().parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        return getDateFormat().format(dateFormatted);
+    }
 }

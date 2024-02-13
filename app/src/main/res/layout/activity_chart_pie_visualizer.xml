@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".chartPieVisualizer"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/chartTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_marginTop="35sp"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textStyle="bold"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:ignore="ExtraText">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- This is the first row of the table -->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:text="@string/vigilia">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/vigilText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/vigil"
+                        android:textStyle="bold"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:layout_marginStart="20sp">
+                    </TextView>
+                </TableRow>
+
+                <!-- This is the second row of the table -->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:text="@string/ligero">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/lightText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/lightSleep"
+                        android:textStyle="bold"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:layout_marginStart="20sp">
+                    </TextView>
+                </TableRow>
+
+                <!-- This is the third row of the table -->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:text="@string/profundo">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/deepText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/deepSleep"
+                        android:textStyle="bold"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:layout_marginStart="20sp">
+                    </TextView>
+                </TableRow>
+
+                <!-- This is the fourth row of the table -->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:text="@string/rem">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/remText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/remSleep"
+                        android:textStyle="bold"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:layout_marginStart="20sp">
+                    </TextView>
+                </TableRow>
+
+            </TableLayout>
+            <FrameLayout
+                android:id="@+id/lineChartContainer"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25sp">
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

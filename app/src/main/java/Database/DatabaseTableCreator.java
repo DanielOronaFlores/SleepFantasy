@@ -79,13 +79,17 @@ public class DatabaseTableCreator {
     private static void createSleepDataTable(SQLiteDatabase db) {
         String queryCreateSleepDataTable = "CREATE TABLE SleepData (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "vigilTime INTEGER, " +
+                "lightSleepTime INTEGER, " +
+                "deepSleepTime INTEGER, " +
+                "REMTime INTEGER, " +
+                "totalSleepTime INTEGER, " +
                 "efficiency INTEGER, " +
                 "awakeningAmount INTEGER, " +
                 "loudSoundsAmount INTEGER, " +
                 "suddenMovementsAmount INTEGER, " +
                 "snoringAmount INTEGER, " +
                 "positionChangesAmount INTEGER, " +
-                "sonoringTime INTEGER, " +
                 "date TEXT);";
         db.execSQL(queryCreateSleepDataTable);
     }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filter">
+        <item>Dia</item>
+        <item>Semana</item>
+        <item>Mes</item>
+    </string-array>
+
+    <string-array name="pie">
+        <item>Ciclo de sueño</item>
+    </string-array>
+
+    <string-array name="bar">
+        <item>Eficiencia de sueño</item>
+        <item>Despertares</item>
+        <item>Sonidos fuertes</item>
+        <item>Movimientos bruscos</item>
+        <item>Cambios de posicion </item>
+    </string-array>
+</resources>
