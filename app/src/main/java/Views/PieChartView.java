@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
 
 @SuppressLint("ViewConstructor")
 public class PieChartView extends View {
@@ -36,7 +38,7 @@ public class PieChartView extends View {
         float sweepAngle;
         for (int i = 0; i < values.length; i++) {
             paint.setStyle(Paint.Style.FILL);
-            paint.setColor(Color.parseColor("#" + Integer.toHexString(getResources().getColor(colors[i]))));
+            paint.setColor(ContextCompat.getColor(this.getContext(), colors[i]));
 
             float left = 0;
             float top = 0;

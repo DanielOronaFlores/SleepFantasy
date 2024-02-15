@@ -26,7 +26,7 @@ public class AvatarInformation extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.avatar_information, null);
+        View view = inflater.inflate(R.layout.dialog_avatar_information, null);
 
         final Context context = MyApplication.getAppContext();
         DatabaseConnection connection = DatabaseConnection.getInstance(context);

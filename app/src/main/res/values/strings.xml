@@ -24,4 +24,8 @@
     <string name="grabar_audios">GRABAR AUDIOS</string>
     <string name="almacenar_grabaciones">ALMACENAR GRABACIONES</string>
     <string name="calidad_de_grabaci_n">CALIDAD DE GRABACIÓN</string>
+    <string name="ok">OK</string>
+    <string name="fecha">FECHA</string>
+    <string name="gr_ficas">GRÁFICAS</string>
+    <string name="filtro">filtro</string>
 </resources>

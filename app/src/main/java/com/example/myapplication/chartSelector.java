@@ -10,18 +10,26 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import Dates.DateManager;
+import Dialogs.SelectDate;
 
 public class chartSelector extends AppCompatActivity {
+    private String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart_selector);
+
+        Button btDate = findViewById(R.id.chartDate);
+        btDate.setOnClickListener(view -> chooseDate());
 
         Spinner spinnerFilter = findViewById(R.id.spinnerTipoFiltro);
         Spinner spinnerData = findViewById(R.id.spinnerDato);
@@ -43,7 +51,6 @@ public class chartSelector extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selectedFilter = (String) parentView.getItemAtPosition(position);
-                showSelectedInformation(selectedFilter);
                 if (selectedFilter.equals("Dia")) spinnerData.setAdapter(adapterDataPie);
                 else spinnerData.setAdapter(adapterDataBar);
             }
@@ -58,7 +65,6 @@ public class chartSelector extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selectedData = (String) parentView.getItemAtPosition(position);
-                showSelectedInformation(selectedData);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -67,9 +73,17 @@ public class chartSelector extends AppCompatActivity {
         });
         spinnerData.setAdapter(adapterDataPie);
 
-        String date = chooseDate();
-        Button btnSelect = findViewById(R.id.btnConsultar);
-        btnSelect.setOnClickListener(view -> {
+        Intent intent = getIntent();
+        date = intent.getStringExtra("date");
+        if (date == null) {
+            DateManager dateManager = new DateManager();
+            date = dateManager.getCurrentDate();
+        }
+        Button btnDate = findViewById(R.id.chartDate);
+        btnDate.setText(date);
+
+        Button btnConsult = findViewById(R.id.chartConsult);
+        btnConsult.setOnClickListener(view -> {
             int filter = spinnerFilter.getSelectedItemPosition();
             int data = spinnerData.getSelectedItemPosition();
             goToVisualizer(data, filter, date);
@@ -78,7 +92,7 @@ public class chartSelector extends AppCompatActivity {
 
     private void goToVisualizer(int data, int filter, String date) {
         if (filter == 0) goToPieVisualizer(date);
-        //TODO: Implementar visualizador de barras
+        else goToBarVisualizer();
     }
 
     private void goToPieVisualizer(String date) {
@@ -86,31 +100,13 @@ public class chartSelector extends AppCompatActivity {
         intent.putExtra("date", date);
         startActivity(intent);
     }
-
-    private void showSelectedInformation(String text) {
-        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
-        toast.show();
+    private void goToBarVisualizer() {
+        Intent intent = new Intent(this, chartBarView.class);
+        startActivity(intent);
     }
 
-    private String chooseDate() {
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                (view, year1, monthOfYear, dayOfMonth) -> {
-            String date = dayOfMonth + "/" + (month + 1) + "/" + year1;
-            Toast.makeText(chartSelector.this, "Fecha seleccionada: " + date, Toast.LENGTH_SHORT).show();
-        }, year, month, day);
-
-        datePickerDialog.show();
-
-        String date = year + "-" + (month + 1) + "-" + (day - 1);
-        DateManager dateManager = new DateManager();
-        date = dateManager.formatDate(date);
-        Log.d("date", date);
-        return date;
+    private void chooseDate() {
+        SelectDate selectDate = new SelectDate();
+        selectDate.show(getSupportFragmentManager(), "Select Date");
     }
 }
