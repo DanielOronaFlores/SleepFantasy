@@ -2,17 +2,19 @@ package com.example.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import Avatar.AvatarSkins;
-import Avatar.NameClasses;
 import DataAccess.AvatarDataAccess;
+import DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
+import Dialogs.AvatarInformation;
 
 public class mainMenu extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -31,22 +33,12 @@ public class mainMenu extends AppCompatActivity {
         ImageView imgSelector = findViewById(R.id.gameSelector);
         ImageView imgRecordVisualizer = findViewById(R.id.recordVisualizer);
         ImageView imgChartsVisualizer = findViewById(R.id.chartsVisualizer);
-
-        TextView txUserData = findViewById(R.id.userData);
-        TextView txAvatarData = findViewById(R.id.avatarData);
-        TextView txExperience = findViewById(R.id.avatarExperience);
+        ImageView imgAvatarInformation = findViewById(R.id.avatarInformation);
 
         AvatarSkins avatarSkins = new AvatarSkins();
         int[] skins = avatarSkins.getAvatarSkins(avatarDataAccess.getCharacterClass());
         imgAvatar.setImageResource(skins[avatarDataAccess.getCharacterPhase() -1]); //TODO: Establecer como apariencia predeterminada la 4.
 
-        txUserData.setText(avatarDataAccess.getAvatarName() + " | " + avatarDataAccess.getAvatarAge());
-
-        NameClasses nameClasses = new NameClasses();
-        txAvatarData.setText(
-                nameClasses.getNameClass(avatarDataAccess.getCharacterClass()) + " - Level " +
-                String.valueOf(avatarDataAccess.getLevel())); //TODO: Agregar el nombre de la clase del avatar.
-        txExperience.setText(avatarDataAccess.getCurrentExperience() + "/" + avatarDataAccess.getRequiredExperience());
 
         imgAvatar.setOnClickListener(view -> {
             Intent intent = new Intent(this, configuration.class);
@@ -64,11 +56,23 @@ public class mainMenu extends AppCompatActivity {
             Intent intent = new Intent(this, chartSelector.class);
             startActivity(intent);
         });
-    }
+        imgAvatarInformation.setOnClickListener(view -> {
+            AvatarInformation avatarInformation = new AvatarInformation();
+            avatarInformation.show(getSupportFragmentManager(), "Avatar Information");
+        });
 
+        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
+        if (preferencesDataAccess.getRecordSnorings()) askRecordingPermission();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         connection.closeDatabase();
+    }
+
+    private void askRecordingPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, 1);
+        }
     }
 }

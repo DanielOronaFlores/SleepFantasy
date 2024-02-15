@@ -20,4 +20,8 @@
     <string name="ligero">LIGERO</string>
     <string name="profundo">profundo</string>
     <string name="rem">REM</string>
+    <string name="ajustes">AJUSTES</string>
+    <string name="grabar_audios">GRABAR AUDIOS</string>
+    <string name="almacenar_grabaciones">ALMACENAR GRABACIONES</string>
+    <string name="calidad_de_grabaci_n">CALIDAD DE GRABACIÓN</string>
 </resources>

@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
+            android:name=".chartBarView"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".chartPieVisualizer"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

@@ -68,24 +68,12 @@ public class recordsVisualizer extends AppCompatActivity {
             }
         });
 
-        calidadButton = findViewById(R.id.btn_calidad);
-        calidadButton.setOnClickListener(v -> updateQuality());
-
         elimnarButton = findViewById(R.id.btn_eliminar);
         elimnarButton.setOnClickListener(v -> deleteRecording());
 
         //test();
     }
 
-    private void updateQuality() {
-        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
-        boolean audioQuality = preferencesDataAccess.getAudioQuality();
-        preferencesDataAccess.updateAudioQuality(!audioQuality);
-
-        String quality = audioQuality ? "baja" : "alta";
-        Toast toast = Toast.makeText(this, "Calidad de audio actualizada a " + quality, Toast.LENGTH_SHORT);
-        toast.show();
-    }
     private void deleteRecording() {
         File file = new File(audiosFiles.getRecordingsPath());
         if (file.exists()) {

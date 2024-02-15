@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="audiosSelector">Ir a la pantalla de selección de audios al pulsar este botón</string>
+    <string name="recordVisualizer">Ir a la pantalla de grabaciones al pulsar este botón</string>
+    <string name="avatarDisplay">Ir a la pantalla de configuraciones al pulsar este botón</string>
+    <string name="gameSelector">Ir a la pantalla de selección de misiones o desafios al pulsar este botón</string>
+    <string name="chartVisualizer">Ir a la pantalla de selección de gráficos al pulsar este botón</string>
+    <string name="avatarInformation">Se mostrará la información del avatar al pulsar este botón</string>
+    <string name="editTextAge">Ingrese su edad como un numero</string>
+</resources>

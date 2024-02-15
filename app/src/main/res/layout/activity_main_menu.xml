@@ -1,121 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#210630"
-    android:padding="16dp">
+    android:background="@color/background">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:layout_marginTop="20dp">
+        android:orientation="horizontal"
+        tools:ignore="VisualLintBounds">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="25sp"
+            android:layout_marginEnd="10sp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_gravity="center"
                 android:clickable="true"
-                android:onClick="onSelectAudioClicked"
-                android:src="@drawable/placeholder_bruja"
-                android:padding="4dp"
-                android:layout_gravity="center"/>
+                android:contentDescription="@string/audiosSelector"
+                android:focusable="true"
+                android:foregroundGravity="center"
+                android:src="@drawable/menu_sounds"
+                tools:ignore="ImageContrastCheck" />
 
             <ImageView
                 android:id="@+id/recordVisualizer"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_gravity="center"
                 android:clickable="true"
-                android:onClick="onAudioMonitorClicked"
-                android:src="@drawable/placeholder_jaime"
-                android:padding="4dp"
-                android:layout_gravity="center"/>
+                android:contentDescription="@string/recordVisualizer"
+                android:focusable="true"
+                android:foregroundGravity="center"
+                android:src="@drawable/menu_records" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/avatarDisplay"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:padding="8dp"
-            android:clickable="true"
-            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="100sp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="35sp"
+            android:orientation="vertical"
+            tools:ignore="VisualLintBounds">
+
+            <ImageView
+                android:id="@+id/avatarDisplay"
+                android:layout_width="100sp"
+                android:layout_height="100sp"
+                android:clickable="true"
+                android:contentDescription="@string/avatarDisplay"
+                android:focusable="true"
+                android:foregroundGravity="center"
+                tools:ignore="VisualLintWearMargin" />
+
+            <ImageView
+                android:id="@+id/avatarInformation"
+                android:layout_width="match_parent"
+                android:layout_height="48sp"
+                android:clickable="true"
+                android:contentDescription="@string/avatarInformation"
+                android:focusable="true"
+                android:foregroundGravity="center"
+                android:src="@drawable/menu_information"
+                tools:ignore="VisualLintBounds,VisualLintWearMargin" />
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10sp"
+            android:layout_marginEnd="25sp"
             android:gravity="center_vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/gameSelector"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:clickable="true"
-                android:src="@drawable/menu_selector"
-                android:padding="4dp"/>
+                android:contentDescription="@string/gameSelector"
+                android:focusable="true"
+                android:foregroundGravity="center"
+                android:src="@drawable/menu_gamification"
+                tools:ignore="VisualLintWearMargin" />
 
             <ImageView
                 android:id="@+id/chartsVisualizer"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:clickable="true"
-                android:src="@drawable/placeholder_jirafa"
-                android:padding="4dp"/>
+                android:contentDescription="@string/chartVisualizer"
+                android:focusable="true"
+                android:foregroundGravity="center"
+                android:src="@drawable/menu_chart"
+                tools:ignore="VisualLintWearMargin" />
         </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/userData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Nombre de Usuario"
-        android:textStyle="bold"
-        android:textColor="#009688"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"/>
-
-
-    <TextView
-        android:id="@+id/avatarData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Avatar - Nivel 5"
-        android:textColor="#009688"
-        android:textSize="14sp"
-        android:layout_marginTop="8dp"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Experiencia: "
-            android:textColor="#009688"
-            android:textSize="12sp"/>
-
-        <TextView
-            android:id="@+id/avatarExperience"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="250 / 500"
-            android:textColor="#009688"
-            android:textSize="12sp"/>
-    </LinearLayout>
-</LinearLayout>
+</HorizontalScrollView>

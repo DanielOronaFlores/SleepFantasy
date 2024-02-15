@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -25,7 +26,9 @@ public class configuration extends AppCompatActivity {
     private AvatarManager avatarManager;
     private AvatarDataUpdate avatarDataUpdate;
     private PreferencesDataAccess preferencesManager;
+    private Button btQuality;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +39,14 @@ public class configuration extends AppCompatActivity {
         ckRecordSnoring = findViewById(R.id.recordSnoring);
         ckSaveAudios = findViewById(R.id.saveAudios);
         Button btSave = findViewById(R.id.savePreferences);
+        btQuality = findViewById(R.id.btQuality);
 
         connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
+
+        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
+        if (preferencesDataAccess.getAudioQuality()) btQuality.setText("alta");
+        else btQuality.setText("baja");
 
         AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
         avatarManager = new AvatarManager(connection);
@@ -56,8 +64,7 @@ public class configuration extends AppCompatActivity {
         btSave.setOnClickListener(view ->
                 setUserData(etName.getText().toString(), Byte.parseByte(etAge.getText().toString()))
         );
-
-        askPermission();
+        btQuality.setOnClickListener(view -> updateQuality());
     }
     @Override
     protected void onDestroy() {
@@ -90,6 +97,18 @@ public class configuration extends AppCompatActivity {
         boolean saveAudios = ckSaveAudios.isChecked();
         preferencesManager.updatePreferences(recordSnoring, saveAudios);
     }
+    private void updateQuality() {
+        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
+        boolean audioQuality = preferencesDataAccess.getAudioQuality();
+        preferencesDataAccess.updateAudioQuality(!audioQuality);
+
+        if (preferencesDataAccess.getAudioQuality()) btQuality.setText("alta");
+        else btQuality.setText("baja");
+
+        String quality = audioQuality ? "baja" : "alta";
+        Toast toast = Toast.makeText(this, "Calidad de audio actualizada a " + quality, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
     private void goToMainMenu() {
         Intent intent = new Intent(this, mainMenu.class);
@@ -100,11 +119,5 @@ public class configuration extends AppCompatActivity {
         intent.putExtra("name", name);
         intent.putExtra("age", age);
         startActivity(intent);
-    }
-
-    private void askPermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, 1);
-        }
     }
 }
