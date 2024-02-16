@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
 
 import DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
-import Views.PieChartView;
+import ChartsViews.PieChartView;
 
 public class chartPieVisualizer extends AppCompatActivity {
     private DatabaseConnection connection;

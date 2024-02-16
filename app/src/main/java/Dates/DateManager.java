@@ -83,6 +83,35 @@ public class DateManager {
         return differenceHours >= 24;
     }
 
+    public String getPastWeek(String date) {
+        SimpleDateFormat sdf = getDateFormat();
+        String startDate;
+        try {
+            Date inputDate = sdf.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(inputDate);
+            calendar.add(Calendar.DAY_OF_YEAR, -7);
+            startDate = sdf.format(calendar.getTime());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return startDate;
+    }
+    public String getPastMonth(String date) {
+        SimpleDateFormat sdf = getDateFormat();
+        String startDate;
+        try {
+            Date inputDate = sdf.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(inputDate);
+            calendar.add(Calendar.MONTH, -1);
+            startDate = sdf.format(calendar.getTime());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return startDate;
+    }
+
     public String formatDate(String date) {
         Date dateFormatted;
 
@@ -93,5 +122,18 @@ public class DateManager {
         }
 
         return getDateFormat().format(dateFormatted);
+    }
+
+    public String monthDayOnly(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd", Locale.getDefault());
+        Date dateFormatted;
+
+        try {
+            dateFormatted = getDateFormat().parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        return sdf.format(dateFormatted);
     }
 }

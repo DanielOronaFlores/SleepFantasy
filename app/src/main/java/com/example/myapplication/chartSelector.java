@@ -2,21 +2,13 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Calendar;
-import java.util.Date;
 
 import Dates.DateManager;
 import Dialogs.SelectDate;
@@ -61,16 +53,6 @@ public class chartSelector extends AppCompatActivity {
         });
         spinnerFilter.setAdapter(adapterFilter);
 
-        spinnerData.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedData = (String) parentView.getItemAtPosition(position);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // No hacer nada
-            }
-        });
         spinnerData.setAdapter(adapterDataPie);
 
         Intent intent = getIntent();
@@ -92,7 +74,7 @@ public class chartSelector extends AppCompatActivity {
 
     private void goToVisualizer(int data, int filter, String date) {
         if (filter == 0) goToPieVisualizer(date);
-        else goToBarVisualizer();
+        else goToBarVisualizer(data, filter, date);
     }
 
     private void goToPieVisualizer(String date) {
@@ -100,8 +82,11 @@ public class chartSelector extends AppCompatActivity {
         intent.putExtra("date", date);
         startActivity(intent);
     }
-    private void goToBarVisualizer() {
-        Intent intent = new Intent(this, chartBarView.class);
+    private void goToBarVisualizer(int data, int filter, String date) {
+        Intent intent = new Intent(this, chartBarVisualizer.class);
+        intent.putExtra("data", data);
+        intent.putExtra("filter", filter);
+        intent.putExtra("date", date);
         startActivity(intent);
     }
 

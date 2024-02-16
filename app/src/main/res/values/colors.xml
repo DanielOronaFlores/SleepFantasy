@@ -9,4 +9,6 @@
     <color name="vigil">#F2D6B6</color>
     <color name="button">#721B81</color>
     <color name="buttonData">#921EDA</color>
+    <color name="barCharColor1">#CAC96D</color>
+    <color name="barCharColor2">#7A7A42</color>
 </resources>
