@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
@@ -39,16 +40,24 @@ public class chartBarVisualizer extends AppCompatActivity {
         float[] values = setChartValues(dataToShow);
         int[] colors = {R.color.barCharColor1, R.color.barCharColor2};
 
+        String strMaxCount = "0";
         Log.d("dataToShow", String.valueOf(dataToShow.length));
-        if (dataToShow == null || dataToShow.length == 0) finish();
+        if (dataToShow.length == 0) {
+            Log.d("dataToShow", "No hay datos para mostrar");
+            Toast.makeText(this, "No hay datos para mostrar", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Log.d("dataToShow", "Hay datos para mostrar");
+            strMaxCount = String.valueOf(findMaxValue(dataToShow));
+        }
 
         DateManager dateManager = new DateManager();
 
         TextView maxCount = findViewById(R.id.maxCount);
         TextView startDate = findViewById(R.id.startDate);
         TextView endDate = findViewById(R.id.endDate);
+        maxCount.setText(strMaxCount);
 
-        maxCount.setText(String.valueOf(findMaxValue(dataToShow)));
         if (isWeek(filter)) {
             String startDateText = dateManager.getPastWeek(date);
             startDate.setText(dateManager.monthDayOnly(startDateText));

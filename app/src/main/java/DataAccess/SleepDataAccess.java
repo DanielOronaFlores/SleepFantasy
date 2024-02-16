@@ -2,13 +2,9 @@ package DataAccess;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import Database.DatabaseConnection;
 import Dates.DateManager;
@@ -27,36 +23,61 @@ public class SleepDataAccess {
         String query = "SELECT vigilTime FROM SleepData WHERE date = ?;";
         SQLiteStatement statement = database.compileStatement(query);
         statement.bindString(1, date);
-        Log.d("SleepDataAccess", "getVigilTime: " + statement.simpleQueryForLong());
-        return (int) statement.simpleQueryForLong();
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            Log.d("SleepDataAccess", "getVigilTime: No se encontraron resultados");
+            return -1;
+        }
     }
-    public int getlightSleepTime(String date) {
+    public int getLightSleepTime(String date) {
         String query = "SELECT lightSleepTime FROM SleepData WHERE date = ?;";
         SQLiteStatement statement = database.compileStatement(query);
         statement.bindString(1, date);
-        Log.d("SleepDataAccess", "getlightSleepTime: " + statement.simpleQueryForLong());
-        return (int) statement.simpleQueryForLong();
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            Log.d("SleepDataAccess", "getLightSleepTime: No se encontraron resultados");
+            return -1;
+        }
     }
     public int getDeepSleepTime(String date) {
         String query = "SELECT deepSleepTime FROM SleepData WHERE date = ?;";
         SQLiteStatement statement = database.compileStatement(query);
         statement.bindString(1, date);
-        Log.d("SleepDataAccess", "getDeepSleepTime: " + statement.simpleQueryForLong());
-        return (int) statement.simpleQueryForLong();
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            Log.d("SleepDataAccess", "getDeepSleepTime: No se encontraron resultados");
+            return -1;
+        }
     }
     public int getRemSleepTime(String date) {
         String query = "SELECT REMTime FROM SleepData WHERE date = ?;";
         SQLiteStatement statement = database.compileStatement(query);
         statement.bindString(1, date);
-        Log.d("SleepDataAccess", "getRemSleepTime: " + statement.simpleQueryForLong());
-        return (int) statement.simpleQueryForLong();
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            Log.d("SleepDataAccess", "getRemSleepTime: No se encontraron resultados");
+            return -1;
+        }
     }
     public int totalSleepTime(String date) {
         String query = "SELECT totalSleepTime FROM SleepData WHERE date = ?;";
         SQLiteStatement statement = database.compileStatement(query);
         statement.bindString(1, date);
-        Log.d("SleepDataAccess", "totalSleepTime: " + statement.simpleQueryForLong());
-        return (int) statement.simpleQueryForLong();
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            Log.d("SleepDataAccess", "getVigilTime: No se encontraron resultados");
+            return -1;
+        }
     }
 
     //Use in Bar Charts
@@ -66,7 +87,12 @@ public class SleepDataAccess {
         String query = "SELECT efficiency FROM SleepData WHERE date BETWEEN ? AND ?;";
         Cursor cursor = database.rawQuery(query, new String[]{startDate, date});
 
-        return getQueryArray(cursor);
+        try {
+            return getQueryArray(cursor);
+        } catch (Exception e) {
+            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
+            return new int[0];
+        }
     }
 
     public int[] getAwakeningAmount(String date, boolean isWeek) {
@@ -75,7 +101,12 @@ public class SleepDataAccess {
         String query = "SELECT awakeningAmount FROM SleepData WHERE date BETWEEN ? AND ?;";
         Cursor cursor = database.rawQuery(query, new String[]{startDate, date});
 
-        return getQueryArray(cursor);
+        try {
+            return getQueryArray(cursor);
+        } catch (Exception e) {
+            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
+            return new int[0];
+        }
     }
     public int[] getLoudSoundsAmount(String date, boolean isWeek) {
         startDate = getStartDate(date, isWeek);
@@ -83,7 +114,12 @@ public class SleepDataAccess {
         String query = "SELECT loudSoundsAmount FROM SleepData WHERE date BETWEEN ? AND ?;";
         Cursor cursor = database.rawQuery(query, new String[]{startDate, date});
 
-        return getQueryArray(cursor);
+        try {
+            return getQueryArray(cursor);
+        } catch (Exception e) {
+            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
+            return new int[0];
+        }
     }
     public int[] getSuddenMovementsAmount(String date, boolean isWeek) {
         startDate = getStartDate(date, isWeek);
@@ -91,7 +127,12 @@ public class SleepDataAccess {
         String query = "SELECT suddenMovementsAmount FROM SleepData WHERE date BETWEEN ? AND ?;";
         Cursor cursor = database.rawQuery(query, new String[]{startDate, date});
 
-        return getQueryArray(cursor);
+        try {
+            return getQueryArray(cursor);
+        } catch (Exception e) {
+            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
+            return new int[0];
+        }
     }
     public int[] getPositionChangesAmount(String date, boolean isWeek) {
         startDate = getStartDate(date, isWeek);
@@ -99,7 +140,12 @@ public class SleepDataAccess {
         String query = "SELECT positionChangesAmount FROM SleepData WHERE date BETWEEN ? AND ?;";
         Cursor cursor = database.rawQuery(query, new String[]{startDate, date});
 
-        return getQueryArray(cursor);
+        try {
+            return getQueryArray(cursor);
+        } catch (Exception e) {
+            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
+            return new int[0];
+        }
     }
 
     //Other methods
