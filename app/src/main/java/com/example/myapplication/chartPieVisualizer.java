@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
 
 import DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
-import ChartsViews.PieChartView;
+import ChartsViews.PieChartPainter;
 
 public class chartPieVisualizer extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -52,7 +52,7 @@ public class chartPieVisualizer extends AppCompatActivity {
         float[] values = {deepSleep, lightSleep, remSleep, vigil};
         int[] colors = {R.color.deepSleep, R.color.lightSleep, R.color.remSleep, R.color.vigil};
 
-        PieChartView pieChartView = new PieChartView(this, colors, values);
+        PieChartPainter pieChartView = new PieChartPainter(this, colors, values);
         container.addView(pieChartView);
 
         TextView title = findViewById(R.id.chartTitle);

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
-import ChartsViews.BarChartView;
+import ChartsViews.BarChartPainter;
 
 public class chartBarVisualizer extends AppCompatActivity {
     FrameLayout container;
@@ -68,7 +68,7 @@ public class chartBarVisualizer extends AppCompatActivity {
             endDate.setText(date);
         }
 
-        BarChartView barChartView = new BarChartView(this, colors, values);
+        BarChartPainter barChartView = new BarChartPainter(this, colors, values);
         container.addView(barChartView);
     }
 

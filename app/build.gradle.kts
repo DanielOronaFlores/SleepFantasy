@@ -30,6 +30,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation("com.google.android.gms:play-services-wearable:18.1.0")
     implementation("androidx.percentlayout:percentlayout:1.0.0")

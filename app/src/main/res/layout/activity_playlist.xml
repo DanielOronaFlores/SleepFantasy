@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".playlist"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/playlistTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35sp"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/song1"
+            android:layout_width="200sp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5sp"
+            android:layout_gravity="center"
+            android:background="@color/buttonData"
+            android:textSize="20sp"
+            android:textAllCaps="true"/>
+
+        <Button
+            android:id="@+id/song2"
+            android:layout_width="200sp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5sp"
+            android:layout_gravity="center"
+            android:background="@color/buttonData"
+            android:textSize="20sp"
+            android:textAllCaps="true"/>
+
+        <Button
+            android:id="@+id/song3"
+            android:layout_width="200sp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="35sp"
+            android:layout_gravity="center"
+            android:background="@color/buttonData"
+            android:textSize="20sp"
+            android:textAllCaps="true"/>
+    </LinearLayout>
+
+</ScrollView>

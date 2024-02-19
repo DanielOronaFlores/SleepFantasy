@@ -11,6 +11,9 @@ public class DatabaseTableCreator {
         createRecordsTable(db);
         createSleepDataTable(db);
         createMonsterTable(db);
+        createPlaylistTable(db);
+        createSongsTable(db);
+        createPlaylistSongsTable(db);
     }
 
     private static void createAvatarTable(SQLiteDatabase db) {
@@ -44,7 +47,6 @@ public class DatabaseTableCreator {
         db.execSQL(queryCreateMissionTable);
     }
 
-    //En proceso
     private static void createChallengeTable(SQLiteDatabase db) {
         String queryCreateChallengeTable = "CREATE TABLE Challenges (" +
         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -52,7 +54,6 @@ public class DatabaseTableCreator {
                 "Completed BOOLEAN, " +
                 "Counter INT, " +
                 "Active BOOLEAN, " +
-        //AssignedDate (?)
                 "OldDate TEXT " +
                 ");";
         db.execSQL(queryCreateChallengeTable);
@@ -88,7 +89,6 @@ public class DatabaseTableCreator {
                 "awakeningAmount INTEGER, " +
                 "loudSoundsAmount INTEGER, " +
                 "suddenMovementsAmount INTEGER, " +
-                "snoringAmount INTEGER, " +
                 "positionChangesAmount INTEGER, " +
                 "date TEXT);";
         db.execSQL(queryCreateSleepDataTable);
@@ -101,5 +101,29 @@ public class DatabaseTableCreator {
                 "dateAppeared TEXT, " +
                 "dateDisappeared TEXT);";
         db.execSQL(queryCreateMonsterTable);
+    }
+
+    private static void createPlaylistTable(SQLiteDatabase db) {
+        String queryCreatePlaylistTable = "CREATE TABLE Playlist (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT, " +
+                "createdBySystem BOOLEAN);";
+        db.execSQL(queryCreatePlaylistTable);
+    }
+    private static void createSongsTable(SQLiteDatabase db) {
+        String queryCreateSongsTable = "CREATE TABLE Songs (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT, " +
+                "ibBySystem BOOLEAN);";
+        db.execSQL(queryCreateSongsTable);
+    }
+    private static void createPlaylistSongsTable(SQLiteDatabase db) {
+        String queryCreatePlaylistSongsTable = "CREATE TABLE PlaylistSongs (" +
+                "playlistId INTEGER, " +
+                "songId INTEGER, " +
+                "PRIMARY KEY (playlistId, songId), " +
+                "FOREIGN KEY (playlistId) REFERENCES Playlist(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY (songId) REFERENCES Songs(id) ON DELETE CASCADE);";
+        db.execSQL(queryCreatePlaylistSongsTable);
     }
 }

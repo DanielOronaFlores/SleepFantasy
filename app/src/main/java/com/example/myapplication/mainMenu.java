@@ -34,6 +34,7 @@ public class mainMenu extends AppCompatActivity {
         ImageView imgRecordVisualizer = findViewById(R.id.recordVisualizer);
         ImageView imgChartsVisualizer = findViewById(R.id.chartsVisualizer);
         ImageView imgAvatarInformation = findViewById(R.id.avatarInformation);
+        ImageView imgMusicSelector = findViewById(R.id.musicSelector);
 
         AvatarSkins avatarSkins = new AvatarSkins();
         int[] skins = avatarSkins.getAvatarSkins(avatarDataAccess.getCharacterClass());
@@ -49,11 +50,15 @@ public class mainMenu extends AppCompatActivity {
             startActivity(intent);
         });
         imgRecordVisualizer.setOnClickListener(view -> {
-            Intent intent = new Intent(this, recordsVisualizer.class);
+            Intent intent = new Intent(this, recordings.class);
             startActivity(intent);
         });
         imgChartsVisualizer.setOnClickListener(view -> {
             Intent intent = new Intent(this, chartSelector.class);
+            startActivity(intent);
+        });
+        imgMusicSelector.setOnClickListener(view -> {
+            Intent intent = new Intent(this, playlistSelector.class);
             startActivity(intent);
         });
         imgAvatarInformation.setOnClickListener(view -> {

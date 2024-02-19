@@ -7,12 +7,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import Dates.DateManager;
+
 public class DatabaseTableFiller {
+    private static final DateManager dateManager = new DateManager();
     public static void fillTables(SQLiteDatabase db) {
         fillMissionTable(db);
         fillChallengeTable(db);
         fillRecordTable(db);
         fillMonsterTable(db);
+        fillPlayListTable(db);
+        fillSongsTable(db);
+        fillPlaylistSongs(db);
     }
     private static void fillMissionTable(SQLiteDatabase db) {
         for (int i = 0; i < 20; i++) {
@@ -28,7 +34,7 @@ public class DatabaseTableFiller {
                 values.put("requiredCuantity", 3);
             }
 
-            String currentDate = getCurrentDate();
+            String currentDate = dateManager.getCurrentDate();
             values.put("date", currentDate);
 
             values.put("completed", false);
@@ -47,8 +53,7 @@ public class DatabaseTableFiller {
         }
     }
 
-    //Fill full table with false values
-    public static void fillRecordTable(SQLiteDatabase db) {
+    private static void fillRecordTable(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put("isPlayingMusic", false);
         values.put("isTemporizerActive", false);
@@ -65,7 +70,7 @@ public class DatabaseTableFiller {
         db.insert("Records", null, values);
     }
 
-    public static void fillMonsterTable(SQLiteDatabase db) {
+    private static void fillMonsterTable(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         for (int i = 0; i < 5; i++) {
             values.put("id", i + 1);
@@ -74,9 +79,162 @@ public class DatabaseTableFiller {
         }
     }
 
-    private static String getCurrentDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date = new Date(System.currentTimeMillis());
-        return dateFormat.format(date);
+    private static void fillPlayListTable(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        // Playlist 1
+        values.put("name", "Nature");
+        values.put("createdBySystem", true);
+        db.insert("Playlist", null, values);
+
+        // Playlist 2
+        values.clear();
+        values.put("name", "Classical");
+        values.put("createdBySystem", true);
+        db.insert("Playlist", null, values);
+
+        // Playlist 3
+        values.clear();
+        values.put("name", "WhiteNoise");
+        values.put("createdBySystem", true);
+        db.insert("Playlist", null, values);
+
+        // Playlist 4
+        values.clear();
+        values.put("name", "Ambient");
+        values.put("createdBySystem", true);
+        db.insert("Playlist", null, values);
+    }
+
+    private static void fillSongsTable(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+
+        //Nature Songs
+        values.put("name", "Lluvia");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        values.clear();
+        values.put("name", "Rio");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        values.clear();
+        values.put("name", "Oleaje");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        //Classical Songs
+        values.clear();
+        values.put("name", "Adagio");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        values.clear();
+        values.put("name", "Clair De Lune");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        values.clear();
+        values.put("name", "Pavane");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        //WhiteNoise Songs
+        values.clear();
+        values.put("name", "Marron");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        values.clear();
+        values.put("name", "Rosa");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        values.clear();
+        values.put("name", "Blanco");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        //Ambient Songs
+        values.clear();
+        values.put("name", "Cafe");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        values.clear();
+        values.put("name", "Tren");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+
+        values.clear();
+        values.put("name", "Oficina");
+        values.put("ibBySystem", true);
+        db.insert("Songs", null, values);
+    }
+
+    private static void fillPlaylistSongs(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        // Nature Playlist
+        values.put("playlistId", 1);
+        values.put("songId", 1);
+        db.insert("PlaylistSongs", null, values);
+
+        values.clear();
+        values.put("playlistId", 1);
+        values.put("songId", 2);
+        db.insert("PlaylistSongs", null, values);
+
+        values.clear();
+        values.put("playlistId", 1);
+        values.put("songId", 3);
+        db.insert("PlaylistSongs", null, values);
+
+        // Classical Playlist
+        values.clear();
+        values.put("playlistId", 2);
+        values.put("songId", 4);
+        db.insert("PlaylistSongs", null, values);
+
+        values.clear();
+        values.put("playlistId", 2);
+        values.put("songId", 5);
+        db.insert("PlaylistSongs", null, values);
+
+        values.clear();
+        values.put("playlistId", 2);
+        values.put("songId", 6);
+        db.insert("PlaylistSongs", null, values);
+
+        // WhiteNoise Playlist
+        values.clear();
+        values.put("playlistId", 3);
+        values.put("songId", 7);
+        db.insert("PlaylistSongs", null, values);
+
+        values.clear();
+        values.put("playlistId", 3);
+        values.put("songId", 8);
+        db.insert("PlaylistSongs", null, values);
+
+        values.clear();
+        values.put("playlistId", 3);
+        values.put("songId", 9);
+        db.insert("PlaylistSongs", null, values);
+
+        // Ambient Playlist
+        values.clear();
+        values.put("playlistId", 4);
+        values.put("songId", 10);
+        db.insert("PlaylistSongs", null, values);
+
+        values.clear();
+        values.put("playlistId", 4);
+        values.put("songId", 11);
+        db.insert("PlaylistSongs", null, values);
+
+        values.clear();
+        values.put("playlistId", 4);
+        values.put("songId", 12);
+        db.insert("PlaylistSongs", null, values);
     }
 }

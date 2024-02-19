@@ -13,11 +13,8 @@ public class RootMeanSquare {
         return Arrays.stream(samples).map(x -> x * x).sum();
     }
 
-    public double[] removeAudioLowerByRMS(double[] samples, double rms, double threshold) {
-        if (rms > threshold) {
-            Arrays.fill(samples, 0.0);
-        }
-        return samples;
+    public boolean removeAudioLowerByRMS(double[] samples, double rms, double threshold) {
+        return rms > threshold;
     }
 
     public double calculateAmplitudeThreshold(double totalSumOfSquares, int totalSamples) {

@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.myapplication.R;
-import com.example.myapplication.recordsVisualizer;
+import com.example.myapplication.recordings;
 
 import AppContext.MyApplication;
 
@@ -29,7 +29,7 @@ public class Notifications {
     }
 
     private void IntentRecordsVisualizerCreator() {
-        Intent intent = new Intent(context, recordsVisualizer.class);
+        Intent intent = new Intent(context, recordings.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }

@@ -28,4 +28,11 @@
     <string name="fecha">FECHA</string>
     <string name="gr_ficas">GRÁFICAS</string>
     <string name="filtro">filtro</string>
+    <string name="playlists">playlists</string>
+    <string name="naturaleza">naturaleza</string>
+    <string name="musica_clasica">musica clasica</string>
+    <string name="ruido_ambiental">ruido ambiental</string>
+    <string name="ambiental">ambiental</string>
+    <string name="crear_playlist">crear playlist</string>
+    <string name="ruido_blanco">ruido blanco</string>
 </resources>

@@ -21,6 +21,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/musicSelector"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
