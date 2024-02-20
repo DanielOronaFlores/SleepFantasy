@@ -36,4 +36,6 @@
     <string name="crear_playlist">crear playlist</string>
     <string name="ruido_blanco">ruido blanco</string>
     <string name="selecci_n">SELECCIÓN</string>
+    <string name="crear">crear</string>
+    <string name="nombre_playlist">nombre playlist</string>
 </resources>
