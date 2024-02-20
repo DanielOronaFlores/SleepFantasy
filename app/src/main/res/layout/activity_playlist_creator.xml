@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".playlistCreator"
+    android:background="@color/background">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/createPlaylist"
+            android:layout_width="wrap_content"
+            android:layout_height="48sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="35sp"
+            android:background="@color/button"
+            android:text="crear playlist" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerSongs"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="35sp" />
+    </LinearLayout>
+</ScrollView>

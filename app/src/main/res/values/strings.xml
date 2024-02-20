@@ -35,4 +35,5 @@
     <string name="ambiental">ambiental</string>
     <string name="crear_playlist">crear playlist</string>
     <string name="ruido_blanco">ruido blanco</string>
+    <string name="selecci_n">SELECCIÓN</string>
 </resources>

@@ -17,16 +17,22 @@ public class playlistSelector extends AppCompatActivity {
         Button selectClassicMusic = findViewById(R.id.selectClassicMusic);
         Button selectWhiteNoise = findViewById(R.id.selectWhiteNoise);
         Button selectAmbientNoise = findViewById(R.id.selectAmbientNoise);
+        Button createNewPlaylist = findViewById(R.id.createNewPlaylist);
 
         selectNature.setOnClickListener(view -> selectPlaylist(1));
         selectClassicMusic.setOnClickListener(view -> selectPlaylist(2));
         selectWhiteNoise.setOnClickListener(view -> selectPlaylist(3));
         selectAmbientNoise.setOnClickListener(view -> selectPlaylist(4));
+        createNewPlaylist.setOnClickListener(view -> goToCreatePlaylist());
     }
 
     private void selectPlaylist(int playlistID) {
         Intent intent = new Intent(this, playlist.class);
         intent.putExtra("playlistID", playlistID);
+        startActivity(intent);
+    }
+    private void goToCreatePlaylist() {
+        Intent intent = new Intent(this, playlistCreator.class);
         startActivity(intent);
     }
 }
