@@ -4,13 +4,23 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import Database.DatabaseConnection;
+import Music.Playlist;
 
 public class PlaylistDataAccess {
     private SQLiteDatabase database;
     public PlaylistDataAccess(DatabaseConnection connection) {
         this.database = connection.getDatabase();
+    }
+
+    public String getPlaylistTitle(int playlistID) {
+        String query = "SELECT name FROM PlayList WHERE id = " + playlistID + ";";
+        return database.compileStatement(query).simpleQueryForString();
     }
 
     public boolean isPlaylistCreated(String playlistName) {
@@ -38,5 +48,27 @@ public class PlaylistDataAccess {
             e.printStackTrace();
             return -1;
         }
+    }
+
+    public List<Playlist> getAllPlaylists() {
+        List<Playlist> playlists = new ArrayList<>();
+        String query = "SELECT * FROM Playlist;";
+
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("id"));
+                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
+                @SuppressLint("Range") int createdBySystem = cursor.getInt(cursor.getColumnIndex("createdBySystem"));
+
+                Playlist playlist = new Playlist(id, name, createdBySystem);
+                playlists.add(playlist);
+                Log.d("Playlist", "New playlist added: " + playlist.getName());
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return playlists;
     }
 }

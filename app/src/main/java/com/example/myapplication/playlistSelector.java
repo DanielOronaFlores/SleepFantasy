@@ -1,36 +1,50 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import java.util.List;
+
+import Adapters.AdapterPlaylists;
+import DataAccess.PlaylistDataAccess;
+import Database.DatabaseConnection;
+import Music.Playlist;
+
 public class playlistSelector extends AppCompatActivity {
+    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
+    private PlaylistDataAccess playlistDataAccess = new PlaylistDataAccess(connection);
+    private List<Playlist> playlists;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_list_selector);
+        setContentView(R.layout.activity_playlist_selector);
 
-        Button selectNature = findViewById(R.id.selectNature);
-        Button selectClassicMusic = findViewById(R.id.selectClassicMusic);
-        Button selectWhiteNoise = findViewById(R.id.selectWhiteNoise);
-        Button selectAmbientNoise = findViewById(R.id.selectAmbientNoise);
-        Button createNewPlaylist = findViewById(R.id.createNewPlaylist);
+        connection.openDatabase();
+        playlists = playlistDataAccess.getAllPlaylists();
 
-        selectNature.setOnClickListener(view -> selectPlaylist(1));
-        selectClassicMusic.setOnClickListener(view -> selectPlaylist(2));
-        selectWhiteNoise.setOnClickListener(view -> selectPlaylist(3));
-        selectAmbientNoise.setOnClickListener(view -> selectPlaylist(4));
-        createNewPlaylist.setOnClickListener(view -> goToCreatePlaylist());
+        Button createPlaylist = findViewById(R.id.createNewPlaylist);
+        createPlaylist.setOnClickListener(v -> goToCreatePlaylist());
+
+        recyclerView = findViewById(R.id.recyclerPlaylists);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new AdapterPlaylists(playlists));
     }
 
-    private void selectPlaylist(int playlistID) {
-        Intent intent = new Intent(this, playlist.class);
-        intent.putExtra("playlistID", playlistID);
-        startActivity(intent);
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        playlists = playlistDataAccess.getAllPlaylists();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new AdapterPlaylists(playlists));
     }
+
     private void goToCreatePlaylist() {
         Intent intent = new Intent(this, playlistCreator.class);
         startActivity(intent);

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Database.DatabaseConnection;
-import Songs.Song;
+import Music.Song;
 
 public class SongsDataAccess {
     private SQLiteDatabase database;

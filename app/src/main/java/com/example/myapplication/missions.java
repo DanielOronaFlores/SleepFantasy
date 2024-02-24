@@ -6,10 +6,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import GameManagers.ExperienceManager;
 import Database.DatabaseConnection;
 import DataAccess.MissionDataAccess;
-import DataUpdates.MissionDataUpdate;
 import GameManagers.MissionsManager;
 
 public class missions extends AppCompatActivity {

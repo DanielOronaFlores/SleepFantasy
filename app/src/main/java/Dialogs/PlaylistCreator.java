@@ -22,7 +22,7 @@ import DataAccess.PlaylistDataAccess;
 import DataUpdates.PlaylistDataUpdate;
 import DataUpdates.PlaylistSongsDataUpdate;
 import Database.DatabaseConnection;
-import Songs.Song;
+import Music.Song;
 
 public class PlaylistCreator extends DialogFragment {
     private List<Song> selectedSongs;
@@ -48,8 +48,14 @@ public class PlaylistCreator extends DialogFragment {
         Button createPlaylist = view.findViewById(R.id.createPlaylist);
 
         createPlaylist.setOnClickListener(v -> {
-            createPlaylist(playlistName.getText().toString());
-            dismiss();
+            if (isAnySongSelected()) {
+                createPlaylist(playlistName.getText().toString());
+                dismiss();
+            } else {
+                Toast toast = Toast.makeText(context, "No hay musicas seleccionadas", Toast.LENGTH_SHORT);
+                toast.show();
+                dismiss();
+            }
         });
 
         builder.setView(view);
@@ -60,11 +66,16 @@ public class PlaylistCreator extends DialogFragment {
         this.selectedSongs = selectedSongs;
     }
 
-
+    private boolean isAnySongSelected() {
+        return selectedSongs.size() > 0;
+    }
     private void createPlaylist(String playlistName) {
         if (playlistDataAccess.isPlaylistCreated(playlistName)) {
             Toast toast = Toast.makeText(context, "Playlist ya existe", Toast.LENGTH_SHORT);
             toast.show();
+        } else if (playlistName.isEmpty()) {
+                Toast toast = Toast.makeText(context, "Nombre de playlist vacio", Toast.LENGTH_SHORT);
+                toast.show();
         } else {
             playlistDataUpdate.createPlaylist(playlistName);
             int playlistId = playlistDataAccess.getPlaylistId(playlistName);

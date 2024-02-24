@@ -1,4 +1,4 @@
-package Audio;
+package AudioRecorder;
 
 import android.media.MediaRecorder;
 import android.util.Log;

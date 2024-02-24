@@ -2,7 +2,6 @@ package DataUpdates;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import Database.DatabaseConnection;
 

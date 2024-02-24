@@ -17,6 +17,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.myapplication.R;
 
+import java.util.Date;
+
 import Dates.DateManager;
 
 public class SelectDate extends DialogFragment {
@@ -50,10 +52,9 @@ public class SelectDate extends DialogFragment {
     }
 
     private void returnSelector(String date) {
-        Intent intent = new Intent(context, com.example.myapplication.chartSelector.class);
-        intent.putExtra("date", date);
         Log.d("SelectDate", "returnSelector: " + date);
-        startActivity(intent);
+        dismiss();
+
     }
 
     private void showSelectedDate(String date) {

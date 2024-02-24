@@ -13,4 +13,8 @@ public class PlaylistSongsDataUpdate {
     public void addSongToPlaylist(int playlistId, int songId) {
         database.execSQL("INSERT INTO PlaylistSongs (playlistId, songId) VALUES (" + playlistId + ", " + songId + ")");
     }
+
+    public void deleteSongFromPlaylist(int playlistId, int songId) {
+        database.execSQL("DELETE FROM PlaylistSongs WHERE playlistId = " + playlistId + " AND songId = " + songId);
+    }
 }

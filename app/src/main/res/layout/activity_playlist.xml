@@ -11,46 +11,59 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/playlistTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="35sp"
+            android:layout_marginStart="25sp"
+            android:layout_marginEnd="25sp"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/deletePlaylist"
+                    android:layout_width="38sp"
+                    android:layout_height="48sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/button_delete" />
+
+                <TextView
+                    android:id="@+id/playlistTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="30sp"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/editPlaylist"
+                    android:layout_width="48sp"
+                    android:layout_height="48sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/button_edit" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerSongsSelector"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="30sp"
-            android:textAllCaps="true"
-            android:textStyle="bold"/>
-
-        <Button
-            android:id="@+id/song1"
-            android:layout_width="200sp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5sp"
             android:layout_gravity="center"
-            android:background="@color/buttonData"
-            android:textSize="20sp"
-            android:textAllCaps="true"/>
-
-        <Button
-            android:id="@+id/song2"
-            android:layout_width="200sp"
-            android:layout_height="match_parent"
             android:layout_marginTop="5sp"
-            android:layout_gravity="center"
-            android:background="@color/buttonData"
-            android:textSize="20sp"
-            android:textAllCaps="true"/>
+            android:layout_marginStart="25sp"
+            android:layout_marginEnd="25sp"
+            android:layout_marginBottom="25sp" />
 
-        <Button
-            android:id="@+id/song3"
-            android:layout_width="200sp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5sp"
-            android:layout_marginBottom="35sp"
-            android:layout_gravity="center"
-            android:background="@color/buttonData"
-            android:textSize="20sp"
-            android:textAllCaps="true"/>
     </LinearLayout>
 
 </ScrollView>

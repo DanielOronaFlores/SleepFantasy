@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import java.util.Date;
+
 import Dates.DateManager;
 import Dialogs.SelectDate;
 

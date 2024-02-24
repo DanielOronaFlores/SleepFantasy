@@ -3,10 +3,6 @@ package Database;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import Dates.DateManager;
 
 public class DatabaseTableFiller {
@@ -82,25 +78,25 @@ public class DatabaseTableFiller {
     private static void fillPlayListTable(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         // Playlist 1
-        values.put("name", "Nature");
+        values.put("name", "Naturaleza");
         values.put("createdBySystem", true);
         db.insert("Playlist", null, values);
 
         // Playlist 2
         values.clear();
-        values.put("name", "Classical");
+        values.put("name", "Clasica");
         values.put("createdBySystem", true);
         db.insert("Playlist", null, values);
 
         // Playlist 3
         values.clear();
-        values.put("name", "WhiteNoise");
+        values.put("name", "Ruido Blanco");
         values.put("createdBySystem", true);
         db.insert("Playlist", null, values);
 
         // Playlist 4
         values.clear();
-        values.put("name", "Ambient");
+        values.put("name", "Ambiental");
         values.put("createdBySystem", true);
         db.insert("Playlist", null, values);
     }

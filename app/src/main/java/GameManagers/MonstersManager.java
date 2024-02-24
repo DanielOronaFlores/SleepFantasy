@@ -8,7 +8,6 @@ import java.util.Random;
 
 import AppContext.MyApplication;
 import DataAccess.MonstersDataAccess;
-import DataAccess.RecordsDataAccess;
 import DataUpdates.MonstersDataUpdate;
 import DataUpdates.RecordsDataUpdate;
 import Database.DatabaseConnection;

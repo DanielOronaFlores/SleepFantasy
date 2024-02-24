@@ -10,15 +10,15 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-import Adapters.AdapterSongs;
+import Adapters.AdapterPlaylistCreator;
 import DataAccess.SongsDataAccess;
 import Database.DatabaseConnection;
 import Dialogs.PlaylistCreator;
-import Songs.Song;
+import Music.Song;
 
 public class playlistCreator extends AppCompatActivity {
-    private DatabaseConnection connection;
-    private SongsDataAccess songsDataAccess;
+    private DatabaseConnection connection = DatabaseConnection.getInstance(this);
+    private SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
     private List<Song> songs;
     private RecyclerView recyclerView;
     @Override
@@ -26,22 +26,20 @@ public class playlistCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_creator);
 
-        connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
-        songsDataAccess = new SongsDataAccess(connection);
         songs = songsDataAccess.getAllSongs();
 
         recyclerView = findViewById(R.id.recyclerSongs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new AdapterSongs(songs));
+        recyclerView.setAdapter(new AdapterPlaylistCreator(songs));
 
         Button createPlaylist = findViewById(R.id.createPlaylist);
         createPlaylist.setOnClickListener(v -> goToPlayListSelectionName());
     }
 
     private void goToPlayListSelectionName() {
-        List<Song> selectedSongs = new ArrayList<>();
-        selectedSongs = ((AdapterSongs) recyclerView.getAdapter()).getSelectedSongs();
+        List<Song> selectedSongs;
+        selectedSongs = ((AdapterPlaylistCreator) recyclerView.getAdapter()).getSelectedSongs();
 
         PlaylistCreator playlistCreator = new PlaylistCreator();
         playlistCreator.setSelectedSongs(selectedSongs);

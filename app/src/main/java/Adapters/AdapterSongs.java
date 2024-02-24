@@ -1,55 +1,30 @@
 package Adapters;
 
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
-import Songs.Song;
+import Music.PlaylistSongs;
+import Music.Song;
 
 public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.ViewHolder> {
     private List<Song> songs;
-    private List<Boolean> checkedList;
+    private MediaPlayer mediaPlayer;
 
     public AdapterSongs(List<Song> songs) {
         this.songs = songs;
-        checkedList = new ArrayList<>(songs.size());
-        for (int i = 0; i < songs.size(); i++) {
-            checkedList.add(false);
-        }
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-        CheckBox checkBox;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textView = itemView.findViewById(R.id.songElement);
-            checkBox = itemView.findViewById(R.id.songCheckBox);
-
-            checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        checkedList.set(position, checkBox.isChecked());
-                    }
-                }
-            });
-        }
-
-        public void setSongs(String s) {
-            textView.setText(s);
-        }
     }
 
     @NonNull
@@ -58,25 +33,44 @@ public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.ViewHolder> 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_song_selector, parent, false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull AdapterSongs.ViewHolder holder, int position) {
         holder.setSongs(songs.get(position).getName());
-        holder.checkBox.setChecked(checkedList.get(position));
+        holder.button.setOnClickListener(v -> {
+            String songName = songs.get(position).getName();
+            int songID = selectSong(songName);
+            playSong(songID, holder.itemView.getContext());
+        });
     }
-
     @Override
     public int getItemCount() {
+        Log.d("AdapterSongs", "Song size:" + songs.size());
         return songs.size();
     }
 
-    public List<Song> getSelectedSongs() {
-        List<Song> selectedSongs = new ArrayList<>();
-        for (int i = 0; i < songs.size(); i++) {
-            if (checkedList.get(i)) {
-                selectedSongs.add(songs.get(i));
-            }
+    private int selectSong(String songName) {
+        PlaylistSongs playlistSongs = new PlaylistSongs();
+        return playlistSongs.getResourceId(songName);
+    }
+    private void playSong(int songID, Context context) {
+        Log.d("AdapterSongs", "Obtenido ID: " + songID);
+        if (mediaPlayer != null) mediaPlayer.release();
+        mediaPlayer = MediaPlayer.create(context, songID);
+        mediaPlayer.start();
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private Button button;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            button = itemView.findViewById(R.id.selectSong);
         }
-        return selectedSongs;
+        public void setSongs(String s) {
+            button.setText(s);
+        }
     }
 }

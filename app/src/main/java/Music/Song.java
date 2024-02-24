@@ -1,4 +1,4 @@
-package Songs;
+package Music;
 
 public class Song {
     private int id;
