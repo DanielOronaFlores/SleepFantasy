@@ -13,25 +13,23 @@ import android.widget.Toast;
 import DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
-import ChartsViews.BarChartPainter;
+import ChartPainter.BarChartPainter;
 
-public class chartBarVisualizer extends AppCompatActivity {
-    FrameLayout container;
-    private DatabaseConnection connection;
-    private SleepDataAccess sleepDataAccess;
+public class ChartBarVisualizer extends AppCompatActivity {
+    private FrameLayout container;
+    private DatabaseConnection connection = DatabaseConnection.getInstance(this);
+    private SleepDataAccess sleepDataAccess = new SleepDataAccess(connection);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart_bar_visualizer);
 
-        connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
-        sleepDataAccess = new SleepDataAccess(connection);
 
-        Intent intent = getIntent();
-        int data = intent.getIntExtra("data", -1);
-        int filter = intent.getIntExtra("filter", -1);
-        String date = intent.getStringExtra("date");
+        Intent chartInformation = getIntent();
+        int data = chartInformation.getIntExtra("data", -1);
+        int filter = chartInformation.getIntExtra("filter", -1);
+        String date = chartInformation.getStringExtra("date");
 
         container = findViewById(R.id.chartBarView);
         setLayoutWidth(filter);

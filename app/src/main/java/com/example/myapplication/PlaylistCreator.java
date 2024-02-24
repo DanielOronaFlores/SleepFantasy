@@ -7,41 +7,40 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.Button;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import Adapters.AdapterPlaylistCreator;
+import Adapters.AdapterChecklistSongs;
 import DataAccess.SongsDataAccess;
 import Database.DatabaseConnection;
-import Dialogs.PlaylistCreator;
 import Music.Song;
 
-public class playlistCreator extends AppCompatActivity {
-    private DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
-    private List<Song> songs;
+public class PlaylistCreator extends AppCompatActivity {
+    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
+    private final SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
     private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_creator);
 
         connection.openDatabase();
-        songs = songsDataAccess.getAllSongs();
+        List<Song> songs = songsDataAccess.getAllSongs();
 
         recyclerView = findViewById(R.id.recyclerSongs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new AdapterPlaylistCreator(songs));
+        recyclerView.setAdapter(new AdapterChecklistSongs(songs));
 
         Button createPlaylist = findViewById(R.id.createPlaylist);
-        createPlaylist.setOnClickListener(v -> goToPlayListSelectionName());
+        createPlaylist.setOnClickListener(v -> openPlaylistSelectionNameDialog());
     }
 
-    private void goToPlayListSelectionName() {
+    private void openPlaylistSelectionNameDialog() {
         List<Song> selectedSongs;
-        selectedSongs = ((AdapterPlaylistCreator) recyclerView.getAdapter()).getSelectedSongs();
+        selectedSongs = ((AdapterChecklistSongs) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedSongs();
 
-        PlaylistCreator playlistCreator = new PlaylistCreator();
+        Dialogs.PlaylistCreator playlistCreator = new Dialogs.PlaylistCreator();
         playlistCreator.setSelectedSongs(selectedSongs);
         playlistCreator.show(getSupportFragmentManager(), "PlaylistCreator");
     }

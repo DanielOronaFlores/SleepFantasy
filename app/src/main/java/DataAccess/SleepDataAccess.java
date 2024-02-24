@@ -12,7 +12,7 @@ import Dates.DateManager;
 public class SleepDataAccess {
     private final SQLiteDatabase database;
     private final DateManager dateManager = new DateManager();
-    String startDate;
+    private String startDate;
 
     public SleepDataAccess(DatabaseConnection connection) {
         this.database = connection.getDatabase();

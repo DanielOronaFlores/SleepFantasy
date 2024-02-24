@@ -10,8 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import java.util.Date;
-
 import Dates.DateManager;
 import Dialogs.SelectDate;
 
@@ -85,7 +83,7 @@ public class chartSelector extends AppCompatActivity {
         startActivity(intent);
     }
     private void goToBarVisualizer(int data, int filter, String date) {
-        Intent intent = new Intent(this, chartBarVisualizer.class);
+        Intent intent = new Intent(this, ChartBarVisualizer.class);
         intent.putExtra("data", data);
         intent.putExtra("filter", filter);
         intent.putExtra("date", date);

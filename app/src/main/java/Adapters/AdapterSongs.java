@@ -13,14 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 
-import java.io.IOException;
 import java.util.List;
 
 import Music.PlaylistSongs;
 import Music.Song;
 
 public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.ViewHolder> {
-    private List<Song> songs;
+    private final List<Song> songs;
     private MediaPlayer mediaPlayer;
 
     public AdapterSongs(List<Song> songs) {

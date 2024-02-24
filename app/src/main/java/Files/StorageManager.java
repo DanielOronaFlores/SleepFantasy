@@ -5,9 +5,11 @@ import android.os.StatFs;
 
 public class StorageManager {
     public boolean hasSufficientStorage() {
+        float GIGABYTE = 1024.0f;
+
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
         long bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
-        double megabytesAvailable = bytesAvailable / (1024.0 * 1024.0);
-        return megabytesAvailable > 1024.0;
+        double megabytesAvailable = bytesAvailable / (GIGABYTE * GIGABYTE);
+        return megabytesAvailable > GIGABYTE;
     }
 }

@@ -1,8 +1,11 @@
 package DataAccess;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
+import AppContext.MyApplication;
 import Database.DatabaseConnection;
 
 public class AvatarDataAccess {
@@ -13,89 +16,100 @@ public class AvatarDataAccess {
     }
 
     public String getAvatarName() {
-        String query = "SELECT name FROM Avatar LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        String name = "";
-        if (cursor.moveToFirst()) {
-            name = cursor.getString(0);
+        String name = null;
+
+        try (Cursor cursor = database.rawQuery("SELECT name FROM Avatar LIMIT 1;", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                name = cursor.getString(0);
+            }
+        } catch (SQLiteException e) {
+            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
+            e.printStackTrace();
         }
-        cursor.close();
         return name;
     }
+
     public String getAvatarAge() {
-        String query = "SELECT age FROM Avatar LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        String age = "";
-        if (cursor.moveToFirst()) {
-            age = cursor.getString(0);
+        String age = null;
+
+        try (Cursor cursor = database.rawQuery("SELECT age FROM Avatar LIMIT 1;", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                age = cursor.getString(0);
+            }
+        } catch (SQLiteException e) {
+            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
+            e.printStackTrace();
         }
-        cursor.close();
         return age;
     }
 
     public byte getLevel() {
-        String query = "SELECT level FROM Avatar LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        byte level = 0;
-        if (cursor.moveToFirst()) {
-            level = (byte) cursor.getInt(0);
+        byte level = -1;
+
+        try (Cursor cursor = database.rawQuery("SELECT level FROM Avatar LIMIT 1;", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                level = (byte) cursor.getInt(0);
+            }
+        } catch (SQLiteException e) {
+            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
+            e.printStackTrace();
         }
-        cursor.close();
         return level;
     }
 
     public byte getCharacterClass() {
-        String query = "SELECT characterClass FROM Avatar LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        byte characterClass = 0;
-        if (cursor.moveToFirst()) {
-            characterClass = (byte) cursor.getInt(0);
+        byte characterClass = -1;
+
+        try (Cursor cursor = database.rawQuery("SELECT characterClass FROM Avatar LIMIT 1;", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                characterClass = (byte) cursor.getInt(0);
+            }
+        } catch (SQLiteException e) {
+            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
+            e.printStackTrace();
         }
-        cursor.close();
         return characterClass;
     }
 
-    public byte getCharacterID() {
-        String query = "SELECT characterClass FROM Avatar LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        byte characterID = 0;
-        if (cursor.moveToFirst()) {
-            characterID = (byte) cursor.getInt(0);
-        }
-        cursor.close();
-        return characterID;
-    }
-
     public byte getCharacterPhase() {
-        String query = "SELECT characterPhase FROM Avatar LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        byte characterPhase = 0;
-        if (cursor.moveToFirst()) {
-            characterPhase = (byte) cursor.getInt(0);
+        byte characterPhase = -1;
+
+        try (Cursor cursor = database.rawQuery("SELECT characterPhase FROM Avatar LIMIT 1;", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                characterPhase = (byte) cursor.getInt(0);
+            }
+        } catch (SQLiteException e) {
+            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
+            e.printStackTrace();
         }
-        cursor.close();
         return characterPhase;
     }
 
     public int getCurrentExperience() {
-        String query = "SELECT currentExperience FROM Avatar LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        int currentExperience = 0;
-        if (cursor.moveToFirst()) {
-            currentExperience = cursor.getInt(0);
+        int currentExperience = -1;
+
+        try (Cursor cursor = database.rawQuery("SELECT currentExperience FROM Avatar LIMIT 1;", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                currentExperience = cursor.getInt(0);
+            }
+        } catch (SQLiteException e) {
+            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
+            e.printStackTrace();
         }
-        cursor.close();
         return currentExperience;
     }
 
     public int getRequiredExperience() {
-        String query = "SELECT requiredExperience FROM Avatar LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        int requiredExperience = 0;
-        if (cursor.moveToFirst()) {
-            requiredExperience = cursor.getInt(0);
+        int requiredExperience = -1;
+
+        try (Cursor cursor = database.rawQuery("SELECT requiredExperience FROM Avatar LIMIT 1;", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                requiredExperience = cursor.getInt(0);
+            }
+        } catch (SQLiteException e) {
+            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
+            e.printStackTrace();
         }
-        cursor.close();
         return requiredExperience;
     }
 }

@@ -108,11 +108,11 @@ public class configuration extends AppCompatActivity {
     }
 
     private void goToMainMenu() {
-        Intent intent = new Intent(this, mainMenu.class);
+        Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
     }
     private void goToCharacterChoice(String name, byte age) {
-        Intent intent = new Intent(this, characterChoice.class);
+        Intent intent = new Intent(this, CharacterChoice.class);
         intent.putExtra("name", name);
         intent.putExtra("age", age);
         startActivity(intent);

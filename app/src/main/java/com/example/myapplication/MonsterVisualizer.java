@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,9 +13,9 @@ import DataAccess.MonstersDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
 
-public class monsters extends AppCompatActivity {
-    DatabaseConnection connection;
-    MonstersDataAccess monstersDataAccess;
+public class MonsterVisualizer extends AppCompatActivity {
+    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
+    private final MonstersDataAccess monstersDataAccess = new MonstersDataAccess(connection);;
     private final DateManager dateManager = new DateManager();
     private final int[] monsters = { //TODO: Cambiar por los monstruos reales.
             R.drawable.avatar_default_1,
@@ -23,20 +24,20 @@ public class monsters extends AppCompatActivity {
             R.drawable.fantasy,
             R.drawable.avatar_default_5
     };
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monsters);
 
-        connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
-        monstersDataAccess = new MonstersDataAccess(connection);
 
         ImageView monster = findViewById(R.id.monsterImageView);
         TextView name = findViewById(R.id.monsterNameTextView);
         TextView description = findViewById(R.id.daysRemainingTextView);
 
-        int idMonster = getMonsterID();
+        int idMonster = monstersDataAccess.getActiveMonster();
         if (idMonster != -1) {
             monster.setImageResource(monsters[idMonster - 1]);
             name.setText(getMonsterName(idMonster));
@@ -44,10 +45,6 @@ public class monsters extends AppCompatActivity {
         } else {
             name.setText("SIN MONSTRUO");
         }
-    }
-
-    private int getMonsterID(){
-        return monstersDataAccess.getActiveMonster();
     }
 
     private String getMonsterName(int id){

@@ -1,6 +1,6 @@
 package Avatar;
 
-public class NameClasses {
+public class NameClasses { //TODO: Revisar la implementación de esta clase.
     private String name;
 
     public String getNameClass(byte avatarClass) {

@@ -12,7 +12,7 @@ import Database.DatabaseConnection;
 import Music.Song;
 
 public class PlaylistSongsDataAccess {
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
     public PlaylistSongsDataAccess(DatabaseConnection connection) {
         this.database = connection.getDatabase();
     }

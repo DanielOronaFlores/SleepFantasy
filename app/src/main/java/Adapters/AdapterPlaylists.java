@@ -11,14 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.playlist;
+import com.example.myapplication.PlaylistVisualizer;
 
 import java.util.List;
 
 import Music.Playlist;
 
 public class AdapterPlaylists extends RecyclerView.Adapter<AdapterPlaylists.ViewHolder>{
-    private List<Playlist> playlists;
+    private final List<Playlist> playlists;
 
     public AdapterPlaylists(List<Playlist> playlists) {
         this.playlists = playlists;
@@ -41,7 +41,7 @@ public class AdapterPlaylists extends RecyclerView.Adapter<AdapterPlaylists.View
     }
 
     private void selectPlaylist(Context context, int playlistID) {
-        Intent intent = new Intent(context, playlist.class);
+        Intent intent = new Intent(context, PlaylistVisualizer.class);
         intent.putExtra("playlistID", playlistID);
         context.startActivity(intent);
     }

@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
 
 import DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
-import ChartsViews.PieChartPainter;
+import ChartPainter.PieChartPainter;
 
 public class chartPieVisualizer extends AppCompatActivity {
     private DatabaseConnection connection;

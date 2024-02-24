@@ -1,4 +1,4 @@
-package GameManagers;
+package GameManagers; //TODO: Realmente pertenece a GameManagers?
 
 import android.content.ContentValues;
 import android.database.Cursor;

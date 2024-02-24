@@ -15,29 +15,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Music.Song;
+import Utils.ListSongUtil;
 
-public class AdapterEditSongs extends RecyclerView.Adapter<AdapterEditSongs.ViewHolder>{
-    private List<Song> songs;
-    private List<Boolean> checkedList;
+public class AdapterChecklistSongs extends RecyclerView.Adapter<AdapterChecklistSongs.ViewHolder> {
+    private final List<Song> songs;
+    private final List<Boolean> checkedList;
 
-    public AdapterEditSongs(List<Song> songs) {
+    public AdapterChecklistSongs(List<Song> songs) {
         this.songs = songs;
         checkedList = new ArrayList<>(songs.size());
         for (int i = 0; i < songs.size(); i++) {
-        checkedList.add(false);
+            checkedList.add(false);
         }
     }
 
     @NonNull
     @Override
-    public AdapterEditSongs.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterChecklistSongs.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_playlist_creator, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterEditSongs.ViewHolder holder, int position) {
-        holder.setPlaylistName(songs.get(position).getName());
+    public void onBindViewHolder(@NonNull AdapterChecklistSongs.ViewHolder holder, int position) {
+        holder.setSongs(songs.get(position).getName());
         holder.checkBox.setChecked(checkedList.get(position));
     }
 
@@ -47,24 +48,18 @@ public class AdapterEditSongs extends RecyclerView.Adapter<AdapterEditSongs.View
     }
 
     public List<Song> getSelectedSongs() {
-        List<Song> selectedSongs = new ArrayList<>();
-        for (int i = 0; i < songs.size(); i++) {
-            if (checkedList.get(i)) {
-                selectedSongs.add(songs.get(i));
-            }
-        }
-        return selectedSongs;
+        ListSongUtil listSongUtil = new ListSongUtil();
+        return listSongUtil.getSelectedSongs(songs, checkedList);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView songName;
-        private CheckBox checkBox;
-
+        TextView songName;
+        CheckBox checkBox;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             songName = itemView.findViewById(R.id.songElement);
-
             checkBox = itemView.findViewById(R.id.songCheckBox);
+
             checkBox.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
@@ -73,8 +68,8 @@ public class AdapterEditSongs extends RecyclerView.Adapter<AdapterEditSongs.View
             });
         }
 
-        public void setPlaylistName(String s) {
-            songName.setText(s);
+        public void setSongs(String songName) {
+            this.songName.setText(songName);
         }
     }
 }

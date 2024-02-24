@@ -6,33 +6,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 
-import Adapters.AdapterEditSongs;
 import Adapters.AdapterPlaylistCreator;
-import Adapters.AdapterSongs;
 import DataAccess.PlaylistDataAccess;
 import DataAccess.PlaylistSongsDataAccess;
-import DataAccess.SongsDataAccess;
 import DataUpdates.PlaylistDataUpdate;
 import DataUpdates.PlaylistSongsDataUpdate;
 import Database.DatabaseConnection;
 import Music.Song;
 
-public class playlistEditor extends AppCompatActivity {
+public class PlaylistEditor extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private PlaylistSongsDataAccess playlistSongsDataAccess = new PlaylistSongsDataAccess(connection);
-    private PlaylistDataAccess playlistDataAccess = new PlaylistDataAccess(connection);
-    private PlaylistDataUpdate playlistDataUpdate = new PlaylistDataUpdate(connection);
-    private PlaylistSongsDataUpdate playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
-    private List<Song> songs;
+    private final PlaylistSongsDataAccess playlistSongsDataAccess = new PlaylistSongsDataAccess(connection);
+    private final PlaylistDataAccess playlistDataAccess = new PlaylistDataAccess(connection);
+    private final PlaylistDataUpdate playlistDataUpdate = new PlaylistDataUpdate(connection);
+    private final PlaylistSongsDataUpdate playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
     private RecyclerView recyclerView;
     private EditText playlistName;
-    private boolean isAddSongs;
+    private List<Song> songs, selectedSongs;
+    private boolean addSongsMode;
     private int playlistID;
 
     @Override
@@ -62,48 +61,58 @@ public class playlistEditor extends AppCompatActivity {
 
     private void generateSongsList(List<Song> songs) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new AdapterEditSongs(songs));
+        recyclerView.setAdapter(new AdapterPlaylistCreator(songs));
     }
 
     private void showInPlaylist(int playlistID) {
-        isAddSongs = false;
+        addSongsMode = false;
         songs = playlistSongsDataAccess.getSongsFromPlaylist(playlistID);
         generateSongsList(songs);
     }
     private void showNotInPlaylist(int playlistID) {
-        isAddSongs = true;
+        addSongsMode = true;
         songs = playlistSongsDataAccess.getNotSongsFromPlaylist(playlistID);
         generateSongsList(songs);
     }
 
+    private void deleteSongsFromPlaylist() {
+        for (Song song : selectedSongs) {
+            playlistSongsDataUpdate.deleteSongFromPlaylist(playlistID, song.getId());
+        }
+    }
+    private void addSongsToPlaylist() {
+        for (Song song : selectedSongs) {
+            playlistSongsDataUpdate.addSongToPlaylist(playlistID, song.getId());
+        }
+    }
+
+    private boolean isEditingSongs() {
+        return recyclerView.getAdapter() instanceof AdapterPlaylistCreator;
+    }
+    private void updatePlaylistName(String name) {
+        playlistDataUpdate.updatePlaylist(playlistID, name);
+        Toast.makeText(this, "Nombre playlist actualizada", Toast.LENGTH_SHORT).show();
+    }
+
     private void updatePlaylist() {
         String name = playlistName.getText().toString();
-        playlistDataUpdate.updatePlaylist(playlistID, name);
 
-        if (name.isEmpty()) {
+        if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Nombre de playlist no puede estar vacío", Toast.LENGTH_SHORT).show();
         } else {
-            RecyclerView.Adapter adapter = recyclerView.getAdapter();
-            if (adapter instanceof AdapterEditSongs) {
-                List<Song> selectedSongs = ((AdapterEditSongs) adapter).getSelectedSongs();
-                if (isAddSongs) {
-                    for (Song song : selectedSongs) {
-                        playlistSongsDataUpdate.addSongToPlaylist(playlistID, song.getId());
-                    }
+            if (isEditingSongs()) {
+                selectedSongs = ((AdapterPlaylistCreator) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedSongs();
+                if (addSongsMode) {
+                    addSongsToPlaylist();
                     Toast.makeText(this, "Audios agregados a la playlist", Toast.LENGTH_SHORT).show();
                 } else {
-                    for (Song song : selectedSongs) {
-                        playlistSongsDataUpdate.deleteSongFromPlaylist(playlistID, song.getId());
-                    }
+                    deleteSongsFromPlaylist();
                     Toast.makeText(this, "Audios eliminados de la playlist", Toast.LENGTH_SHORT).show();
                 }
-                finish();
             } else {
-                playlistDataUpdate.updatePlaylist(playlistID, name);
-                Toast.makeText(this, "Nombre playlist actualizada", Toast.LENGTH_SHORT).show();
+                updatePlaylistName(name);
             }
             finish();
         }
     }
-
 }

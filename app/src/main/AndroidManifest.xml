@@ -14,23 +14,23 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
-            android:name=".playlistEditor"
+            android:name=".PlaylistEditor"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".playlistCreator"
+            android:name=".PlaylistCreator"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".playlist"
+            android:name=".PlaylistVisualizer"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".playlistSelector"
+            android:name=".PlaylistSelector"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".chartBarVisualizer"
+            android:name=".ChartBarVisualizer"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -46,7 +46,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".monsters"
+            android:name=".MonsterVisualizer"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -54,7 +54,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".selector"
+            android:name=".GameModeSelector"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -62,11 +62,11 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".characterChoice"
+            android:name=".CharacterChoice"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".mainMenu"
+            android:name=".MainMenu"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

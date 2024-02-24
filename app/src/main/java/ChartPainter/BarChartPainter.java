@@ -1,4 +1,4 @@
-package ChartsViews;
+package ChartPainter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

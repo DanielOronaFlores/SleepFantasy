@@ -1,9 +1,11 @@
 package DataAccess;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import AppContext.MyApplication;
 import Database.DatabaseConnection;
 
 public class ChallengesDataAccess {

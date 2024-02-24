@@ -15,9 +15,9 @@ import DataAccess.PlaylistDataAccess;
 import Database.DatabaseConnection;
 import Music.Playlist;
 
-public class playlistSelector extends AppCompatActivity {
+public class PlaylistSelector extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private PlaylistDataAccess playlistDataAccess = new PlaylistDataAccess(connection);
+    private final PlaylistDataAccess playlistDataAccess = new PlaylistDataAccess(connection);
     private List<Playlist> playlists;
     private RecyclerView recyclerView;
 
@@ -45,8 +45,14 @@ public class playlistSelector extends AppCompatActivity {
         recyclerView.setAdapter(new AdapterPlaylists(playlists));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        connection.closeDatabase();
+    }
+
     private void goToCreatePlaylist() {
-        Intent intent = new Intent(this, playlistCreator.class);
+        Intent intent = new Intent(this, PlaylistCreator.class);
         startActivity(intent);
     }
 }

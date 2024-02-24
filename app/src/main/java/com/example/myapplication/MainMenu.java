@@ -16,8 +16,8 @@ import DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
 import Dialogs.AvatarInformation;
 
-public class mainMenu extends AppCompatActivity {
-    private DatabaseConnection connection;
+public class MainMenu extends AppCompatActivity {
+    private final DatabaseConnection connection =  DatabaseConnection.getInstance(this);
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -25,7 +25,6 @@ public class mainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
         AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
 
@@ -46,7 +45,7 @@ public class mainMenu extends AppCompatActivity {
             startActivity(intent);
         });
         imgSelector.setOnClickListener(view -> {
-            Intent intent = new Intent(this, selector.class);
+            Intent intent = new Intent(this, GameModeSelector.class);
             startActivity(intent);
         });
         imgRecordVisualizer.setOnClickListener(view -> {
@@ -58,7 +57,7 @@ public class mainMenu extends AppCompatActivity {
             startActivity(intent);
         });
         imgMusicSelector.setOnClickListener(view -> {
-            Intent intent = new Intent(this, playlistSelector.class);
+            Intent intent = new Intent(this, PlaylistSelector.class);
             startActivity(intent);
         });
         imgAvatarInformation.setOnClickListener(view -> {

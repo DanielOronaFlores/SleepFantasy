@@ -2,7 +2,7 @@ package Avatar;
 
 import com.example.myapplication.R;
 
-public class AvatarSkins {
+public class AvatarSkins {  //TODO: Revisar toda la implementación de esta clase.
     public int[] getCharacters() {
         return characters;
     }

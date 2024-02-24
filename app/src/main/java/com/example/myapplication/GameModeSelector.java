@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class selector extends AppCompatActivity {
+public class GameModeSelector extends AppCompatActivity {
 
     private Button btMissions, btChallenges;
 

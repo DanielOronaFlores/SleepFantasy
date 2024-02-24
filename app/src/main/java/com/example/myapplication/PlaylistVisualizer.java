@@ -21,16 +21,14 @@ import DataUpdates.PlaylistDataUpdate;
 import Database.DatabaseConnection;
 import Music.Song;
 
-public class playlist extends AppCompatActivity {
-    private DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private PlaylistDataAccess playListDataAccess = new PlaylistDataAccess(connection);
-    private PlaylistSongsDataAccess playlistSongsDataAccess = new PlaylistSongsDataAccess(connection);
-    private PlaylistDataUpdate playlistDataUpdate = new PlaylistDataUpdate(connection);
+public class PlaylistVisualizer extends AppCompatActivity {
+    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
+    private final PlaylistDataAccess playListDataAccess = new PlaylistDataAccess(connection);
+    private final PlaylistSongsDataAccess playlistSongsDataAccess = new PlaylistSongsDataAccess(connection);
+    private final PlaylistDataUpdate playlistDataUpdate = new PlaylistDataUpdate(connection);
     private RecyclerView recyclerView;
-    private MediaPlayer mediaPlayer;
     private AdapterSongs adapterSongs;
     private TextView playlistTitle;
-    private String title;
     private int playlistID;
 
     @Override
@@ -48,7 +46,6 @@ public class playlist extends AppCompatActivity {
         }
 
         recyclerView = findViewById(R.id.recyclerSongsSelector);
-
         playlistTitle = findViewById(R.id.playlistTitle);
 
         ImageView deletePlaylist = findViewById(R.id.deletePlaylist);
@@ -61,7 +58,7 @@ public class playlist extends AppCompatActivity {
             finish();
         });
         editPlaylist.setOnClickListener(v -> {
-            Intent intent = new Intent(this, playlistEditor.class);
+            Intent intent = new Intent(this, PlaylistEditor.class);
             intent.putExtra("playlistID", playlistID);
             startActivity(intent);
         });
@@ -80,7 +77,7 @@ public class playlist extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer = adapterSongs.getMediaPlayer();
+        MediaPlayer mediaPlayer = adapterSongs.getMediaPlayer();
         if (mediaPlayer != null) mediaPlayer.release();
     }
 

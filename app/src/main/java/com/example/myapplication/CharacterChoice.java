@@ -10,8 +10,7 @@ import GameManagers.ExperienceManager;
 import GameManagers.AvatarManager;
 import Database.DatabaseConnection;
 
-public class characterChoice extends AppCompatActivity {
-    private ImageView currentCharacter;
+public class CharacterChoice extends AppCompatActivity {
     private final int[] characters = { //TODO: Cambiar por los personajes reales.
             R.drawable.placeholder_cono,
             R.drawable.placeholder_jaime,
@@ -19,73 +18,65 @@ public class characterChoice extends AppCompatActivity {
             R.drawable.placeholder_jirafa,
             R.drawable.placeholder_quick
     };
+    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);;
+    private final AvatarManager avatarManager = new AvatarManager(connection);
+    private ImageView currentCharacter, leftButton, rightButton;
     private int idCharacter = 0;
-    private DatabaseConnection connection;
-    private AvatarManager avatarManager;
+    private String name;
+    private byte age;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_choice);
 
-        connection = DatabaseConnection.getInstance(this);
-        avatarManager  = new AvatarManager(connection);
+        connection.openDatabase(); //TODO: Revisar si es necesario abrir la base de datos en esta actividad.
 
-        ImageView left = findViewById(R.id.leftButton);
-        ImageView right = findViewById(R.id.rightButton);
+        leftButton = findViewById(R.id.leftButton);
+        rightButton = findViewById(R.id.rightButton);
         currentCharacter = findViewById(R.id.selectCharacter);
 
-        Intent getAvatarData = getIntent();
-        String name = getAvatarData.getStringExtra("name");
-        byte age = getAvatarData.getByteExtra("age", (byte) 0);
+        Intent avatarData = getIntent();
+        name = avatarData.getStringExtra("name");
+        age = avatarData.getByteExtra("age", (byte) 0);
 
-        left.setOnClickListener(view -> {
+        leftButton.setOnClickListener(view -> {
             idCharacter = (idCharacter - 1 + characters.length) % characters.length;
             currentCharacter.setImageResource(characters[idCharacter]);
         });
-        right.setOnClickListener(view -> {
+        rightButton.setOnClickListener(view -> {
             idCharacter = (idCharacter + 1) % characters.length;
             currentCharacter.setImageResource(characters[idCharacter]);
         });
 
         currentCharacter.setOnClickListener(view -> createAvatar(name, age));
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        connection.closeDatabase();
+    }
+
+    private void finishAvatarCreation() {
+        Intent goToMainMenu = new Intent(this, MainMenu.class);
+        startActivity(goToMainMenu);
+        finish();
+    }
 
     private void createAvatar(String name, byte age) {
-        byte avatarClass = generateAvatarClass(idCharacter);
+        byte avatarClass = (byte) idCharacter;
+        byte AVATAR_PHASE_DEFAULT = 4, AVATAR_LEVEL_INITIAL = 1, AVATAR_CURRENT_EXPERIENCE_INITIAL = 0;
 
-        connection.openDatabase();
         avatarManager.createAvatar(
                 name,
                 age,
-                (byte) 1,
+                AVATAR_LEVEL_INITIAL,
                 (byte) 0, //TODO: Cambiar por avatarClass cuando se tengan las imagenes.
-                0,
-                ExperienceManager.calculateRequiredExperience((byte)1),
-                (byte)4
+                AVATAR_CURRENT_EXPERIENCE_INITIAL,
+                ExperienceManager.calculateRequiredExperience(AVATAR_LEVEL_INITIAL),
+                AVATAR_PHASE_DEFAULT
         );
-        connection.closeDatabase();
 
-        Intent goToMainMenu = new Intent(this, mainMenu.class);
-        startActivity(goToMainMenu);
-    }
-    private byte generateAvatarClass(int idCharacter)
-    {
-        switch (idCharacter) {
-            case 0:
-                return 0;
-            case 1:
-                return 1;
-            case 2:
-                return 2;
-            case 3:
-                return 3;
-            case 4:
-                return 4;
-            case 5:
-                return 5;
-            default:
-                return -1;
-        }
+        finishAvatarCreation();
     }
 }

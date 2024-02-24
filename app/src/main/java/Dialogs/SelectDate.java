@@ -3,7 +3,6 @@ package Dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +16,11 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.myapplication.R;
 
-import java.util.Date;
-
 import Dates.DateManager;
 
 public class SelectDate extends DialogFragment {
-    Context context = AppContext.MyApplication.getAppContext();
-    DatePicker datePicker;
+    private final Context context = AppContext.MyApplication.getAppContext();
+    private DatePicker datePicker;
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
