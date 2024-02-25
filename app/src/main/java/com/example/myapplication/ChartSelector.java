@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import Dates.DateManager;
 import Dialogs.SelectDate;
 
-public class chartSelector extends AppCompatActivity {
+public class ChartSelector extends AppCompatActivity {
     private String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,6 @@ public class chartSelector extends AppCompatActivity {
         spinnerFilter.setAdapter(adapterFilter);
 
         spinnerData.setAdapter(adapterDataPie);
-
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
         if (date == null) {
@@ -78,7 +77,7 @@ public class chartSelector extends AppCompatActivity {
     }
 
     private void goToPieVisualizer(String date) {
-        Intent intent = new Intent(this, chartPieVisualizer.class);
+        Intent intent = new Intent(this, ChartPieVisualizer.class);
         intent.putExtra("date", date);
         startActivity(intent);
     }

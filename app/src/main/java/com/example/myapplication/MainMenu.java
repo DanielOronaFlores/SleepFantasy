@@ -41,7 +41,7 @@ public class MainMenu extends AppCompatActivity {
 
 
         imgAvatar.setOnClickListener(view -> {
-            Intent intent = new Intent(this, configuration.class);
+            Intent intent = new Intent(this, Configuration.class);
             startActivity(intent);
         });
         imgSelector.setOnClickListener(view -> {
@@ -53,7 +53,7 @@ public class MainMenu extends AppCompatActivity {
             startActivity(intent);
         });
         imgChartsVisualizer.setOnClickListener(view -> {
-            Intent intent = new Intent(this, chartSelector.class);
+            Intent intent = new Intent(this, ChartSelector.class);
             startActivity(intent);
         });
         imgMusicSelector.setOnClickListener(view -> {

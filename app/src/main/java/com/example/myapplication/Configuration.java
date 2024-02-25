@@ -16,10 +16,10 @@ import GameManagers.AvatarManager;
 import Database.DatabaseConnection;
 import DataAccess.PreferencesDataAccess;
 
-public class configuration extends AppCompatActivity {
+public class Configuration extends AppCompatActivity {
+    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
     private EditText etName, etAge;
     private CheckBox ckSaveAudios, ckRecordSnoring;
-    private DatabaseConnection connection;
     private AvatarManager avatarManager;
     private AvatarDataUpdate avatarDataUpdate;
     private PreferencesDataAccess preferencesManager;
@@ -31,15 +31,14 @@ public class configuration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuration);
 
+        connection.openDatabase();
+
         etName = findViewById(R.id.name);
         etAge = findViewById(R.id.age);
         ckRecordSnoring = findViewById(R.id.recordSnoring);
         ckSaveAudios = findViewById(R.id.saveAudios);
         Button btSave = findViewById(R.id.savePreferences);
         btQuality = findViewById(R.id.btQuality);
-
-        connection = DatabaseConnection.getInstance(this);
-        connection.openDatabase();
 
         PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
         if (preferencesDataAccess.getAudioQuality()) btQuality.setText("alta");
