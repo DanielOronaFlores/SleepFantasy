@@ -108,6 +108,10 @@ public class PlaylistEditor extends AppCompatActivity {
                 } else {
                     deleteSongsFromPlaylist();
                     Toast.makeText(this, "Audios eliminados de la playlist", Toast.LENGTH_SHORT).show();
+                    if (selectedSongs.size() == songs.size()) {
+                        Toast.makeText(this, "No hay audios en la playlist, lista eliminada", Toast.LENGTH_SHORT).show();
+                        playlistDataUpdate.deletePlaylist(playlistID);
+                    }
                 }
             } else {
                 updatePlaylistName(name);

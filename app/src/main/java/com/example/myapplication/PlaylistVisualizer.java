@@ -29,7 +29,9 @@ public class PlaylistVisualizer extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AdapterSongs adapterSongs;
     private TextView playlistTitle;
+    private ImageView deletePlaylist, editPlaylist;
     private int playlistID;
+    private List<Song> songs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +50,19 @@ public class PlaylistVisualizer extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerSongsSelector);
         playlistTitle = findViewById(R.id.playlistTitle);
 
-        ImageView deletePlaylist = findViewById(R.id.deletePlaylist);
-        ImageView editPlaylist = findViewById(R.id.editPlaylist);
-
+        deletePlaylist = findViewById(R.id.deletePlaylist);
         deletePlaylist.setOnClickListener(v -> {
-            playlistDataUpdate.deletePlaylist(playlistID);
-            Toast toast = Toast.makeText(this, "Playlist eliminada", Toast.LENGTH_SHORT);
-            toast.show();
-            finish();
+            if (playListDataAccess.isCreatedBySystem(playlistID))
+            {
+                Toast.makeText(this, "No se puede eliminar una playlist creada por el sistema", Toast.LENGTH_SHORT).show();
+            } else {
+                deletePlaylist();
+                Toast.makeText(this, "Playlist eliminada", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         });
+
+        editPlaylist = findViewById(R.id.editPlaylist);
         editPlaylist.setOnClickListener(v -> {
             Intent intent = new Intent(this, PlaylistEditor.class);
             intent.putExtra("playlistID", playlistID);
@@ -68,10 +74,17 @@ public class PlaylistVisualizer extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        setPlaylistTitle();
-        setSongsList();
+    protected void onStart() {
+        super.onStart();
+        songs = playlistSongsDataAccess.getSongsFromPlaylist(playlistID);
+        Log.d("playlist", "Songs: " + songs.size());
+        if (songs.isEmpty()) {
+            finish();
+        }
+        else {
+            setPlaylistTitle();
+            setSongsList();
+        }
     }
 
     @Override
@@ -86,9 +99,12 @@ public class PlaylistVisualizer extends AppCompatActivity {
         playlistTitle.setText(title);
     }
     private void setSongsList() {
-        List<Song> songs = playlistSongsDataAccess.getSongsFromPlaylist(playlistID);
         adapterSongs = new AdapterSongs(songs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapterSongs);
+    }
+
+    private void deletePlaylist(){
+        playlistDataUpdate.deletePlaylist(playlistID);
     }
 }

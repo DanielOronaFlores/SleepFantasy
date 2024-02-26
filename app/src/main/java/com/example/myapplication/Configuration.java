@@ -17,7 +17,7 @@ import Database.DatabaseConnection;
 import DataAccess.PreferencesDataAccess;
 
 public class Configuration extends AppCompatActivity {
-    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
+    private DatabaseConnection connection;
     private EditText etName, etAge;
     private CheckBox ckSaveAudios, ckRecordSnoring;
     private AvatarManager avatarManager;
@@ -31,6 +31,7 @@ public class Configuration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuration);
 
+        connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
 
         etName = findViewById(R.id.name);

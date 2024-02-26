@@ -18,11 +18,6 @@ public class PlaylistDataAccess {
         this.database = connection.getDatabase();
     }
 
-    public String getPlaylistTitle(int playlistID) {
-        String query = "SELECT name FROM PlayList WHERE id = " + playlistID + ";";
-        return database.compileStatement(query).simpleQueryForString();
-    }
-
     public boolean isPlaylistCreated(String playlistName) {
         String query = "SELECT * FROM Playlist WHERE name = ?";
 
@@ -34,6 +29,10 @@ public class PlaylistDataAccess {
         }
     }
 
+    public String getPlaylistTitle(int playlistID) {
+        String query = "SELECT name FROM PlayList WHERE id = " + playlistID + ";";
+        return database.compileStatement(query).simpleQueryForString();
+    }
     @SuppressLint("Range")
     public int getPlaylistId(String playlistName) {
         String query = "SELECT id FROM Playlist WHERE name = ?";
@@ -48,6 +47,10 @@ public class PlaylistDataAccess {
             e.printStackTrace();
             return -1;
         }
+    }
+    public boolean isCreatedBySystem(int playlistID) {
+        String query = "SELECT createdBySystem FROM Playlist WHERE id = " + playlistID + ";";
+        return database.compileStatement(query).simpleQueryForLong() == 1;
     }
 
     public List<Playlist> getAllPlaylists() {

@@ -17,7 +17,7 @@ import Database.DatabaseConnection;
 import Dialogs.AvatarInformation;
 
 public class MainMenu extends AppCompatActivity {
-    private final DatabaseConnection connection =  DatabaseConnection.getInstance(this);
+    private DatabaseConnection connection;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -25,7 +25,7 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        connection.openDatabase();
+        initializeDatabase();
         AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
 
         ImageView imgAvatar = findViewById(R.id.avatarDisplay);
@@ -72,6 +72,16 @@ public class MainMenu extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         connection.closeDatabase();
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initializeDatabase();
+    }
+
+    private void initializeDatabase() {
+        connection = DatabaseConnection.getInstance(this);
+        connection.openDatabase();
     }
 
     private void askRecordingPermission() {

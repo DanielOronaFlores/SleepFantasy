@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import Music.Playlist;
 
 public class PlaylistSelector extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private final PlaylistDataAccess playlistDataAccess = new PlaylistDataAccess(connection);
+    private PlaylistDataAccess playlistDataAccess;
     private List<Playlist> playlists;
     private RecyclerView recyclerView;
 
@@ -26,23 +27,28 @@ public class PlaylistSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_selector);
 
-        connection.openDatabase();
-        playlists = playlistDataAccess.getAllPlaylists();
+        recyclerView = findViewById(R.id.recyclerPlaylists);
 
         Button createPlaylist = findViewById(R.id.createNewPlaylist);
         createPlaylist.setOnClickListener(v -> goToCreatePlaylist());
+    }
 
-        recyclerView = findViewById(R.id.recyclerPlaylists);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    @Override
+    protected void onStart() {
+        super.onStart();
+        connection.openDatabase();
+        playlistDataAccess = new PlaylistDataAccess(connection);
+        playlists = playlistDataAccess.getAllPlaylists();
+        Log.d("playlist", "Playlists: " + playlists.size());
         recyclerView.setAdapter(new AdapterPlaylists(playlists));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        playlists = playlistDataAccess.getAllPlaylists();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new AdapterPlaylists(playlists));
+
+
     }
 
     @Override
