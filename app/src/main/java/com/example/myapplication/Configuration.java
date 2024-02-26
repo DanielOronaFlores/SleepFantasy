@@ -76,6 +76,7 @@ public class Configuration extends AppCompatActivity {
 
             if (avatarManager.isAvatarCreated()) {
                 avatarDataUpdate.updateNameAndAge(name, age);
+                finish();
                 goToMainMenu();
             } else {
                 preferencesManager.setDefaultAudioQuality();

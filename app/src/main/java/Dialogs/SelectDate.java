@@ -3,6 +3,7 @@ package Dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.myapplication.ChartSelector;
 import com.example.myapplication.R;
 
 import Dates.DateManager;
@@ -34,10 +36,17 @@ public class SelectDate extends DialogFragment {
         btnSelectDate.setOnClickListener(v -> {
             String date = selectDate();
             showSelectedDate(date);
+            getActivity().finish();
             returnSelector(date);
         });
         builder.setView(view);
         return builder.create();
+    }
+
+    private void returnSelector(String date) {
+        Intent intent = new Intent(context, ChartSelector.class);
+        intent.putExtra("date", date);
+        startActivity(intent);
     }
 
     private String selectDate() {
@@ -47,13 +56,6 @@ public class SelectDate extends DialogFragment {
         DateManager dateManager = new DateManager();
         return dateManager.formatDate(year + "-" + (month + 1) + "-" + day);
     }
-
-    private void returnSelector(String date) {
-        Log.d("SelectDate", "returnSelector: " + date);
-        dismiss();
-
-    }
-
     private void showSelectedDate(String date) {
         Toast.makeText(context, date, Toast.LENGTH_SHORT).show();
     }

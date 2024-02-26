@@ -15,6 +15,7 @@ import Dialogs.SelectDate;
 
 public class ChartSelector extends AppCompatActivity {
     private String date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

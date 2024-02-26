@@ -31,6 +31,7 @@ public class ChartPieVisualizer extends AppCompatActivity {
 
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
+        Log.d("ChatPieVisualizer", "Date: " + date);
 
         float totalSleepTime = sleepDataAccess.totalSleepTime(date);
         float deepSleepPercentage = convertDataToPercentage(sleepDataAccess.getDeepSleepTime(date), totalSleepTime);
@@ -38,15 +39,11 @@ public class ChartPieVisualizer extends AppCompatActivity {
         float remSleepPercentage = convertDataToPercentage(sleepDataAccess.getRemSleepTime(date), totalSleepTime);
         float vigilPercentage = convertDataToPercentage(sleepDataAccess.getVigilTime(date), totalSleepTime);
 
-        Log.d("deepSleep", String.valueOf(deepSleepPercentage));
-        Log.d("lightSleep", String.valueOf(lightSleepPercentage));
-        Log.d("remSleep", String.valueOf(remSleepPercentage));
-        Log.d("vigil", String.valueOf(vigilPercentage));
+        Log.d("ChatPieVisualizer", "Deep: " + deepSleepPercentage);
+        Log.d("ChatPieVisualizer", "Light: " + lightSleepPercentage);
+        Log.d("ChatPieVisualizer", "REM: " + remSleepPercentage);
+        Log.d("ChatPieVisualizer", "Vigil: " + vigilPercentage);
 
-        if (deepSleepPercentage == -1 || lightSleepPercentage == -1 || remSleepPercentage == -1 || vigilPercentage == -1) {
-            Toast.makeText(this, "Sin datos para esta fecha", Toast.LENGTH_SHORT).show();
-            finish();
-        }
 
         float[] values = {deepSleepPercentage, lightSleepPercentage, remSleepPercentage, vigilPercentage};
         int[] colors = {R.color.deepSleep, R.color.lightSleep, R.color.remSleep, R.color.vigil};
@@ -76,7 +73,10 @@ public class ChartPieVisualizer extends AppCompatActivity {
     }
 
     private float convertDataToPercentage(float data, float total) {
-        if (data == -1) Log.d("Data", "No data");
+        if (data == -1) {
+            Toast.makeText(this, "Sin datos para esta fecha", Toast.LENGTH_SHORT).show();
+            finish();
+        }
         return (data / total) * 100;
     }
 
