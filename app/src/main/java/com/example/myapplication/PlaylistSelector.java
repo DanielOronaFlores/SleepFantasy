@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class PlaylistSelector extends AppCompatActivity {
     private PlaylistDataAccess playlistDataAccess;
     private List<Playlist> playlists;
     private RecyclerView recyclerView;
+    private ImageView timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,12 @@ public class PlaylistSelector extends AppCompatActivity {
 
         Button createPlaylist = findViewById(R.id.createNewPlaylist);
         createPlaylist.setOnClickListener(v -> goToCreatePlaylist());
+
+        timer = findViewById(R.id.buttonTemporizer);
+        timer.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Timer.class);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -42,13 +50,6 @@ public class PlaylistSelector extends AppCompatActivity {
         Log.d("playlist", "Playlists: " + playlists.size());
         recyclerView.setAdapter(new AdapterPlaylists(playlists));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-
     }
 
     @Override

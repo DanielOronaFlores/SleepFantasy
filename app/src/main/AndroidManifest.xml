@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
+            android:name=".Timer"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".PlaylistEditor"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -81,6 +85,7 @@
         </activity>
 
         <service android:name="GameManagers.ChallengesManager" />
+        <service android:name="Chronometer.Chronometer" />
     </application>
 
 </manifest>

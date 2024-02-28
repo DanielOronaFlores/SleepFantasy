@@ -36,6 +36,17 @@ public class PreferencesDataAccess {
         }
     }
 
+    public void setTimerDuration(int timerDuration) {
+        ContentValues values = new ContentValues();
+        values.put("timerDuration", timerDuration);
+
+        if (isPreferencesCreated()) {
+            database.update("Preferences", values, null, null);
+        } else {
+            database.insert("Preferences", null, values);
+        }
+    }
+
     public String[] getPreferencesData() {
         String[] columns = {"saveRecordings", "recordSnorings"};
         Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
@@ -87,6 +98,19 @@ public class PreferencesDataAccess {
 
         cursor.close();
         return audioQuality;
+    }
+
+    public int getTimerDuration() {
+        String[] columns = {"timerDuration"};
+        Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
+        int timerDuration = 0;
+
+        if (cursor.moveToFirst()) {
+            timerDuration = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return timerDuration;
     }
 
     public void setDefaultAudioQuality() {

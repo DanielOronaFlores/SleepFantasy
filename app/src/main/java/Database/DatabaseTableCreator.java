@@ -33,6 +33,7 @@ public class DatabaseTableCreator {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "saveRecordings BOOLEAN, " +
                 "recordSnorings BOOLEAN, " +
+                "timerDuration INTEGER, " +
                 "audioQuality BOOLEAN);";
         db.execSQL(queryCreatePreferencesTable);
     }
