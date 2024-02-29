@@ -30,7 +30,7 @@
                     android:layout_height="48sp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:src="@drawable/button_delete" />
+                    android:src="@drawable/placeholder_ramon" />
 
                 <TextView
                     android:id="@+id/playlistTitle"
@@ -45,6 +45,7 @@
                     android:id="@+id/editPlaylist"
                     android:layout_width="48sp"
                     android:layout_height="48sp"
+                    android:layout_marginStart="5sp"
                     android:clickable="true"
                     android:focusable="true"
                     android:src="@drawable/button_edit" />

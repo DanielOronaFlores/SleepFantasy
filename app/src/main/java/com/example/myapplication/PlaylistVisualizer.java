@@ -64,9 +64,14 @@ public class PlaylistVisualizer extends AppCompatActivity {
 
         editPlaylist = findViewById(R.id.editPlaylist);
         editPlaylist.setOnClickListener(v -> {
-            Intent intent = new Intent(this, PlaylistEditor.class);
-            intent.putExtra("playlistID", playlistID);
-            startActivity(intent);
+            if (playListDataAccess.isCreatedBySystem(playlistID))
+            {
+                Toast.makeText(this, "No se puede editar una playlist creada por el sistema", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(this, PlaylistEditor.class);
+                intent.putExtra("playlistID", playlistID);
+                startActivity(intent);
+            }
         });
 
         setPlaylistTitle();

@@ -33,7 +33,7 @@
                 android:layout_width="50sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
-                android:src="@drawable/button_timer"
+                android:src="@drawable/button_temporizer"
                 android:layout_marginStart="5sp"/>
         </GridLayout>
 

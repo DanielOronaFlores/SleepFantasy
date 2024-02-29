@@ -29,19 +29,20 @@
                 android:contentDescription="@string/audiosSelector"
                 android:focusable="true"
                 android:foregroundGravity="center"
-                android:src="@drawable/menu_sounds"
+                android:src="@drawable/placeholder_ramon"
                 tools:ignore="ImageContrastCheck" />
 
             <ImageView
                 android:id="@+id/recordVisualizer"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
+                android:layout_marginTop="5sp"
                 android:layout_gravity="center"
                 android:clickable="true"
                 android:contentDescription="@string/recordVisualizer"
                 android:focusable="true"
                 android:foregroundGravity="center"
-                android:src="@drawable/menu_records" />
+                android:src="@drawable/placeholder_ramon" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,7 +63,7 @@
                 tools:ignore="VisualLintWearMargin" />
 
             <ImageView
-                android:id="@+id/avatarInformation"
+                android:id="@+id/avatarInformationButton"
                 android:layout_width="match_parent"
                 android:layout_height="48sp"
                 android:clickable="true"
@@ -82,7 +83,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/gameSelector"
+                android:id="@+id/gameSelectorButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:clickable="true"
@@ -93,14 +94,15 @@
                 tools:ignore="VisualLintWearMargin" />
 
             <ImageView
-                android:id="@+id/chartsVisualizer"
+                android:id="@+id/menuChartsButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginTop="5sp"
                 android:clickable="true"
                 android:contentDescription="@string/chartVisualizer"
                 android:focusable="true"
                 android:foregroundGravity="center"
-                android:src="@drawable/menu_chart"
+                android:src="@drawable/menu_charts"
                 tools:ignore="VisualLintWearMargin" />
         </LinearLayout>
     </LinearLayout>

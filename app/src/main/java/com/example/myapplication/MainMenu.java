@@ -29,10 +29,10 @@ public class MainMenu extends AppCompatActivity {
         AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
 
         ImageView imgAvatar = findViewById(R.id.avatarDisplay);
-        ImageView imgSelector = findViewById(R.id.gameSelector);
+        ImageView gameSelectorButton = findViewById(R.id.gameSelectorButton);
         ImageView imgRecordVisualizer = findViewById(R.id.recordVisualizer);
-        ImageView imgChartsVisualizer = findViewById(R.id.chartsVisualizer);
-        ImageView imgAvatarInformation = findViewById(R.id.avatarInformation);
+        ImageView chartsVisualizerButton = findViewById(R.id.menuChartsButton);
+        ImageView avatarInformationButton = findViewById(R.id.avatarInformationButton);
         ImageView imgMusicSelector = findViewById(R.id.musicSelector);
 
         AvatarSkins avatarSkins = new AvatarSkins();
@@ -44,15 +44,15 @@ public class MainMenu extends AppCompatActivity {
             Intent intent = new Intent(this, Configuration.class);
             startActivity(intent);
         });
-        imgSelector.setOnClickListener(view -> {
+        gameSelectorButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, GameModeSelector.class);
             startActivity(intent);
         });
         imgRecordVisualizer.setOnClickListener(view -> {
-            Intent intent = new Intent(this, recordings.class);
+            Intent intent = new Intent(this, Recordings.class);
             startActivity(intent);
         });
-        imgChartsVisualizer.setOnClickListener(view -> {
+        chartsVisualizerButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, ChartSelector.class);
             startActivity(intent);
         });
@@ -60,7 +60,7 @@ public class MainMenu extends AppCompatActivity {
             Intent intent = new Intent(this, PlaylistSelector.class);
             startActivity(intent);
         });
-        imgAvatarInformation.setOnClickListener(view -> {
+        avatarInformationButton.setOnClickListener(view -> {
             AvatarInformation avatarInformation = new AvatarInformation();
             avatarInformation.show(getSupportFragmentManager(), "Avatar Information");
         });
