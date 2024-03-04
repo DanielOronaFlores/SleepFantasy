@@ -4,7 +4,7 @@ import android.os.Environment;
 import android.os.StatFs;
 
 public class StorageManager {
-    public boolean hasSufficientStorage() {
+    public boolean hasSufficientStorage() {  //TODO: Implementar al iniciar grabacion Y NOTIFICACION
         float GIGABYTE = 1024.0f;
 
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());

@@ -13,16 +13,21 @@ import android.widget.Toast;
 import com.chibde.visualizer.LineVisualizer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+import Recordings.AudioFilter.AudioFilter;
+import Recordings.Recorders.PCMRecorder;
 import Database.DatabaseConnection;
 import Files.AudiosFiles;
 
 public class Recordings extends AppCompatActivity {
-    TextView textView;
-    MediaPlayer mediaPlayer = new MediaPlayer();
-    AudiosFiles audiosFiles = new AudiosFiles();
-    Button elimnarButton;
-    DatabaseConnection connection;
+    private TextView textView;
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private AudiosFiles audiosFiles = new AudiosFiles();
+    private Button elimnarButton;
+    private DatabaseConnection connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +49,13 @@ public class Recordings extends AppCompatActivity {
 
         textView = findViewById(R.id.bttn);
         textView.setOnClickListener(v -> {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
-            } else {
-                mediaPlayer.start();
-            }
+            testGrabacion();
         });
 
         elimnarButton = findViewById(R.id.btn_eliminar);
         elimnarButton.setOnClickListener(v -> deleteRecording());
+
+        testFiltros();
     }
 
     private void deleteRecording() {
@@ -63,5 +66,16 @@ public class Recordings extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No hay audio disponible", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+
+    private void testGrabacion() {
+        PCMRecorder audioRecorder = new PCMRecorder();
+        audioRecorder.startRecording();
+    }
+    private void testFiltros() {
+        AudioFilter audioFilter = new AudioFilter();
+        audioFilter.filterAudio();
     }
 }

@@ -1,4 +1,4 @@
-package AudioRecorder;
+package Recordings;
 
 import AppContext.MyApplication;
 import DataAccess.PreferencesDataAccess;
