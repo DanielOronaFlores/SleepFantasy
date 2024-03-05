@@ -14,12 +14,9 @@ import android.widget.Toast;
 import com.chibde.visualizer.LineVisualizer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import Recordings.*;
 import Recordings.AudioFilter.AudioFilter;
 import Recordings.ListSaver.Deserializer;
 import Recordings.ListSaver.Sound;
@@ -30,8 +27,7 @@ import Files.AudiosFiles;
 public class Recordings extends AppCompatActivity {
     private final MediaPlayer mediaPlayer = new MediaPlayer();
     private final AudiosFiles audiosFiles = new AudiosFiles();
-    private DatabaseConnection connection;
-    private List<Sound> soundsList = new ArrayList<>();
+    private final SecondsCounter secondsCounter = new SecondsCounter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +44,7 @@ public class Recordings extends AppCompatActivity {
             lineVisualizer.setPlayer(mediaPlayer.getAudioSessionId());
         }
 
-        connection = DatabaseConnection.getInstance(this);
+        DatabaseConnection connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
 
         TextView textView = findViewById(R.id.bttn);
@@ -74,7 +70,12 @@ public class Recordings extends AppCompatActivity {
     }
 
     private void getSoundsList() {
-        soundsList = Deserializer.loadFromFile(this, "sounds.xml");
+        List<Sound> soundsList = Deserializer.loadFromFile(this, "sounds.xml");
+        List<List<Integer>> consecutiveSeconds = secondsCounter.getConsecutiveSeconds(soundsList);
+        //Imprimir en el log
+        for (List<Integer> list : consecutiveSeconds) {
+            Log.d("ConsecutiveSeconds", list.toString());
+        }
     }
 
 
