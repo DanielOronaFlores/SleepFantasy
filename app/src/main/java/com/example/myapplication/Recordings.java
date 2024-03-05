@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,18 +17,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import Recordings.AudioFilter.AudioFilter;
+import Recordings.ListSaver.Deserializer;
+import Recordings.ListSaver.Sound;
 import Recordings.Recorders.PCMRecorder;
 import Database.DatabaseConnection;
 import Files.AudiosFiles;
 
 public class Recordings extends AppCompatActivity {
-    private TextView textView;
-    private MediaPlayer mediaPlayer = new MediaPlayer();
-    private AudiosFiles audiosFiles = new AudiosFiles();
-    private Button elimnarButton;
+    private final MediaPlayer mediaPlayer = new MediaPlayer();
+    private final AudiosFiles audiosFiles = new AudiosFiles();
     private DatabaseConnection connection;
+    private List<Sound> soundsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +51,16 @@ public class Recordings extends AppCompatActivity {
         connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
 
-        textView = findViewById(R.id.bttn);
+        TextView textView = findViewById(R.id.bttn);
         textView.setOnClickListener(v -> {
             testGrabacion();
         });
 
-        elimnarButton = findViewById(R.id.btn_eliminar);
+        Button elimnarButton = findViewById(R.id.btn_eliminar);
         elimnarButton.setOnClickListener(v -> deleteRecording());
 
         testFiltros();
+        getSoundsList();
     }
 
     private void deleteRecording() {
@@ -68,6 +73,9 @@ public class Recordings extends AppCompatActivity {
         }
     }
 
+    private void getSoundsList() {
+        soundsList = Deserializer.loadFromFile(this, "sounds.xml");
+    }
 
 
     private void testGrabacion() {

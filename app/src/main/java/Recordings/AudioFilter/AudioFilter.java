@@ -13,12 +13,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import AppContext.MyApplication;
 import Files.AudiosFiles;
+import Recordings.ListSaver.Serializer;
+import Recordings.ListSaver.Sound;
 import Recordings.RecordingPreferences;
 
 public class AudioFilter {
-    private AudiosFiles audiosFiles = new AudiosFiles();
-    private List<Integer> segmentosNoEliminados = new ArrayList<>();
+    private final AudiosFiles audiosFiles = new AudiosFiles();
+    private final List<Sound> sounds = new ArrayList<>();
 
 
     public void filterAudio() {
@@ -64,18 +67,12 @@ public class AudioFilter {
 
                 fft.realForward(samples);
 
-                Log.d("Sample", "Sample: " + samples[0]);
-                if (!Arrays.stream(samples).allMatch(x -> x == 0)) {
-                    segmentosNoEliminados.add(section);
-                }
+                if (!Arrays.stream(samples).allMatch(x -> x == 0)) sounds.add(new Sound(section));
 
                 section++;
             }
             fileInputStream.close();
-
-            for (Integer segmento : segmentosNoEliminados) {
-                Log.d("Segmento", segmento.toString());
-            }
+            Serializer.saveToFile(MyApplication.getAppContext(), sounds);
         } catch (IOException e) {
             e.printStackTrace();
         }
