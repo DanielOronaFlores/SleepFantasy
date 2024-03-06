@@ -5,24 +5,19 @@ import android.util.Log;
 
 import org.jtransforms.fft.DoubleFFT_1D;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import AppContext.MyApplication;
 import Files.AudiosFiles;
 import Recordings.ListSaver.Serializer;
 import Recordings.ListSaver.Sound;
-import Recordings.RecordingPreferences;
 
 public class AudioFilter {
     private final AudiosFiles audiosFiles = new AudiosFiles();
-    private final List<Sound> sounds = new ArrayList<>();
-
+    private final List<Sound> soundsList = new ArrayList<>();
 
     public void filterAudio() {
         try {
@@ -44,12 +39,13 @@ public class AudioFilter {
             double totalSumOfSquares = 0;
             int totalSamples = 0;
 
-            int section = 0;
             FFTFilter fftFilter = new FFTFilter((int) sampleRate, samplesPerSegment);
             RMSFilter rmsFilter = new RMSFilter(1);
-            DoubleFFT_1D fft = new DoubleFFT_1D(samplesPerSegment);
 
+            int second = 0;
             while (fileInputStream.read(buffer) != -1) {
+                second++;
+
                 for (int i = 0; i < samplesPerSegment; i++) {
                     samples[i] = ((buffer[i * 2 + 1] << 8) | (buffer[i * 2] & 0xFF)) / 32768.0;
                 }
@@ -65,16 +61,19 @@ public class AudioFilter {
                 double threshold = rmsFilter.calculateAmplitudeThreshold(totalSumOfSquares, totalSamples);
                 rmsFilter.removeAudioLowerByRMS(samples, currentRMS, threshold);
 
-                fft.realForward(samples);
-
-                if (!Arrays.stream(samples).allMatch(x -> x == 0)) sounds.add(new Sound(section));
-
-                section++;
+                if (second % 2 != 0) {
+                    Log.d("FFT", "-----" + second / 2 + "-----");
+                    Log.d("FFT", Arrays.toString(samples));
+                    if (samples[0] != 0) {
+                        soundsList.add(new Sound(second / 2));
+                    }
+                }
             }
             fileInputStream.close();
-            Serializer.saveToFile(MyApplication.getAppContext(), sounds);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Serializer serializer = new Serializer();
+        serializer.serializeToXML(soundsList);
     }
 }

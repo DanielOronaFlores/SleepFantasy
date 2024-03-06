@@ -30,16 +30,6 @@
             android:layout_height="70dp"
             android:layout_marginTop="5sp"/>
 
-        <Button
-            android:id="@+id/btn_eliminar"
-            android:layout_width="100sp"
-            android:layout_height="50sp"
-            android:layout_marginTop="5sp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/button"
-            android:text="@string/eliminar"
-            android:textColor="@android:color/black"/>
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,8 +38,24 @@
             android:layout_marginTop="5sp"
             android:textSize="20sp"
             android:textColor="#FFFFFF"
-            android:text="LISTADO"
+            android:text="LISTADO" />
 
-            android:layout_marginBottom="35sp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/loudSounds_list"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5sp"
+            android:layout_height="200sp" />
+
+        <Button
+            android:id="@+id/btn_eliminar"
+            android:layout_width="100sp"
+            android:layout_height="50sp"
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="35sp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/button"
+            android:text="@string/eliminar"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
 </ScrollView>

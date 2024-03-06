@@ -62,8 +62,8 @@ public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.ViewHolder> 
         return mediaPlayer;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private Button button;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final Button button;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             button = itemView.findViewById(R.id.selectSong);

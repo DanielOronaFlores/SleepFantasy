@@ -1,67 +1,48 @@
 package Recordings.ListSaver;
 
-import android.content.Context;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Deserializer {
-    public static List<Sound> loadFromFile(Context context, String fileName) {
-        try (FileInputStream fis = context.openFileInput(fileName)) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = fis.read(buffer)) != -1) {
-                baos.write(buffer, 0, length);
-            }
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-            String xmlData = baos.toString();
-            return Deserializer.deserialize(xmlData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-    public static List<Sound> deserialize(String xmlData) {
-        List<Sound> soundsList = new ArrayList<>();
+public class Deserializer {
+    public List<Sound> deserializeFromXML(String fileName) {
+        List<Sound> soundList = new ArrayList<>();
 
         try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = factory.newPullParser();
-            parser.setInput(new StringReader(xmlData));
+            File file = new File(fileName);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(file);
 
-            int eventType = parser.getEventType();
-            Sound currentSound = null;
+            document.getDocumentElement().normalize();
 
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                switch (eventType) {
-                    case XmlPullParser.START_TAG:
-                        if ("sound".equals(parser.getName())) {
-                            currentSound = new Sound(parser.getNamespaceCount(0));
-                        } else if ("second".equals(parser.getName())) {
-                            assert currentSound != null;
-                            currentSound.setSecond(Integer.parseInt(parser.nextText()));
-                        }
-                        break;
-                    case XmlPullParser.END_TAG:
-                        if ("sound".equals(parser.getName())) {
-                            soundsList.add(currentSound);
-                        }
-                        break;
+            NodeList nodeList = document.getElementsByTagName("sound");
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+
+                    int second = Integer.parseInt(element.getElementsByTagName("second").item(0).getTextContent());
+
+                    Sound sound = new Sound(second);
+                    soundList.add(sound);
                 }
-                eventType = parser.next();
             }
-        } catch (XmlPullParserException | IOException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return soundsList;
+
+        return soundList;
     }
 }

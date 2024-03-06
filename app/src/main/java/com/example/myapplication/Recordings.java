@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -16,6 +18,7 @@ import com.chibde.visualizer.LineVisualizer;
 import java.io.File;
 import java.util.List;
 
+import Adapters.AdapterLoudSounds;
 import Recordings.*;
 import Recordings.AudioFilter.AudioFilter;
 import Recordings.ListSaver.Deserializer;
@@ -23,16 +26,29 @@ import Recordings.ListSaver.Sound;
 import Recordings.Recorders.PCMRecorder;
 import Database.DatabaseConnection;
 import Files.AudiosFiles;
+import Recordings.Recorders.Recorder;
 
 public class Recordings extends AppCompatActivity {
-    private final MediaPlayer mediaPlayer = new MediaPlayer();
     private final AudiosFiles audiosFiles = new AudiosFiles();
     private final SecondsCounter secondsCounter = new SecondsCounter();
+
+    PCMRecorder pcmRecorder = new PCMRecorder();
+    Recorder recorder = new Recorder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
+
+        testFiltros();
+
+        AdapterLoudSounds adapterLoudSounds = new AdapterLoudSounds(getSoundsList());
+
+        RecyclerView recyclerView = findViewById(R.id.loudSounds_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapterLoudSounds);
+
+        MediaPlayer mediaPlayer = adapterLoudSounds.getMediaPlayer();
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Se necesita otorgar el permiso de grabar audios para esta sección :)", Toast.LENGTH_SHORT).show();
@@ -54,9 +70,6 @@ public class Recordings extends AppCompatActivity {
 
         Button elimnarButton = findViewById(R.id.btn_eliminar);
         elimnarButton.setOnClickListener(v -> deleteRecording());
-
-        testFiltros();
-        getSoundsList();
     }
 
     private void deleteRecording() {
@@ -69,22 +82,29 @@ public class Recordings extends AppCompatActivity {
         }
     }
 
-    private void getSoundsList() {
-        List<Sound> soundsList = Deserializer.loadFromFile(this, "sounds.xml");
-        List<List<Integer>> consecutiveSeconds = secondsCounter.getConsecutiveSeconds(soundsList);
-        //Imprimir en el log
-        for (List<Integer> list : consecutiveSeconds) {
-            Log.d("ConsecutiveSeconds", list.toString());
-        }
+    private List<List<Integer>> getSoundsList() {
+        Deserializer deserializer = new Deserializer();
+        List<Sound> soundsList = deserializer.deserializeFromXML(audiosFiles.getXMLPath());
+
+        Log.d("SOUNDS", soundsList.toString());
+
+        return secondsCounter.getConsecutiveSeconds(soundsList);
     }
 
 
     private void testGrabacion() {
-        PCMRecorder audioRecorder = new PCMRecorder();
-        audioRecorder.startRecording();
+        pcmRecorder.startRecording();
+        recorder.startRecording();
     }
     private void testFiltros() {
         AudioFilter audioFilter = new AudioFilter();
         audioFilter.filterAudio();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pcmRecorder.stopRecording();
+        recorder.stopRecording();
     }
 }

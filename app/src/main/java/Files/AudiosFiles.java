@@ -18,8 +18,8 @@ public class AudiosFiles {
         return context.getExternalFilesDir(Environment.DIRECTORY_MUSIC) + "/recording.pcm";
     }
 
-    public String getFilteredPCMPath() {
-        return context.getExternalFilesDir(Environment.DIRECTORY_MUSIC) + "/filtered_recording.pcm";
+    public String getXMLPath() {
+        return context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/listSounds.xml";
     }
 
     public boolean doesRecordingFileExist() {
