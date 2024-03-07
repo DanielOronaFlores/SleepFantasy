@@ -23,6 +23,17 @@
             android:text="@string/sonidos_captados"
             android:clickable="true"/>
 
+        <Button
+            android:id="@+id/btn_eliminar"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:textSize="15sp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/button"
+            android:text="@string/eliminar"
+            android:textColor="@android:color/black"/>
+
         <!-- Espectrograma de la grabación de audio actual -->
         <com.chibde.visualizer.LineVisualizer
             android:id="@+id/visualizer"
@@ -32,6 +43,7 @@
 
 
         <TextView
+            android:id="@+id/tvListado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -43,19 +55,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/loudSounds_list"
             android:layout_width="wrap_content"
+            android:layout_height="200sp"
             android:layout_gravity="center"
-            android:layout_marginTop="5sp"
-            android:layout_height="200sp" />
+            android:layout_marginTop="5sp" />
 
-        <Button
-            android:id="@+id/btn_eliminar"
-            android:layout_width="100sp"
-            android:layout_height="50sp"
-            android:layout_marginTop="5sp"
-            android:layout_marginBottom="35sp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/button"
-            android:text="@string/eliminar"
-            android:textColor="@android:color/black"/>
+        <Space
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="35sp" />
     </LinearLayout>
 </ScrollView>

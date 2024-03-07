@@ -29,7 +29,7 @@
                 android:contentDescription="@string/audiosSelector"
                 android:focusable="true"
                 android:foregroundGravity="center"
-                android:src="@drawable/placeholder_ramon"
+                android:src="@drawable/menu_sounds"
                 tools:ignore="ImageContrastCheck" />
 
             <ImageView
@@ -42,7 +42,7 @@
                 android:contentDescription="@string/recordVisualizer"
                 android:focusable="true"
                 android:foregroundGravity="center"
-                android:src="@drawable/placeholder_ramon" />
+                android:src="@drawable/menu_records" />
         </LinearLayout>
 
         <LinearLayout
