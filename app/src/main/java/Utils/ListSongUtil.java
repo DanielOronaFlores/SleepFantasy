@@ -3,7 +3,7 @@ package Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import Music.Song;
+import Models.Song;
 
 public class ListSongUtil {
     public List<Song> getSelectedSongs(List<Song> songs, List<Boolean> checkedList) {

@@ -8,7 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import DataAccess.ChallengesDataAccess;
+import Database.DataAccess.ChallengesDataAccess;
 import Database.DatabaseConnection;
 import GameManagers.ChallengesManager;
 

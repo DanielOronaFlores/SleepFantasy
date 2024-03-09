@@ -16,7 +16,7 @@ import com.example.myapplication.R;
 import java.util.List;
 
 import Music.PlaylistSongs;
-import Music.Song;
+import Models.Song;
 
 public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.ViewHolder> {
     private final List<Song> songs;

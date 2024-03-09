@@ -15,11 +15,11 @@ import android.widget.Toast;
 import java.util.List;
 
 import Adapters.AdapterSongs;
-import DataAccess.PlaylistDataAccess;
-import DataAccess.PlaylistSongsDataAccess;
-import DataUpdates.PlaylistDataUpdate;
+import Database.DataAccess.PlaylistDataAccess;
+import Database.DataAccess.PlaylistSongsDataAccess;
+import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DatabaseConnection;
-import Music.Song;
+import Models.Song;
 
 public class PlaylistVisualizer extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -52,20 +52,14 @@ public class PlaylistVisualizer extends AppCompatActivity {
 
         deletePlaylist = findViewById(R.id.deletePlaylist);
         deletePlaylist.setOnClickListener(v -> {
-            if (playListDataAccess.isCreatedBySystem(playlistID))
-            {
-                Toast.makeText(this, "No se puede eliminar una playlist creada por el sistema", Toast.LENGTH_SHORT).show();
-            } else {
-                deletePlaylist();
-                Toast.makeText(this, "Playlist eliminada", Toast.LENGTH_SHORT).show();
-                finish();
-            }
+            deletePlaylist();
+            Toast.makeText(this, "Playlist eliminada", Toast.LENGTH_SHORT).show();
+            finish();
         });
 
         editPlaylist = findViewById(R.id.editPlaylist);
         editPlaylist.setOnClickListener(v -> {
-            if (playListDataAccess.isCreatedBySystem(playlistID))
-            {
+            if (playListDataAccess.isCreatedBySystem(playlistID)) {
                 Toast.makeText(this, "No se puede editar una playlist creada por el sistema", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(this, PlaylistEditor.class);
@@ -73,6 +67,11 @@ public class PlaylistVisualizer extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if (playListDataAccess.isCreatedBySystem(playlistID)) {
+            deletePlaylist.setVisibility(ImageView.GONE);
+            editPlaylist.setVisibility(ImageView.GONE);
+        }
 
         setPlaylistTitle();
         setSongsList();
@@ -85,8 +84,7 @@ public class PlaylistVisualizer extends AppCompatActivity {
         Log.d("playlist", "Songs: " + songs.size());
         if (songs.isEmpty()) {
             finish();
-        }
-        else {
+        } else {
             setPlaylistTitle();
             setSongsList();
         }
@@ -103,13 +101,14 @@ public class PlaylistVisualizer extends AppCompatActivity {
         String title = playListDataAccess.getPlaylistTitle(playlistID);
         playlistTitle.setText(title);
     }
+
     private void setSongsList() {
         adapterSongs = new AdapterSongs(songs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapterSongs);
     }
 
-    private void deletePlaylist(){
+    private void deletePlaylist() {
         playlistDataUpdate.deletePlaylist(playlistID);
     }
 }

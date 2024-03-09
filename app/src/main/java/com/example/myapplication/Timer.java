@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import Clocker.Clock;
-import Database.DatabaseConnection;
+import Dialogs.SetTimerFragment;
 
 public class Timer extends AppCompatActivity {
     private final Clock clock = new Clock();
@@ -23,7 +23,7 @@ public class Timer extends AppCompatActivity {
         setTimerButton = findViewById(R.id.setTimerButton);
 
         setTimerButton.setOnClickListener(v -> {
-            Dialogs.SetTimer setTimer = new Dialogs.SetTimer();
+            SetTimerFragment setTimer = new SetTimerFragment();
             setTimer.show(getSupportFragmentManager(), "set timer");
         });
     }

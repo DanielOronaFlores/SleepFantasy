@@ -62,7 +62,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".missions"
+            android:name=".Missions"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

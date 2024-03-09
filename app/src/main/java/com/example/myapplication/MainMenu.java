@@ -11,10 +11,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import Avatar.AvatarSkins;
-import DataAccess.AvatarDataAccess;
-import DataAccess.PreferencesDataAccess;
+import Database.DataAccess.AvatarDataAccess;
+import Database.DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
-import Dialogs.AvatarInformation;
+import Dialogs.AvatarInformationFragment;
 
 public class MainMenu extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -61,7 +61,7 @@ public class MainMenu extends AppCompatActivity {
             startActivity(intent);
         });
         avatarInformationButton.setOnClickListener(view -> {
-            AvatarInformation avatarInformation = new AvatarInformation();
+            AvatarInformationFragment avatarInformation = new AvatarInformationFragment();
             avatarInformation.show(getSupportFragmentManager(), "Avatar Information");
         });
 

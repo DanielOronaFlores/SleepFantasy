@@ -10,10 +10,10 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import DataAccess.SleepDataAccess;
+import Database.DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
-import ChartPainter.BarChartPainter;
+import Painters.BarChartPainter;
 
 public class ChartBarVisualizer extends AppCompatActivity {
     private FrameLayout container;

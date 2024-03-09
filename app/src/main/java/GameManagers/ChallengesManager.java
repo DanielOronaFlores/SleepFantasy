@@ -11,11 +11,11 @@ import java.text.ParseException;
 import java.util.Random;
 
 import AppContext.MyApplication;
-import DataAccess.ChallengesDataAccess;
-import DataUpdates.ChallengesDataUpdate;
+import Database.DataAccess.ChallengesDataAccess;
+import Database.DataUpdates.ChallengesDataUpdate;
 import Database.DatabaseConnection;
-import DataAccess.PreferencesDataAccess;
-import DataAccess.RecordsDataAccess;
+import Database.DataAccess.PreferencesDataAccess;
+import Database.DataAccess.RecordsDataAccess;
 import Dates.DateManager;
 
 public class ChallengesManager extends Service {

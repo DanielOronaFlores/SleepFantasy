@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Objects;
 
 import Adapters.AdapterChecklistSongs;
-import DataAccess.SongsDataAccess;
+import Database.DataAccess.SongsDataAccess;
 import Database.DatabaseConnection;
-import Music.Song;
+import Dialogs.PlaylistCreatorFragment;
+import Models.Song;
 
 public class PlaylistCreator extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -40,7 +41,7 @@ public class PlaylistCreator extends AppCompatActivity {
         List<Song> selectedSongs;
         selectedSongs = ((AdapterChecklistSongs) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedSongs();
 
-        Dialogs.PlaylistCreator playlistCreator = new Dialogs.PlaylistCreator();
+        PlaylistCreatorFragment playlistCreator = new PlaylistCreatorFragment();
         playlistCreator.setSelectedSongs(selectedSongs);
         playlistCreator.show(getSupportFragmentManager(), "PlaylistCreator");
     }

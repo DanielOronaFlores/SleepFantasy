@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import java.util.List;
 
 import Adapters.AdapterPlaylists;
-import DataAccess.PlaylistDataAccess;
+import Database.DataAccess.PlaylistDataAccess;
 import Database.DatabaseConnection;
 import Music.Playlist;
 

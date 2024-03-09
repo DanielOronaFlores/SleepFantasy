@@ -3,7 +3,7 @@ package Clocker;
 import android.annotation.SuppressLint;
 
 import AppContext.MyApplication;
-import DataAccess.PreferencesDataAccess;
+import Database.DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
 
 public class Clock {

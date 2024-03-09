@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Objects;
 
 import Adapters.AdapterPlaylistCreator;
-import DataAccess.PlaylistDataAccess;
-import DataAccess.PlaylistSongsDataAccess;
-import DataUpdates.PlaylistDataUpdate;
-import DataUpdates.PlaylistSongsDataUpdate;
+import Database.DataAccess.PlaylistDataAccess;
+import Database.DataAccess.PlaylistSongsDataAccess;
+import Database.DataUpdates.PlaylistDataUpdate;
+import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DatabaseConnection;
-import Music.Song;
+import Models.Song;
 
 public class PlaylistEditor extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);

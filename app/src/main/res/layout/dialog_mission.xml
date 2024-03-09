@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180sp"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/missionDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:textAlignment="viewStart"
+        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"/>
+
+    <TextView
+        android:id="@+id/missionPeriod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:text="aaaaaaaa"/>
+</LinearLayout>

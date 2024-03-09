@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import AppContext.MyApplication;
-import DataAccess.MissionDataAccess;
-import DataUpdates.MissionDataUpdate;
+import Database.DataAccess.MissionDataAccess;
+import Database.DataUpdates.MissionDataUpdate;
 import Database.DatabaseConnection;
 
 public class MissionsManager {

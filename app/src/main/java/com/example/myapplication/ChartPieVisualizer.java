@@ -12,9 +12,9 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
-import DataAccess.SleepDataAccess;
+import Database.DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
-import ChartPainter.PieChartPainter;
+import Painters.PieChartPainter;
 
 public class ChartPieVisualizer extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);;

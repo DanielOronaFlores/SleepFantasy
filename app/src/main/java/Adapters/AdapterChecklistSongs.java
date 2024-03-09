@@ -14,7 +14,7 @@ import com.example.myapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import Music.Song;
+import Models.Song;
 import Utils.ListSongUtil;
 
 public class AdapterChecklistSongs extends RecyclerView.Adapter<AdapterChecklistSongs.ViewHolder> {

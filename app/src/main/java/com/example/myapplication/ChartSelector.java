@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import Dates.DateManager;
-import Dialogs.SelectDate;
+import Dialogs.SelectDateFragment;
 
 public class ChartSelector extends AppCompatActivity {
     private String date;
@@ -91,7 +91,7 @@ public class ChartSelector extends AppCompatActivity {
     }
 
     private void chooseDate() {
-        SelectDate selectDate = new SelectDate();
+        SelectDateFragment selectDate = new SelectDateFragment();
         selectDate.show(getSupportFragmentManager(), "Select Date");
     }
 }

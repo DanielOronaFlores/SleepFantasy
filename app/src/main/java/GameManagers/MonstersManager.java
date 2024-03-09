@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import AppContext.MyApplication;
-import DataAccess.MonstersDataAccess;
-import DataUpdates.MonstersDataUpdate;
-import DataUpdates.RecordsDataUpdate;
+import Database.DataAccess.MonstersDataAccess;
+import Database.DataUpdates.MonstersDataUpdate;
+import Database.DataUpdates.RecordsDataUpdate;
 import Database.DatabaseConnection;
 import Dates.DateManager;
 

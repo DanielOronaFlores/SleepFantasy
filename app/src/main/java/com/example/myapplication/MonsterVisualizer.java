@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 
-import DataAccess.MonstersDataAccess;
+import Database.DataAccess.MonstersDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
 

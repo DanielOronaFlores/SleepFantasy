@@ -10,11 +10,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import DataAccess.AvatarDataAccess;
-import DataUpdates.AvatarDataUpdate;
+import Database.DataAccess.AvatarDataAccess;
+import Database.DataUpdates.AvatarDataUpdate;
 import GameManagers.AvatarManager;
 import Database.DatabaseConnection;
-import DataAccess.PreferencesDataAccess;
+import Database.DataAccess.PreferencesDataAccess;
 
 public class Configuration extends AppCompatActivity {
     private DatabaseConnection connection;

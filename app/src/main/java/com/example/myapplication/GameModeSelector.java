@@ -17,7 +17,7 @@ public class GameModeSelector extends AppCompatActivity {
 
         btMissions = findViewById(R.id.missions);
         btMissions.setOnClickListener(view -> {
-            Intent intent = new Intent(this, missions.class);
+            Intent intent = new Intent(this, Missions.class);
             startActivity(intent);
         });
 

@@ -18,11 +18,11 @@ import com.example.myapplication.R;
 import java.io.IOException;
 import java.util.List;
 
-import Files.AudiosFiles;
+import Files.AudiosPaths;
 
 public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.ViewHolder> {
     private final List<List<Integer>> sounds;
-    private final AudiosFiles audioFiles = new AudiosFiles();
+    private final AudiosPaths audioFiles = new AudiosPaths();
     private final MediaPlayer mediaPlayer;
 
     public AdapterLoudSounds(List<List<Integer>> sounds) {

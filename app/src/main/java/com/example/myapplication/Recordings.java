@@ -21,19 +21,18 @@ import java.io.File;
 import java.util.List;
 
 import Adapters.AdapterLoudSounds;
-import Recordings.*;
-import Recordings.AudioFilter.AudioFilter;
-import Recordings.ListSaver.Deserializer;
-import Recordings.ListSaver.Sound;
-import Recordings.Recorders.PCMRecorder;
+import AudioFilter.AudioFilter;
+import Serializers.Deserializer;
+import Models.Sound;
+import Recorders.PCMRecorder;
 import Database.DatabaseConnection;
-import Files.AudiosFiles;
-import Recordings.Recorders.Recorder;
+import Files.AudiosPaths;
+import Recorders.Recorder;
+import Utils.SecondsCounter;
 
 public class Recordings extends AppCompatActivity {
-    private final AudiosFiles audiosFiles = new AudiosFiles();
+    private final AudiosPaths audiosFiles = new AudiosPaths();
     private final SecondsCounter secondsCounter = new SecondsCounter();
-    private Space space;
     private AdapterLoudSounds adapterLoudSounds;
     private RecyclerView recyclerView;
 
@@ -45,13 +44,13 @@ public class Recordings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
 
-        //testFiltros();
+        testFiltros();
 
         adapterLoudSounds = new AdapterLoudSounds(getSoundsList());
         recyclerView = findViewById(R.id.loudSounds_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        space = findViewById(R.id.space);
+        Space space = findViewById(R.id.space);
         if (getSoundsList().isEmpty()) {
             recyclerView.setVisibility(View.GONE);
         } else {
@@ -60,13 +59,12 @@ public class Recordings extends AppCompatActivity {
 
         MediaPlayer mediaPlayer = adapterLoudSounds.getMediaPlayer();
 
-
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Se necesita otorgar el permiso de grabar audios para esta sección :)", Toast.LENGTH_SHORT).show();
             finish();
         } else {
             LineVisualizer lineVisualizer = findViewById(R.id.visualizer);
-            lineVisualizer.setColor(ContextCompat.getColor(this, R.color.black));
+            lineVisualizer.setColor(ContextCompat.getColor(this, R.color.white));
             lineVisualizer.setStrokeWidth(5);
             lineVisualizer.setPlayer(mediaPlayer.getAudioSessionId());
         }
@@ -87,20 +85,16 @@ public class Recordings extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         recyclerView.setAdapter(adapterLoudSounds);
-        //testFiltros();
     }
 
     private void deleteRecording() {
-        File file = new File(audiosFiles.getRecordingsPath());
-        if (file.exists()) {
-            if (file.delete()) {
-                file = new File(audiosFiles.getXMLPath());
-                file.delete();
+        if (areFilesExist()) {
+            if (areFilesDeleted()) {
                 Toast.makeText(this, "Audio Eliminado", Toast.LENGTH_SHORT).show();
                 recreate();
-            }
-            else Toast.makeText(this, "No se pudo eliminar el archivo", Toast.LENGTH_SHORT).show();
-        } else {
+            } else Toast.makeText(this, "No se pudo eliminar el archivo", Toast.LENGTH_SHORT).show();
+        }
+        else {
             Toast.makeText(this, "No hay audio disponible", Toast.LENGTH_SHORT).show();
         }
     }
@@ -114,11 +108,26 @@ public class Recordings extends AppCompatActivity {
         return secondsCounter.getConsecutiveSeconds(soundsList);
     }
 
+    private boolean areFilesDeleted() {
+        File file3GP = new File(audiosFiles.getRecordingsPath());
+        File filePCM = new File(audiosFiles.getPCMPath());
+        File fileXML = new File(audiosFiles.getXMLPath());
+        return file3GP.delete() && filePCM.delete() && fileXML.delete();
+    }
+
+    private boolean areFilesExist() {
+        File file3GP = new File(audiosFiles.getRecordingsPath());
+        File filePCM = new File(audiosFiles.getPCMPath());
+        File fileXML = new File(audiosFiles.getXMLPath());
+        return file3GP.exists() && filePCM.exists() && fileXML.exists();
+    }
+
 
     private void testGrabacion() {
         pcmRecorder.startRecording();
         recorder.startRecording();
     }
+
     private void testFiltros() {
         AudioFilter audioFilter = new AudioFilter();
         audioFilter.filterAudio();

@@ -1,8 +1,8 @@
 package GameManagers;
 
 import AppContext.MyApplication;
-import DataAccess.AvatarDataAccess;
-import DataUpdates.AvatarDataUpdate;
+import Database.DataAccess.AvatarDataAccess;
+import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
 
 public class ExperienceManager {
