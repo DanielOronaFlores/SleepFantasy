@@ -41,4 +41,5 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.github.wendykierp:JTransforms:3.1")
     implementation("io.github.gautamchibde:audiovisualizer:2.2.5")
+    implementation("androidx.activity:activity:1.8.0")
 }
