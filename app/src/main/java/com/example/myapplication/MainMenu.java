@@ -15,6 +15,8 @@ import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
 import Dialogs.AvatarInformationFragment;
+import Services.PostureSensor;
+import Services.SleepTracker;
 
 public class MainMenu extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -67,6 +69,15 @@ public class MainMenu extends AppCompatActivity {
 
         PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
         if (preferencesDataAccess.getRecordSnorings()) askRecordingPermission();
+
+        askBodySensorsPermission();
+
+
+        //Intent intent = new Intent(this, PostureSensor.class);
+        //startService(intent);
+
+        Intent intent = new Intent(this, SleepTracker.class);
+        startService(intent);
     }
     @Override
     protected void onDestroy() {
@@ -87,6 +98,12 @@ public class MainMenu extends AppCompatActivity {
     private void askRecordingPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, 1);
+        }
+    }
+
+    private void askBodySensorsPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.BODY_SENSORS}, 1);
         }
     }
 }

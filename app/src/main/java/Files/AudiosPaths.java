@@ -27,4 +27,8 @@ public class AudiosPaths {
         File file = new File(fileName);
         return file.exists();
     }
+
+    public String test() {
+        return context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/test.xml";
+    }
 }
