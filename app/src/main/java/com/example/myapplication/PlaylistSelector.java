@@ -23,6 +23,7 @@ public class PlaylistSelector extends AppCompatActivity {
     private List<Playlist> playlists;
     private RecyclerView recyclerView;
     private ImageView timer;
+    private Button addAudios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,12 @@ public class PlaylistSelector extends AppCompatActivity {
 
         Button createPlaylist = findViewById(R.id.createNewPlaylist);
         createPlaylist.setOnClickListener(v -> goToCreatePlaylist());
+
+        addAudios = findViewById(R.id.addAudios);
+        addAudios.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddAudios.class);
+            startActivity(intent);
+        });
 
         timer = findViewById(R.id.buttonTemporizer);
         timer.setOnClickListener(v -> {

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".PlaylistSelector"
     android:background="@color/background">
 
@@ -41,11 +41,20 @@
                 android:layout_marginStart="5sp" />
         </GridLayout>
 
+        <Button
+            android:id="@+id/addAudios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:background="@color/button"
+            android:layout_gravity="center"
+            android:text="agregar audios"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerPlaylists"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="160sp"
             android:layout_marginTop="5sp"
             android:layout_marginStart="25sp"
             android:layout_marginEnd="25sp"/>

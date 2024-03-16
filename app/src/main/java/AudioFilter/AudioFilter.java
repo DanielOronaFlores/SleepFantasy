@@ -72,6 +72,6 @@ public class AudioFilter {
             e.printStackTrace();
         }
         Serializer serializer = new Serializer();
-        serializer.serializeToXML(soundsList);
+        serializer.serializeSoundsToXML(soundsList);
     }
 }

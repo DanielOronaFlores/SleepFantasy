@@ -41,7 +41,6 @@ public class SongsDataAccess {
                 Log.d("Song", "New song added: " + song.getName());
             } while (cursor.moveToNext());
         }
-
         cursor.close();
         return songList;
     }
