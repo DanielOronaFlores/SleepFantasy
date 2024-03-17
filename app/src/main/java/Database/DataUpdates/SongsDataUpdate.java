@@ -15,4 +15,9 @@ public class SongsDataUpdate {
         String query = "INSERT INTO Songs (name, ibBySystem) VALUES (?, ?)";
         database.execSQL(query, new String[]{songName, "0"});
     }
+
+    public void deleteSong(String songName) {
+        String query = "DELETE FROM Songs WHERE name = ?";
+        database.execSQL(query, new String[]{songName});
+    }
 }

@@ -1,5 +1,6 @@
 package Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,16 +18,21 @@ import com.example.myapplication.R;
 import java.io.IOException;
 import java.util.List;
 
+import AppContext.MyApplication;
+import Database.DataUpdates.SongsDataUpdate;
+import Database.DatabaseConnection;
 import Files.AudiosPaths;
 import Music.PlaylistSongs;
 import Models.Song;
 
 public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder> {
     private final List<Song> songs;
+    private final Activity activity;
     private MediaPlayer mediaPlayer;
 
-    public AdapterAudios(List<Song> songs) {
+    public AdapterAudios(List<Song> songs, Activity activity) {
         this.songs = songs;
+        this.activity = activity;
     }
 
     @NonNull
@@ -78,10 +85,13 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
             mediaPlayer.prepare();
             mediaPlayer.start();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+            SongsDataUpdate songsDataUpdate = new SongsDataUpdate(connection);
+            songsDataUpdate.deleteSong(audioName);
+
+            Toast.makeText(activity, "Canción no encontrada. Eliminando de la PlayList", Toast.LENGTH_SHORT).show();
+            activity.recreate();
         }
-
-
     }
 
     public MediaPlayer getMediaPlayer() {

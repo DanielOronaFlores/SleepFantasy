@@ -103,7 +103,7 @@ public class PlaylistVisualizer extends AppCompatActivity {
     }
 
     private void setSongsList() {
-        adapterSongs = new AdapterAudios(songs);
+        adapterSongs = new AdapterAudios(songs, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapterSongs);
     }
