@@ -13,32 +13,41 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 
+import java.io.IOException;
 import java.util.List;
 
+import Files.AudiosPaths;
 import Music.PlaylistSongs;
 import Models.Song;
 
-public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.ViewHolder> {
+public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder> {
     private final List<Song> songs;
     private MediaPlayer mediaPlayer;
 
-    public AdapterSongs(List<Song> songs) {
+    public AdapterAudios(List<Song> songs) {
         this.songs = songs;
     }
 
     @NonNull
     @Override
-    public AdapterSongs.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterAudios.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_song_selector, parent, false);
         return new ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull AdapterSongs.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterAudios.ViewHolder holder, int position) {
         holder.setSongs(songs.get(position).getName());
         holder.button.setOnClickListener(v -> {
             String songName = songs.get(position).getName();
-            int songID = selectSong(songName);
-            playSong(songID, holder.itemView.getContext());
+            int isCreatedBySystem = songs.get(position).getIbBySystem();
+            Log.d("AdapterSongs", "CreatedBySystem " + isCreatedBySystem);
+
+            if (isCreatedBySystem == 1) {
+                int songID = selectSong(songName);
+                playSongCreatedBySystem(songID, holder.itemView.getContext());
+            } else {
+                playSongCreatedByUser(songName);
+            }
         });
     }
     @Override
@@ -51,11 +60,28 @@ public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.ViewHolder> 
         PlaylistSongs playlistSongs = new PlaylistSongs();
         return playlistSongs.getResourceId(songName);
     }
-    private void playSong(int songID, Context context) {
+    private void playSongCreatedBySystem(int songID, Context context) {
         Log.d("AdapterSongs", "Obtenido ID: " + songID);
         if (mediaPlayer != null) mediaPlayer.release();
         mediaPlayer = MediaPlayer.create(context, songID);
         mediaPlayer.start();
+    }
+    private void playSongCreatedByUser(String audioName) {
+        if (mediaPlayer != null) mediaPlayer.release();
+        mediaPlayer = new MediaPlayer();
+        String audioPath = "/sdcard/Music/" + audioName;
+        Log.d("AdapterSongs", "Audio path: " + audioPath);
+
+        try {
+            assert mediaPlayer != null;
+            mediaPlayer.setDataSource(audioPath);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     public MediaPlayer getMediaPlayer() {

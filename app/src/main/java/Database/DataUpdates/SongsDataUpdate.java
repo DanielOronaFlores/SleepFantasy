@@ -12,7 +12,7 @@ public class SongsDataUpdate {
     }
 
     public void addSong(String songName) {
-        String query = "INSERT INTO Songs (name, ibBySystem) VALUES ('" + songName + "', 0);";
-        database.execSQL(query);
+        String query = "INSERT INTO Songs (name, ibBySystem) VALUES (?, ?)";
+        database.execSQL(query, new String[]{songName, "0"});
     }
 }

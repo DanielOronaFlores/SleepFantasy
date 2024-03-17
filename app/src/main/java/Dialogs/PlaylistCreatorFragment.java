@@ -77,7 +77,7 @@ public class PlaylistCreatorFragment extends DialogFragment {
                 Toast toast = Toast.makeText(context, "Nombre de playlist vacio", Toast.LENGTH_SHORT);
                 toast.show();
         } else {
-            playlistDataUpdate.createPlaylist(playlistName);
+            playlistDataUpdate.createPlaylist(playlistName, false);
             int playlistId = playlistDataAccess.getPlaylistId(playlistName);
             for (Song song : selectedSongs) {
                 playlistSongsDataUpdate.addSongToPlaylist(playlistId, song.getId());

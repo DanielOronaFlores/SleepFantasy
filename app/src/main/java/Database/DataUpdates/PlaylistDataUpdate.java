@@ -10,8 +10,8 @@ public class PlaylistDataUpdate {
         this.database = connection.getDatabase();
     }
 
-    public void createPlaylist(String playlistName) {
-        database.execSQL("INSERT INTO Playlist (name, createdBySystem) VALUES ('" + playlistName + "', 0)");
+    public void createPlaylist(String playlistName, boolean createdBySystem) {
+        database.execSQL("INSERT INTO Playlist (name, createdBySystem) VALUES ('" + playlistName + "', " + (createdBySystem ? 1 : 0) + ")");
     }
 
     public void deletePlaylist(int playlistID) {

@@ -17,22 +17,24 @@ public class PlaylistSongsDataAccess {
         this.database = connection.getDatabase();
     }
 
+    @SuppressLint("Range")
     public List<Song> getSongsFromPlaylist(int playlistID) {
         Log.d("canciones", "Playlist ID:" + playlistID);
         List<Song> songs = new ArrayList<>();
-        String query = "SELECT name, id FROM PlaylistSongs INNER JOIN Songs ON PlaylistSongs.songId = Songs.id WHERE playlistId = " + playlistID;
+        String query = "SELECT name, id, ibBySystem FROM PlaylistSongs INNER JOIN Songs ON PlaylistSongs.songId = Songs.id WHERE playlistId = " + playlistID;
 
         Cursor cursor = database.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
 
-                @SuppressLint("Range") int songID = cursor.getInt(cursor.getColumnIndex("id"));
-                @SuppressLint("Range") String songName = cursor.getString(cursor.getColumnIndex("name"));
+                int songID = cursor.getInt(cursor.getColumnIndex("id"));
+                String songName = cursor.getString(cursor.getColumnIndex("name"));
+                int isCreatedBySystem = cursor.getInt(cursor.getColumnIndex("ibBySystem"));
                 Log.d("canciones", "Song ID:" + songID);
                 Log.d("canciones", "Song Name:" + songName);
 
-                Song song = new Song(songID, songName, 0);
+                Song song = new Song(songID, songName, isCreatedBySystem);
                 songs.add(song);
             } while (cursor.moveToNext());
         }
@@ -40,18 +42,20 @@ public class PlaylistSongsDataAccess {
         return songs;
     }
 
+    @SuppressLint("Range")
     public List<Song> getNotSongsFromPlaylist(int playlistID) {
         List<Song> songs = new ArrayList<>();
-        String query = "SELECT name, id FROM Songs WHERE id NOT IN (SELECT songId FROM PlaylistSongs WHERE playlistId = " + playlistID + ")";
+        String query = "SELECT name, id, ibBySystem FROM Songs WHERE id NOT IN (SELECT songId FROM PlaylistSongs WHERE playlistId = " + playlistID + ")";
 
         Cursor cursor = database.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") int songID = cursor.getInt(cursor.getColumnIndex("id"));
-                @SuppressLint("Range") String songName = cursor.getString(cursor.getColumnIndex("name"));
+                int songID = cursor.getInt(cursor.getColumnIndex("id"));
+                String songName = cursor.getString(cursor.getColumnIndex("name"));
+                int isCreatedBySystem = cursor.getInt(cursor.getColumnIndex("ibBySystem"));
 
-                Song song = new Song(songID, songName, 0);
+                Song song = new Song(songID, songName, isCreatedBySystem);
                 songs.add(song);
             } while (cursor.moveToNext());
         }

@@ -15,9 +15,12 @@ import com.example.myapplication.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import AppContext.MyApplication;
+import Database.DataAccess.SongsDataAccess;
+import Database.DatabaseConnection;
 
 public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.ViewHolder> {
     private static List<Boolean> checkedList;
@@ -69,12 +72,38 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
             File[] audioFiles = folder.listFiles();
 
             if (audioFiles != null) {
-                for (File audioFile : audioFiles) {
-                    if (audioFile.getName().endsWith(".MP3")){
-                        String audioName = audioFile.getName();
-                        String shortAudioName = audioName.substring(0, Math.min(audioName.length(), 7));
-                        audios.add(shortAudioName);
-                    }
+                getAudioFilesFromDevice(audioFiles);
+                deletedAudiosAlreadyInDatabase();
+                //deleteAudiosNotInRange();
+            }
+        }
+    }
+
+    private void getAudioFilesFromDevice(File[] audioFiles) {
+        for (File audioFile : audioFiles) {
+            if (audioFile.getName().endsWith(".MP3")){
+                String audioName = audioFile.getName();
+                audios.add(audioName);
+            }
+        }
+    }
+    private void deletedAudiosAlreadyInDatabase() {
+        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+        SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
+        List<String> audiosInDatabase = songsDataAccess.getSongsNotCreatedBySystem();
+        audios.removeIf(audiosInDatabase::contains);
+    }
+    private void deleteAudiosNotInRange() {
+        Iterator<String> iterator = audios.iterator();
+
+        while (iterator.hasNext()) {
+            String audio = iterator.next();
+            String audioPath = "/sdcard/Music/" + audio;
+            File audioFile = new File(audioPath);
+            if (audioFile.exists()) {
+                long audioDuration = audioFile.length();
+                if (audioDuration < 30000 || audioDuration > 600000) {
+                    iterator.remove();
                 }
             }
         }
@@ -98,7 +127,8 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
         }
 
         private void setAudios(String audioName) {
-            this.audioName.setText(audioName);
+            String shortAudioName = audioName.substring(0, Math.min(audioName.length(), 7));
+            this.audioName.setText(shortAudioName);
         }
     }
 }

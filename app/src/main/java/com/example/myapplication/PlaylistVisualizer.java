@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import Adapters.AdapterSongs;
+import Adapters.AdapterAudios;
 import Database.DataAccess.PlaylistDataAccess;
 import Database.DataAccess.PlaylistSongsDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
@@ -27,7 +27,7 @@ public class PlaylistVisualizer extends AppCompatActivity {
     private final PlaylistSongsDataAccess playlistSongsDataAccess = new PlaylistSongsDataAccess(connection);
     private final PlaylistDataUpdate playlistDataUpdate = new PlaylistDataUpdate(connection);
     private RecyclerView recyclerView;
-    private AdapterSongs adapterSongs;
+    private AdapterAudios adapterSongs;
     private TextView playlistTitle;
     private ImageView deletePlaylist, editPlaylist;
     private int playlistID;
@@ -103,7 +103,7 @@ public class PlaylistVisualizer extends AppCompatActivity {
     }
 
     private void setSongsList() {
-        adapterSongs = new AdapterSongs(songs);
+        adapterSongs = new AdapterAudios(songs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapterSongs);
     }
