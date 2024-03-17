@@ -20,8 +20,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.example.myapplication.R;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -29,27 +27,26 @@ import java.util.List;
 import Dates.HoursManager;
 import Models.SleepCycle;
 import Serializers.Serializer;
-import SleepTracker.SDNNCalculator;
+import SleepTracker.HRVCalculator;
 import Uploaders.SleepCycleUploader;
 import Utils.AverageCalculator;
 import SleepTracker.SleepCycleCalculator;
 
 public class SleepTracker extends Service {
-    private final SDNNCalculator sdnnCalculator = new SDNNCalculator();
+    private final HRVCalculator sdnnCalculator = new HRVCalculator();
     private final AverageCalculator averageCalculator = new AverageCalculator();
     private final SleepCycleCalculator sleepCycleCalculator = new SleepCycleCalculator();
     private final HoursManager hoursManager = new HoursManager();
     private final SleepCycleUploader sleepCycleUploader = new SleepCycleUploader();
-    private final List<Double> bpmList = new ArrayList<>();
-    private final List<Long> rrIntervals = new ArrayList<>();
+    private final List<Double> bpmList = new ArrayList<>(), rrIntervals = new ArrayList<>();
     private final List<Float> lightList = new ArrayList<>();
     private SensorManager heartRateManager, lightManager;
     private Sensor heartRateSensor, lightSensor;
     private Handler handler;
     private PowerManager.WakeLock wakeLock;
-    private long lastBeatTime;
-    private double bpm;
-    private int minuteCounter;
+    private double bpm, rrInterval;
+    private int minuteCounter, currentSleepPhase;
+    private float light;
 
     // Para pruebas
     private final List<SleepCycle> sleepCycleTestList = new ArrayList<>();
@@ -100,15 +97,15 @@ public class SleepTracker extends Service {
         super.onDestroy();
         Log.d("SleepTracker", "Deteniendo servicio de rastreo de sueño");
 
-        //sleepCycleUploader.uploadLight(averageCalculator.calculateMeanFloat(lightList));
+        Serializer serializer = new Serializer();
+        serializer.serializeSleepCycleToXML(sleepCycleTestList);
 
         heartRateManager.unregisterListener(heartRateListener);
-        //lightManager.unregisterListener(heartRateListener);
+        lightManager.unregisterListener(heartRateListener);
 
         handler.removeCallbacks(runnable);
 
-        Serializer serializer = new Serializer();
-        serializer.serializeSleepCycleToXML(sleepCycleTestList);
+        sleepCycleUploader.uploadLight(averageCalculator.calculateMeanFloat(lightList));
 
         stopForeground(true);
         wakeLock.release();
@@ -118,33 +115,74 @@ public class SleepTracker extends Service {
         @Override
         public void run() {
             heartRateManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_FASTEST);
-            if (bpm > 0.0) bpmList.add(bpm); // Agregar solo valores registrados
-            //Log.d("SleepTracker", "bpmList: " + bpmList.size());
+            if (bpm > 0.0) bpmList.add(bpm); // Agregar solo valores validos
+            rrIntervals.add(rrInterval);
 
             // Registar valores SDNN y MRC
-            if (bpmList.size() == 10) { // 10 = 5 minutos
+            if (bpmList.size() == 6) { // 10 = 5 minutos
                 double bpmMean = averageCalculator.calculateMeanDouble(bpmList);
+
+                double rrMean = averageCalculator.calculateMeanDouble(rrIntervals);
+                double rrSummation = sdnnCalculator.calculateRRSummation(rrIntervals, rrMean);
+                double sdnn = sdnnCalculator.calculateSDNN(rrIntervals, rrSummation);
+                double rmssd = sdnnCalculator.calculateRMSSD(rrIntervals);
+                double hrv = sdnnCalculator.calculateHRV(sdnn, rmssd);
+
+                Log.d("SleepTracker", "HRV: " + hrv);
+
+                // 0 = Despierto, 1 = Ligero, 2 = Profundo, 3 = REM
+                if (currentSleepPhase == 0) {
+                    currentSleepPhase = sleepCycleCalculator.hasAwakeningEnded(bpmMean) ? 1 : 0;
+                }
+                if (currentSleepPhase == 1) {
+                    currentSleepPhase = sleepCycleCalculator.hasLightEnded(bpmMean) ? 2 : 1;
+                }
+                if (currentSleepPhase == 2) {
+                    currentSleepPhase = sleepCycleCalculator.hasDeepEnded(bpmMean) ? 0 : 2; //De momento, no vamos a considerar la fase REM
+                }
+
+
+                // Almacenar valores de prueba
+                // ------------
+                String phase = "";
+                switch (currentSleepPhase) {
+                    case 0:
+                        phase = "Despierto";
+                        break;
+                    case 1:
+                        phase = "Ligero";
+                        break;
+                    case 2:
+                        phase = "Profundo";
+                        break;
+                    case 3:
+                        phase = "REM";
+                        break;
+                }
 
                 sleepCycleTestList.add(new SleepCycle(
                         hoursManager.getCurrentHour(),
-                        sleepCycleCalculator.getSleepCycle(bpmMean),
+                        phase,
                         bpmMean,
-                        sdnnCalculator.calculateSDNN(rrIntervals)));
-                bpmList.clear();
+                        sdnn,
+                        hrv));
 
-                minuteCounter += 1;
-                Log.d("SleepTracker", "minuteCounter: " + minuteCounter);
+                rrIntervals.clear();
+                bpmList.clear();
+                //--------------
+
+                minuteCounter += 5;
             }
 
             // Registrar valores de luz
-            /*
-            if (minuteCounter == 1) { // 30 = 30 minutos
+            if (minuteCounter == 10) { // 30 = 30 minutos
+                if (light != 0f) lightList.add(light);
                 lightManager.registerListener(lightListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
                 minuteCounter = 0;
-            }*/
+            }
 
 
-            int delay = 30000; // 30000 ms = 30 s
+            int delay = 10000; // 30000 ms = 30 s
             if (isStopTime()) {
                 stopSelf();
             } else {
@@ -157,14 +195,7 @@ public class SleepTracker extends Service {
         @Override
         public void onSensorChanged(SensorEvent event) {
             bpm = event.values[0];
-            //Log.d("SleepTracker", "BPM: " + bpm);
-
-            long currentTime = System.currentTimeMillis();
-            if (lastBeatTime != 0) {
-                long rrInterval = currentTime - lastBeatTime;
-                rrIntervals.add(rrInterval);
-            }
-            lastBeatTime = currentTime;
+            rrInterval = 60000 / bpm;
         }
 
         @Override
@@ -175,8 +206,7 @@ public class SleepTracker extends Service {
     private final SensorEventListener lightListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            lightList.add(event.values[0]);
-            Log.d("SleepTracker", "Light: " + event.values[0]);
+            light = event.values[0];
         }
 
         @Override
@@ -203,8 +233,8 @@ public class SleepTracker extends Service {
 
     //Placeholder for the actual stop time
     private boolean isStopTime() {
-        int stopHour = 14;
-        int stopMinute = 0;
+        int stopHour = 24;
+        int stopMinute = 45;
 
         Calendar currentTime = Calendar.getInstance();
         int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);

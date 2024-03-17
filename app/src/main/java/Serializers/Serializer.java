@@ -42,6 +42,7 @@ public class Serializer {
                 writer.write("    <hour>" + cycle.getDateTime() + "</hour>\n");
                 writer.write("    <mrc>" + cycle.getMrcData() + "</mrc>\n");
                 writer.write("    <sddn>" + cycle.getSdnn() + "</sddn>\n");
+                writer.write("    <hrv>" + cycle.getHrv() + "</hrv>\n");
                 writer.write("  </sleep>\n");
             }
 
