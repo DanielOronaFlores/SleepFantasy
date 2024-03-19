@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.List;
 
 import AppContext.MyApplication;
+import Database.DataAccess.PlaylistSongsDataAccess;
+import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DataUpdates.SongsDataUpdate;
 import Database.DatabaseConnection;
 import Files.AudiosPaths;

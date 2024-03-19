@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.annotation.SuppressLint;
+import android.media.MediaMetadataRetriever;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import AppContext.MyApplication;
 import Database.DataAccess.SongsDataAccess;
@@ -74,14 +76,14 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
             if (audioFiles != null) {
                 getAudioFilesFromDevice(audioFiles);
                 deletedAudiosAlreadyInDatabase();
-                //deleteAudiosNotInRange();
+                deleteAudiosNotInRange();
             }
         }
     }
 
     private void getAudioFilesFromDevice(File[] audioFiles) {
         for (File audioFile : audioFiles) {
-            if (audioFile.getName().endsWith(".MP3")){
+            if (audioFile.getName().endsWith(".mp3")){
                 String audioName = audioFile.getName();
                 audios.add(audioName);
             }
@@ -95,13 +97,15 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
     }
     private void deleteAudiosNotInRange() {
         Iterator<String> iterator = audios.iterator();
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
         while (iterator.hasNext()) {
             String audio = iterator.next();
             String audioPath = "/sdcard/Music/" + audio;
             File audioFile = new File(audioPath);
+            retriever.setDataSource(audioPath);
             if (audioFile.exists()) {
-                long audioDuration = audioFile.length();
+                long audioDuration = Long.parseLong(Objects.requireNonNull(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)));
                 if (audioDuration < 30000 || audioDuration > 600000) {
                     iterator.remove();
                 }
