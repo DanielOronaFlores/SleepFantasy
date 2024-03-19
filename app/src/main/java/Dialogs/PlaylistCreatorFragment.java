@@ -22,10 +22,10 @@ import Database.DataAccess.PlaylistDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DatabaseConnection;
-import Models.Song;
+import Models.Audio;
 
 public class PlaylistCreatorFragment extends DialogFragment {
-    private List<Song> selectedSongs;
+    private List<Audio> selectedSongs;
     private Context context;
     private PlaylistDataAccess playlistDataAccess;
     private PlaylistDataUpdate playlistDataUpdate;
@@ -62,7 +62,7 @@ public class PlaylistCreatorFragment extends DialogFragment {
         return builder.create();
     }
 
-    public void setSelectedSongs(List<Song> selectedSongs) {
+    public void setSelectedSongs(List<Audio> selectedSongs) {
         this.selectedSongs = selectedSongs;
     }
 
@@ -79,7 +79,7 @@ public class PlaylistCreatorFragment extends DialogFragment {
         } else {
             playlistDataUpdate.createPlaylist(playlistName, false);
             int playlistId = playlistDataAccess.getPlaylistId(playlistName);
-            for (Song song : selectedSongs) {
+            for (Audio song : selectedSongs) {
                 playlistSongsDataUpdate.addSongToPlaylist(playlistId, song.getId());
             }
             Toast toast = Toast.makeText(context, "Playlist creada", Toast.LENGTH_SHORT);

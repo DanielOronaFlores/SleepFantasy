@@ -2,6 +2,7 @@ package Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,27 +14,27 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.PlaylistVisualizer;
 import com.example.myapplication.R;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import AppContext.MyApplication;
-import Database.DataAccess.PlaylistSongsDataAccess;
-import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DataUpdates.SongsDataUpdate;
 import Database.DatabaseConnection;
-import Files.AudiosPaths;
 import Music.PlaylistSongs;
-import Models.Song;
+import Models.Audio;
+import Services.AudioPlayer;
 
 public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder> {
-    private final List<Song> songs;
+    private final List<Audio> audios;
     private final Activity activity;
     private MediaPlayer mediaPlayer;
 
-    public AdapterAudios(List<Song> songs, Activity activity) {
-        this.songs = songs;
+    public AdapterAudios(List<Audio> songs, Activity activity) {
+        this.audios = songs;
         this.activity = activity;
     }
 
@@ -45,55 +46,23 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
     }
     @Override
     public void onBindViewHolder(@NonNull AdapterAudios.ViewHolder holder, int position) {
-        holder.setSongs(songs.get(position).getName());
-        holder.button.setOnClickListener(v -> {
-            String songName = songs.get(position).getName();
-            int isCreatedBySystem = songs.get(position).getIbBySystem();
-            Log.d("AdapterSongs", "CreatedBySystem " + isCreatedBySystem);
+        if (mediaPlayer != null) mediaPlayer.release();
 
-            if (isCreatedBySystem == 1) {
-                int songID = selectSong(songName);
-                playSongCreatedBySystem(songID, holder.itemView.getContext());
-            } else {
-                playSongCreatedByUser(songName);
-            }
+
+        holder.setSongs(audios.get(position).getName());
+        holder.button.setOnClickListener(v -> {
+            mediaPlayer = new MediaPlayer();
+
+            Intent intent = new Intent(activity, AudioPlayer.class);
+            intent.putExtra("audios", (Serializable) audios);
+            intent.putExtra("position", position);
+
+            activity.startService(intent);
         });
     }
     @Override
     public int getItemCount() {
-        Log.d("AdapterSongs", "Song size:" + songs.size());
-        return songs.size();
-    }
-
-    private int selectSong(String songName) {
-        PlaylistSongs playlistSongs = new PlaylistSongs();
-        return playlistSongs.getResourceId(songName);
-    }
-    private void playSongCreatedBySystem(int songID, Context context) {
-        Log.d("AdapterSongs", "Obtenido ID: " + songID);
-        if (mediaPlayer != null) mediaPlayer.release();
-        mediaPlayer = MediaPlayer.create(context, songID);
-        mediaPlayer.start();
-    }
-    private void playSongCreatedByUser(String audioName) {
-        if (mediaPlayer != null) mediaPlayer.release();
-        mediaPlayer = new MediaPlayer();
-        String audioPath = "/sdcard/Music/" + audioName;
-        Log.d("AdapterSongs", "Audio path: " + audioPath);
-
-        try {
-            assert mediaPlayer != null;
-            mediaPlayer.setDataSource(audioPath);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
-            SongsDataUpdate songsDataUpdate = new SongsDataUpdate(connection);
-            songsDataUpdate.deleteSong(audioName);
-
-            Toast.makeText(activity, "Canción no encontrada. Eliminando de la PlayList", Toast.LENGTH_SHORT).show();
-            activity.recreate();
-        }
+        return audios.size();
     }
 
     public MediaPlayer getMediaPlayer() {

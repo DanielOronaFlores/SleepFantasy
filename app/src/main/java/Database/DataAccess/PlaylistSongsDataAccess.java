@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Database.DatabaseConnection;
-import Models.Song;
+import Models.Audio;
 
 public class PlaylistSongsDataAccess {
     private final SQLiteDatabase database;
@@ -18,9 +18,9 @@ public class PlaylistSongsDataAccess {
     }
 
     @SuppressLint("Range")
-    public List<Song> getSongsFromPlaylist(int playlistID) {
+    public List<Audio> getSongsFromPlaylist(int playlistID) {
         Log.d("canciones", "Playlist ID:" + playlistID);
-        List<Song> songs = new ArrayList<>();
+        List<Audio> songs = new ArrayList<>();
         String query = "SELECT name, id, ibBySystem FROM PlaylistSongs INNER JOIN Songs ON PlaylistSongs.songId = Songs.id WHERE playlistId = " + playlistID;
 
         Cursor cursor = database.rawQuery(query, null);
@@ -34,7 +34,7 @@ public class PlaylistSongsDataAccess {
                 Log.d("canciones", "Song ID:" + songID);
                 Log.d("canciones", "Song Name:" + songName);
 
-                Song song = new Song(songID, songName, isCreatedBySystem);
+                Audio song = new Audio(songID, songName, isCreatedBySystem);
                 songs.add(song);
             } while (cursor.moveToNext());
         }
@@ -43,8 +43,8 @@ public class PlaylistSongsDataAccess {
     }
 
     @SuppressLint("Range")
-    public List<Song> getNotSongsFromPlaylist(int playlistID) {
-        List<Song> songs = new ArrayList<>();
+    public List<Audio> getNotSongsFromPlaylist(int playlistID) {
+        List<Audio> songs = new ArrayList<>();
         String query = "SELECT name, id, ibBySystem FROM Songs WHERE id NOT IN (SELECT songId FROM PlaylistSongs WHERE playlistId = " + playlistID + ")";
 
         Cursor cursor = database.rawQuery(query, null);
@@ -55,7 +55,7 @@ public class PlaylistSongsDataAccess {
                 String songName = cursor.getString(cursor.getColumnIndex("name"));
                 int isCreatedBySystem = cursor.getInt(cursor.getColumnIndex("ibBySystem"));
 
-                Song song = new Song(songID, songName, isCreatedBySystem);
+                Audio song = new Audio(songID, songName, isCreatedBySystem);
                 songs.add(song);
             } while (cursor.moveToNext());
         }

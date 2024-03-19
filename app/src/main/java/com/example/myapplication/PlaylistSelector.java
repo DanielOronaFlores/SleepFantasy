@@ -54,7 +54,6 @@ public class PlaylistSelector extends AppCompatActivity {
         connection.openDatabase();
         playlistDataAccess = new PlaylistDataAccess(connection);
         playlists = playlistDataAccess.getAllPlaylists();
-        Log.d("playlist", "Playlists: " + playlists.size());
         recyclerView.setAdapter(new AdapterPlaylists(playlists));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

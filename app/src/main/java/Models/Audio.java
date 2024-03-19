@@ -1,11 +1,13 @@
 package Models;
 
-public class Song {
+import java.io.Serializable;
+
+public class Audio implements Serializable {
     private int id;
     private String name;
     private int ibBySystem;
 
-    public Song(int id, String name, int ibBySystem) {
+    public Audio(int id, String name, int ibBySystem) {
         this.id = id;
         this.name = name;
         this.ibBySystem = ibBySystem;

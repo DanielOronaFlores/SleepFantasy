@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Database.DatabaseConnection;
-import Models.Song;
+import Models.Audio;
 
 public class SongsDataAccess {
     private final SQLiteDatabase database;
@@ -38,8 +38,8 @@ public class SongsDataAccess {
         return songID;
     }
 
-    public List<Song> getAllSongs() {
-        List<Song> songList = new ArrayList<>();
+    public List<Audio> getAllSongs() {
+        List<Audio> songList = new ArrayList<>();
         String query = "SELECT * FROM Songs;";
 
         Cursor cursor = database.rawQuery(query, null);
@@ -50,7 +50,7 @@ public class SongsDataAccess {
                 @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
                 @SuppressLint("Range") int ibBySystem = cursor.getInt(cursor.getColumnIndex("ibBySystem"));
 
-                Song song = new Song(id, name, ibBySystem);
+                Audio song = new Audio(id, name, ibBySystem);
                 songList.add(song);
                 Log.d("Song", "New song added: " + song.getName());
             } while (cursor.moveToNext());

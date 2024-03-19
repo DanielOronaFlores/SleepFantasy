@@ -20,7 +20,7 @@ import Database.DataAccess.PlaylistSongsDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DatabaseConnection;
-import Models.Song;
+import Models.Audio;
 
 public class PlaylistEditor extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -30,7 +30,7 @@ public class PlaylistEditor extends AppCompatActivity {
     private final PlaylistSongsDataUpdate playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
     private RecyclerView recyclerView;
     private EditText playlistName;
-    private List<Song> songs, selectedSongs;
+    private List<Audio> songs, selectedSongs;
     private boolean addSongsMode;
     private int playlistID;
 
@@ -59,7 +59,7 @@ public class PlaylistEditor extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerEditSongs);
     }
 
-    private void generateSongsList(List<Song> songs) {
+    private void generateSongsList(List<Audio> songs) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new AdapterPlaylistCreator(songs));
     }
@@ -76,12 +76,12 @@ public class PlaylistEditor extends AppCompatActivity {
     }
 
     private void deleteSongsFromPlaylist() {
-        for (Song song : selectedSongs) {
+        for (Audio song : selectedSongs) {
             playlistSongsDataUpdate.deleteSongFromPlaylist(playlistID, song.getId());
         }
     }
     private void addSongsToPlaylist() {
-        for (Song song : selectedSongs) {
+        for (Audio song : selectedSongs) {
             playlistSongsDataUpdate.addSongToPlaylist(playlistID, song.getId());
         }
     }

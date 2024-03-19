@@ -14,14 +14,14 @@ import com.example.myapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import Models.Song;
+import Models.Audio;
 import Utils.ListSongUtil;
 
 public class AdapterChecklistSongs extends RecyclerView.Adapter<AdapterChecklistSongs.ViewHolder> {
-    private final List<Song> songs;
+    private final List<Audio> songs;
     private final List<Boolean> checkedList;
 
-    public AdapterChecklistSongs(List<Song> songs) {
+    public AdapterChecklistSongs(List<Audio> songs) {
         this.songs = songs;
         checkedList = new ArrayList<>(songs.size());
         for (int i = 0; i < songs.size(); i++) {
@@ -38,7 +38,12 @@ public class AdapterChecklistSongs extends RecyclerView.Adapter<AdapterChecklist
 
     @Override
     public void onBindViewHolder(@NonNull AdapterChecklistSongs.ViewHolder holder, int position) {
-        holder.setSongs(songs.get(position).getName());
+        String shortName = songs.get(position).getName();
+        if (shortName.length() > 7) {
+            shortName = shortName.substring(0, 7) + "...";
+        }
+
+        holder.setSongs(shortName);
         holder.checkBox.setChecked(checkedList.get(position));
     }
 
@@ -47,17 +52,17 @@ public class AdapterChecklistSongs extends RecyclerView.Adapter<AdapterChecklist
         return songs.size();
     }
 
-    public List<Song> getSelectedSongs() {
+    public List<Audio> getSelectedSongs() {
         ListSongUtil listSongUtil = new ListSongUtil();
         return listSongUtil.getSelectedSongs(songs, checkedList);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView songName;
+        TextView audioName;
         CheckBox checkBox;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            songName = itemView.findViewById(R.id.songElement);
+            audioName = itemView.findViewById(R.id.songElement);
             checkBox = itemView.findViewById(R.id.songCheckBox);
 
             checkBox.setOnClickListener(v -> {
@@ -69,7 +74,7 @@ public class AdapterChecklistSongs extends RecyclerView.Adapter<AdapterChecklist
         }
 
         public void setSongs(String songName) {
-            this.songName.setText(songName);
+            this.audioName.setText(songName);
         }
     }
 }

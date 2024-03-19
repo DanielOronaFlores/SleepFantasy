@@ -14,7 +14,7 @@ import Adapters.AdapterChecklistSongs;
 import Database.DataAccess.SongsDataAccess;
 import Database.DatabaseConnection;
 import Dialogs.PlaylistCreatorFragment;
-import Models.Song;
+import Models.Audio;
 
 public class PlaylistCreator extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -27,7 +27,7 @@ public class PlaylistCreator extends AppCompatActivity {
         setContentView(R.layout.activity_playlist_creator);
 
         connection.openDatabase();
-        List<Song> songs = songsDataAccess.getAllSongs();
+        List<Audio> songs = songsDataAccess.getAllSongs();
 
         recyclerView = findViewById(R.id.recyclerSongs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -38,7 +38,7 @@ public class PlaylistCreator extends AppCompatActivity {
     }
 
     private void openPlaylistSelectionNameDialog() {
-        List<Song> selectedSongs;
+        List<Audio> selectedSongs;
         selectedSongs = ((AdapterChecklistSongs) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedSongs();
 
         PlaylistCreatorFragment playlistCreator = new PlaylistCreatorFragment();
