@@ -19,7 +19,7 @@ import Database.DataAccess.PlaylistDataAccess;
 import Database.DataAccess.PlaylistSongsDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DatabaseConnection;
-import Models.Song;
+import Models.Audio;
 
 public class PlaylistVisualizer extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -31,7 +31,7 @@ public class PlaylistVisualizer extends AppCompatActivity {
     private TextView playlistTitle;
     private ImageView deletePlaylist, editPlaylist;
     private int playlistID;
-    private List<Song> songs;
+    private List<Audio> songs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,6 @@ public class PlaylistVisualizer extends AppCompatActivity {
         Intent playlistSelector = getIntent();
         playlistID = playlistSelector.getIntExtra("playlistID", -1);
         if (playlistID == -1) {
-            Log.d("playlist", "Playlist ID:" + playlistID);
             throw new RuntimeException("Playlist ID not found");
         }
 
@@ -81,7 +80,6 @@ public class PlaylistVisualizer extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         songs = playlistSongsDataAccess.getSongsFromPlaylist(playlistID);
-        Log.d("playlist", "Songs: " + songs.size());
         if (songs.isEmpty()) {
             finish();
         } else {
@@ -93,8 +91,6 @@ public class PlaylistVisualizer extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MediaPlayer mediaPlayer = adapterSongs.getMediaPlayer();
-        if (mediaPlayer != null) mediaPlayer.release();
     }
 
     private void setPlaylistTitle() {
