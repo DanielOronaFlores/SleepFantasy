@@ -81,6 +81,7 @@ public class PlaylistVisualizer extends AppCompatActivity {
         super.onStart();
         songs = playlistSongsDataAccess.getSongsFromPlaylist(playlistID);
         if (songs.isEmpty()) {
+            playlistDataUpdate.deletePlaylist(playlistID);
             finish();
         } else {
             setPlaylistTitle();

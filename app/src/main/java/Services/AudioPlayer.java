@@ -1,7 +1,7 @@
 package Services;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,34 +9,41 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.myapplication.R;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import AppContext.MyApplication;
 import Broadcasts.MusicBroadcast;
+import Database.DataAccess.PreferencesDataAccess;
+import Database.DataAccess.SongsDataAccess;
+import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DataUpdates.SongsDataUpdate;
 import Database.DatabaseConnection;
 import Models.Audio;
 import Music.PlaylistSongs;
 
 public class AudioPlayer extends Service {
+    private final DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+    private final PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
     private List<Audio> audios;
     private static MediaPlayer mediaPlayer;
     private int position;
+    private Activity activity;
 
     @Nullable
     @Override
@@ -44,24 +51,34 @@ public class AudioPlayer extends Service {
         return null;
     }
 
-    @SuppressLint("ForegroundServiceType")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        connection.openDatabase();
+
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
         }
 
-        Notification notification = createNotification();
-        startForeground(1, notification);
+        long timer = preferencesDataAccess.getTimerDuration();
+        if (timer > 0) {
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    Log.d("AudioPlayer", "Audio Detenido por Timer: " + timer);
+                    mediaPlayer.stop();
+                }
+                stopSelf();
+            }, timer);
+        }
 
         audios = (List<Audio>) intent.getSerializableExtra("audios");
         position = intent.getIntExtra("position", 0);
+
         mediaPlayer = new MediaPlayer();
 
-        new Thread(() -> ((Runnable) () -> {
-            playAudioInLoop(position);
-        }).run()).start();
+        new Thread(() -> playAudioInLoop(position)).start();
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -82,6 +99,7 @@ public class AudioPlayer extends Service {
         } else {
             playSongCreatedByUser(songName);
         }
+
         mediaPlayer.setOnCompletionListener(mp -> resetAudioLoop());
     }
 
@@ -90,20 +108,41 @@ public class AudioPlayer extends Service {
         mediaPlayer.start();
     }
 
+    @SuppressLint("ForegroundServiceType")
     private void playSongCreatedByUser(String audioName) {
         mediaPlayer = new MediaPlayer();
         String audioPath = "/sdcard/Music/" + audioName;
 
-        try {
-            mediaPlayer.setDataSource(audioPath);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
+        File audioFile = new File(audioPath);
+        if (audioFile.exists()) {
+            Notification notification = createNotification();
+            startForeground(1, notification);
+
+            try {
+                mediaPlayer.setDataSource(audioPath);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> Toast.makeText(getApplicationContext(), "Audio no encontrando. Eliminando de Playlists", Toast.LENGTH_SHORT).show());
+
             DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+
             SongsDataUpdate songsDataUpdate = new SongsDataUpdate(connection);
             songsDataUpdate.deleteSong(audioName);
 
-            Toast.makeText(MyApplication.getAppContext(), "Canción no encontrada. Eliminando de la PlayList", Toast.LENGTH_SHORT).show();
+            SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
+            int songID = songsDataAccess.getSongID(audioName);
+
+            PlaylistSongsDataUpdate playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
+            playlistSongsDataUpdate.deleteAudio(songID);
+
+            recreateActivity();
+
+            stopSelf();
         }
     }
 
@@ -122,8 +161,14 @@ public class AudioPlayer extends Service {
         }
     }
 
-
     private Notification createNotification() {
+        NotificationChannel channel;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = new NotificationChannel("audio_player_channel", "Audio Player Channel", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "audio_player_channel")
                 .setSmallIcon(R.drawable.placeholder_cono)
                 .setContentTitle("Sleep Fantasy Audio Player")
@@ -141,5 +186,10 @@ public class AudioPlayer extends Service {
         builder.extend(wearableExtender);
 
         return builder.build();
+    }
+
+    private void recreateActivity() {
+        Intent intent = new Intent("RECREAR_ACTIVIDAD");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

@@ -28,8 +28,6 @@ public class MusicBroadcast extends BroadcastReceiver {
     private void stopAudio() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
         }
     }
 }

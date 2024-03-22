@@ -1,8 +1,10 @@
 package Adapters;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.PlaylistVisualizer;
@@ -31,7 +34,6 @@ import Services.AudioPlayer;
 public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder> {
     private final List<Audio> audios;
     private final Activity activity;
-    private MediaPlayer mediaPlayer;
 
     public AdapterAudios(List<Audio> songs, Activity activity) {
         this.audios = songs;
@@ -42,20 +44,21 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
     @Override
     public AdapterAudios.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_song_selector, parent, false);
+
+        IntentFilter filter = new IntentFilter("RECREAR_ACTIVIDAD");
+        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, filter);
+
         return new ViewHolder(view);
     }
     @Override
     public void onBindViewHolder(@NonNull AdapterAudios.ViewHolder holder, int position) {
-        if (mediaPlayer != null) mediaPlayer.release();
-
-
         holder.setSongs(audios.get(position).getName());
         holder.button.setOnClickListener(v -> {
-            mediaPlayer = new MediaPlayer();
 
             Intent intent = new Intent(activity, AudioPlayer.class);
             intent.putExtra("audios", (Serializable) audios);
             intent.putExtra("position", position);
+            intent.putExtra("activity", activity.getClass().getSimpleName());
 
             activity.startService(intent);
         });
@@ -63,10 +66,6 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
     @Override
     public int getItemCount() {
         return audios.size();
-    }
-
-    public MediaPlayer getMediaPlayer() {
-        return mediaPlayer;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -79,4 +78,13 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
             button.setText(s);
         }
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("RECREAR_ACTIVIDAD".equals(intent.getAction())) {
+                activity.recreate();
+            }
+        }
+    };
 }

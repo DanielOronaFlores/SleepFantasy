@@ -77,7 +77,7 @@ public class PlaylistEditor extends AppCompatActivity {
 
     private void deleteSongsFromPlaylist() {
         for (Audio song : selectedSongs) {
-            playlistSongsDataUpdate.deleteSongFromPlaylist(playlistID, song.getId());
+            playlistSongsDataUpdate.deleteAudioFromPlaylist(playlistID, song.getId());
         }
     }
     private void addSongsToPlaylist() {
