@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import GameManagers.ExperienceManager;
-import GameManagers.AvatarManager;
 import Database.DatabaseConnection;
 
 public class CharacterChoice extends AppCompatActivity {
@@ -19,7 +18,7 @@ public class CharacterChoice extends AppCompatActivity {
             R.drawable.placeholder_quick
     };
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);;
-    private final AvatarManager avatarManager = new AvatarManager(connection);
+    private final DatabaseConnection.AvatarCreator avatarManager = new DatabaseConnection.AvatarCreator(connection);
     private ImageView currentCharacter, leftButton, rightButton;
     private int idCharacter = 0;
     private String name;

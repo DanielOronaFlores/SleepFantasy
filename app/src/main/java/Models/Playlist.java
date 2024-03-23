@@ -1,4 +1,4 @@
-package Music;
+package Models;
 
 public class Playlist {
     private int id;

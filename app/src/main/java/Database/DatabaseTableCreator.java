@@ -91,6 +91,7 @@ public class DatabaseTableCreator {
                 "loudSoundsAmount INTEGER, " +
                 "suddenMovementsAmount INTEGER, " +
                 "positionChangesAmount INTEGER, " +
+                "lightValue INTEGER, " +
                 "date TEXT);";
         db.execSQL(queryCreateSleepDataTable);
     }

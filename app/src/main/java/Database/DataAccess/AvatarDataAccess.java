@@ -21,8 +21,7 @@ public class AvatarDataAccess {
                 name = cursor.getString(0);
             }
         } catch (SQLiteException e) {
-            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
-            e.printStackTrace();
+           e.printStackTrace();
         }
         return name;
     }

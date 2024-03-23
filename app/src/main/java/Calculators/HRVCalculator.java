@@ -1,4 +1,4 @@
-package SleepTracker;
+package Calculators;
 
 import java.util.List;
 

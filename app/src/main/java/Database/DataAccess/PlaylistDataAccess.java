@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Database.DatabaseConnection;
-import Music.Playlist;
+import Models.Playlist;
 
 public class PlaylistDataAccess {
     private final SQLiteDatabase database;

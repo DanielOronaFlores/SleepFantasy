@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Models.Audio;
-import Utils.ListSongUtil;
+import Utils.GetSelectedAudios;
 
 public class AdapterChecklistSongs extends RecyclerView.Adapter<AdapterChecklistSongs.ViewHolder> {
     private final List<Audio> songs;
@@ -53,7 +53,7 @@ public class AdapterChecklistSongs extends RecyclerView.Adapter<AdapterChecklist
     }
 
     public List<Audio> getSelectedSongs() {
-        ListSongUtil listSongUtil = new ListSongUtil();
+        GetSelectedAudios listSongUtil = new GetSelectedAudios();
         return listSongUtil.getSelectedSongs(songs, checkedList);
     }
 

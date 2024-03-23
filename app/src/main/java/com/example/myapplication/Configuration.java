@@ -10,9 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import Database.DataAccess.AvatarDataAccess;
-import Database.DataUpdates.AvatarDataUpdate;
-import GameManagers.AvatarManager;
 import Database.DatabaseConnection;
 import Database.DataAccess.PreferencesDataAccess;
 
@@ -20,8 +17,8 @@ public class Configuration extends AppCompatActivity {
     private DatabaseConnection connection;
     private EditText etName, etAge;
     private CheckBox ckSaveAudios, ckRecordSnoring;
-    private AvatarManager avatarManager;
-    private AvatarDataUpdate avatarDataUpdate;
+    private DatabaseConnection.AvatarCreator avatarManager;
+    private Database.DataUpdates.AvatarDataUpdate avatarDataUpdate;
     private PreferencesDataAccess preferencesManager;
     private Button btQuality;
 
@@ -45,9 +42,9 @@ public class Configuration extends AppCompatActivity {
         if (preferencesDataAccess.getAudioQuality()) btQuality.setText("alta");
         else btQuality.setText("baja");
 
-        AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
-        avatarManager = new AvatarManager(connection);
-        avatarDataUpdate = new AvatarDataUpdate(connection);
+        Database.DataAccess.AvatarDataAccess avatarDataAccess = new Database.DataAccess.AvatarDataAccess(connection);
+        avatarManager = new DatabaseConnection.AvatarCreator(connection);
+        avatarDataUpdate = new Database.DataUpdates.AvatarDataUpdate(connection);
         preferencesManager = new PreferencesDataAccess(connection);
 
         if(avatarManager.isAvatarCreated()) {

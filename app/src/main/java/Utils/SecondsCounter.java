@@ -34,7 +34,6 @@ public class SecondsCounter {
         // Agregar la última secuencia consecutiva
         consecutiveNumbersList.add(new ArrayList<>(consecutiveNumbers));
 
-        Log.d("ConsecutiveNumbers", "Consecutive numbers: " + consecutiveNumbersList.size());
         return consecutiveNumbersList;
     }
 

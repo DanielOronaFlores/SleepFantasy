@@ -2,7 +2,6 @@ package Adapters;
 
 import android.annotation.SuppressLint;
 import android.media.MediaMetadataRetriever;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,8 @@ import Database.DatabaseConnection;
 public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.ViewHolder> {
     private static List<Boolean> checkedList;
     private final List<String> audios = new ArrayList<>();
-
+    @SuppressLint("SdCardPath")
+    private final String PATH = "/sdcard/Music/";
 
     public AdapterAddAudios() {
         initializeAudioFilesList();
@@ -43,13 +43,11 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_playlist_creator, parent, false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull AdapterAddAudios.ViewHolder holder, int position) {
         holder.setAudios(audios.get(position));
         holder.checkBox.setChecked(checkedList.get(position));
     }
-
     @Override
     public int getItemCount() {
         return audios.size();
@@ -67,12 +65,9 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
 
     @SuppressLint("SdCardPath")
     private void initializeAudioFilesList() {
-        File folder = new File("/sdcard/Music"); //
-        Log.d("Files", "Path: " + folder.getAbsolutePath());
-
+        File folder = new File(PATH);
         if (folder.exists() && folder.isDirectory()) {
             File[] audioFiles = folder.listFiles();
-
             if (audioFiles != null) {
                 getAudioFilesFromDevice(audioFiles);
                 deletedAudiosAlreadyInDatabase();
@@ -101,7 +96,7 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
 
         while (iterator.hasNext()) {
             String audio = iterator.next();
-            String audioPath = "/sdcard/Music/" + audio;
+            String audioPath = PATH + audio;
             File audioFile = new File(audioPath);
             retriever.setDataSource(audioPath);
             if (audioFile.exists()) {
@@ -123,7 +118,7 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
             checkBox = itemView.findViewById(R.id.songCheckBox);
 
             checkBox.setOnClickListener(v -> {
-                int position = getAdapterPosition();
+                int position = getAbsoluteAdapterPosition(); //TODO
                 if (position != RecyclerView.NO_POSITION) {
                     checkedList.set(position, checkBox.isChecked());
                 }

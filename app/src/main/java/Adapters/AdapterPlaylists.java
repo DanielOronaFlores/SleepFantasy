@@ -15,7 +15,7 @@ import com.example.myapplication.PlaylistVisualizer;
 
 import java.util.List;
 
-import Music.Playlist;
+import Models.Playlist;
 
 public class AdapterPlaylists extends RecyclerView.Adapter<AdapterPlaylists.ViewHolder>{
     private final List<Playlist> playlists;

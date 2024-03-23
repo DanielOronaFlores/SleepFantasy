@@ -35,7 +35,7 @@ import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DataUpdates.SongsDataUpdate;
 import Database.DatabaseConnection;
 import Models.Audio;
-import Music.PlaylistSongs;
+import Models.PlaylistAudios;
 
 public class AudioPlayer extends Service {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
@@ -147,7 +147,7 @@ public class AudioPlayer extends Service {
     }
 
     private int selectSong(String songName) {
-        PlaylistSongs playlistSongs = new PlaylistSongs();
+        PlaylistAudios playlistSongs = new PlaylistAudios();
         return playlistSongs.getResourceId(songName);
     }
 

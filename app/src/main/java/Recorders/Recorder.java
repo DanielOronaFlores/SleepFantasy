@@ -6,7 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 
 import Files.AudiosPaths;
-import Preferences.RecordingPreferences;
+import Recorders.Preferences.RecordingPreferences;
 
 public class Recorder {
     private final RecordingPreferences recordingPreferences = new RecordingPreferences();

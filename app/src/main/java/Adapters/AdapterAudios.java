@@ -5,29 +5,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.PlaylistVisualizer;
 import com.example.myapplication.R;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import AppContext.MyApplication;
-import Database.DataUpdates.SongsDataUpdate;
-import Database.DatabaseConnection;
-import Music.PlaylistSongs;
 import Models.Audio;
 import Services.AudioPlayer;
 

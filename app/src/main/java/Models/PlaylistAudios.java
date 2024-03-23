@@ -1,13 +1,13 @@
-package Music;
+package Models;
 
 import android.content.Context;
 
 import AppContext.MyApplication;
 
-public class PlaylistSongs {
+public class PlaylistAudios {
 private Context context;
 
-    public PlaylistSongs() {
+    public PlaylistAudios() {
         MyApplication myApplication = new MyApplication();
         context = myApplication.getAppContext();
     }

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import AppContext.MyApplication;
 import Files.AudiosPaths;
-import Preferences.RecordingPreferences;
+import Recorders.Preferences.RecordingPreferences;
 
 public class PCMRecorder {
     private final RecordingPreferences recordingPreferences = new RecordingPreferences();

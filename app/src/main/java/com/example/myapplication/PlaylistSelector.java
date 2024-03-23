@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -15,7 +14,7 @@ import java.util.List;
 import Adapters.AdapterPlaylists;
 import Database.DataAccess.PlaylistDataAccess;
 import Database.DatabaseConnection;
-import Music.Playlist;
+import Models.Playlist;
 
 public class PlaylistSelector extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
