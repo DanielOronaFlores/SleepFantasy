@@ -1,0 +1,59 @@
+package SleepEvents;
+
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.util.Log;
+
+public class Events {
+    private final SensorManager sensorManager;
+    private final Sensor gyroscopeSensor;
+    int totalSuddenMovements = 0;
+
+    public Events(Context context) {
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        if (gyroscopeSensor != null) {
+            sensorManager.registerListener(sensorListenerGyroscope, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+    public int getTotalSuddenMovements() {
+        return totalSuddenMovements;
+    }
+
+    public void registerGyroscopeListener() {
+        if (gyroscopeSensor != null) {
+            sensorManager.registerListener(sensorListenerGyroscope, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+    public boolean isSuddenMovement(float xAxis, float yAxis, float zAxis) {
+        if (xAxis != 0.0f || yAxis != 0.0f || zAxis != 0.0f) {
+            double magnitude = Math.sqrt(xAxis * xAxis + yAxis * yAxis + zAxis * zAxis);
+            double threshold = 5;
+            return magnitude > threshold;
+        }
+        return false;
+    }
+
+    private final SensorEventListener sensorListenerGyroscope = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float xRotationRate = event.values[0];
+            float yRotationRate = event.values[1];
+            float zRotationRate = event.values[2];
+
+            if (isSuddenMovement(xRotationRate, yRotationRate, zRotationRate)) {
+                Log.d("Sudden Movement", "Sudden Movement Detected");
+                totalSuddenMovements++;
+            }
+        }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+    };
+}

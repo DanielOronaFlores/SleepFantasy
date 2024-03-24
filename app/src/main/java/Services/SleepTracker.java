@@ -31,6 +31,7 @@ import Serializers.Serializer;
 import Calculators.HRVCalculator;
 import Calculators.AverageCalculator;
 import Calculators.SleepCycle;
+import SleepEvents.Events;
 
 public class SleepTracker extends Service {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -41,6 +42,7 @@ public class SleepTracker extends Service {
     private final HoursManager hoursManager = new HoursManager();
     private final List<Double> bpmList = new ArrayList<>(), rrIntervals = new ArrayList<>();
     private final List<Float> lightList = new ArrayList<>();
+    private Events events;
     private SensorManager heartRateManager, lightManager;
     private Sensor heartRateSensor, lightSensor;
     private Handler handler;
@@ -74,9 +76,11 @@ public class SleepTracker extends Service {
         lightManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         lightSensor = lightManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
-        if (heartRateSensor == null) stopSelf();
+        if (heartRateSensor == null) stopSelf();;
 
         handler = new Handler(Looper.getMainLooper());
+
+        events = new Events(this);
 
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SleepTracker::lock");
@@ -112,12 +116,16 @@ public class SleepTracker extends Service {
 
         handler.removeCallbacks(runnable);
 
+        int suddenMovements = events.getTotalSuddenMovements();
+        Log.d("Sudden Movements", "Total de movimientos bruscos: " + suddenMovements);
+
         connection.openDatabase();
         sleepDataUpdate.insertData(vigilTime,
                 lightSleepTime,
                 deepSleepTime,
                 remSleepTime,
-                averageCalculator.calculateMeanFloat(lightList));
+                averageCalculator.calculateMeanFloat(lightList),
+                suddenMovements);
 
         stopForeground(true);
         wakeLock.release();
@@ -126,6 +134,10 @@ public class SleepTracker extends Service {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            if (!isSleeping) {
+                events.registerGyroscopeListener();
+            }
+
             heartRateManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_FASTEST);
             if (bpm > 0.0) bpmList.add(bpm);
             rrIntervals.add(rrInterval);
@@ -247,8 +259,8 @@ public class SleepTracker extends Service {
 
     //Placeholder for the actual stop time
     private boolean isStopTime() {
-        int stopHour = 20;
-        int stopMinute = 42;
+        int stopHour = 12;
+        int stopMinute = 35;
 
         Calendar currentTime = Calendar.getInstance();
         int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);

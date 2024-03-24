@@ -20,9 +20,10 @@ public class SleepDataUpdate {
                            int lightSleepTime,
                            int deepSleepTime,
                            int remSleepTime,
-                           float lightValue) {
+                           float lightValue,
+                           int suddenMovementsAmount) {
 
-        int totalSleepTime = vigilTime + lightSleepTime + deepSleepTime + remSleepTime;
+        int totalSleepTime = lightSleepTime + deepSleepTime + remSleepTime;
         int efficiency = Efficiency.getSleepEfficiency(totalSleepTime, vigilTime);
         String date = dateManager.getCurrentDate();
 
@@ -35,6 +36,8 @@ public class SleepDataUpdate {
         values.put("efficiency", efficiency);
         values.put("date", date);
         values.put("lightValue", lightValue);
+
+        values.put("suddenMovementsAmount", suddenMovementsAmount);
 
         database.insert("SleepData", null, values);
     }

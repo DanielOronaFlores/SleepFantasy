@@ -48,14 +48,12 @@ public class PostureSensor extends Service {
 
         sleepTrackerServiceIntent = new Intent(MyApplication.getAppContext(), SleepTracker.class);
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         runnable.run();
 
         return START_STICKY;
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -70,10 +68,6 @@ public class PostureSensor extends Service {
         public void run() {
             managerAccelerometer.registerListener(sensorListenerAccelerometer, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
             managerGyroscope.registerListener(sensorListenerGyroscope, sensorGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-
-            //Log.d("PostureSensor", "isHorizontal: " + isHorizontal);
-            //Log.d("PostureSensor", "isLowRotation: " + isLowRotation);
-            //Log.d("PostureSensor", "isUserLyingDown: " + isUserLyingDown());
 
             //TODO: Debemos poner una condicional usando el MRC para ejecutar el servicio de SleepTracker
             if (isUserLyingDown()) {
