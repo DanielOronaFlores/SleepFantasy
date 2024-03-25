@@ -103,8 +103,6 @@ public class Recordings extends AppCompatActivity {
         Deserializer deserializer = new Deserializer();
         List<Sound> soundsList = deserializer.deserializeFromXML(audiosFiles.getXMLPath());
 
-        Log.d("SOUNDS", soundsList.toString());
-
         return secondsCounter.getConsecutiveSeconds(soundsList);
     }
 

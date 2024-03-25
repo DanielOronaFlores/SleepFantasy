@@ -31,7 +31,7 @@ public class AudioFilter {
             int samplesPerSegment = (int) (sampleRate * segmentDuration);
             double[] samples = new double[samplesPerSegment];
 
-            int BUFFER_SAMPLE_SIZE = 2;
+            int BUFFER_SAMPLE_SIZE = 1;
             byte[] buffer = new byte[samplesPerSegment * BUFFER_SAMPLE_SIZE];
 
             double totalSumOfSquares = 0;
@@ -45,7 +45,8 @@ public class AudioFilter {
                 second++;
 
                 for (int i = 0; i < samplesPerSegment; i++) {
-                    samples[i] = ((buffer[i * 2 + 1] << 8) | (buffer[i * 2] & 0xFF)) / 32768.0;
+                    //samples[i] = ((buffer[i * 2 + 1] << 8) | (buffer[i * 2] & 0xFF)) / 32768.0;
+                    samples[i] = (buffer[i] - 128) / 128.0;
                 }
 
                 double sumOfSquares = Arrays.stream(samples).map(x -> x * x).sum();
@@ -60,10 +61,10 @@ public class AudioFilter {
                 rmsFilter.removeAudioLowerByRMS(samples, currentRMS, threshold);
 
                 if (second % 2 != 0) {
-                    Log.d("FFT", "-----" + second / 2 + "-----");
-                    Log.d("FFT", Arrays.toString(samples));
                     if (samples[0] != 0) {
-                        soundsList.add(new Sound(second / 2));
+                        int realSecond = (second / 2) / 10;
+                        //Log.d("AudioFilter", "Sound detected at second: " + realSecond);
+                        soundsList.add(new Sound(realSecond));
                     }
                 }
             }

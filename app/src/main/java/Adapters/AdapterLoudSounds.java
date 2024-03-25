@@ -30,7 +30,7 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
         mediaPlayer = new MediaPlayer();
 
         for (List<Integer> sound : sounds) {
-            Log.d("Sound", "Sound: " + sound);
+            Log.d("AdapterLoudSounds", "Sound: " + sound);
         }
     }
 
@@ -46,9 +46,9 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
         final String soundName = "Sonido " + (position + 1);
         holder.soundElement.setText(soundName);
         holder.soundElement.setOnClickListener(v -> {
-            Log.d("SoundClicked", "Clicked on sound: " + soundName);
+            Log.d("AdapterLoudSounds", "Clicked on sound: " + soundName);
             List<Integer> currentList = sounds.get(position);
-            playSong(holder.itemView.getContext(), currentList);
+            playSound(holder.itemView.getContext(), currentList);
         });
     }
 
@@ -65,14 +65,14 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
         }
     }
 
-    private void playSong(Context context, List<Integer> seconds) {
+    private void playSound(Context context, List<Integer> seconds) {
         String recordFilePath = audioFiles.getRecordingsPath();
 
         int startMillis = seconds.get(0) * 1000;
         int endSecond = seconds.get(seconds.size() - 1) + 1;
         int endMillis = endSecond * 1000;
 
-        Log.d("PlaySong", "Start: " + startMillis + " End: " + endMillis);
+        Log.d("AdapterLoudSounds", "Start: " + startMillis + " End: " + endMillis);
 
         try {
             mediaPlayer.setDataSource(context, Uri.parse(recordFilePath));

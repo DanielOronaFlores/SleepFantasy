@@ -22,12 +22,14 @@ public class SecondsCounter {
             int currentSecond = soundList.get(i).getSecond();
             int nextSecond = soundList.get(j).getSecond();
 
-            if (Math.abs(currentSecond - nextSecond) == 1) {
-                consecutiveNumbers.add(nextSecond);
-            } else {
-                consecutiveNumbersList.add(new ArrayList<>(consecutiveNumbers));
-                consecutiveNumbers.clear();
-                consecutiveNumbers.add(nextSecond);
+            if (currentSecond != nextSecond) {
+                if (Math.abs(currentSecond - nextSecond) == 1) {
+                    consecutiveNumbers.add(nextSecond);
+                } else {
+                    consecutiveNumbersList.add(new ArrayList<>(consecutiveNumbers));
+                    consecutiveNumbers.clear();
+                    consecutiveNumbers.add(nextSecond);
+                }
             }
         }
 

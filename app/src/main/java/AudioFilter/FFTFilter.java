@@ -16,7 +16,6 @@ public class FFTFilter {
     public void applyFFT(double[] samples) {
         DoubleFFT_1D fft = new DoubleFFT_1D(samples.length);
         fft.realForward(samples);
-        //Log.d("Audio", "FFT aplicada");
     }
 
     public void deleteHighFrequencies(double[] samples, int cutoffFrequency) {
