@@ -47,10 +47,12 @@ public class SleepTracker extends Service {
     private Sensor heartRateSensor, lightSensor;
     private Handler handler;
     private PowerManager.WakeLock wakeLock;
+
+    // Variables de rastreo de sueño
     private double bpm, rrInterval;
     private int minuteCounter, currentSleepPhase;
-    private float light;
     private boolean isSleeping = false;
+    private boolean isEventRunning = false;
 
     // Eventos de sueño
     private SuddenMovements suddenMovements;
@@ -59,6 +61,7 @@ public class SleepTracker extends Service {
 
     // Variables de datos de sueño
     private int vigilTime, lightSleepTime, deepSleepTime, remSleepTime;
+    private float light;
 
 
     // Para pruebas
@@ -125,7 +128,7 @@ public class SleepTracker extends Service {
         eventsHandler.removeCallbacks(events);
 
         int suddenMovements = this.suddenMovements.getTotalSuddenMovements();
-        Log.d("Sudden Movements", "Total de movimientos bruscos: " + suddenMovements);
+        int positionChanges = this.positionChanges.getTotalPositionChanges();
 
         connection.openDatabase();
         sleepDataUpdate.insertData(vigilTime,
@@ -133,7 +136,8 @@ public class SleepTracker extends Service {
                 deepSleepTime,
                 remSleepTime,
                 averageCalculator.calculateMeanFloat(lightList),
-                suddenMovements);
+                suddenMovements,
+                positionChanges);
 
         stopForeground(true);
         wakeLock.release();
@@ -142,8 +146,9 @@ public class SleepTracker extends Service {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (isSleeping) {
+            if (!isSleeping && !isEventRunning) {
                 events.run();
+                isEventRunning = true;
             }
 
             heartRateManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_FASTEST);
@@ -230,7 +235,7 @@ public class SleepTracker extends Service {
         @Override
         public void run() {
             suddenMovements.registerSuddenMovementsListener();
-            //positionChanges.registerPositionChangesListener();
+            positionChanges.registerPositionChangesListener();
 
             eventsHandler.postDelayed(this, 1000); // 1000 ms = 1 s
         }
@@ -277,8 +282,8 @@ public class SleepTracker extends Service {
 
     //Placeholder for the actual stop time
     private boolean isStopTime() {
-        int stopHour = 16;
-        int stopMinute = 05;
+        int stopHour = 17;
+        int stopMinute = 27;
 
         Calendar currentTime = Calendar.getInstance();
         int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
