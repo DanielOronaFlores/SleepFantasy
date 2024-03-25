@@ -63,7 +63,6 @@ public class Configuration extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        connection.closeDatabase();
     }
 
     private void setUserData(String name, byte age) {

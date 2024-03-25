@@ -31,7 +31,8 @@ import Serializers.Serializer;
 import Calculators.HRVCalculator;
 import Calculators.AverageCalculator;
 import Calculators.SleepCycle;
-import SleepEvents.Events;
+import SleepEvents.PositionChanges;
+import SleepEvents.SuddenMovements;
 
 public class SleepTracker extends Service {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -42,7 +43,6 @@ public class SleepTracker extends Service {
     private final HoursManager hoursManager = new HoursManager();
     private final List<Double> bpmList = new ArrayList<>(), rrIntervals = new ArrayList<>();
     private final List<Float> lightList = new ArrayList<>();
-    private Events events;
     private SensorManager heartRateManager, lightManager;
     private Sensor heartRateSensor, lightSensor;
     private Handler handler;
@@ -51,6 +51,11 @@ public class SleepTracker extends Service {
     private int minuteCounter, currentSleepPhase;
     private float light;
     private boolean isSleeping = false;
+
+    // Eventos de sueño
+    private SuddenMovements suddenMovements;
+    private PositionChanges positionChanges;
+    private Handler eventsHandler;
 
     // Variables de datos de sueño
     private int vigilTime, lightSleepTime, deepSleepTime, remSleepTime;
@@ -79,8 +84,10 @@ public class SleepTracker extends Service {
         if (heartRateSensor == null) stopSelf();;
 
         handler = new Handler(Looper.getMainLooper());
+        eventsHandler = new Handler(Looper.getMainLooper());
 
-        events = new Events(this);
+        suddenMovements = new SuddenMovements(this);
+        positionChanges = new PositionChanges(this);
 
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SleepTracker::lock");
@@ -115,8 +122,9 @@ public class SleepTracker extends Service {
         lightManager.unregisterListener(heartRateListener);
 
         handler.removeCallbacks(runnable);
+        eventsHandler.removeCallbacks(events);
 
-        int suddenMovements = events.getTotalSuddenMovements();
+        int suddenMovements = this.suddenMovements.getTotalSuddenMovements();
         Log.d("Sudden Movements", "Total de movimientos bruscos: " + suddenMovements);
 
         connection.openDatabase();
@@ -134,8 +142,8 @@ public class SleepTracker extends Service {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (!isSleeping) {
-                events.registerGyroscopeListener();
+            if (isSleeping) {
+                events.run();
             }
 
             heartRateManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_FASTEST);
@@ -218,6 +226,16 @@ public class SleepTracker extends Service {
         }
     };
 
+    Runnable events = new Runnable() {
+        @Override
+        public void run() {
+            suddenMovements.registerSuddenMovementsListener();
+            //positionChanges.registerPositionChangesListener();
+
+            eventsHandler.postDelayed(this, 1000); // 1000 ms = 1 s
+        }
+    };
+
     private final SensorEventListener heartRateListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -259,8 +277,8 @@ public class SleepTracker extends Service {
 
     //Placeholder for the actual stop time
     private boolean isStopTime() {
-        int stopHour = 12;
-        int stopMinute = 35;
+        int stopHour = 16;
+        int stopMinute = 05;
 
         Calendar currentTime = Calendar.getInstance();
         int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);

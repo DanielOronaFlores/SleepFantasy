@@ -37,6 +37,5 @@ public class Missions extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        connection.closeDatabase();
     }
 }

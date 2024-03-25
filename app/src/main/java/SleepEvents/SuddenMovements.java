@@ -7,25 +7,21 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
-public class Events {
+public class SuddenMovements {
     private final SensorManager sensorManager;
     private final Sensor gyroscopeSensor;
     int totalSuddenMovements = 0;
 
-    public Events(Context context) {
+    public SuddenMovements(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-
-        if (gyroscopeSensor != null) {
-            sensorManager.registerListener(sensorListenerGyroscope, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }
     }
 
     public int getTotalSuddenMovements() {
         return totalSuddenMovements;
     }
 
-    public void registerGyroscopeListener() {
+    public void registerSuddenMovementsListener() {
         if (gyroscopeSensor != null) {
             sensorManager.registerListener(sensorListenerGyroscope, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }

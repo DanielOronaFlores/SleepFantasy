@@ -69,7 +69,6 @@ public class ChartPieVisualizer extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        connection.closeDatabase();
     }
 
     private float convertDataToPercentage(float data, float total) {
