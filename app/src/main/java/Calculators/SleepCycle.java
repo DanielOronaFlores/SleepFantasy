@@ -11,6 +11,6 @@ public class SleepCycle {
         return bpmMean >= 50;
     }
     public boolean hasREMEnded(double bpmMean){
-        return bpmMean < 50;
+        return bpmMean < 60;
     }
 }

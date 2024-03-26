@@ -31,6 +31,7 @@ import Serializers.Serializer;
 import Calculators.HRVCalculator;
 import Calculators.AverageCalculator;
 import Calculators.SleepCycle;
+import SleepEvents.Awakenings;
 import SleepEvents.PositionChanges;
 import SleepEvents.SuddenMovements;
 
@@ -55,9 +56,11 @@ public class SleepTracker extends Service {
     private boolean isEventRunning = false;
 
     // Eventos de sueño
+    private Handler eventsHandler;
     private SuddenMovements suddenMovements;
     private PositionChanges positionChanges;
-    private Handler eventsHandler;
+    private Awakenings awakenings = new Awakenings();
+    private int awakeningsAmount = 0;
 
     // Variables de datos de sueño
     private int vigilTime, lightSleepTime, deepSleepTime, remSleepTime;
@@ -210,6 +213,8 @@ public class SleepTracker extends Service {
                         sdnn,
                         hrv));
                 //----------------
+
+                if (awakenings.isAwakening(bpmMean, currentSleepPhase)) awakeningsAmount++;
 
                 rrIntervals.clear();
                 bpmList.clear();
