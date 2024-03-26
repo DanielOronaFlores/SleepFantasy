@@ -22,7 +22,8 @@ public class SleepDataUpdate {
                            int remSleepTime,
                            float lightValue,
                            int suddenMovementsAmount,
-                           int positionChangesAmount) {
+                           int positionChangesAmount,
+                           int awakeningAmount) {
 
         int totalSleepTime = lightSleepTime + deepSleepTime + remSleepTime;
         int efficiency = Efficiency.getSleepEfficiency(totalSleepTime, vigilTime);
@@ -39,6 +40,7 @@ public class SleepDataUpdate {
         values.put("date", date);
         values.put("lightValue", lightValue);
 
+        values.put("awakeningAmount", awakeningAmount);
         values.put("suddenMovementsAmount", suddenMovementsAmount);
         values.put("positionChangesAmount", positionChangesAmount);
 

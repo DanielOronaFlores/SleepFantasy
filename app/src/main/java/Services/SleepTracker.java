@@ -140,7 +140,8 @@ public class SleepTracker extends Service {
                 remSleepTime,
                 averageCalculator.calculateMeanFloat(lightList),
                 suddenMovements,
-                positionChanges);
+                positionChanges,
+                awakeningsAmount);
 
         stopForeground(true);
         wakeLock.release();

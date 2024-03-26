@@ -75,8 +75,8 @@ public class MainMenu extends AppCompatActivity {
         //Intent intent = new Intent(this, PostureSensor.class);
         //startService(intent);
 
-        Intent intent = new Intent(this, SleepTracker.class);
-        startService(intent);
+        //Intent intent = new Intent(this, SleepTracker.class);
+        //startService(intent);
     }
     @Override
     protected void onDestroy() {
