@@ -3,9 +3,7 @@ package Database.DataUpdates;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.Date;
-
-import Calculators.Efficiency;
+import Calculators.SleepData;
 import Database.DatabaseConnection;
 import Dates.DateManager;
 
@@ -30,9 +28,9 @@ public class SleepDataUpdate {
             throw new IllegalArgumentException("Invalid sleep data");
         }
 
-        int totalSleepTime = lightSleepTime + deepSleepTime + remSleepTime;
-        int timeInBed = vigilTime + totalSleepTime;
-        int efficiency = Efficiency.getSleepEfficiency(timeInBed, totalSleepTime);
+        int totalSleepTime = SleepData.getTotalSleepTime(lightSleepTime, deepSleepTime, remSleepTime);
+        int timeInBed = SleepData.getTimeInBed(vigilTime, totalSleepTime);
+        int efficiency = SleepData.getSleepEfficiency(timeInBed, totalSleepTime);
         String date = dateManager.getCurrentDate();
 
         ContentValues values = new ContentValues();

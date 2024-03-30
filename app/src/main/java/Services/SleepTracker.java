@@ -25,14 +25,13 @@ import java.util.List;
 
 import Database.DataUpdates.SleepDataUpdate;
 import Database.DatabaseConnection;
-import Dates.HoursManager;
 import Serializers.Serializer;
-import Calculators.HRVCalculator;
 import Calculators.AverageCalculator;
 import Calculators.SleepCycle;
 import SleepEvents.Awakenings;
 import SleepEvents.PositionChanges;
 import SleepEvents.SuddenMovements;
+import SortingAlgorithm.SleepEvaluator;
 
 public class SleepTracker extends Service {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -138,6 +137,15 @@ public class SleepTracker extends Service {
                 positionChanges,
                 awakeningsAmount);
 
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(vigilTime,
+                lightSleepTime,
+                deepSleepTime,
+                remSleepTime,
+                awakeningsAmount,
+                suddenMovements,
+                positionChanges);
+
         stopForeground(true);
         wakeLock.release();
     }
@@ -154,7 +162,7 @@ public class SleepTracker extends Service {
             if (bpm > 0.0) bpmList.add(bpm);
             rrIntervals.add(rrInterval);
 
-            // Registar valores SDNN y MRC
+            // Registar valores MRC
             if (bpmList.size() == 10) { // 10 = 5 minutos
                 minuteCounter += 5;
                 double bpmMean = averageCalculator.calculateMeanDouble(bpmList);

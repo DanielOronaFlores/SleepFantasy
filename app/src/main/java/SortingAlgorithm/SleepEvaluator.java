@@ -1,9 +1,9 @@
 package SortingAlgorithm;
-import java.io.Console;
-import java.util.Arrays;
 
 import AppContext.MyApplication;
+import Calculators.SleepData;
 import Database.DataAccess.ProbabilitiesDataAccess;
+import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
 
 public class SleepEvaluator {
@@ -68,15 +68,10 @@ public class SleepEvaluator {
         }
     }
 
-    public void evaluate(int totalSleepTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int efficiency, int awakenings, int suddenMovements, int positionChanges) {
-        this.totalSleepTime = totalSleepTime;
-        this.lightSleepTime = PercentageConverter.convertToPercentage(lightSleepTime, totalSleepTime);
-        this.deepSleepTime = PercentageConverter.convertToPercentage(deepSleepTime, totalSleepTime);
-        this.remSleepTime = PercentageConverter.convertToPercentage(remSleepTime, totalSleepTime);
-        this.efficiency = efficiency;
-        this.awakenings = awakenings;
-        this.suddenMovements = suddenMovements;
-        this.positionChanges = positionChanges;
+    private int evaluateSleep() {
+        lightSleepTime = PercentageConverter.convertToPercentage(lightSleepTime, totalSleepTime);
+        deepSleepTime = PercentageConverter.convertToPercentage(deepSleepTime, totalSleepTime);
+        remSleepTime = PercentageConverter.convertToPercentage(remSleepTime, totalSleepTime);
 
         setRanges();
         connection.openDatabase();
@@ -104,9 +99,32 @@ public class SleepEvaluator {
         //Calculate the final probabilities
         calculateFinalAttributeProbabilities();
 
-        //Print in the console the probabilities
+        //Evaluate Sleep
+        float maxProbability = 0;
+        int category = 0;
         for (int i = 0; i < finalCategoriesProbabilities.length; i++) {
-            System.out.println("Category " + (i + 1) + ": " + finalCategoriesProbabilities[i]);
+            if (finalCategoriesProbabilities[i] > maxProbability) {
+                maxProbability = finalCategoriesProbabilities[i];
+                category = i + 1;
+            }
         }
+        return category;
+    }
+
+    public void evaluate(int vigilTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int awakenings, int suddenMovements, int positionChanges) {
+        this.lightSleepTime = lightSleepTime;
+        this.deepSleepTime = deepSleepTime;
+        this.remSleepTime = remSleepTime;
+        this.awakenings = awakenings;
+        this.suddenMovements = suddenMovements;
+        this.positionChanges = positionChanges;
+
+        totalSleepTime = SleepData.getTotalSleepTime(lightSleepTime, deepSleepTime, remSleepTime);
+        int timeInBed = SleepData.getTimeInBed(vigilTime, (int) totalSleepTime);
+        efficiency = SleepData.getSleepEfficiency((int) totalSleepTime, timeInBed);
+
+        System.out.println("Category: " + evaluateSleep());
+        AvatarDataUpdate avatarDataUpdate = new AvatarDataUpdate(connection);
+        avatarDataUpdate.updateCharacterPhase((byte) evaluateSleep());
     }
 }
