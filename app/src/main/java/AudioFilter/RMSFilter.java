@@ -1,7 +1,5 @@
 package AudioFilter;
 
-import android.util.Log;
-
 import java.util.Arrays;
 
 public class RMSFilter {

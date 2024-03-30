@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import GameManagers.ExperienceManager;
 import Database.DatabaseConnection;
+import SortingAlgorithm.BayesCreator;
 
 public class CharacterChoice extends AppCompatActivity {
     private final int[] characters = { //TODO: Cambiar por los personajes reales.
@@ -29,7 +30,7 @@ public class CharacterChoice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_choice);
 
-        connection.openDatabase(); //TODO: Revisar si es necesario abrir la base de datos en esta actividad.
+        connection.openDatabase();
 
         leftButton = findViewById(R.id.leftButton);
         rightButton = findViewById(R.id.rightButton);
@@ -49,6 +50,8 @@ public class CharacterChoice extends AppCompatActivity {
         });
 
         currentCharacter.setOnClickListener(view -> createAvatar(name, age));
+
+        createProbabilities();
     }
     @Override
     protected void onDestroy() {
@@ -76,5 +79,10 @@ public class CharacterChoice extends AppCompatActivity {
         );
 
         finishAvatarCreation();
+    }
+
+    private void createProbabilities() {
+        BayesCreator bayes = new BayesCreator();
+        bayes.createProbabilities();
     }
 }

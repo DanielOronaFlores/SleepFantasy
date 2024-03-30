@@ -5,7 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 public class PositionChanges {
     private final SensorManager accelerometerManager;
@@ -29,10 +28,10 @@ public class PositionChanges {
     public void registerPositionChangesListener() {
         accelerometerManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-        if (isXThresholdExceeded() && isYThresholdExceeded()) {
+        if (isPositionChangeDetected()) {
             changeAccelerometerThreshold();
             totalPositionChanges++;
-            Log.d("PositionChanges", "Position change detected");
+            accelerometerManager.unregisterListener(accelerometerListener);
         }
     }
 
@@ -44,6 +43,9 @@ public class PositionChanges {
         accelerometerYThreshold[1] = accelerometerValues[1] + 5;
     }
 
+    private boolean isPositionChangeDetected() {
+        return isXThresholdExceeded() && isYThresholdExceeded();
+    }
     private boolean isXThresholdExceeded() {
         return accelerometerValues[0] < accelerometerXThreshold[0] || accelerometerValues[0] > accelerometerXThreshold[1];
     }

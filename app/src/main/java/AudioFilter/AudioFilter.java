@@ -1,7 +1,6 @@
 package AudioFilter;
 
 import android.media.MediaMetadataRetriever;
-import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -63,7 +62,6 @@ public class AudioFilter {
                 if (second % 2 != 0) {
                     if (samples[0] != 0) {
                         int realSecond = (second / 2) / 10;
-                        //Log.d("AudioFilter", "Sound detected at second: " + realSecond);
                         soundsList.add(new Sound(realSecond));
                     }
                 }

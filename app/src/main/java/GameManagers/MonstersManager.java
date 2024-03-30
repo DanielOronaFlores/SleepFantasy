@@ -1,7 +1,5 @@
 package GameManagers;
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,7 +28,6 @@ public class MonstersManager {
     public void updateMonster() throws ParseException {
         if (monstersDataAccess.getActiveMonster() == -1)
         {
-            Log.d("MonstersManager", "No hay monstruos activos. Se procede a buscar uno.");
             int efficiency = 60; //TODO: Obtener eficiencia
             int time = 50; //TODO: Obtener tiempo
             int lpm = 50; //TODO: Obtener lpm
@@ -41,30 +38,22 @@ public class MonstersManager {
             ArrayList<Integer> monsters = selectMonster(efficiency, time, lpm, sdnn, movements);
             if (!monsters.isEmpty()) {
                 if (monsters.size() >= 1) {
-                    Log.d("MonstersManager", "Se ha encontrado un monstruo.");
                     int index = selectRandomMonster(monsters.size() - 1);
                     selectedMonster = monsters.get(index); //TODO: Se debe alamcenar el mosntruo seleccionado en algun lado
                 }
                 if (probability()) {
-                    Log.d("MonstersManager", "El monstruo ha aparecido.");
                     monstersDataUpdate.updateMonsterActiveStatus(selectedMonster, dateManager.getCurrentDate());
                     recordsDataUpdate.updateMonsterAppeared();
                 }
-            } else {
-               Log.d("MonstersManager", "No se ha encontrado ningún monstruo.");
             }
         } else {
             if (dateManager.haveThreeDaysPassed(monstersDataAccess.getDateAppearedActiveMonster())) {
-               Log.d("MonstersManager", "El monstruo ha desaparecido.");
-                monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
+               monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
             } else {
-                Log.d("MonstersManager", "El monstruo sigue activo.");
                 if (isDefeatedMonster(monstersDataAccess.getActiveMonster())) {
-                    Log.d("MonstersManager", "El monstruo ha sido derrotado.");
                     monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
                     experienceManager.addExperience(500);
                 } else {
-                    Log.d("MonstersManager", "El monstruo sigue activo. Actualizando fecha.");
                     monstersDataUpdate.updateMonsterOldDate(monstersDataAccess.getActiveMonster(), dateManager.getCurrentDate());
                 }
             }

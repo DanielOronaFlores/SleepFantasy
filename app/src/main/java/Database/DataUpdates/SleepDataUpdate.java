@@ -21,12 +21,18 @@ public class SleepDataUpdate {
                            int deepSleepTime,
                            int remSleepTime,
                            float lightValue,
+                           int loudSoundsAmount,
                            int suddenMovementsAmount,
                            int positionChangesAmount,
                            int awakeningAmount) {
 
+        if (vigilTime < 0 || lightSleepTime < 0 || deepSleepTime < 0 || remSleepTime < 0) {
+            throw new IllegalArgumentException("Invalid sleep data");
+        }
+
         int totalSleepTime = lightSleepTime + deepSleepTime + remSleepTime;
-        int efficiency = Efficiency.getSleepEfficiency(totalSleepTime, vigilTime);
+        int timeInBed = vigilTime + totalSleepTime;
+        int efficiency = Efficiency.getSleepEfficiency(timeInBed, totalSleepTime);
         String date = dateManager.getCurrentDate();
 
         ContentValues values = new ContentValues();
@@ -36,6 +42,7 @@ public class SleepDataUpdate {
         values.put("REMTime", remSleepTime);
         values.put("totalSleepTime", totalSleepTime);
         values.put("efficiency", efficiency);
+        values.put("loudSoundsAmount", loudSoundsAmount);
 
         values.put("date", date);
         values.put("lightValue", lightValue);

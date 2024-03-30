@@ -15,8 +15,7 @@ import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
 import Dialogs.AvatarInformationFragment;
-import Services.PostureSensor;
-import Services.SleepTracker;
+import SortingAlgorithm.SleepEvaluator;
 
 public class MainMenu extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -77,6 +76,16 @@ public class MainMenu extends AppCompatActivity {
 
         //Intent intent = new Intent(this, SleepTracker.class);
         //startService(intent);
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(490,
+                270,
+                110,
+                110,
+                100,
+                1,
+                1,
+                1);
     }
     @Override
     protected void onDestroy() {

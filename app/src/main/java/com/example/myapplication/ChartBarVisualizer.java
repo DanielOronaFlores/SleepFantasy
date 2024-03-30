@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -39,13 +38,10 @@ public class ChartBarVisualizer extends AppCompatActivity {
         int[] colors = {R.color.barCharColor1, R.color.barCharColor2};
 
         String strMaxCount = "0";
-        Log.d("dataToShow", String.valueOf(dataToShow.length));
         if (dataToShow.length == 0) {
-            Log.d("dataToShow", "No hay datos para mostrar");
             Toast.makeText(this, "No hay datos para mostrar", Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Log.d("dataToShow", "Hay datos para mostrar");
             strMaxCount = String.valueOf(findMaxValue(dataToShow));
         }
 

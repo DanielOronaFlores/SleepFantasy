@@ -1,6 +1,5 @@
 package Adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +59,6 @@ public class AdapterMissions extends RecyclerView.Adapter<AdapterMissions.ViewHo
     }
 
     private void showMission(int missionId) {
-        Log.d("AdapterMissions", "showMission: " + missionId);
         ShowMissionFragment showMission = new ShowMissionFragment(missionId);
         showMission.show(fragmentManager, "showMission");
     }

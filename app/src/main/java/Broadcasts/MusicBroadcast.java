@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import Services.AudioPlayer;
 
@@ -19,7 +18,6 @@ public class MusicBroadcast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() != null) {
             if (intent.getAction().equals("STOP_AUDIO_ACTION")) {
-                Log.d("MusicBroadcast", "onReceive: STOP_AUDIO_ACTION" );
                 stopAudio();
             }
         }

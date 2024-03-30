@@ -14,6 +14,7 @@ public class DatabaseTableCreator {
         createPlaylistTable(db);
         createSongsTable(db);
         createPlaylistSongsTable(db);
+        createProbabilitiesTable(db);
     }
 
     private static void createAvatarTable(SQLiteDatabase db) {
@@ -127,5 +128,19 @@ public class DatabaseTableCreator {
                 "FOREIGN KEY (playlistId) REFERENCES Playlist(id) ON DELETE CASCADE, " +
                 "FOREIGN KEY (songId) REFERENCES Songs(id) ON DELETE CASCADE);";
         db.execSQL(queryCreatePlaylistSongsTable);
+    }
+    private static void createProbabilitiesTable(SQLiteDatabase db) {
+        String queryCreateProbabilitiesTable = "CREATE TABLE Probabilities (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "attributeName TEXT, " +
+                "range INTEGER, " +
+                "category1 REAL, " +
+                "category2 REAL, " +
+                "category3 REAL, " +
+                "category4 REAL, " +
+                "category5 REAL, " +
+                "category6 REAL, " +
+                "category7 REAL); ";
+        db.execSQL(queryCreateProbabilitiesTable);
     }
 }

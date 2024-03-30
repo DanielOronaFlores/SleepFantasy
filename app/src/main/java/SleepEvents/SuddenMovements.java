@@ -5,7 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 public class SuddenMovements {
     private final SensorManager sensorManager;
@@ -33,6 +32,7 @@ public class SuddenMovements {
             double threshold = 5;
             return magnitude > threshold;
         }
+        sensorManager.unregisterListener(sensorListenerGyroscope);
         return false;
     }
 
@@ -44,7 +44,6 @@ public class SuddenMovements {
             float zRotationRate = event.values[2];
 
             if (isSuddenMovement(xRotationRate, yRotationRate, zRotationRate)) {
-                Log.d("Sudden Movement", "Sudden Movement Detected");
                 totalSuddenMovements++;
             }
         }

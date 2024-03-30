@@ -1,7 +1,5 @@
 package AudioFilter;
 
-import android.util.Log;
-
 import org.jtransforms.fft.DoubleFFT_1D;
 
 public class FFTFilter {

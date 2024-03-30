@@ -22,6 +22,10 @@ public class AudiosPaths {
         return context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/listSounds.xml";
     }
 
+    public String getProbabilitiesPath() {
+        return context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/probabilities.xml";
+    }
+
     public boolean doesRecordingFileExist() {
         String fileName = getRecordingsPath();
         File file = new File(fileName);

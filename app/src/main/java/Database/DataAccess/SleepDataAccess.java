@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
 import Database.DatabaseConnection;
 import Dates.DateManager;
@@ -27,7 +26,6 @@ public class SleepDataAccess {
             long result = statement.simpleQueryForLong();
             return (int) result;
         } catch (SQLiteDoneException e) {
-            Log.d("SleepDataAccess", "getVigilTime: No se encontraron resultados");
             return -1;
         }
     }
@@ -39,7 +37,6 @@ public class SleepDataAccess {
             long result = statement.simpleQueryForLong();
             return (int) result;
         } catch (SQLiteDoneException e) {
-            Log.d("SleepDataAccess", "getLightSleepTime: No se encontraron resultados");
             return -1;
         }
     }
@@ -51,7 +48,6 @@ public class SleepDataAccess {
             long result = statement.simpleQueryForLong();
             return (int) result;
         } catch (SQLiteDoneException e) {
-            Log.d("SleepDataAccess", "getDeepSleepTime: No se encontraron resultados");
             return -1;
         }
     }
@@ -63,7 +59,6 @@ public class SleepDataAccess {
             long result = statement.simpleQueryForLong();
             return (int) result;
         } catch (SQLiteDoneException e) {
-            Log.d("SleepDataAccess", "getRemSleepTime: No se encontraron resultados");
             return -1;
         }
     }
@@ -75,7 +70,6 @@ public class SleepDataAccess {
             long result = statement.simpleQueryForLong();
             return (int) result;
         } catch (SQLiteDoneException e) {
-            Log.d("SleepDataAccess", "getVigilTime: No se encontraron resultados");
             return -1;
         }
     }
@@ -90,7 +84,6 @@ public class SleepDataAccess {
         try {
             return getQueryArray(cursor);
         } catch (Exception e) {
-            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
             return new int[0];
         }
     }
@@ -104,7 +97,6 @@ public class SleepDataAccess {
         try {
             return getQueryArray(cursor);
         } catch (Exception e) {
-            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
             return new int[0];
         }
     }
@@ -117,7 +109,6 @@ public class SleepDataAccess {
         try {
             return getQueryArray(cursor);
         } catch (Exception e) {
-            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
             return new int[0];
         }
     }
@@ -130,7 +121,6 @@ public class SleepDataAccess {
         try {
             return getQueryArray(cursor);
         } catch (Exception e) {
-            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
             return new int[0];
         }
     }
@@ -143,7 +133,6 @@ public class SleepDataAccess {
         try {
             return getQueryArray(cursor);
         } catch (Exception e) {
-            Log.d("SleepDataAccess", "getEfficiency: No se encontraron resultados");
             return new int[0];
         }
     }

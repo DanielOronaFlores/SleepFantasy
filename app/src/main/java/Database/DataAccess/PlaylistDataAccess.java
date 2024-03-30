@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,6 @@ public class PlaylistDataAccess {
 
                 Playlist playlist = new Playlist(id, name, createdBySystem);
                 playlists.add(playlist);
-                Log.d("Playlist", "New playlist added: " + playlist.getName());
             } while (cursor.moveToNext());
         }
 

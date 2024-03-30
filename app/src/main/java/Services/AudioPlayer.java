@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -65,7 +64,6 @@ public class AudioPlayer extends Service {
             Handler handler = new Handler();
             handler.postDelayed(() -> {
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    Log.d("AudioPlayer", "Audio Detenido por Timer: " + timer);
                     mediaPlayer.stop();
                 }
                 stopSelf();
@@ -90,7 +88,6 @@ public class AudioPlayer extends Service {
         if (mediaPlayer != null) mediaPlayer.release();
 
         String songName = audios.get(position).getName();
-        Log.d("AdapterAudios", "Audio Playing: " + songName);
         int isCreatedBySystem = audios.get(position).getIbBySystem();
 
         if (isCreatedBySystem == 1) {

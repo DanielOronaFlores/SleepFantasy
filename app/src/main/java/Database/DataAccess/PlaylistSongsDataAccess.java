@@ -3,7 +3,6 @@ package Database.DataAccess;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ public class PlaylistSongsDataAccess {
 
     @SuppressLint("Range")
     public List<Audio> getSongsFromPlaylist(int playlistID) {
-        Log.d("canciones", "Playlist ID:" + playlistID);
         List<Audio> songs = new ArrayList<>();
         String query = "SELECT name, id, ibBySystem FROM PlaylistSongs INNER JOIN Songs ON PlaylistSongs.songId = Songs.id WHERE playlistId = " + playlistID;
 
@@ -31,8 +29,6 @@ public class PlaylistSongsDataAccess {
                 int songID = cursor.getInt(cursor.getColumnIndex("id"));
                 String songName = cursor.getString(cursor.getColumnIndex("name"));
                 int isCreatedBySystem = cursor.getInt(cursor.getColumnIndex("ibBySystem"));
-                Log.d("canciones", "Song ID:" + songID);
-                Log.d("canciones", "Song Name:" + songName);
 
                 Audio song = new Audio(songID, songName, isCreatedBySystem);
                 songs.add(song);

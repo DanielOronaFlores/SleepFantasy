@@ -4,7 +4,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,6 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
     public AdapterLoudSounds(List<List<Integer>> sounds) {
         this.sounds = sounds;
         mediaPlayer = new MediaPlayer();
-
-        for (List<Integer> sound : sounds) {
-            Log.d("AdapterLoudSounds", "Sound: " + sound);
-        }
     }
 
     @NonNull
@@ -46,7 +41,6 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
         final String soundName = "Sonido " + (position + 1);
         holder.soundElement.setText(soundName);
         holder.soundElement.setOnClickListener(v -> {
-            Log.d("AdapterLoudSounds", "Clicked on sound: " + soundName);
             List<Integer> currentList = sounds.get(position);
             playSound(holder.itemView.getContext(), currentList);
         });
@@ -71,8 +65,6 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
         int startMillis = seconds.get(0) * 1000;
         int endSecond = seconds.get(seconds.size() - 1) + 1;
         int endMillis = endSecond * 1000;
-
-        Log.d("AdapterLoudSounds", "Start: " + startMillis + " End: " + endMillis);
 
         try {
             mediaPlayer.setDataSource(context, Uri.parse(recordFilePath));

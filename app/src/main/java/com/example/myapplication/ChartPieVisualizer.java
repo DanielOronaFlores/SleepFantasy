@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,19 +30,12 @@ public class ChartPieVisualizer extends AppCompatActivity {
 
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
-        Log.d("ChatPieVisualizer", "Date: " + date);
 
         float totalSleepTime = sleepDataAccess.totalSleepTime(date);
         float deepSleepPercentage = convertDataToPercentage(sleepDataAccess.getDeepSleepTime(date), totalSleepTime);
         float lightSleepPercentage = convertDataToPercentage(sleepDataAccess.getLightSleepTime(date), totalSleepTime);
         float remSleepPercentage = convertDataToPercentage(sleepDataAccess.getRemSleepTime(date), totalSleepTime);
         float vigilPercentage = convertDataToPercentage(sleepDataAccess.getVigilTime(date), totalSleepTime);
-
-        Log.d("ChatPieVisualizer", "Deep: " + deepSleepPercentage);
-        Log.d("ChatPieVisualizer", "Light: " + lightSleepPercentage);
-        Log.d("ChatPieVisualizer", "REM: " + remSleepPercentage);
-        Log.d("ChatPieVisualizer", "Vigil: " + vigilPercentage);
-
 
         float[] values = {deepSleepPercentage, lightSleepPercentage, remSleepPercentage, vigilPercentage};
         int[] colors = {R.color.deepSleep, R.color.lightSleep, R.color.remSleep, R.color.vigil};

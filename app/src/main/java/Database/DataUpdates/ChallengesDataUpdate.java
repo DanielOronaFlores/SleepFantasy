@@ -1,7 +1,6 @@
 package Database.DataUpdates;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import Database.DatabaseConnection;
 
@@ -13,10 +12,8 @@ public class ChallengesDataUpdate {
     }
 
     public void markAsDisplayed(int challenge) {
-        Log.d("UPDATE", "Displayed inicio");
         String query = "UPDATE Challenges SET Displayed = 1 WHERE id = " + challenge + ";";
         database.execSQL(query);
-        Log.d("UPDATE", "Displayed fin");
     }
 
     public void markAsCompleted(int challenge) {

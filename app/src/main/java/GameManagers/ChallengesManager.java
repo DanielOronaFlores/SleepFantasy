@@ -3,7 +3,6 @@ package GameManagers;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -92,11 +91,9 @@ public class ChallengesManager extends Service {
 
     private void handleChallenge(int challenge) {
         String currentDate = dateManager.getCurrentDate();
-        Log.d("ChallengesManager", "handleChallenge: " + challenge);
 
         if (challengeConditionsMet(challenge)) {
             int days = challengesDataAccess.getCounter(challenge);
-            Log.d("Counter", "counter: " + days);
             challengesDataUpdate.updateCounter(challenge, days + 1);
             challengesDataUpdate.updateOldDate(challenge, currentDate);
 
@@ -107,7 +104,6 @@ public class ChallengesManager extends Service {
             }
         } else {
             if (!currentDate.equals(challengesDataAccess.getDate(challenge))) {
-                Log.d("ChallengesManager", "reset");
                 challengesDataUpdate.updateCounter(challenge, 0);
                 challengesDataUpdate.updateOldDate(challenge, currentDate);
             }
@@ -119,7 +115,6 @@ public class ChallengesManager extends Service {
             case 1:
                 return consecutiveDaysCondition(challenge);
             case 2:
-                Log.d("ChallengesManager", "challengeConditionsMet: " + preferencesDataAccess.getSaveRecordings() + " " + consecutiveDaysCondition(challenge));
                 return preferencesDataAccess.getSaveRecordings() && consecutiveDaysCondition(challenge);
             case 3:
                 return preferencesDataAccess.getRecordSnorings() && consecutiveDaysCondition(challenge);

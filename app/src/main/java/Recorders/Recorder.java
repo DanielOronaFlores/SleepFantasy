@@ -1,7 +1,6 @@
 package Recorders;
 
 import android.media.MediaRecorder;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -24,9 +23,7 @@ public class Recorder {
         try {
             mediaRecorder.prepare();
             mediaRecorder.start();
-            Log.d("AudioRecorder", "Recording started");
         } catch (IOException e) {
-            Log.d("AudioRecorder", "prepare() failed");
             e.printStackTrace();
         }
     }

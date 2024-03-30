@@ -2,7 +2,6 @@ package Database.DataAccess;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import Database.DatabaseConnection;
 
@@ -18,11 +17,9 @@ public class ChallengesDataAccess {
         Cursor cursor = database.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
-            Log.d("ACCESS", "true");
             cursor.close();
             return true;
         } else {
-            Log.d("FALSE", "false");
             cursor.close();
             return false;
         }
@@ -90,7 +87,7 @@ public class ChallengesDataAccess {
         try {
             if (cursor.moveToFirst()) date = cursor.getString(0);
         } catch (Exception e) {
-            Log.e("ChallengesDataAccess", "Error al obtener la fecha", e);
+            e.printStackTrace();
         } finally {
             cursor.close();
         }

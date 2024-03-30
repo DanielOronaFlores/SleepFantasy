@@ -1,11 +1,10 @@
 package Calculators;
 
 public class Efficiency {
-    public static int getSleepEfficiency(int totalSleep, int vigil) {
-        if (vigil == 0) {
+    public static int getSleepEfficiency(int timeSleep, int timeInBed) {
+        if (timeInBed == 0) {
             return 0;
         }
-        int PERCENTAGE = 100;
-        return (totalSleep / vigil) * PERCENTAGE;
+        return (timeSleep / timeInBed) * 100;
     }
 }
