@@ -8,61 +8,74 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import Database.DatabaseConnection;
+import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.PreferencesDataAccess;
+import Database.DataUpdates.AvatarCreator;
+import Database.DataUpdates.AvatarDataUpdate;
+import Database.DatabaseConnection;
+import Permissions.Permissions;
 
 public class Configuration extends AppCompatActivity {
     private DatabaseConnection connection;
-    private EditText etName, etAge;
-    private CheckBox ckSaveAudios, ckRecordSnoring;
-    private DatabaseConnection.AvatarCreator avatarManager;
-    private Database.DataUpdates.AvatarDataUpdate avatarDataUpdate;
-    private PreferencesDataAccess preferencesManager;
-    private Button btQuality;
+    private AvatarCreator avatarManager;
+    private AvatarDataUpdate avatarDataUpdate;
+    private AvatarDataAccess avatarDataAccess;
+    private PreferencesDataAccess preferencesDataAccess;
+    private EditText editTextName, editTextAge;
+    private CheckBox checkBoxSaveRecordings, checkBoxRecordAudios;
+    private Button buttonChangeAudioQuality, buttonSavePreferences;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuration);
 
         connection = DatabaseConnection.getInstance(this);
+
+        avatarDataAccess = new Database.DataAccess.AvatarDataAccess(connection);
+        avatarManager = new AvatarCreator(connection);
+        avatarDataUpdate = new Database.DataUpdates.AvatarDataUpdate(connection);
+        preferencesDataAccess = new PreferencesDataAccess(connection);
+
+        editTextName = findViewById(R.id.name);
+        editTextAge = findViewById(R.id.age);
+        checkBoxRecordAudios = findViewById(R.id.recordSnoring);
+        checkBoxSaveRecordings = findViewById(R.id.saveAudios);
+        buttonSavePreferences = findViewById(R.id.savePreferences);
+        buttonChangeAudioQuality = findViewById(R.id.btQuality);
+
+        checkBoxRecordAudios.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) Permissions.askRecordingPermission(this, this);
+        });
+        checkBoxSaveRecordings.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) Permissions.askStoragePermission(this, this);
+        });
+        buttonSavePreferences.setOnClickListener(view ->
+                setUserData(editTextName.getText().toString(), Byte.parseByte(editTextAge.getText().toString()))
+        );
+        buttonChangeAudioQuality.setOnClickListener(view -> updateQuality());
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onStart() {
+        super.onStart();
         connection.openDatabase();
 
-        etName = findViewById(R.id.name);
-        etAge = findViewById(R.id.age);
-        ckRecordSnoring = findViewById(R.id.recordSnoring);
-        ckSaveAudios = findViewById(R.id.saveAudios);
-        Button btSave = findViewById(R.id.savePreferences);
-        btQuality = findViewById(R.id.btQuality);
-
-        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
-        if (preferencesDataAccess.getAudioQuality()) btQuality.setText("alta");
-        else btQuality.setText("baja");
-
-        Database.DataAccess.AvatarDataAccess avatarDataAccess = new Database.DataAccess.AvatarDataAccess(connection);
-        avatarManager = new DatabaseConnection.AvatarCreator(connection);
-        avatarDataUpdate = new Database.DataUpdates.AvatarDataUpdate(connection);
-        preferencesManager = new PreferencesDataAccess(connection);
-
         if(avatarManager.isAvatarCreated()) {
-            etName.setText(avatarDataAccess.getAvatarName());
-            etAge.setText(String.valueOf(avatarDataAccess.getAvatarAge()));
+            editTextName.setText(avatarDataAccess.getAvatarName());
+            editTextAge.setText(String.valueOf(avatarDataAccess.getAvatarAge()));
 
-            String[] preferencesData = preferencesManager.getPreferencesData();
-            if (preferencesData[0].equals("1")) ckRecordSnoring.setChecked(true);
-            if (preferencesData[1].equals("1")) ckSaveAudios.setChecked(true);
+            String[] preferencesData = preferencesDataAccess.getPreferencesData();
+            if (preferencesData[0].equals("1")) checkBoxRecordAudios.setChecked(true);
+            if (preferencesData[1].equals("1")) checkBoxSaveRecordings.setChecked(true);
         }
-        btSave.setOnClickListener(view ->
-                setUserData(etName.getText().toString(), Byte.parseByte(etAge.getText().toString()))
-        );
-        btQuality.setOnClickListener(view -> updateQuality());
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+
+        if (preferencesDataAccess.getAudioQuality()) buttonChangeAudioQuality.setText("ALTA");
+        else buttonChangeAudioQuality.setText("BAJA");
     }
 
     private void setUserData(String name, byte age) {
@@ -75,7 +88,7 @@ public class Configuration extends AppCompatActivity {
                 finish();
                 goToMainMenu();
             } else {
-                preferencesManager.setDefaultAudioQuality();
+                preferencesDataAccess.setDefaultAudioQuality();
                 goToCharacterChoice(name, age);
             }
         } else {
@@ -83,24 +96,25 @@ public class Configuration extends AppCompatActivity {
         }
     }
 
-    public boolean isValidUserData(String name, byte age) {
+    private boolean isValidUserData(@NonNull String name, byte age) {
         return !name.isEmpty() && age > 0;
     }
-    public void savePreferencesData() {
-        boolean recordSnoring = ckRecordSnoring.isChecked();
-        boolean saveAudios = ckSaveAudios.isChecked();
-        preferencesManager.updatePreferences(recordSnoring, saveAudios);
+    private void savePreferencesData() {
+        boolean recordSnoring = checkBoxRecordAudios.isChecked();
+        boolean saveAudios = checkBoxSaveRecordings.isChecked();
+        preferencesDataAccess.updatePreferences(recordSnoring, saveAudios);
     }
+
     private void updateQuality() {
         PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
         boolean audioQuality = preferencesDataAccess.getAudioQuality();
         preferencesDataAccess.updateAudioQuality(!audioQuality);
 
-        if (preferencesDataAccess.getAudioQuality()) btQuality.setText("alta");
-        else btQuality.setText("baja");
+        if (preferencesDataAccess.getAudioQuality()) buttonChangeAudioQuality.setText("ALTA");
+        else buttonChangeAudioQuality.setText("BAJA");
 
-        String quality = audioQuality ? "baja" : "alta";
-        Toast toast = Toast.makeText(this, "Calidad de audio actualizada a " + quality, Toast.LENGTH_SHORT);
+        String quality = audioQuality ? "BAJA" : "ALTA";
+        Toast toast = Toast.makeText(this, "CALIDAD DE AUDIO ACTUALIZADA A " + quality, Toast.LENGTH_SHORT);
         toast.show();
     }
 

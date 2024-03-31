@@ -1,15 +1,29 @@
 package Avatar;
 
-public class NameClasses { //TODO: Revisar la implementación de esta clase.
-    private String name;
-
+public class NameClasses {
     public String getNameClass(byte avatarClass) {
-        switch (avatarClass) { //TODO: Agregar los nombres de las clases reales.
-            case 0:
-                name = "Placeholder";
+        String name;
+        switch (avatarClass) {
+            case 1:
+                name = "Mago";
+                break;
+            case 2:
+                name = "Ladrón";
+                break;
+            case 3:
+                name = "Arquero";
+                break;
+            case 4:
+                name = "Guerrero";
+                break;
+            case 5:
+                name = "Arqueólogo";
+                break;
+            case 6:
+                name = "Noble";
                 break;
             default:
-                name = null;
+                name = "placeholder";
                 break;
         }
         return name;

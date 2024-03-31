@@ -6,21 +6,17 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Avatar.CharactersList;
+import Database.DataUpdates.AvatarCreator;
 import GameManagers.ExperienceManager;
 import Database.DatabaseConnection;
 import SortingAlgorithm.BayesCreator;
 
 public class CharacterChoice extends AppCompatActivity {
-    private final int[] characters = { //TODO: Cambiar por los personajes reales.
-            R.drawable.placeholder_cono,
-            R.drawable.placeholder_jaime,
-            R.drawable.placeholder_bruja,
-            R.drawable.placeholder_jirafa,
-            R.drawable.placeholder_quick
-    };
-    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);;
-    private final DatabaseConnection.AvatarCreator avatarManager = new DatabaseConnection.AvatarCreator(connection);
+    private DatabaseConnection connection;
+    private AvatarCreator avatarManager;
     private ImageView currentCharacter, leftButton, rightButton;
+    private int[] characters;
     private int idCharacter = 0;
     private String name;
     private byte age;
@@ -30,7 +26,10 @@ public class CharacterChoice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_choice);
 
-        connection.openDatabase();
+        connection = DatabaseConnection.getInstance(this);
+        characters = CharactersList.getCharactersList();
+
+        avatarManager = new AvatarCreator(connection);
 
         leftButton = findViewById(R.id.leftButton);
         rightButton = findViewById(R.id.rightButton);
@@ -40,6 +39,11 @@ public class CharacterChoice extends AppCompatActivity {
         name = avatarData.getStringExtra("name");
         age = avatarData.getByteExtra("age", (byte) 0);
 
+        currentCharacter.setOnClickListener(view -> {
+            createProbabilities();
+            createAvatar(name, age);
+        });
+
         leftButton.setOnClickListener(view -> {
             idCharacter = (idCharacter - 1 + characters.length) % characters.length;
             currentCharacter.setImageResource(characters[idCharacter]);
@@ -48,38 +52,40 @@ public class CharacterChoice extends AppCompatActivity {
             idCharacter = (idCharacter + 1) % characters.length;
             currentCharacter.setImageResource(characters[idCharacter]);
         });
-
-        currentCharacter.setOnClickListener(view -> createAvatar(name, age));
-
-        createProbabilities();
     }
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStart() {
+        super.onStart();
+        connection.openDatabase();
+
+        currentCharacter.setImageResource(characters[idCharacter]);
     }
 
-    private void finishAvatarCreation() {
+    private void goToMainMenu() {
         Intent goToMainMenu = new Intent(this, MainMenu.class);
         startActivity(goToMainMenu);
         finish();
     }
 
     private void createAvatar(String name, byte age) {
-        byte avatarClass = (byte) idCharacter;
-        byte AVATAR_PHASE_DEFAULT = 4, AVATAR_LEVEL_INITIAL = 1, AVATAR_CURRENT_EXPERIENCE_INITIAL = 0;
+        byte avatarClass = (byte) (idCharacter + 1);
+        byte AVATAR_PHASE_DEFAULT = 4,
+                AVATAR_LEVEL_INITIAL = 1,
+                AVATAR_CURRENT_EXPERIENCE_INITIAL = 0;
 
         avatarManager.createAvatar(
                 name,
                 age,
                 AVATAR_LEVEL_INITIAL,
-                (byte) 0, //TODO: Cambiar por avatarClass cuando se tengan las imagenes.
+                avatarClass,
                 AVATAR_CURRENT_EXPERIENCE_INITIAL,
                 ExperienceManager.calculateRequiredExperience(AVATAR_LEVEL_INITIAL),
                 AVATAR_PHASE_DEFAULT
         );
 
-        finishAvatarCreation();
+        goToMainMenu();
     }
+
 
     private void createProbabilities() {
         BayesCreator bayes = new BayesCreator();

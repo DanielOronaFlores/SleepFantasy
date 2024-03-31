@@ -40,4 +40,5 @@
     <string name="nombre_playlist">nombre playlist</string>
     <string name="a_adir">añadir</string>
     <string name="agregar_audios">agregar audios</string>
+    <string name="avanzar_en_seleccion_de_personaje">Avanzar en seleccion de personaje</string>
 </resources>

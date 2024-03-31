@@ -18,11 +18,11 @@ public class MonsterVisualizer extends AppCompatActivity {
     private final MonstersDataAccess monstersDataAccess = new MonstersDataAccess(connection);;
     private final DateManager dateManager = new DateManager();
     private final int[] monsters = { //TODO: Cambiar por los monstruos reales.
-            R.drawable.avatar_default_1,
-            R.drawable.avatar_default_2,
-            R.drawable.avatar_default_3,
+            R.drawable.avatar_zholder_1,
+            R.drawable.avatar_zholder_2,
+            R.drawable.avatar_zholder_3,
             R.drawable.fantasy,
-            R.drawable.avatar_default_5
+            R.drawable.avatar_zholder_5
     };
 
     @SuppressLint("SetTextI18n")
