@@ -1,10 +1,11 @@
-package SortingAlgorithm;
+package SleepEvaluator;
 
 import AppContext.MyApplication;
 import Calculators.SleepData;
 import Database.DataAccess.ProbabilitiesDataAccess;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.Challenges.ChallengesUpdater;
 
 public class SleepEvaluator {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
@@ -123,8 +124,12 @@ public class SleepEvaluator {
         int timeInBed = SleepData.getTimeInBed(vigilTime, (int) totalSleepTime);
         efficiency = SleepData.getSleepEfficiency((int) totalSleepTime, timeInBed);
 
-        System.out.println("Category: " + evaluateSleep());
+        int category = evaluateSleep();
+
         AvatarDataUpdate avatarDataUpdate = new AvatarDataUpdate(connection);
-        avatarDataUpdate.updateCharacterPhase((byte) evaluateSleep());
+        avatarDataUpdate.updateCharacterPhase((byte) category);
+
+        ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
+        challengesUploader.updateCategoryRecord(category);
     }
 }

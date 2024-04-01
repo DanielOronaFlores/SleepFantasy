@@ -4,13 +4,15 @@ import AppContext.MyApplication;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.Challenges.ChallengesUpdater;
 
 public class ExperienceManager {
+    private DatabaseConnection connection;
     private final AvatarDataAccess avatarDataAccess;
     private final AvatarDataUpdate avatarDataUpdate;
 
     public ExperienceManager() {
-        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+        connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
 
         avatarDataAccess = new AvatarDataAccess(connection);
         avatarDataUpdate = new AvatarDataUpdate(connection);
@@ -25,6 +27,11 @@ public class ExperienceManager {
         avatarDataUpdate.updateExperience(experience);
         if (itCanLevelUp(experience)) {
             levelUp();
+        }
+
+        if (experience >= 500) {
+            ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+            challengesUpdater.updateExperienceRecord();
         }
     }
 

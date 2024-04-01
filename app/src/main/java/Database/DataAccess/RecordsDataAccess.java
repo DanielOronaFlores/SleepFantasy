@@ -168,4 +168,19 @@ public class RecordsDataAccess {
         cursor.close();
         return obtainedExperience;
     }
+
+    public void restartAllValues() {
+        database.execSQL("UPDATE Records SET isPlayingMusic = 0, " +
+                "isTemporizerActive = 0, " +
+                "hasMonsterAppeared = 0, " +
+                "isCategoryValid = 0, " +
+                "isDeletedAudio = 0, " +
+                "hasAvatarVisualChanged = 0, " +
+                "isNewSoundSet = 0, " +
+                "isNewInterface = 0, " +
+                "isNewAudioUploaded = 0, " +
+                "hasAudiosPlayed = 0, " +
+                "isGraphDisplayed = 0, " +
+                "hasObtainedExperience = 0");
+    }
 }

@@ -1,7 +1,11 @@
 package Database.DataAccess;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import Database.DatabaseConnection;
 
@@ -24,6 +28,7 @@ public class ChallengesDataAccess {
             return false;
         }
     }
+
     public boolean allChallengesDisplayed() {
         String query = "SELECT Displayed FROM Challenges WHERE Displayed = 0;";
         Cursor cursor = database.rawQuery(query, null);
@@ -36,6 +41,7 @@ public class ChallengesDataAccess {
             return true;
         }
     }
+
     public int getActiveChallenge() {
         String query = "SELECT id FROM Challenges WHERE Active = 1;";
         Cursor cursor = database.rawQuery(query, null);
@@ -117,4 +123,54 @@ public class ChallengesDataAccess {
         return counter;
     }
 
+    @SuppressLint("Range")
+    public List<Integer> getCompletedChallenges() {
+        List<Integer> challenges = new ArrayList<>();
+        String query = "SELECT id FROM Challenges WHERE Completed = 1;";
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int challengeId = cursor.getInt(cursor.getColumnIndex("id"));
+                challenges.add(challengeId);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return challenges;
+    }
+
+    @SuppressLint("Range")
+    public List<Integer> getFailedChallenges() {
+        List<Integer> challenges = new ArrayList<>();
+        String query = "SELECT id FROM Challenges WHERE Completed = 0 AND Displayed = 1 AND Active = 0;";
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int challengeId = cursor.getInt(cursor.getColumnIndex("id"));
+                challenges.add(challengeId);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return challenges;
+    }
+
+    @SuppressLint("Range")
+    public List<Integer> getUnassignedChallenges() {
+        List<Integer> challenges = new ArrayList<>();
+        String query = "SELECT id FROM Challenges WHERE Displayed = 0;";
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int challengeId = cursor.getInt(cursor.getColumnIndex("id"));
+                challenges.add(challengeId);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return challenges;
+    }
 }

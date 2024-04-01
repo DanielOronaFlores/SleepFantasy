@@ -1,4 +1,4 @@
-package SortingAlgorithm;
+package SleepEvaluator;
 
 public class RangesValues {
     public static int totalSleepTime(float value) {

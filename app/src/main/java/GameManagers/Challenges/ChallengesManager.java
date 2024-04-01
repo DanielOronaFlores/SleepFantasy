@@ -1,10 +1,4 @@
-package GameManagers;
-
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
-
-import androidx.annotation.Nullable;
+package GameManagers.Challenges;
 
 import java.text.ParseException;
 import java.util.Random;
@@ -16,15 +10,15 @@ import Database.DatabaseConnection;
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RecordsDataAccess;
 import Dates.DateManager;
+import GameManagers.ExperienceManager;
 
-public class ChallengesManager extends Service {
+public class ChallengesManager {
     private final ChallengesDataAccess challengesDataAccess;
     private final ChallengesDataUpdate challengesDataUpdate;
     private final PreferencesDataAccess preferencesDataAccess;
     private final RecordsDataAccess recordsDataAccess;
-    private final DateManager dateManager = new DateManager();
-    private final ExperienceManager experienceManager = new ExperienceManager();
-
+    private final DateManager dateManager;
+    private final ExperienceManager experienceManager;
     private static final int MAX_CHALLENGE_NUMBER = 15;
     private static final int MIN_CHALLENGE_NUMBER = 1;
 
@@ -36,59 +30,68 @@ public class ChallengesManager extends Service {
         challengesDataUpdate = new ChallengesDataUpdate(connection);
         preferencesDataAccess = new PreferencesDataAccess(connection);
         recordsDataAccess = new RecordsDataAccess(connection);
+
+        dateManager = new DateManager();
+        experienceManager = new ExperienceManager();
     }
 
-    //Metodos de la clase Service
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        new Thread(() -> ((Runnable) () -> {
-            while (true) {
-                Update();
+    public void update() {
+        int activeChallenge = challengesDataAccess.getActiveChallenge();
+
+        if (activeChallenge == 0) { // No hay reto activo
+            selectNewChallenge();
+        } else {
+            if (challengesDataAccess.isCompleted(activeChallenge)) { // Si el reto está completado
+                selectNewChallenge();
+            } else {
+                currentChallengeConditions(activeChallenge);
             }
-        }).run()).start();
-        return super.onStartCommand(intent, flags, startId);
-    }
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+        }
     }
 
-    //Metodos de la clase
-    private void Update() {
-        if (dateManager.isSunday()) selectNewChallenge();
-        else currentChallengeConditions(challengesDataAccess.getActiveChallenge());
+    //Para seleccionar un nuevo reto
+    private boolean isUpdateChallenge() {
+        String currentDate = dateManager.getCurrentDate();
+        String oldDate = challengesDataAccess.getDate(challengesDataAccess.getActiveChallenge());
+        System.out.println("Days Difference: " + dateManager.getDaysDifference(currentDate, oldDate));
+
+        return dateManager.isSunday() || dateManager.getDaysDifference(currentDate, oldDate) > 14;
     }
 
     private void selectNewChallenge() {
         if (challengesDataAccess.allChallengesDisplayed()) challengesDataUpdate.resetChallenges();
 
-        int challenge = getRandomChallenge();
-        updateChallengeStatus(challenge);
-    }
+        if (isUpdateChallenge()) {
+            int currentActiveChallenge = challengesDataAccess.getActiveChallenge();
+            challengesDataUpdate.markAsInactive(currentActiveChallenge);
+            recordsDataAccess.restartAllValues();
 
+            int newChallenge = getRandomChallenge();
+            setNewChallenge(newChallenge);
+        }
+    }
     private int getRandomChallenge() {
         Random random = new Random();
-        int challenge = random.nextInt(MAX_CHALLENGE_NUMBER) + 1;
+        int challenge;
 
-        while (!challengesDataAccess.isChallengeAvailable(challenge)) {
+        do {
             challenge = random.nextInt(MAX_CHALLENGE_NUMBER) + 1;
-        }
+        } while (!challengesDataAccess.isChallengeAvailable(challenge));
 
         return challenge;
     }
-
-    private void updateChallengeStatus(int challenge) {
+    private void setNewChallenge(int challenge) {
         challengesDataUpdate.markAsDisplayed(challenge);
         challengesDataUpdate.markAsActive(challenge);
     }
 
+
+    // Para manejar el reto actual
     private void currentChallengeConditions(int challenge) {
         if (challenge >= MIN_CHALLENGE_NUMBER && challenge <= MAX_CHALLENGE_NUMBER) {
             handleChallenge(challenge);
         }
     }
-
     private void handleChallenge(int challenge) {
         String currentDate = dateManager.getCurrentDate();
 
@@ -99,13 +102,13 @@ public class ChallengesManager extends Service {
 
             if (consecutiveWeek(challenge)) {
                 challengesDataUpdate.markAsCompleted(challenge);
-                challengesDataUpdate.markAsInactive(challenge);
                 experienceManager.addExperience(500);
             }
         } else {
             if (!currentDate.equals(challengesDataAccess.getDate(challenge))) {
                 challengesDataUpdate.updateCounter(challenge, 0);
                 challengesDataUpdate.updateOldDate(challenge, currentDate);
+                recordsDataAccess.restartAllValues();
             }
         }
     }
@@ -146,7 +149,6 @@ public class ChallengesManager extends Service {
                 return false;
         }
     }
-
     private boolean consecutiveDaysCondition(int challenge) {
         String oldDate = challengesDataAccess.getDate(challenge);
         if (oldDate != null)
@@ -159,7 +161,6 @@ public class ChallengesManager extends Service {
         }
         return false;
     }
-
     private boolean consecutiveWeek(int challenge) {
         return challengesDataAccess.getCounter(challenge) >= 7;
     }

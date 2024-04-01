@@ -118,7 +118,7 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
             checkBox = itemView.findViewById(R.id.songCheckBox);
 
             checkBox.setOnClickListener(v -> {
-                int position = getAbsoluteAdapterPosition(); //TODO
+                int position = getAbsoluteAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     checkedList.set(position, checkBox.isChecked());
                 }

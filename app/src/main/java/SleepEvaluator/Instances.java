@@ -1,4 +1,4 @@
-package SortingAlgorithm;
+package SleepEvaluator;
 
 import android.content.Context;
 import android.util.Xml;

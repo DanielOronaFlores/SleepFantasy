@@ -30,7 +30,7 @@ public class SleepDataUpdate {
 
         int totalSleepTime = SleepData.getTotalSleepTime(lightSleepTime, deepSleepTime, remSleepTime);
         int timeInBed = SleepData.getTimeInBed(vigilTime, totalSleepTime);
-        int efficiency = SleepData.getSleepEfficiency(timeInBed, totalSleepTime);
+        int efficiency = SleepData.getSleepEfficiency(totalSleepTime, timeInBed);
         String date = dateManager.getCurrentDate();
 
         ContentValues values = new ContentValues();

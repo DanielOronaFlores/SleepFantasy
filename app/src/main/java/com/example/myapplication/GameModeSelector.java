@@ -23,7 +23,7 @@ public class GameModeSelector extends AppCompatActivity {
 
         btChallenges = findViewById(R.id.challenges);
         btChallenges.setOnClickListener(view -> {
-            Intent intent = new Intent(this, challenges.class);
+            Intent intent = new Intent(this, Challenges.class);
             startActivity(intent);
         });
     }

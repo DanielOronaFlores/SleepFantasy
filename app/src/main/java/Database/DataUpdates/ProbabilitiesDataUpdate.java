@@ -22,7 +22,6 @@ public class ProbabilitiesDataUpdate {
             values.put("range", i + 1);
             for (int j = 0; j < probabilities[i].length; j++) {
                 values.put("category" + (j + 1), probabilities[i][j]);
-                System.out.println("Probabilities: " + probabilities[i][j]);
             }
             database.insert(TABLE_NAME, null, values);
         }

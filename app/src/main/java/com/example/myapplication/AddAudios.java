@@ -20,14 +20,15 @@ import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DataUpdates.SongsDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.Challenges.ChallengesUpdater;
 
 public class AddAudios extends AppCompatActivity {
-    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private final SongsDataUpdate songsDataUpdate = new SongsDataUpdate(connection);
-    private final SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
-    private final PlaylistDataUpdate playlistDataUpdate = new PlaylistDataUpdate(connection);
-    private final PlaylistDataAccess playlistDataAccess = new PlaylistDataAccess(connection);
-    private final PlaylistSongsDataUpdate playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
+    private DatabaseConnection connection;
+    private SongsDataUpdate songsDataUpdate;
+    private SongsDataAccess songsDataAccess;
+    private PlaylistDataUpdate playlistDataUpdate;
+    private PlaylistDataAccess playlistDataAccess;
+    private PlaylistSongsDataUpdate playlistSongsDataUpdate;
     private RecyclerView recyclerView;
     private Button addAudios;
 
@@ -36,6 +37,13 @@ public class AddAudios extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_audios);
+
+        connection = DatabaseConnection.getInstance(this);
+        songsDataUpdate = new SongsDataUpdate(connection);
+        songsDataAccess = new SongsDataAccess(connection);
+        playlistDataUpdate = new PlaylistDataUpdate(connection);
+        playlistDataAccess = new PlaylistDataAccess(connection);
+        playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
 
         recyclerView = findViewById(R.id.newAudiosRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -49,11 +57,6 @@ public class AddAudios extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         connection.openDatabase();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     private void addSelectedAudios() {
@@ -71,6 +74,8 @@ public class AddAudios extends AppCompatActivity {
                 playlistSongsDataUpdate.addSongToPlaylist(playListID, songID);
             }
             Toast.makeText(this, "AUDIOS AGREGADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
+            ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+            challengesUpdater.updateAddAudio();
             finish();
         }
     }

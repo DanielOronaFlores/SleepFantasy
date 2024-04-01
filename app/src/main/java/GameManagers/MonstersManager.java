@@ -10,8 +10,10 @@ import Database.DataUpdates.MonstersDataUpdate;
 import Database.DataUpdates.RecordsDataUpdate;
 import Database.DatabaseConnection;
 import Dates.DateManager;
+import GameManagers.Challenges.ChallengesUpdater;
 
 public class MonstersManager {
+    private final DatabaseConnection connection;
     private final MonstersDataAccess monstersDataAccess;
     private final MonstersDataUpdate monstersDataUpdate;
     private final RecordsDataUpdate recordsDataUpdate;
@@ -19,7 +21,7 @@ public class MonstersManager {
     private final ExperienceManager experienceManager = new ExperienceManager();
 
     public MonstersManager() {
-        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+        connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         monstersDataAccess = new MonstersDataAccess(connection);
         recordsDataUpdate = new RecordsDataUpdate(connection);
         monstersDataUpdate = new MonstersDataUpdate(connection);
@@ -41,9 +43,13 @@ public class MonstersManager {
                     int index = selectRandomMonster(monsters.size() - 1);
                     selectedMonster = monsters.get(index); //TODO: Se debe alamcenar el mosntruo seleccionado en algun lado
                 }
+
+                ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
                 if (probability()) {
                     monstersDataUpdate.updateMonsterActiveStatus(selectedMonster, dateManager.getCurrentDate());
-                    recordsDataUpdate.updateMonsterAppeared();
+                    challengesUploader.updateMonsterAppearedRecord(true);
+                } else {
+                    challengesUploader.updateMonsterAppearedRecord(false);
                 }
             }
         } else {

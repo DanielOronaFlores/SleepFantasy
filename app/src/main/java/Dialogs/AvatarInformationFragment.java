@@ -42,7 +42,7 @@ public class AvatarInformationFragment extends DialogFragment {
         NameClasses nameClasses = new NameClasses();
         txAvatarData.setText(
                 nameClasses.getNameClass(avatarDataAccess.getCharacterClass()) + " - Lvl " +
-                String.valueOf(avatarDataAccess.getLevel())); //TODO: Agregar el nombre de la clase del avatar.
+                String.valueOf(avatarDataAccess.getLevel()));
         txExperience.setText(avatarDataAccess.getCurrentExperience() + "/" + avatarDataAccess.getRequiredExperience());
 
         builder.setView(view);

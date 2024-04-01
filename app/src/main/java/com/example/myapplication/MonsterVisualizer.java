@@ -65,14 +65,8 @@ public class MonsterVisualizer extends AppCompatActivity {
     }
 
     private int getDaysRemaining() {
-        int DEFAULT_DAYS_REMAINING = 0;
-        try {
-            String currentDay = dateManager.getCurrentDate();
-            String lastDay = monstersDataAccess.getDateDisappearedActiveMonster();
-            return (int) dateManager.getDaysDifference(currentDay, lastDay);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return DEFAULT_DAYS_REMAINING;
+        String currentDay = dateManager.getCurrentDate();
+        String lastDay = monstersDataAccess.getDateDisappearedActiveMonster();
+        return (int) dateManager.getDaysDifference(currentDay, lastDay);
     }
 }

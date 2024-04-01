@@ -20,6 +20,7 @@ import Database.DataAccess.PlaylistSongsDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.Challenges.ChallengesUpdater;
 import Models.Audio;
 
 public class PlaylistEditor extends AppCompatActivity {
@@ -77,6 +78,10 @@ public class PlaylistEditor extends AppCompatActivity {
 
     private void deleteSongsFromPlaylist() {
         for (Audio song : selectedSongs) {
+            if (song.getIbBySystem() == 0) {
+                ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
+                challengesUploader.updateDeleteAudioRecord();
+            }
             playlistSongsDataUpdate.deleteAudioFromPlaylist(playlistID, song.getId());
         }
     }

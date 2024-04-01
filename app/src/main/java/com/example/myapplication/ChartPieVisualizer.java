@@ -13,23 +13,40 @@ import java.text.DecimalFormat;
 
 import Database.DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
+import GameManagers.Challenges.ChallengesUpdater;
 import Painters.PieChartPainter;
 
 public class ChartPieVisualizer extends AppCompatActivity {
-    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);;
-    private final SleepDataAccess sleepDataAccess = new SleepDataAccess(connection);
+    private DatabaseConnection connection;
+    private SleepDataAccess sleepDataAccess;
+    private FrameLayout container;
+    private TextView title, vigilText, lightText, deepText, remText;
+    private String date;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart_pie_visualizer);
 
-        connection.openDatabase();
-        FrameLayout container = findViewById(R.id.lineChartContainer);
+        connection = DatabaseConnection.getInstance(this);
+        sleepDataAccess = new SleepDataAccess(connection);
+
+        container = findViewById(R.id.lineChartContainer);
+        title = findViewById(R.id.chartTitle);
+        vigilText = findViewById(R.id.vigilText);
+        lightText = findViewById(R.id.lightText);
+        deepText = findViewById(R.id.deepText);
+        remText = findViewById(R.id.remText);
 
         Intent intent = getIntent();
-        String date = intent.getStringExtra("date");
+        date = intent.getStringExtra("date");
+
+    }
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onStart() {
+        super.onStart();
+        connection.openDatabase();
 
         float totalSleepTime = sleepDataAccess.totalSleepTime(date);
         float deepSleepPercentage = convertDataToPercentage(sleepDataAccess.getDeepSleepTime(date), totalSleepTime);
@@ -43,29 +60,19 @@ public class ChartPieVisualizer extends AppCompatActivity {
         PieChartPainter pieChartView = new PieChartPainter(this, colors, values);
         container.addView(pieChartView);
 
-        TextView title = findViewById(R.id.chartTitle);
         title.setText(date);
-
-        TextView vigilText = findViewById(R.id.vigilText);
         vigilText.setText(percentageFormat(vigilPercentage) + "%");
-
-        TextView lightText = findViewById(R.id.lightText);
         lightText.setText(percentageFormat(lightSleepPercentage) + "%");
-
-        TextView deepText = findViewById(R.id.deepText);
         deepText.setText(percentageFormat(deepSleepPercentage) + "%");
-
-        TextView remText = findViewById(R.id.remText);
         remText.setText(percentageFormat(remSleepPercentage) + "%");
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+
+        ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+        challengesUpdater.updateChartRecord();
     }
 
     private float convertDataToPercentage(float data, float total) {
         if (data == -1) {
-            Toast.makeText(this, "Sin datos para esta fecha", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "SIN DATOS PARA ESTA FECHA", Toast.LENGTH_SHORT).show();
             finish();
         }
         return (data / total) * 100;

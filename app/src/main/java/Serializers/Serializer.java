@@ -24,7 +24,6 @@ public class Serializer {
             }
 
             writer.write("</soundList>\n");
-            System.out.println("Serialización exitosa en " + fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,7 +46,6 @@ public class Serializer {
             }
 
             writer.write("</cycleList>\n");
-            System.out.println("Serialización exitosa en " + fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }

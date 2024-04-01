@@ -11,7 +11,9 @@ import Avatar.CharactersList;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DatabaseConnection;
 import Dialogs.AvatarInformationFragment;
+import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
+import Services.PostureSensor;
 
 public class MainMenu extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -59,11 +61,11 @@ public class MainMenu extends AppCompatActivity {
             avatarInformation.show(getSupportFragmentManager(), "Avatar Information");
         });
 
-        //Intent intent = new Intent(this, PostureSensor.class);
-        //startService(intent);
+        Intent intent = new Intent(this, PostureSensor.class);
+        startService(intent);
 
-        //Intent intent = new Intent(this, SleepTracker.class);
-        //startService(intent);
+        ChallengesManager challengesManager = new ChallengesManager();
+        challengesManager.update();
     }
     @Override
     protected void onStart() {

@@ -1,4 +1,4 @@
-package SortingAlgorithm;
+package SleepEvaluator;
 
 public class PrioriCategories {
     public static float[] getPrioriProbabilities() {

@@ -1,4 +1,4 @@
-package SortingAlgorithm;
+package SleepEvaluator;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -15,14 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 
+import Database.DatabaseConnection;
 import Files.AudiosPaths;
+import GameManagers.Challenges.ChallengesUpdater;
 
 public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.ViewHolder> {
     private final List<List<Integer>> sounds;
     private final AudiosPaths audioFiles = new AudiosPaths();
     private final MediaPlayer mediaPlayer;
+    private int soundsPlayer = 0;
 
     public AdapterLoudSounds(List<List<Integer>> sounds) {
         this.sounds = sounds;
@@ -74,6 +79,15 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
 
             Handler handler = new Handler();
             handler.postDelayed(this::stopPlaying, endMillis - startMillis);
+
+            soundsPlayer++;
+            if (soundsPlayer == 3) {
+                DatabaseConnection connection = DatabaseConnection.getInstance(context);
+                ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+                connection.openDatabase();
+                challengesUpdater.updateLoudSoundsRecord();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

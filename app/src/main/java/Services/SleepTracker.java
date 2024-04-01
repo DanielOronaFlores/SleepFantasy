@@ -20,18 +20,17 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import Database.DataUpdates.SleepDataUpdate;
 import Database.DatabaseConnection;
-import Serializers.Serializer;
 import Calculators.AverageCalculator;
 import Calculators.SleepCycle;
+import GameManagers.Challenges.ChallengesUpdater;
 import SleepEvents.Awakenings;
 import SleepEvents.PositionChanges;
 import SleepEvents.SuddenMovements;
-import SortingAlgorithm.SleepEvaluator;
+import SleepEvaluator.SleepEvaluator;
 
 public class SleepTracker extends Service {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -47,7 +46,7 @@ public class SleepTracker extends Service {
 
     // Variables de rastreo de sueño
     private double bpm, rrInterval;
-    private int minuteCounter, currentSleepPhase;
+    private int minuteCounter, currentSleepPhase, timeAwake;
     private boolean isSleeping = false;
     private boolean isEventRunning = false;
 
@@ -61,10 +60,6 @@ public class SleepTracker extends Service {
     // Variables de datos de sueño
     private int vigilTime, lightSleepTime, deepSleepTime, remSleepTime;
     private float light;
-
-
-    // Para pruebas
-    private final List<Models.SleepCycle> sleepCycleTestList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -113,8 +108,6 @@ public class SleepTracker extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Serializer serializer = new Serializer();
-        serializer.serializeSleepCycleToXML(sleepCycleTestList);
 
         heartRateManager.unregisterListener(heartRateListener);
         lightManager.unregisterListener(heartRateListener);
@@ -122,29 +115,37 @@ public class SleepTracker extends Service {
         handler.removeCallbacks(runnable);
         eventsHandler.removeCallbacks(events);
 
-        int suddenMovements = this.suddenMovements.getTotalSuddenMovements();
-        int positionChanges = this.positionChanges.getTotalPositionChanges();
-        int loudSoundsAmount = 0; //TODO: Evaluar
+        if (lightSleepTime != 0 && deepSleepTime != 0 && remSleepTime != 0) {
+            int suddenMovements = this.suddenMovements.getTotalSuddenMovements();
+            int positionChanges = this.positionChanges.getTotalPositionChanges();
+            int loudSoundsAmount = 0; //TODO: Evaluar
 
-        connection.openDatabase();
-        sleepDataUpdate.insertData(vigilTime,
-                lightSleepTime,
-                deepSleepTime,
-                remSleepTime,
-                averageCalculator.calculateMeanFloat(lightList),
-                loudSoundsAmount,
-                suddenMovements,
-                positionChanges,
-                awakeningsAmount);
+            connection.openDatabase();
 
-        SleepEvaluator sleepEvaluator = new SleepEvaluator();
-        sleepEvaluator.evaluate(vigilTime,
-                lightSleepTime,
-                deepSleepTime,
-                remSleepTime,
-                awakeningsAmount,
-                suddenMovements,
-                positionChanges);
+            sleepDataUpdate.insertData(vigilTime,
+                    lightSleepTime,
+                    deepSleepTime,
+                    remSleepTime,
+                    averageCalculator.calculateMeanFloat(lightList),
+                    loudSoundsAmount,
+                    suddenMovements,
+                    positionChanges,
+                    awakeningsAmount);
+
+            SleepEvaluator sleepEvaluator = new SleepEvaluator();
+            sleepEvaluator.evaluate(vigilTime,
+                    lightSleepTime,
+                    deepSleepTime,
+                    remSleepTime,
+                    awakeningsAmount,
+                    suddenMovements,
+                    positionChanges);
+
+            ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+            challengesUpdater.updateSleepingConditions();
+
+            connection.closeDatabase();
+        }
 
         stopForeground(true);
         wakeLock.release();
@@ -185,7 +186,14 @@ public class SleepTracker extends Service {
                     remSleepTime += 5;
                 }
 
-                if (awakenings.isAwakening(bpmMean, currentSleepPhase)) awakeningsAmount++;
+                if (isSleeping) {
+                    if (awakenings.isAwakening(bpmMean, currentSleepPhase)) {
+                        awakeningsAmount++;
+                        timeAwake += 5;
+                    } else {
+                        timeAwake = 0;
+                    }
+                }
 
                 rrIntervals.clear();
                 bpmList.clear();
@@ -200,7 +208,8 @@ public class SleepTracker extends Service {
             }
 
             int delay = 30000; // 30000 ms = 30 s
-            if (isStopTime()) {
+            if (timeAwake >= 10) { // 10 minutos
+                timeAwake -= 10;
                 stopSelf();
             } else {
                 handler.postDelayed(this, delay);
@@ -260,15 +269,4 @@ public class SleepTracker extends Service {
         return heartRateSensor == null || lightSensor == null;
     }
 
-    //Placeholder for the actual stop time
-    private boolean isStopTime() {
-        int stopHour = 10;
-        int stopMinute = 0;
-
-        Calendar currentTime = Calendar.getInstance();
-        int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = currentTime.get(Calendar.MINUTE);
-
-        return currentHour == stopHour && currentMinute >= stopMinute;
-    }
 }

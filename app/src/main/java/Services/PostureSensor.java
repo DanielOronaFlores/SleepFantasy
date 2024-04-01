@@ -15,15 +15,12 @@ import androidx.annotation.Nullable;
 import AppContext.MyApplication;
 
 public class PostureSensor extends Service {
-    private SensorManager managerAccelerometer;
-    private SensorManager managerGyroscope;
-    private Sensor sensorAccelerometer;
-    private Sensor sensorGyroscope;
+    private SensorManager managerAccelerometer, managerGyroscope;
+    private Sensor sensorAccelerometer, sensorGyroscope;
     private Handler handler;
     private Intent sleepTrackerServiceIntent;
     private boolean isHorizontal = false;
     private boolean isLowRotation = false;
-    private boolean isSleepTrackerRunning = false;
 
     @Nullable
     @Override
@@ -46,12 +43,14 @@ public class PostureSensor extends Service {
 
         sleepTrackerServiceIntent = new Intent(MyApplication.getAppContext(), SleepTracker.class);
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         runnable.run();
 
         return START_STICKY;
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -67,15 +66,9 @@ public class PostureSensor extends Service {
             managerAccelerometer.registerListener(sensorListenerAccelerometer, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
             managerGyroscope.registerListener(sensorListenerGyroscope, sensorGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
 
-            //TODO: Debemos poner una condicional usando el MRC para ejecutar el servicio de SleepTracker
             if (isUserLyingDown()) {
-                if (!isSleepTrackerRunning) {
-                    startService(sleepTrackerServiceIntent);
-                    isSleepTrackerRunning = true;
-                }
-            } else {
-                stopService(sleepTrackerServiceIntent);
-                isSleepTrackerRunning = false;
+                startService(sleepTrackerServiceIntent);
+                stopSelf();
             }
 
             // 1 segundos
@@ -93,6 +86,7 @@ public class PostureSensor extends Service {
                 isHorizontal = Math.abs(xAxis) < threshold;
             }
         }
+
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
@@ -112,6 +106,7 @@ public class PostureSensor extends Service {
             }
 
         }
+
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }

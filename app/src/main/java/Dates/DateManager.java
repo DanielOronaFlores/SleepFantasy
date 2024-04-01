@@ -57,12 +57,19 @@ public class DateManager {
         return differenceDays > 3;
     }
 
-    public long getDaysDifference(String startDateStr, String endDateStr) throws ParseException {
-        Date startDateFormatted = getDateFormat().parse(startDateStr);
-        Date endDateFormatted = getDateFormat().parse(endDateStr);
+    public long getDaysDifference(String startDate, String endDate) {
+        Date startDateFormatted;
+        Date endDateFormatted;
+
+        try {
+            startDateFormatted = getDateFormat().parse(startDate);
+            endDateFormatted = getDateFormat().parse(endDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         if (startDateFormatted == null || endDateFormatted == null) {
-            throw new ParseException("Error parsing dates", 0);
+            throw new RuntimeException("Error parsing dates");
         }
 
         long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
