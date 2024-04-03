@@ -2,10 +2,14 @@ package SleepEvaluator;
 
 import AppContext.MyApplication;
 import Calculators.SleepData;
+import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.ProbabilitiesDataAccess;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
+import GameManagers.ExperienceManager;
+import GameManagers.Missions.MissionsUpdater;
+import SleepEvaluator.Bayes.PrioriCategories;
 
 public class SleepEvaluator {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
@@ -32,6 +36,7 @@ public class SleepEvaluator {
     private final int[] ranges = new int[8];
     private final float[][] categoryProbabilities = new float[8][7]; // 8 attributes, 7 categories
     private final float[] finalCategoriesProbabilities = new float[7]; // 7 categories
+
     public SleepEvaluator() {
         probabilitiesDataAccess = new ProbabilitiesDataAccess(connection);
     }
@@ -46,12 +51,14 @@ public class SleepEvaluator {
         ranges[6] = RangesValues.remSleepTime(suddenMovements);
         ranges[7] = RangesValues.efficiency(positionChanges);
     }
+
     private void getInitialAttributeProbabilitiesPerRange(float[] attribute, int range, String attributeName) {
         for (int i = 0; i < attribute.length; i++) {
             String category = "category" + (i + 1);
             attribute[i] = probabilitiesDataAccess.getProbability(category, range, attributeName);
         }
     }
+
     private void generateCategoryProbabilities(int attributeID, float[] attribute) {
         for (int i = 0; i < attribute.length; i++) {
             categoryProbabilities[attributeID][i] = attribute[i];
@@ -59,13 +66,13 @@ public class SleepEvaluator {
     }
 
     private void calculateFinalAttributeProbabilities() {
-       for (int i = 0; i < finalCategoriesProbabilities.length; i++) {
+        for (int i = 0; i < finalCategoriesProbabilities.length; i++) {
             float mult = 1;
             for (int j = 0; j < categoryProbabilities[0].length; j++) {
                 mult *= categoryProbabilities[i][j];
             }
             mult *= PrioriCategories.getPrioriProbabilities()[i];
-           finalCategoriesProbabilities[i] = mult;
+            finalCategoriesProbabilities[i] = mult;
         }
     }
 
@@ -131,5 +138,57 @@ public class SleepEvaluator {
 
         ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
         challengesUploader.updateCategoryRecord(category);
+
+        updateMissions(category, (int) vigilTime);
+        addExperience(category);
+    }
+
+    private void addExperience(int category) {
+        ExperienceManager experienceManager = new ExperienceManager();
+
+        switch (category) {
+            case 1:
+                experienceManager.addExperience(100);
+                break;
+            case 2:
+                experienceManager.addExperience(80);
+                break;
+            case 3:
+                experienceManager.addExperience(60);
+                break;
+            case 4:
+                experienceManager.addExperience(40);
+                break;
+            case 5:
+                experienceManager.addExperience(20);
+                break;
+            case 6:
+                experienceManager.addExperience(10);
+                break;
+        }
+    }
+
+    private void updateMissions(int category, int vigilTime) {
+        MissionsUpdater missionsUpdater = new MissionsUpdater();
+
+        missionsUpdater.updateMission1((int) totalSleepTime);
+        missionsUpdater.updateMission2((int) awakenings);
+        missionsUpdater.updateMission3(efficiency);
+        missionsUpdater.updateMission6(category);
+        missionsUpdater.updateMission8(PercentageConverter.convertToPercentage(remSleepTime, totalSleepTime));
+        missionsUpdater.updateMission9((int) positionChanges);
+        missionsUpdater.updateMission10(vigilTime);
+        missionsUpdater.updateMission11((int) positionChanges);
+        missionsUpdater.updateMission12(PercentageConverter.convertToPercentage(lightSleepTime, totalSleepTime));
+
+        AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
+        int currentCategory = avatarDataAccess.getCharacterPhase();
+        missionsUpdater.updateMission14(category, currentCategory);
+
+        int totalEvents = (int) awakenings + (int) suddenMovements + (int) positionChanges;
+        missionsUpdater.updateMission15(totalEvents);
+
+        missionsUpdater.updateMission16((int) totalSleepTime);
+        missionsUpdater.updateMission17(PercentageConverter.convertToPercentage(deepSleepTime, totalSleepTime));
     }
 }

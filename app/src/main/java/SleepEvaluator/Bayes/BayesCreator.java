@@ -1,10 +1,11 @@
-package SleepEvaluator;
+package SleepEvaluator.Bayes;
 
 import java.util.ArrayList;
 
 import AppContext.MyApplication;
 import Database.DataUpdates.ProbabilitiesDataUpdate;
 import Database.DatabaseConnection;
+import SleepEvaluator.RangesValues;
 
 public class BayesCreator {
     private final Instances deserializer = new Instances();

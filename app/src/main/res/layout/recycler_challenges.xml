@@ -2,13 +2,17 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/background"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/challenge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/challengePanel"
+        android:layout_marginTop="5sp"
         android:textSize="15sp"
         android:textAllCaps="true"/>
 </LinearLayout>

@@ -16,7 +16,6 @@
         android:textSize="30sp"
         tools:ignore="VisualLintWearMargin" />
 
-
     <TextView
         android:id="@+id/avatarData"
         android:layout_width="wrap_content"

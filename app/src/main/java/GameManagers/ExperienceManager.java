@@ -5,14 +5,16 @@ import Database.DataAccess.AvatarDataAccess;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
+import GameManagers.Missions.MissionsUpdater;
 
 public class ExperienceManager {
-    private DatabaseConnection connection;
+    private final DatabaseConnection connection;
     private final AvatarDataAccess avatarDataAccess;
     private final AvatarDataUpdate avatarDataUpdate;
 
     public ExperienceManager() {
         connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+        connection.openDatabase();
 
         avatarDataAccess = new AvatarDataAccess(connection);
         avatarDataUpdate = new AvatarDataUpdate(connection);
@@ -35,12 +37,14 @@ public class ExperienceManager {
         }
     }
 
-    public void levelUp() {
+    private void levelUp() {
         avatarDataUpdate.updateLevel(avatarDataAccess.getLevel() + 1);
         avatarDataUpdate.updateRequiredExperience(calculateRequiredExperience(avatarDataAccess.getLevel()));
+        MissionsUpdater missionsUpdater = new MissionsUpdater();
+        missionsUpdater.updateMission7();
     }
 
-    public boolean itCanLevelUp(int experience) {
+    private boolean itCanLevelUp(int experience) {
         return experience >= avatarDataAccess.getRequiredExperience() && avatarDataAccess.getLevel() < 50;
     }
 }

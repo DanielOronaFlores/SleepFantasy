@@ -22,39 +22,47 @@ import androidx.core.app.NotificationCompat;
 import java.util.ArrayList;
 import java.util.List;
 
+import AudioFilter.AudioFilter;
 import Database.DataUpdates.SleepDataUpdate;
 import Database.DatabaseConnection;
 import Calculators.AverageCalculator;
 import Calculators.SleepCycle;
+import Files.AudiosPaths;
 import GameManagers.Challenges.ChallengesUpdater;
+import GameManagers.Missions.MissionsUpdater;
+import Models.Sound;
+import Recorders.PCMRecorder;
+import Recorders.Recorder;
+import Serializers.Deserializer;
 import SleepEvents.Awakenings;
 import SleepEvents.PositionChanges;
 import SleepEvents.SuddenMovements;
 import SleepEvaluator.SleepEvaluator;
 
 public class SleepTracker extends Service {
-    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private final SleepDataUpdate sleepDataUpdate = new SleepDataUpdate(connection);
-    private final SleepCycle sleepCycleCalculator = new SleepCycle();
-    private final AverageCalculator averageCalculator = new AverageCalculator();
-    private final List<Double> bpmList = new ArrayList<>(), rrIntervals = new ArrayList<>();
-    private final List<Float> lightList = new ArrayList<>();
+    private DatabaseConnection connection;
+    private SleepDataUpdate sleepDataUpdate;
+    private SleepCycle sleepCycleCalculator;
+    private AverageCalculator averageCalculator;
+    private List<Double> bpmList;
+    private List<Float> lightList;
     private SensorManager heartRateManager, lightManager;
+    private PCMRecorder pcmRecorder;
+    private Recorder recorder;
     private Sensor heartRateSensor, lightSensor;
     private Handler handler;
     private PowerManager.WakeLock wakeLock;
 
     // Variables de rastreo de sueño
-    private double bpm, rrInterval;
+    private double bpm;
     private int minuteCounter, currentSleepPhase, timeAwake;
-    private boolean isSleeping = false;
-    private boolean isEventRunning = false;
+    private boolean isSleeping, isEventRunning;
 
     // Eventos de sueño
     private Handler eventsHandler;
     private SuddenMovements suddenMovements;
     private PositionChanges positionChanges;
-    private final Awakenings awakenings = new Awakenings();
+    private Awakenings awakenings;
     private int awakeningsAmount = 0;
 
     // Variables de datos de sueño
@@ -72,6 +80,11 @@ public class SleepTracker extends Service {
     public void onCreate() {
         super.onCreate();
 
+        connection = DatabaseConnection.getInstance(this);
+        sleepDataUpdate = new SleepDataUpdate(connection);
+        sleepCycleCalculator = new SleepCycle();
+        averageCalculator = new AverageCalculator();
+
         heartRateManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         heartRateSensor = heartRateManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
 
@@ -79,6 +92,9 @@ public class SleepTracker extends Service {
         lightSensor = lightManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
         if (isMissingSensors()) stopSelf();
+
+        pcmRecorder = new PCMRecorder();
+        recorder = new Recorder();
 
         handler = new Handler(Looper.getMainLooper());
         eventsHandler = new Handler(Looper.getMainLooper());
@@ -97,8 +113,18 @@ public class SleepTracker extends Service {
         Notification notification = createNotification();
         startForeground(1, notification);
 
+        isEventRunning = false;
+        isSleeping = false;
+
         minuteCounter = 0;
         currentSleepPhase = 0;
+
+        bpmList = new ArrayList<>();
+        lightList = new ArrayList<>();
+        awakenings = new Awakenings();
+
+        pcmRecorder.startRecording();
+        recorder.startRecording();
 
         runnable.run();
 
@@ -109,16 +135,26 @@ public class SleepTracker extends Service {
     public void onDestroy() {
         super.onDestroy();
 
+        pcmRecorder.stopRecording();
+        recorder.stopRecording();
+
+        AudioFilter audioFilter = new AudioFilter();
+        audioFilter.filterAudio();
+
         heartRateManager.unregisterListener(heartRateListener);
         lightManager.unregisterListener(heartRateListener);
 
         handler.removeCallbacks(runnable);
         eventsHandler.removeCallbacks(events);
 
-        if (lightSleepTime != 0 && deepSleepTime != 0 && remSleepTime != 0) {
+        if (lightSleepTime != 0) {
+            AudiosPaths audiosFiles = new AudiosPaths();
+            Deserializer deserializer = new Deserializer();
+            List<Sound> soundsList = deserializer.deserializeFromXML(audiosFiles.getXMLPath());
+
             int suddenMovements = this.suddenMovements.getTotalSuddenMovements();
             int positionChanges = this.positionChanges.getTotalPositionChanges();
-            int loudSoundsAmount = 0; //TODO: Evaluar
+            int loudSoundsAmount = soundsList.size();
 
             connection.openDatabase();
 
@@ -144,6 +180,9 @@ public class SleepTracker extends Service {
             ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
             challengesUpdater.updateSleepingConditions();
 
+            MissionsUpdater missionsUpdater = new MissionsUpdater();
+            missionsUpdater.updateMission4(light);
+
             connection.closeDatabase();
         }
 
@@ -161,7 +200,6 @@ public class SleepTracker extends Service {
 
             heartRateManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
             if (bpm > 0.0) bpmList.add(bpm);
-            rrIntervals.add(rrInterval);
 
             // Registar valores MRC
             if (bpmList.size() == 10) { // 10 = 5 minutos
@@ -194,8 +232,6 @@ public class SleepTracker extends Service {
                         timeAwake = 0;
                     }
                 }
-
-                rrIntervals.clear();
                 bpmList.clear();
             }
 
@@ -208,8 +244,8 @@ public class SleepTracker extends Service {
             }
 
             int delay = 30000; // 30000 ms = 30 s
-            if (timeAwake >= 10) { // 10 minutos
-                timeAwake -= 10;
+            if (timeAwake >= 20) { // 20 minutos
+                timeAwake -= 20;
                 stopSelf();
             } else {
                 handler.postDelayed(this, delay);
@@ -231,7 +267,6 @@ public class SleepTracker extends Service {
         @Override
         public void onSensorChanged(SensorEvent event) {
             bpm = event.values[0];
-            rrInterval = 60000 / bpm;
         }
 
         @Override
@@ -268,5 +303,4 @@ public class SleepTracker extends Service {
     private boolean isMissingSensors() {
         return heartRateSensor == null || lightSensor == null;
     }
-
 }

@@ -35,15 +35,10 @@ public class Recordings extends AppCompatActivity {
     private AdapterLoudSounds adapterLoudSounds;
     private RecyclerView recyclerView;
 
-    PCMRecorder pcmRecorder = new PCMRecorder();
-    Recorder recorder = new Recorder();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
-
-        testFiltros();
 
         adapterLoudSounds = new AdapterLoudSounds(getSoundsList());
         recyclerView = findViewById(R.id.loudSounds_list);
@@ -71,10 +66,6 @@ public class Recordings extends AppCompatActivity {
         DatabaseConnection connection = DatabaseConnection.getInstance(this);
         connection.openDatabase();
 
-        TextView textView = findViewById(R.id.bttn);
-        textView.setOnClickListener(v -> {
-            testGrabacion();
-        });
 
         Button elimnarButton = findViewById(R.id.btn_eliminar);
         elimnarButton.setOnClickListener(v -> deleteRecording());
@@ -117,16 +108,5 @@ public class Recordings extends AppCompatActivity {
         File filePCM = new File(audiosFiles.getPCMPath());
         File fileXML = new File(audiosFiles.getXMLPath());
         return file3GP.exists() && filePCM.exists() && fileXML.exists();
-    }
-
-
-    private void testGrabacion() {
-        pcmRecorder.startRecording();
-        recorder.startRecording();
-    }
-
-    private void testFiltros() {
-        AudioFilter audioFilter = new AudioFilter();
-        audioFilter.filterAudio();
     }
 }

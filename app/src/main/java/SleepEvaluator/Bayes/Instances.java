@@ -1,4 +1,4 @@
-package SleepEvaluator;
+package SleepEvaluator.Bayes;
 
 import android.content.Context;
 import android.util.Xml;

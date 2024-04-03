@@ -43,18 +43,22 @@ public class DateManager {
 
 
 
-    public boolean haveThreeDaysPassed(String endDateStr) throws ParseException {
-        Date startDateFormatted = getDateFormat().parse(getCurrentDate());
-        Date endDateFormatted = getDateFormat().parse(endDateStr);
+    public boolean haveThreeDaysPassed(String endDateStr) {
+        try {
+            Date startDateFormatted = getDateFormat().parse(getCurrentDate());
+            Date endDateFormatted = getDateFormat().parse(endDateStr);
 
-        if (startDateFormatted == null || endDateFormatted == null) {
-            throw new ParseException("Error parsing dates", 0);
+            if (startDateFormatted == null || endDateFormatted == null) {
+                throw new ParseException("Error parsing dates", 0);
+            }
+
+            long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
+            long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
+
+            return differenceDays > 3;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
-
-        long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
-        long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
-
-        return differenceDays > 3;
     }
 
     public long getDaysDifference(String startDate, String endDate) {

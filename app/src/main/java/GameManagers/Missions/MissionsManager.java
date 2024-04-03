@@ -1,4 +1,4 @@
-package GameManagers;
+package GameManagers.Missions;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -9,14 +9,17 @@ import AppContext.MyApplication;
 import Database.DataAccess.MissionDataAccess;
 import Database.DataUpdates.MissionDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.ExperienceManager;
 
 public class MissionsManager {
+    DatabaseConnection connection;
     private final MissionDataAccess missionDataAccess;
     private final MissionDataUpdate missionDataUpdate;
     private final ExperienceManager systemExperience;
 
     public MissionsManager() {
-        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+        connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+        connection.openDatabase();
 
         missionDataAccess = new MissionDataAccess(connection);
         missionDataUpdate = new MissionDataUpdate(connection);
