@@ -102,7 +102,7 @@ public class Configuration extends AppCompatActivity {
     private void savePreferencesData() {
         boolean recordSnoring = checkBoxRecordAudios.isChecked();
         boolean saveAudios = checkBoxSaveRecordings.isChecked();
-        preferencesDataAccess.updatePreferences(recordSnoring, saveAudios);
+        preferencesDataAccess.updatePreferences(saveAudios, recordSnoring);
     }
 
     private void updateQuality() {

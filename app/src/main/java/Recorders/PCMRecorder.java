@@ -53,7 +53,7 @@ public class PCMRecorder {
                 RECORDER_CHANNELS,
                 RECORDER_AUDIO_ENCODING)];
 
-        String filePath = audiosFiles.getPCMPath();
+        String filePath = audiosFiles.getRecordingsPCMPath();
 
         try {
             FileOutputStream os = new FileOutputStream(filePath);

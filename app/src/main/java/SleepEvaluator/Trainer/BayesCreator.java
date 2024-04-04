@@ -1,4 +1,4 @@
-package SleepEvaluator.Bayes;
+package SleepEvaluator.Trainer;
 
 import java.util.ArrayList;
 

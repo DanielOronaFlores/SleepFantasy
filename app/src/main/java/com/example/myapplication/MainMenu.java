@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import Avatar.CharactersList;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DatabaseConnection;
+import Dates.DateManager;
 import Dialogs.AvatarInformationFragment;
+import Files.AudiosPaths;
+import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
 import Services.PostureSensor;
@@ -66,6 +69,8 @@ public class MainMenu extends AppCompatActivity {
 
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.update();
+
+        deleteAudioFiles();
     }
     @Override
     protected void onStart() {
@@ -76,5 +81,19 @@ public class MainMenu extends AppCompatActivity {
         imgAvatar.setImageResource(skins[avatarDataAccess.getCharacterPhase() -1]);
 
         Permissions.askBodySensorsPermission(this, this);
+    }
+
+    private void deleteAudioFiles() {
+        DateManager dateManager = new DateManager();
+        AudiosPaths audiosPaths = new AudiosPaths();
+
+        String lastDateModified = FilesManager.getLastDateModified(audiosPaths.getRecordingsPCMPath());
+        lastDateModified = dateManager.convertDate(lastDateModified);
+
+        if (lastDateModified != null && dateManager.havePassed24Hours(lastDateModified)) {
+            FilesManager.deleteFiles(audiosPaths.getRecordingsPCMPath());
+            FilesManager.deleteFiles(audiosPaths.getRecordings3GPPath());
+            FilesManager.deleteFiles(audiosPaths.getListSoundsPath());
+        }
     }
 }

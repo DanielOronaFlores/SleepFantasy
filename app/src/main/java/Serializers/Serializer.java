@@ -12,7 +12,7 @@ import Models.Sound;
 public class Serializer {
     AudiosPaths audiosFiles = new AudiosPaths();
     public void serializeSoundsToXML(List<Sound> soundList) {
-        String fileName = audiosFiles.getXMLPath();
+        String fileName = audiosFiles.getListSoundsPath();
         try (Writer writer = new FileWriter(fileName)) {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
             writer.write("<soundList>\n");
@@ -24,28 +24,6 @@ public class Serializer {
             }
 
             writer.write("</soundList>\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void serializeSleepCycleToXML(List<SleepCycle> sleepCycles) {
-        String fileName = audiosFiles.test();
-        try (Writer writer = new FileWriter(fileName)) {
-            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
-            writer.write("<cycleList>\n");
-
-            for (SleepCycle cycle : sleepCycles) {
-                writer.write("  <sleep>\n");
-                writer.write("    <name>" + cycle.getSleepCycle() + "</name>\n");
-                writer.write("    <hour>" + cycle.getDateTime() + "</hour>\n");
-                writer.write("    <mrc>" + cycle.getMrcData() + "</mrc>\n");
-                writer.write("    <sddn>" + cycle.getSdnn() + "</sddn>\n");
-                writer.write("    <hrv>" + cycle.getHrv() + "</hrv>\n");
-                writer.write("  </sleep>\n");
-            }
-
-            writer.write("</cycleList>\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

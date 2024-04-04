@@ -1,38 +1,24 @@
 package Files;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
-
-import java.io.File;
 
 import AppContext.MyApplication;
 
 public class AudiosPaths {
     private final Context context = MyApplication.getAppContext();
 
-    public String getRecordingsPath() {
-        return context.getExternalFilesDir(Environment.DIRECTORY_MUSIC) + "/recording.3gp";
+    @SuppressLint("SdCardPath")
+    public String getRecordings3GPPath() {
+        return  "/sdcard/Music/";
     }
 
-    public String getPCMPath() {
+    public String getRecordingsPCMPath() {
         return context.getExternalFilesDir(Environment.DIRECTORY_MUSIC) + "/recording.pcm";
     }
 
-    public String getXMLPath() {
+    public String getListSoundsPath() {
         return context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/listSounds.xml";
-    }
-
-    public String getProbabilitiesPath() {
-        return context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/probabilities.xml";
-    }
-
-    public boolean doesRecordingFileExist() {
-        String fileName = getRecordingsPath();
-        File file = new File(fileName);
-        return file.exists();
-    }
-
-    public String test() {
-        return context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/test.xml";
     }
 }

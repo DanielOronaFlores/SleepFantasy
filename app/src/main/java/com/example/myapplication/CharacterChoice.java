@@ -10,7 +10,7 @@ import Avatar.CharactersList;
 import Database.DataUpdates.AvatarCreator;
 import GameManagers.ExperienceManager;
 import Database.DatabaseConnection;
-import SleepEvaluator.Bayes.BayesCreator;
+import SleepEvaluator.Trainer.BayesCreator;
 
 public class CharacterChoice extends AppCompatActivity {
     private DatabaseConnection connection;

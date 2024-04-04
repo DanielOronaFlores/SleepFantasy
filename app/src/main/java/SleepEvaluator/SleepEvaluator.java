@@ -9,7 +9,7 @@ import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
 import GameManagers.ExperienceManager;
 import GameManagers.Missions.MissionsUpdater;
-import SleepEvaluator.Bayes.PrioriCategories;
+import SleepEvaluator.Trainer.PrioriCategories;
 
 public class SleepEvaluator {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());

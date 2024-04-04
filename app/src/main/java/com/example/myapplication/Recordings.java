@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Space;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chibde.visualizer.LineVisualizer;
@@ -20,13 +19,10 @@ import java.io.File;
 import java.util.List;
 
 import Adapters.AdapterLoudSounds;
-import AudioFilter.AudioFilter;
 import Serializers.Deserializer;
 import Models.Sound;
-import Recorders.PCMRecorder;
 import Database.DatabaseConnection;
 import Files.AudiosPaths;
-import Recorders.Recorder;
 import Utils.SecondsCounter;
 
 public class Recordings extends AppCompatActivity {
@@ -91,22 +87,22 @@ public class Recordings extends AppCompatActivity {
 
     private List<List<Integer>> getSoundsList() {
         Deserializer deserializer = new Deserializer();
-        List<Sound> soundsList = deserializer.deserializeFromXML(audiosFiles.getXMLPath());
+        List<Sound> soundsList = deserializer.deserializeFromXML(audiosFiles.getListSoundsPath());
 
         return secondsCounter.getConsecutiveSeconds(soundsList);
     }
 
     private boolean areFilesDeleted() {
-        File file3GP = new File(audiosFiles.getRecordingsPath());
-        File filePCM = new File(audiosFiles.getPCMPath());
-        File fileXML = new File(audiosFiles.getXMLPath());
+        File file3GP = new File(audiosFiles.getRecordings3GPPath());
+        File filePCM = new File(audiosFiles.getRecordingsPCMPath());
+        File fileXML = new File(audiosFiles.getListSoundsPath());
         return file3GP.delete() && filePCM.delete() && fileXML.delete();
     }
 
     private boolean areFilesExist() {
-        File file3GP = new File(audiosFiles.getRecordingsPath());
-        File filePCM = new File(audiosFiles.getPCMPath());
-        File fileXML = new File(audiosFiles.getXMLPath());
+        File file3GP = new File(audiosFiles.getRecordings3GPPath());
+        File filePCM = new File(audiosFiles.getRecordingsPCMPath());
+        File fileXML = new File(audiosFiles.getListSoundsPath());
         return file3GP.exists() && filePCM.exists() && fileXML.exists();
     }
 }

@@ -1,7 +1,6 @@
 package Adapters;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
 import Database.DatabaseConnection;
@@ -65,7 +63,7 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
     }
 
     private void playSound(Context context, List<Integer> seconds) {
-        String recordFilePath = audioFiles.getRecordingsPath();
+        String recordFilePath = audioFiles.getRecordings3GPPath();
 
         int startMillis = seconds.get(0) * 1000;
         int endSecond = seconds.get(seconds.size() - 1) + 1;

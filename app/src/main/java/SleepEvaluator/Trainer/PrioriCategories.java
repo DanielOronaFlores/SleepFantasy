@@ -1,6 +1,4 @@
-package SleepEvaluator.Bayes;
-
-import SleepEvaluator.Bayes.Instances;
+package SleepEvaluator.Trainer;
 
 public class PrioriCategories {
     public static float[] getPrioriProbabilities() {

@@ -19,9 +19,9 @@ public class AudioFilter {
     public void filterAudio() {
         try {
             double segmentDuration = 1.0;
-            FileInputStream fileInputStream = new FileInputStream(audiosFiles.getPCMPath());
+            FileInputStream fileInputStream = new FileInputStream(audiosFiles.getRecordingsPCMPath());
 
-            String audioFilePath = audiosFiles.getRecordingsPath();
+            String audioFilePath = audiosFiles.getRecordings3GPPath();
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
             retriever.setDataSource(audioFilePath);
 

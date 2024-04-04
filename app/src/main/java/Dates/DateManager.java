@@ -8,7 +8,24 @@ import java.util.Locale;
 
 public class DateManager {
     private SimpleDateFormat getDateFormat() {
-        return  new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    }
+    public String convertDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        SimpleDateFormat newDateFormat;
+        String formattedDate = null;
+
+        try {
+            Date convertedDate = dateFormat.parse(date);
+            newDateFormat = getDateFormat();
+            if (convertedDate != null) {
+                formattedDate = newDateFormat.format(convertedDate);
+                System.out.println("Fecha formateada: " + formattedDate);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedDate;
     }
 
     private boolean isConsecutive(Date currentDate, Date oldDate) {
@@ -33,16 +50,12 @@ public class DateManager {
 
         return isConsecutive(currentDateFormatted, oldDateFormatted);
     }
-
     public boolean isSunday() {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
         return dayOfWeek == Calendar.SUNDAY;
     }
-
-
-
     public boolean haveThreeDaysPassed(String endDateStr) {
         try {
             Date startDateFormatted = getDateFormat().parse(getCurrentDate());
@@ -60,7 +73,6 @@ public class DateManager {
             throw new RuntimeException(e);
         }
     }
-
     public long getDaysDifference(String startDate, String endDate) {
         Date startDateFormatted;
         Date endDateFormatted;
@@ -79,21 +91,27 @@ public class DateManager {
         long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
         return differenceMillis / (24 * 60 * 60 * 1000);
     }
+    public boolean havePassed24Hours(String oldDateStr) {
+        boolean havePassed24Hours;
+        long differenceHours = 0;
 
-    public boolean havePassed24Hours(String oldDateStr) throws ParseException {
-        Date currentDateFormatted = new Date(System.currentTimeMillis());
-        Date oldDateFormatted = getDateFormat().parse(oldDateStr);
+        try {
+            Date currentDateFormatted = new Date(System.currentTimeMillis());
+            Date oldDateFormatted = getDateFormat().parse(oldDateStr);
 
-        if (oldDateFormatted == null) {
-            throw new ParseException("Error parsing date", 0);
+            if (oldDateFormatted == null) {
+                throw new ParseException("Error parsing date", 0);
+            }
+
+            long differenceMillis = currentDateFormatted.getTime() - oldDateFormatted.getTime();
+            differenceHours = differenceMillis / (60 * 60 * 1000);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } finally {
+            havePassed24Hours = differenceHours >= 24;
         }
-
-        long differenceMillis = currentDateFormatted.getTime() - oldDateFormatted.getTime();
-        long differenceHours = differenceMillis / (60 * 60 * 1000);
-
-        return differenceHours >= 24;
+        return havePassed24Hours;
     }
-
     public String getPastWeek(String date) {
         SimpleDateFormat sdf = getDateFormat();
         String startDate;
@@ -122,19 +140,6 @@ public class DateManager {
         }
         return startDate;
     }
-
-    public String formatDate(String date) {
-        Date dateFormatted;
-
-        try {
-            dateFormatted = getDateFormat().parse(date);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-        return getDateFormat().format(dateFormatted);
-    }
-
     public String monthDayOnly(String date) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd", Locale.getDefault());
         Date dateFormatted;
@@ -146,5 +151,17 @@ public class DateManager {
         }
 
         return sdf.format(dateFormatted);
+    }
+
+    public String formatDate(String date) {
+        Date dateFormatted;
+
+        try {
+            dateFormatted = getDateFormat().parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        return getDateFormat().format(dateFormatted);
     }
 }

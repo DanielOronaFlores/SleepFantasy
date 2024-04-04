@@ -20,21 +20,6 @@ public class Notifications {
     private final Context context = MyApplication.getAppContext();
 
 
-    private NotificationCompat.Builder createNotificationBuilder(String title, String text) {
-        return new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.placeholder_ramon)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-    }
-
-    private void IntentRecordsVisualizerCreator() {
-        Intent intent = new Intent(context, Recordings.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-    }
-
-    //Metodos para mostrar notificaciones
     public void showLowStorageNotification() {
         ChannelCreator.createNotificationChannel(context);
         IntentRecordsVisualizerCreator();
@@ -49,5 +34,18 @@ public class Notifications {
             return;
         }
         notificationManager.notify(1, builder.build());
+    }
+
+    private NotificationCompat.Builder createNotificationBuilder(String title, String text) {
+        return new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.placeholder_ramon)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    }
+    private void IntentRecordsVisualizerCreator() {
+        Intent intent = new Intent(context, Recordings.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 }

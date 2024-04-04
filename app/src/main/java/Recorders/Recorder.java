@@ -13,7 +13,7 @@ public class Recorder {
     private MediaRecorder mediaRecorder = new MediaRecorder();
 
     public void startRecording() {
-        String outputFile = audiosFiles.getRecordingsPath();
+        String outputFile = audiosFiles.getRecordings3GPPath();
 
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -23,6 +23,7 @@ public class Recorder {
         try {
             mediaRecorder.prepare();
             mediaRecorder.start();
+            System.out.println("Iniciando grbacion .3GP");
         } catch (IOException e) {
             e.printStackTrace();
         }
