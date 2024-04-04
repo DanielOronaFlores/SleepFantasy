@@ -11,7 +11,7 @@ public class AudiosPaths {
 
     @SuppressLint("SdCardPath")
     public String getRecordings3GPPath() {
-        return  "/sdcard/Music/";
+        return  "/sdcard/Music/recording.3gp";
     }
 
     public String getRecordingsPCMPath() {
