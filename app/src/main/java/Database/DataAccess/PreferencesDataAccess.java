@@ -48,7 +48,7 @@ public class PreferencesDataAccess {
     }
 
     public String[] getPreferencesData() {
-        String[] columns = {"saveRecordings", "recordSnorings"};
+        String[] columns = {"recordSnorings", "saveRecordings"};
         Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
         String[] preferences = new String[2];
 

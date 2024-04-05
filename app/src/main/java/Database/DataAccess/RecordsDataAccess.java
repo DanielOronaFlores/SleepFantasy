@@ -38,7 +38,7 @@ public class RecordsDataAccess {
         cursor.close();
         return temporizerActive;
     }
-    public boolean hasMonsterAppeared() { //TODO: Si llega a aparecer un monstruo se debe poner true
+    public boolean hasMonsterAppeared() {
         String columnName = "hasMonsterAppeared";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean monsterAppeared = false;
@@ -51,7 +51,7 @@ public class RecordsDataAccess {
         cursor.close();
         return monsterAppeared;
     }
-    public boolean isCategoryValid() { //TODO: Al acabar el ciclo de sueno se debe poner true si es categoria 3
+    public boolean isCategoryValid() {
         String columnName = "isCategoryValid";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean categoryValid = false;
@@ -64,7 +64,7 @@ public class RecordsDataAccess {
         cursor.close();
         return categoryValid;
     }
-    public boolean isDeletedAudio() { //TODO: Al eliminar un audio se debe poner true
+    public boolean isDeletedAudio() {
         String columnName = "isDeletedAudio";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean deletedAudio = false;
@@ -77,7 +77,7 @@ public class RecordsDataAccess {
         cursor.close();
         return deletedAudio;
     }
-    public boolean hasAvatarVisualChanged() { //TODO: Al cambiar la skin del avatar se debe poner true
+    public boolean hasAvatarVisualChanged() {
         String columnName = "hasAvatarVisualChanged";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean avatarVisualChanged = false;
@@ -90,7 +90,7 @@ public class RecordsDataAccess {
         cursor.close();
         return avatarVisualChanged;
     }
-    public boolean isNewSoundSet() { //TODO: Al cambiar el sonido de notificacion se debe poner true
+    public boolean isNewSoundSet() {
         String columnName = "isNewSoundSet";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean newSoundSet = false;
@@ -103,7 +103,7 @@ public class RecordsDataAccess {
         cursor.close();
         return newSoundSet;
     }
-    public boolean isNewInterface() { //TODO: Al cambiar la interfaz se debe poner true
+    public boolean isNewInterface() {
         String columnName = "isNewInterface";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean newInterface = false;
@@ -116,7 +116,7 @@ public class RecordsDataAccess {
         cursor.close();
         return newInterface;
     }
-    public boolean isNewAudioUploaded() { //TODO: Al subir un audio se debe poner true
+    public boolean isNewAudioUploaded() {
         String columnName = "isNewAudioUploaded";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean newAudioUploaded = false;
@@ -129,7 +129,7 @@ public class RecordsDataAccess {
         cursor.close();
         return newAudioUploaded;
     }
-    public boolean hasAudiosPlayed() { //TODO: Al reproducir tres audios se debe poner true
+    public boolean hasAudiosPlayed() {
         String columnName = "hasAudiosPlayed";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean audiosPlayed = false;
@@ -142,7 +142,7 @@ public class RecordsDataAccess {
         cursor.close();
         return audiosPlayed;
     }
-    public boolean isGraphDisplayed() { //TODO: Al mostrar el grafico diaro se debe poner true
+    public boolean isGraphDisplayed() {
         String columnName = "isGraphDisplayed";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean graphDisplayed = false;
@@ -155,7 +155,7 @@ public class RecordsDataAccess {
         cursor.close();
         return graphDisplayed;
     }
-    public boolean hasObtainedExperience() { //TODO: Al obtener 500 experiencia se debe poner true
+    public boolean hasObtainedExperience() {
         String columnName = "hasObtainedExperience";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean obtainedExperience = false;
@@ -174,11 +174,11 @@ public class RecordsDataAccess {
                 "isTemporizerActive = 0, " +
                 "hasMonsterAppeared = 0, " +
                 "isCategoryValid = 0, " +
-                "isDeletedAudio = 0, " +
+                "hasDeletedAudio = 0, " +
                 "hasAvatarVisualChanged = 0, " +
                 "isNewSoundSet = 0, " +
                 "isNewInterface = 0, " +
-                "isNewAudioUploaded = 0, " +
+                "isNewAudioUpoloaded    = 0, " +
                 "hasAudiosPlayed = 0, " +
                 "isGraphDisplayed = 0, " +
                 "hasObtainedExperience = 0");

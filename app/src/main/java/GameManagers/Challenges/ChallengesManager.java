@@ -53,7 +53,7 @@ public class ChallengesManager {
     private boolean isUpdateChallenge() {
         String currentDate = dateManager.getCurrentDate();
         String oldDate = challengesDataAccess.getDate(challengesDataAccess.getActiveChallenge());
-        System.out.println("Days Difference: " + dateManager.getDaysDifference(currentDate, oldDate));
+        if (oldDate == null) return true;
 
         return dateManager.isSunday() || dateManager.getDaysDifference(currentDate, oldDate) > 14;
     }

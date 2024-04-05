@@ -14,16 +14,15 @@ public class DateManager {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         SimpleDateFormat newDateFormat;
         String formattedDate = null;
-
         try {
-            Date convertedDate = dateFormat.parse(date);
-            newDateFormat = getDateFormat();
-            if (convertedDate != null) {
+            if (date != null) {
+                Date convertedDate = dateFormat.parse(date);
+                newDateFormat = getDateFormat();
                 formattedDate = newDateFormat.format(convertedDate);
                 System.out.println("Fecha formateada: " + formattedDate);
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println("Sin fecha");
         }
         return formattedDate;
     }
