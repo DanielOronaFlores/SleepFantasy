@@ -10,6 +10,7 @@ public class StorageManager {
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
         long bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
         double megabytesAvailable = bytesAvailable / (GIGABYTE * GIGABYTE);
+        System.out.println("Available MB : " + megabytesAvailable);
         return megabytesAvailable < GIGABYTE;
     }
 }

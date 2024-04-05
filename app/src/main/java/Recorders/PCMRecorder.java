@@ -21,7 +21,6 @@ public class PCMRecorder {
     private boolean isRecording = false;
     private AudioRecord audioRecord;
 
-
     public void startRecording() {
         int RECORDER_SAMPLE_RATE = recordingPreferences.getPreferredSamplingRate();
         int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_MONO;
@@ -71,5 +70,9 @@ public class PCMRecorder {
         isRecording = false;
         audioRecord.stop();
         audioRecord.release();
+    }
+
+    public boolean isPlaying() {
+        return isRecording;
     }
 }

@@ -28,12 +28,14 @@ public class Recorder {
             e.printStackTrace();
         }
     }
-
     public void stopRecording() {
         if (mediaRecorder != null) {
             mediaRecorder.stop();
             mediaRecorder.release();
             mediaRecorder = null;
         }
+    }
+    public boolean isRecording() {
+        return mediaRecorder != null;
     }
 }

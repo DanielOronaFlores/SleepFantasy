@@ -103,11 +103,13 @@ public class SleepTracker extends Service {
         initializeVariables();
 
         // Start recording
-        if (StorageManager.isInsufficientStorage() && preferencesDataAccess.getRecordSnorings()){
-            System.out.println("record = " + preferencesDataAccess.getRecordSnorings());
-            startRecording();
-        } else {
-            notifications.showLowStorageNotification();
+        if (preferencesDataAccess.getRecordSnorings()) {
+            if (StorageManager.isInsufficientStorage()) {
+                notifications.showLowStorageNotification();
+            } else {
+                System.out.println("record = " + preferencesDataAccess.getRecordSnorings());
+                startRecording();
+            }
         }
 
         // Start tracking
@@ -192,8 +194,8 @@ public class SleepTracker extends Service {
     }
 
     private void stopRecording() {
-        pcmRecorder.stopRecording();
-        recorder.stopRecording();
+        if (pcmRecorder.isPlaying()) pcmRecorder.stopRecording();
+        if (recorder.isRecording()) recorder.stopRecording();
     }
 
     private void filterAudio() {
@@ -301,6 +303,7 @@ public class SleepTracker extends Service {
                 events.run();
                 isEventRunning = true;
             }
+            System.out.println("Minute counter: " + minuteCounter);
 
             sensorManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
             if (bpm > 0.0) bpmList.add(bpm);

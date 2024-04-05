@@ -41,7 +41,9 @@ public class Recordings extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         Space space = findViewById(R.id.space);
-        if (getSoundsList().isEmpty()) {
+
+        File file = new File(audiosFiles.getRecordings3GPPath());
+        if (getSoundsList().isEmpty() || !file.exists()) {
             recyclerView.setVisibility(View.GONE);
         } else {
             space.setVisibility(View.GONE);

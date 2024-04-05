@@ -25,8 +25,7 @@ public class Notifications {
         IntentRecordsVisualizerCreator();
 
         NotificationCompat.Builder builder = createNotificationBuilder("BAJO ESPACIO DE ALMACENAMIENTO",
-                "El espacio de almacenamiento de tu dispositivo está llegando a su límite. " +
-                "No se podrán guardar más grabaciones hasta que liberes espacio.");
+                "Debido al bajo almacenamiento de tu dispositivo no se guardarán las grabaciones.");
 
         // Mostrar la notificación
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
