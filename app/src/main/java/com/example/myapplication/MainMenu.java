@@ -70,7 +70,7 @@ public class MainMenu extends AppCompatActivity {
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.update();
 
-        deleteAudioFiles();
+        deleteRecordingsFiles();
     }
     @Override
     protected void onStart() {
@@ -83,7 +83,7 @@ public class MainMenu extends AppCompatActivity {
         Permissions.askBodySensorsPermission(this, this);
     }
 
-    private void deleteAudioFiles() {
+    private void deleteRecordingsFiles() {
         DateManager dateManager = new DateManager();
         AudiosPaths audiosPaths = new AudiosPaths();
 

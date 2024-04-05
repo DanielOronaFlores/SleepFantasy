@@ -6,6 +6,7 @@ import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
 import GameManagers.Missions.MissionsUpdater;
+import Rewards.Rewards;
 
 public class ExperienceManager {
     private final DatabaseConnection connection;
@@ -42,6 +43,7 @@ public class ExperienceManager {
         avatarDataUpdate.updateRequiredExperience(calculateRequiredExperience(avatarDataAccess.getLevel()));
         MissionsUpdater missionsUpdater = new MissionsUpdater();
         missionsUpdater.updateMission7();
+        Rewards.giveReward();
     }
 
     private boolean itCanLevelUp(int experience) {

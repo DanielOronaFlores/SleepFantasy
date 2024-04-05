@@ -15,6 +15,7 @@ public class DatabaseTableFiller {
         fillPlayListTable(db);
         fillSongsTable(db);
         fillPlaylistSongs(db);
+        fillRewardsTable(db );
     }
     private static void fillMissionTable(SQLiteDatabase db) {
         for (int i = 0; i < 20; i++) {
@@ -232,5 +233,14 @@ public class DatabaseTableFiller {
         values.put("playlistId", 4);
         values.put("songId", 12);
         db.insert("PlaylistSongs", null, values);
+    }
+
+    private static void fillRewardsTable(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        for (int i = 0; i < 20; i++) { //Type 1 = Audios
+            values.put("type", 1);
+            values.put("given", 0);
+            db.insert("Rewards", null, values);
+        }
     }
 }

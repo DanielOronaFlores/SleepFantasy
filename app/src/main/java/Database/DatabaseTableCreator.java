@@ -15,6 +15,15 @@ public class DatabaseTableCreator {
         createSongsTable(db);
         createPlaylistSongsTable(db);
         createProbabilitiesTable(db);
+        createRewardsTable(db);
+    }
+
+    private static void createRewardsTable(SQLiteDatabase db) {
+        String query = "CREATE TABLE Rewards (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "type INTEGER, " +
+                "given BOOLEAN);";
+        db.execSQL(query);
     }
 
     private static void createAvatarTable(SQLiteDatabase db) {

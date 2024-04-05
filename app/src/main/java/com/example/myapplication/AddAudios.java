@@ -69,7 +69,7 @@ public class AddAudios extends AppCompatActivity {
             int playListID = playlistDataAccess.getPlaylistId("Audio Propios");
 
             for (String audio : selectedAudios) {
-                songsDataUpdate.addSong(audio);
+                songsDataUpdate.addSong(audio, false);
                 int songID = songsDataAccess.getSongID(audio);
                 playlistSongsDataUpdate.addSongToPlaylist(playListID, songID);
             }

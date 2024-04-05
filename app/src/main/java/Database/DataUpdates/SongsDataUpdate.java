@@ -11,9 +11,10 @@ public class SongsDataUpdate {
         this.database = connection.getDatabase();
     }
 
-    public void addSong(String songName) {
+    public void addSong(String songName, boolean createdBySystem) {
+        int ibBySystem = createdBySystem ? 1 : 0;
         String query = "INSERT INTO Songs (name, ibBySystem) VALUES (?, ?)";
-        database.execSQL(query, new String[]{songName, "0"});
+        database.execSQL(query, new String[]{songName, String.valueOf(ibBySystem)});
     }
 
     public void deleteSong(String songName) {
