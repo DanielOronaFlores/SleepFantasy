@@ -6,6 +6,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Styles.Themes;
+
 public class GameModeSelector extends AppCompatActivity {
 
     private Button btMissions, btChallenges;
@@ -26,5 +28,18 @@ public class GameModeSelector extends AppCompatActivity {
             Intent intent = new Intent(this, Challenges.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setTheme();
+    }
+
+    private void setTheme() {
+        Themes.setBackgroundColor(this, findViewById(R.id.selector));
+        Themes.setButtonTheme(this, btMissions);
+        Themes.setButtonTheme(this, btChallenges);
     }
 }

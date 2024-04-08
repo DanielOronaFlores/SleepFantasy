@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import Database.DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
 import Painters.BarChartPainter;
+import Styles.Themes;
 
 public class ChartBarVisualizer extends AppCompatActivity {
     private FrameLayout container;
@@ -65,6 +67,11 @@ public class ChartBarVisualizer extends AppCompatActivity {
         BarChartPainter barChartView = new BarChartPainter(this, colors, values);
         container.addView(barChartView);
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTheme();
+    }
 
     private void setLayoutWidth(int filter){
         ViewGroup.LayoutParams layoutParams = container.getLayoutParams();
@@ -113,8 +120,8 @@ public class ChartBarVisualizer extends AppCompatActivity {
         return filter == 1;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void setTheme() {
+        View view = findViewById(R.id.chartBarView);
+        Themes.setBackgroundColor(this, view);
     }
 }

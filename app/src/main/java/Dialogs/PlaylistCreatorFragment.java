@@ -23,6 +23,7 @@ import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DatabaseConnection;
 import Models.Audio;
+import Styles.Themes;
 
 public class PlaylistCreatorFragment extends DialogFragment {
     private List<Audio> selectedSongs;
@@ -57,6 +58,8 @@ public class PlaylistCreatorFragment extends DialogFragment {
                 dismiss();
             }
         });
+
+        Themes.setBackgroundColor(getActivity(), view);
 
         builder.setView(view);
         return builder.create();

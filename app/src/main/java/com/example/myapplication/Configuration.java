@@ -3,6 +3,8 @@ package com.example.myapplication;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import Database.DataUpdates.AvatarCreator;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
 import Permissions.Permissions;
+import Styles.Themes;
 
 public class Configuration extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -76,6 +79,8 @@ public class Configuration extends AppCompatActivity {
 
         if (preferencesDataAccess.getAudioQuality()) buttonChangeAudioQuality.setText("ALTA");
         else buttonChangeAudioQuality.setText("BAJA");
+
+        setTheme();
     }
 
     private void setUserData(String name, byte age) {
@@ -105,6 +110,7 @@ public class Configuration extends AppCompatActivity {
         preferencesDataAccess.updatePreferences(saveAudios, recordSnoring);
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateQuality() {
         PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
         boolean audioQuality = preferencesDataAccess.getAudioQuality();
@@ -127,5 +133,13 @@ public class Configuration extends AppCompatActivity {
         intent.putExtra("name", name);
         intent.putExtra("age", age);
         startActivity(intent);
+    }
+
+    private void setTheme() {
+        View view = findViewById(R.id.configuration);
+
+        Themes.setBackgroundColor(this, view);
+        Themes.setButtonTheme(this, buttonSavePreferences);
+        Themes.setButtonDataTheme(this, buttonChangeAudioQuality);
     }
 }

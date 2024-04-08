@@ -15,6 +15,7 @@ import com.example.myapplication.R;
 import AppContext.MyApplication;
 import Database.DataAccess.MissionDataAccess;
 import Database.DatabaseConnection;
+import Styles.Themes;
 
 public class ShowMissionFragment extends DialogFragment {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
@@ -40,6 +41,8 @@ public class ShowMissionFragment extends DialogFragment {
 
         missionDescription.setText(getMissionDescription(missionId));
         missionPeriod.setText(getMissionPeriod(missionId));
+
+        Themes.setBackgroundColor(getActivity(), view);
 
         builder.setView(view);
         return builder.create();

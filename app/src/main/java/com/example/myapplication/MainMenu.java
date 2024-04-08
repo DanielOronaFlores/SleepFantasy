@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
 import Services.PostureSensor;
+import Styles.Themes;
 
 public class MainMenu extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -81,6 +83,8 @@ public class MainMenu extends AppCompatActivity {
         imgAvatar.setImageResource(skins[avatarDataAccess.getCharacterPhase() -1]);
 
         Permissions.askBodySensorsPermission(this, this);
+
+        setTheme();
     }
 
     private void deleteRecordingsFiles() {
@@ -95,5 +99,10 @@ public class MainMenu extends AppCompatActivity {
             FilesManager.deleteFiles(audiosPaths.getRecordings3GPPath());
             FilesManager.deleteFiles(audiosPaths.getListSoundsPath());
         }
+    }
+
+    private void setTheme() {
+        View view = findViewById(R.id.mainMenu);
+        Themes.setBackgroundColor(this, view);
     }
 }

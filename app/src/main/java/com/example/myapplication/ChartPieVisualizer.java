@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import Database.DataAccess.SleepDataAccess;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
 import Painters.PieChartPainter;
+import Styles.Themes;
 
 public class ChartPieVisualizer extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -68,6 +70,8 @@ public class ChartPieVisualizer extends AppCompatActivity {
 
         ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
         challengesUpdater.updateChartRecord();
+
+        setTheme();
     }
 
     private float convertDataToPercentage(float data, float total) {
@@ -81,5 +85,10 @@ public class ChartPieVisualizer extends AppCompatActivity {
     private String percentageFormat(float number) {
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(number);
+    }
+
+    private void setTheme() {
+        View view = findViewById(R.id.chartPieVisualizer);
+        Themes.setBackgroundColor(this, view);
     }
 }

@@ -22,6 +22,7 @@ import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
 import Models.Audio;
+import Styles.Themes;
 
 public class PlaylistEditor extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -58,6 +59,12 @@ public class PlaylistEditor extends AppCompatActivity {
         editPlaylist.setOnClickListener(v -> updatePlaylist());
 
         recyclerView = findViewById(R.id.recyclerEditSongs);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTheme();
     }
 
     private void generateSongsList(List<Audio> songs) {
@@ -123,5 +130,12 @@ public class PlaylistEditor extends AppCompatActivity {
             }
             finish();
         }
+    }
+
+    private void setTheme() {
+        Themes.setBackgroundColor(this, findViewById(R.id.playlistEditor));
+        Themes.setButtonTheme(this, findViewById(R.id.addSongs));
+        Themes.setButtonTheme(this, findViewById(R.id.deleteSongs));
+        Themes.setButtonTheme(this, findViewById(R.id.editPlaylist));
     }
 }

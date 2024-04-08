@@ -18,6 +18,7 @@ import com.example.myapplication.ChartSelector;
 import com.example.myapplication.R;
 
 import Dates.DateManager;
+import Styles.Themes;
 
 public class SelectDateFragment extends DialogFragment {
     private final Context context = AppContext.MyApplication.getAppContext();
@@ -38,6 +39,9 @@ public class SelectDateFragment extends DialogFragment {
             getActivity().finish();
             returnSelector(date);
         });
+
+        Themes.setBackgroundColor(getActivity(), view);
+
         builder.setView(view);
         return builder.create();
     }

@@ -23,6 +23,7 @@ import Serializers.Deserializer;
 import Models.Sound;
 import Database.DatabaseConnection;
 import Files.AudiosPaths;
+import Styles.Themes;
 import Utils.SecondsCounter;
 
 public class Recordings extends AppCompatActivity {
@@ -73,6 +74,7 @@ public class Recordings extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         recyclerView.setAdapter(adapterLoudSounds);
+        setTheme();
     }
 
     private void deleteRecording() {
@@ -106,5 +108,10 @@ public class Recordings extends AppCompatActivity {
         File filePCM = new File(audiosFiles.getRecordingsPCMPath());
         File fileXML = new File(audiosFiles.getListSoundsPath());
         return file3GP.exists() && filePCM.exists() && fileXML.exists();
+    }
+
+    private void setTheme() {
+        Themes.setBackgroundColor(this, findViewById(R.id.recordings));
+        Themes.setButtonTheme(this, findViewById(R.id.btn_eliminar));
     }
 }

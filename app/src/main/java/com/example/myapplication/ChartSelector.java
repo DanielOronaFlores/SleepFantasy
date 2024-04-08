@@ -12,8 +12,11 @@ import android.widget.Spinner;
 
 import Dates.DateManager;
 import Dialogs.SelectDateFragment;
+import Styles.Themes;
 
 public class ChartSelector extends AppCompatActivity {
+    private Button btDate, btnConsult;
+
     private String date;
 
     @Override
@@ -21,7 +24,7 @@ public class ChartSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart_selector);
 
-        Button btDate = findViewById(R.id.chartDate);
+        btDate = findViewById(R.id.chartDate);
         btDate.setOnClickListener(view -> chooseDate());
 
         Spinner spinnerFilter = findViewById(R.id.spinnerTipoFiltro);
@@ -61,15 +64,19 @@ public class ChartSelector extends AppCompatActivity {
             DateManager dateManager = new DateManager();
             date = dateManager.getCurrentDate();
         }
-        Button btnDate = findViewById(R.id.chartDate);
-        btnDate.setText(date);
 
-        Button btnConsult = findViewById(R.id.chartConsult);
+        btnConsult = findViewById(R.id.chartConsult);
         btnConsult.setOnClickListener(view -> {
             int filter = spinnerFilter.getSelectedItemPosition();
             int data = spinnerData.getSelectedItemPosition();
             goToVisualizer(data, filter, date);
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTheme();
     }
 
     private void goToVisualizer(int data, int filter, String date) {
@@ -93,5 +100,13 @@ public class ChartSelector extends AppCompatActivity {
     private void chooseDate() {
         SelectDateFragment selectDate = new SelectDateFragment();
         selectDate.show(getSupportFragmentManager(), "Select Date");
+    }
+
+    private void setTheme() {
+        View view = findViewById(R.id.chartSelector);
+
+        Themes.setBackgroundColor(this, view);
+        Themes.setButtonTheme(this, btnConsult);
+        Themes.setButtonDataTheme(this, btDate);
     }
 }

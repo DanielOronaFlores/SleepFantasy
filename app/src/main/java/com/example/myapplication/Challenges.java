@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import Database.DataAccess.ChallengesDataAccess;
 import Database.DatabaseConnection;
+import Styles.Themes;
 
 public class Challenges extends AppCompatActivity {
     private TextView currentActiveChallenge;
@@ -53,11 +55,23 @@ public class Challenges extends AppCompatActivity {
             drawable.setStroke(2, Color.parseColor("#FFD700")); // Border dorado
             currentActiveChallenge.setBackground(drawable);
         }
+
+        setTheme();
     }
 
     private void goToChallengeDetails(int id) {
         Intent intent = new Intent(this, ChallengesList.class);
         intent.putExtra("challengeId", id);
         startActivity(intent);
+    }
+
+    private void setTheme() {
+        View view = findViewById(R.id.challenges);
+
+        Themes.setBackgroundColor(this, view);
+        Themes.setButtonTheme(this, completedChallenges);
+        Themes.setButtonTheme(this, failedChallenges);
+        Themes.setButtonTheme(this, unassignedChallenges);
+        Themes.setChallengeTextViewTheme(this, currentActiveChallenge);
     }
 }

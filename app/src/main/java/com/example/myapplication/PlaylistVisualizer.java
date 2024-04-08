@@ -18,6 +18,7 @@ import Database.DataAccess.PlaylistSongsDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DatabaseConnection;
 import Models.Audio;
+import Styles.Themes;
 
 public class PlaylistVisualizer extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -85,25 +86,24 @@ public class PlaylistVisualizer extends AppCompatActivity {
             setPlaylistTitle();
             setSongsList();
         }
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        setTheme();
     }
 
     private void setPlaylistTitle() {
         String title = playListDataAccess.getPlaylistTitle(playlistID);
         playlistTitle.setText(title);
     }
-
     private void setSongsList() {
         adapterSongs = new AdapterAudios(songs, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapterSongs);
     }
-
     private void deletePlaylist() {
         playlistDataUpdate.deletePlaylist(playlistID);
+    }
+
+    private void setTheme() {
+        Themes.setBackgroundColor(this, findViewById(R.id.playlist));
     }
 }

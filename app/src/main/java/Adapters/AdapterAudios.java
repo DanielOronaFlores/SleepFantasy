@@ -21,6 +21,7 @@ import java.util.List;
 
 import Models.Audio;
 import Services.AudioPlayer;
+import Styles.Themes;
 
 public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder> {
     private final List<Audio> audios;
@@ -67,6 +68,7 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
         }
         public void setSongs(String s) {
             button.setText(s);
+            Themes.setButtonDataTheme(button.getContext(), button);
         }
     }
 

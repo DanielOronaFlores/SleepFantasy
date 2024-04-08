@@ -18,6 +18,7 @@ import AppContext.MyApplication;
 import Avatar.NameClasses;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DatabaseConnection;
+import Styles.Themes;
 
 public class AvatarInformationFragment extends DialogFragment {
     @SuppressLint("SetTextI18n")
@@ -44,6 +45,8 @@ public class AvatarInformationFragment extends DialogFragment {
                 nameClasses.getNameClass(avatarDataAccess.getCharacterClass()) + " - Lvl " +
                 String.valueOf(avatarDataAccess.getLevel()));
         txExperience.setText(avatarDataAccess.getCurrentExperience() + "/" + avatarDataAccess.getRequiredExperience());
+
+        Themes.setBackgroundColor(getActivity(), view);
 
         builder.setView(view);
         return builder.create();

@@ -16,6 +16,7 @@ import com.example.myapplication.PlaylistVisualizer;
 import java.util.List;
 
 import Models.Playlist;
+import Styles.Themes;
 
 public class AdapterPlaylists extends RecyclerView.Adapter<AdapterPlaylists.ViewHolder>{
     private final List<Playlist> playlists;
@@ -54,6 +55,7 @@ public class AdapterPlaylists extends RecyclerView.Adapter<AdapterPlaylists.View
         }
         public void setPlaylist(String s) {
             button.setText(s);
+            Themes.setButtonTheme(button.getContext(), button);
         }
     }
 }

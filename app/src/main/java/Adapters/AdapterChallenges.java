@@ -12,6 +12,8 @@ import com.example.myapplication.R;
 
 import java.util.List;
 
+import Styles.Themes;
+
 public class AdapterChallenges extends RecyclerView.Adapter<AdapterChallenges.ViewHolder>{
     private List<String> challenges;
 
@@ -45,6 +47,7 @@ public class AdapterChallenges extends RecyclerView.Adapter<AdapterChallenges.Vi
 
         public void setChallenges(String challengeString) {
             challenge.setText(challengeString);
+            Themes.setChallengeTextViewTheme(challenge.getContext(), challenge);
         }
     }
 }

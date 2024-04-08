@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import Adapters.AdapterAudios;
 import Adapters.AdapterChallenges;
 import Database.DataAccess.ChallengesDataAccess;
 import Database.DatabaseConnection;
+import Styles.Themes;
 
 public class ChallengesList extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -62,5 +64,16 @@ public class ChallengesList extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             recyclerView.setAdapter(adapterChallenges);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTheme();
+    }
+
+    private void setTheme() {
+        View view = findViewById(R.id.challengesList);
+        Themes.setBackgroundColor(this, view);
     }
 }

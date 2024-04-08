@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import Clocker.Clock;
 import Dialogs.SetTimerFragment;
+import Styles.Themes;
 
 public class Timer extends AppCompatActivity {
     private final Clock clock = new Clock();
@@ -32,5 +33,11 @@ public class Timer extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         timerDuration.setText(clock.getTimeString());
+        setTheme();
+    }
+
+    private void setTheme() {
+        Themes.setBackgroundColor(this, findViewById(R.id.timer));
+        Themes.setButtonTheme(this, setTimerButton);
     }
 }

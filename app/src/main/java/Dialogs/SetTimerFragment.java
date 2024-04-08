@@ -18,6 +18,7 @@ import AppContext.MyApplication;
 import Clocker.Clock;
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DatabaseConnection;
+import Styles.Themes;
 
 public class SetTimerFragment extends DialogFragment {
     private PreferencesDataAccess preferencesDataAccess;
@@ -54,6 +55,9 @@ public class SetTimerFragment extends DialogFragment {
                 getActivity().recreate();
                 dismiss();
         });
+
+        Themes.setBackgroundColor(getActivity(), view);
+        Themes.setButtonTheme(getActivity(), btnSetTimer);
 
         builder.setView(view);
         return builder.create();

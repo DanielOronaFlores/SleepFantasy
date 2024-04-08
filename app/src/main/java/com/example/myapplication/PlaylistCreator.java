@@ -15,11 +15,13 @@ import Database.DataAccess.SongsDataAccess;
 import Database.DatabaseConnection;
 import Dialogs.PlaylistCreatorFragment;
 import Models.Audio;
+import Styles.Themes;
 
 public class PlaylistCreator extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
     private final SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
     private RecyclerView recyclerView;
+    private Button createPlaylist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,20 @@ public class PlaylistCreator extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new AdapterChecklistSongs(songs));
 
-        Button createPlaylist = findViewById(R.id.createPlaylist);
+        createPlaylist = findViewById(R.id.createPlaylist);
         createPlaylist.setOnClickListener(v -> openPlaylistSelectionNameDialog());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setTheme();
+    }
+
+    private void setTheme() {
+        Themes.setBackgroundColor(this, findViewById(R.id.playlistCreator));
+        Themes.setButtonTheme(this, createPlaylist);
     }
 
     private void openPlaylistSelectionNameDialog() {

@@ -20,6 +20,7 @@ import java.util.List;
 import Database.DatabaseConnection;
 import Files.AudiosPaths;
 import GameManagers.Challenges.ChallengesUpdater;
+import Styles.Themes;
 
 public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.ViewHolder> {
     private final List<List<Integer>> sounds;
@@ -59,6 +60,7 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             soundElement = itemView.findViewById(R.id.button_record);
+            Themes.setButtonTheme(itemView.getContext(), soundElement);
         }
     }
 

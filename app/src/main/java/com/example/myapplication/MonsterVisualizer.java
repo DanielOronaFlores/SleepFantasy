@@ -12,6 +12,7 @@ import java.text.ParseException;
 import Database.DataAccess.MonstersDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
+import Styles.Themes;
 
 public class MonsterVisualizer extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -47,6 +48,12 @@ public class MonsterVisualizer extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTheme();
+    }
+
     private String getMonsterName(int id){
         switch (id) {
             case 1:
@@ -68,5 +75,10 @@ public class MonsterVisualizer extends AppCompatActivity {
         String currentDay = dateManager.getCurrentDate();
         String lastDay = monstersDataAccess.getDateDisappearedActiveMonster();
         return (int) dateManager.getDaysDifference(currentDay, lastDay);
+    }
+
+    private void setTheme() {
+        Themes.setBackgroundColor(this, findViewById(R.id.monsters));
+
     }
 }

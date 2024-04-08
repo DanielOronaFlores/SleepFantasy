@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import Database.DataUpdates.AvatarCreator;
 import GameManagers.ExperienceManager;
 import Database.DatabaseConnection;
 import SleepEvaluator.Trainer.BayesCreator;
+import Styles.Themes;
 
 public class CharacterChoice extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -59,6 +61,7 @@ public class CharacterChoice extends AppCompatActivity {
         connection.openDatabase();
 
         currentCharacter.setImageResource(characters[idCharacter]);
+        setTheme();
     }
 
     private void goToMainMenu() {
@@ -86,9 +89,13 @@ public class CharacterChoice extends AppCompatActivity {
         goToMainMenu();
     }
 
-
     private void createProbabilities() {
         BayesCreator bayes = new BayesCreator();
         bayes.createProbabilities();
+    }
+
+    private void setTheme() {
+        View view = findViewById(R.id.characterChoice);
+        Themes.setBackgroundColor(this, view);
     }
 }

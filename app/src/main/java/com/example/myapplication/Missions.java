@@ -35,7 +35,12 @@ public class Missions extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStart() {
+        super.onStart();
+        setTheme();
+    }
+
+    private void setTheme() {
+        Styles.Themes.setBackgroundColor(this, findViewById(R.id.missions));
     }
 }

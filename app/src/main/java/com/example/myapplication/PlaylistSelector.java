@@ -15,6 +15,7 @@ import Adapters.AdapterPlaylists;
 import Database.DataAccess.PlaylistDataAccess;
 import Database.DatabaseConnection;
 import Models.Playlist;
+import Styles.Themes;
 
 public class PlaylistSelector extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
@@ -55,6 +56,15 @@ public class PlaylistSelector extends AppCompatActivity {
         playlists = playlistDataAccess.getAllPlaylists();
         recyclerView.setAdapter(new AdapterPlaylists(playlists));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        setTheme();
+    }
+
+    private void setTheme() {
+        Themes.setBackgroundColor(this, findViewById(R.id.playlistSelector));
+
+        Themes.setButtonTheme(this, findViewById(R.id.createNewPlaylist));
+        Themes.setButtonTheme(this, findViewById(R.id.addAudios));
     }
 
     @Override

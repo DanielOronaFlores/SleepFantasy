@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DataUpdates.SongsDataUpdate;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
+import Styles.Themes;
 
 public class AddAudios extends AppCompatActivity {
     private DatabaseConnection connection;
@@ -57,6 +59,7 @@ public class AddAudios extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         connection.openDatabase();
+        setTheme();
     }
 
     private void addSelectedAudios() {
@@ -78,5 +81,12 @@ public class AddAudios extends AppCompatActivity {
             challengesUpdater.updateAddAudio();
             finish();
         }
+    }
+
+    private void setTheme() {
+        View view = findViewById(R.id.addAudios);
+
+        Themes.setBackgroundColor(this, view);
+        Themes.setButtonTheme(this, addAudios);
     }
 }
