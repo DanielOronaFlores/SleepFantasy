@@ -32,13 +32,13 @@ public class Rewards {
             case 1:
                 AudiosRewards.giveRewardAudio(reward, connection);
                 break;
-            case 2: // Re coloreados
-                // Give reward type 2
+            case 2: // Temas de intefaz
+
                 break;
-            case 3: // Temas de intefaz
+            case 3: // Sonidos Notificacion
                 // Give reward type 3
                 break;
-            case 4: //  Sonidos Notificacion
+            case 4: // Re coloreados
                 // Give reward type 4
                 break;
             default:
@@ -46,6 +46,5 @@ public class Rewards {
         }
         RewardsDataUpdate rewardsDataUpdate = new RewardsDataUpdate(connection);
         rewardsDataUpdate.updateRewardGiven(reward);
-        //connection.closeDatabase();
     }
 }

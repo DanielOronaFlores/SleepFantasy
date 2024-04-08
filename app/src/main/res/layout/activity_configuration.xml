@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/configuration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="2"
-            android:rowCount="5"
+            android:rowCount="6"
             android:layout_marginTop="10sp">
 
             <!-- Primera fila -->
@@ -136,7 +137,33 @@
                 android:textColor="@android:color/black"/>
         </GridLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <Button
+                android:id="@+id/changeTheme"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5sp"
+                android:layout_gravity="center"
+                android:background="@color/button_background_purple"
+                android:textColor="#FFFFFF"
+                android:text="@string/cambiar_tema"/>
 
+            <Space
+                android:layout_width="10sp"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/changeAvatarSkin"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5sp"
+                android:layout_gravity="center"
+                android:background="@color/button_background_purple"
+                android:textColor="#FFFFFF"
+                android:text="@string/cambiar_aspecto"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/savePreferences"

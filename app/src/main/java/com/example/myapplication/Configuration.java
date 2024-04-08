@@ -29,7 +29,7 @@ public class Configuration extends AppCompatActivity {
     private PreferencesDataAccess preferencesDataAccess;
     private EditText editTextName, editTextAge;
     private CheckBox checkBoxSaveRecordings, checkBoxRecordAudios;
-    private Button buttonChangeAudioQuality, buttonSavePreferences;
+    private Button buttonChangeAudioQuality, buttonSavePreferences, buttonChangeTheme, buttonChangeAvatarSkin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,8 @@ public class Configuration extends AppCompatActivity {
         checkBoxSaveRecordings = findViewById(R.id.saveAudios);
         buttonSavePreferences = findViewById(R.id.savePreferences);
         buttonChangeAudioQuality = findViewById(R.id.btQuality);
+        buttonChangeTheme = findViewById(R.id.changeTheme);
+        buttonChangeAvatarSkin = findViewById(R.id.changeAvatarSkin);
 
         checkBoxRecordAudios.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) Permissions.askRecordingPermission(this, this);
@@ -60,6 +62,11 @@ public class Configuration extends AppCompatActivity {
                 setUserData(editTextName.getText().toString(), Byte.parseByte(editTextAge.getText().toString()))
         );
         buttonChangeAudioQuality.setOnClickListener(view -> updateQuality());
+
+        buttonChangeTheme.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ThemeSelector.class);
+            startActivity(intent);
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -136,10 +143,10 @@ public class Configuration extends AppCompatActivity {
     }
 
     private void setTheme() {
-        View view = findViewById(R.id.configuration);
-
-        Themes.setBackgroundColor(this, view);
+        Themes.setBackgroundColor(this, findViewById(R.id.configuration));
         Themes.setButtonTheme(this, buttonSavePreferences);
+        Themes.setButtonTheme(this, buttonChangeTheme);
+        Themes.setButtonTheme(this, buttonChangeAvatarSkin);
         Themes.setButtonDataTheme(this, buttonChangeAudioQuality);
     }
 }

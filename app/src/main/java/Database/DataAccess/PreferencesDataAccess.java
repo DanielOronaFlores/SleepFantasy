@@ -139,4 +139,16 @@ public class PreferencesDataAccess {
         cursor.close();
         return theme;
     }
+
+    public int setTheme(int theme) {
+        ContentValues values = new ContentValues();
+        values.put("theme", theme);
+
+        if (isPreferencesCreated()) {
+            database.update("Preferences", values, null, null);
+        } else {
+            database.insert("Preferences", null, values);
+        }
+        return theme;
+    }
 }

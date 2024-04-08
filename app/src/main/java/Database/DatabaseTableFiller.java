@@ -242,5 +242,11 @@ public class DatabaseTableFiller {
             values.put("given", 0);
             db.insert("Rewards", null, values);
         }
+
+        for (int i = 0; i < 5; i++) { //Type 2 = Interfaces
+            values.put("type", 2);
+            values.put("given", 0);
+            db.insert("Rewards", null, values);
+        }
     }
 }

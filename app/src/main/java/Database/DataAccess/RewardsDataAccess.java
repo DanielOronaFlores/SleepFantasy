@@ -28,6 +28,7 @@ public class RewardsDataAccess {
         cursor.close();
         return rewards;
     }
+
     public int getRewardType(int id) {
         String columnName = "type";
         Cursor cursor = database.query("Rewards", new String[]{columnName}, "id = " + id, null, null, null, null);
@@ -36,5 +37,19 @@ public class RewardsDataAccess {
         int type = cursor.getInt(columnIndex);
         cursor.close();
         return type;
+    }
+
+    public List<Boolean> getGivenPerType(int type) {
+        String columnName = "given";
+        Cursor cursor = database.query("Rewards", new String[]{columnName}, "type = " + type, null, null, null, null);
+        List<Boolean> given = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            int columnIndex = cursor.getColumnIndex(columnName);
+            given.add(cursor.getInt(columnIndex) == 1);
+        }
+
+        cursor.close();
+        return given;
     }
 }

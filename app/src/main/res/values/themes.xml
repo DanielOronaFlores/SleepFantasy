@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="layout_background_purple">#210630</color>
+    <color name="button_background_purple">#721B81</color>
+    <color name="buttonData_background_purple">#921EDA</color>
+    <color name="challengePanel_background_purple">#72773EAA</color>
+
+    <color name="layout_background_red">#300606</color>
+    <color name="button_background_red">#811B1B</color>
+    <color name="buttonData_background_red">#DA1E1E</color>
+    <color name="challengePanel_background_red">#73AA3E3E</color>
+
+    <color name="layout_background_green">#0F3006</color>
+    <color name="button_background_green">#42811B</color>
+    <color name="buttonData_background_green">#8CDA1E</color>
+    <color name="challengePanel_background_green">#735BAA3E</color>
+
+    <color name="layout_background_blue">#061730</color>
+    <color name="button_background_blue">#2A1B81</color>
+    <color name="buttonData_background_blue">#1E31DA</color>
+    <color name="challengePanel_background_blue">#733E59AA</color>
+
+    <color name="layout_background_yellow">#2F3006</color>
+    <color name="button_background_yellow">#816B1B</color>
+    <color name="buttonData_background_yellow">#D8DA951E</color>
+    <color name="challengePanel_background_yellow">#73AA983E</color>
+
+    <color name="layout_background_brown">#301A06</color>
+    <color name="button_background_brown">#812A1B</color>
+    <color name="buttonData_background_brown">#D8DA4A1E</color>
+    <color name="challengePanel_background_brown">#73AA7F3E</color>
+</resources>
