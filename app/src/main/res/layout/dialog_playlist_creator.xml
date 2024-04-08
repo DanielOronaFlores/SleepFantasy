@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
-    android:background="@color/background">
+    android:background="@color/layout_background_purple">
 
     <EditText
         android:id="@+id/playlistName"
@@ -21,7 +21,7 @@
         android:textAllCaps="true"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
-        android:background="#721B81"
+        android:background="@color/button_background_purple"
         android:text="@string/crear"/>
 
 </LinearLayout>

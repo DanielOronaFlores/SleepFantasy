@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/layout_background_purple"
     android:orientation="vertical"
     tools:context=".Timer">
 
@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5sp"
         android:layout_marginBottom="35sp"
-        android:background="@color/button"
+        android:background="@color/button_background_purple"
         android:text="modificar"
         android:textAllCaps="true" />
 </LinearLayout>

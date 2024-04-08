@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/layout_background_purple">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
             android:id="@+id/activeChallenge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/challengePanel"
+            android:background="@color/challengePanel_background_purple"
             android:layout_marginTop="40sp"
             android:gravity="center"
             android:textSize="15sp"
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
-            android:background="@color/button"
+            android:background="@color/button_background_purple"
             android:text="@string/desafios_completados"/>
 
         <Button
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5sp"
-            android:background="@color/button"
+            android:background="@color/button_background_purple"
             android:text="@string/desafios_fallados"/>
 
         <Button
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5sp"
             android:layout_marginBottom="35sp"
-            android:background="@color/button"
+            android:background="@color/button_background_purple"
             android:text="@string/desafios_sin_asignar"/>
     </LinearLayout>
 </ScrollView>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="layout_background_purple">#210630</color>
+    <color name="button_background_purple">#721B81</color>
+    <color name="buttonData_background_purple">#921EDA</color>
+    <color name="challengePanel_background_purple">#72773EAA</color>
+
+    <color name="layout_background_red">#300606</color>
+    <color name="button_background_red">#811B1B</color>
+    <color name="buttonData_background_red">#DA1E1E</color>
+    <color name="challengePanel_background_red">#73AA3E3E</color>
+</resources>

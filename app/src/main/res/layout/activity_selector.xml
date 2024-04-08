@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".GameModeSelector"
     android:orientation="horizontal"
-    android:background="#210630">
+    android:background="@color/layout_background_purple">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:textSize="11sp"
             android:layout_marginTop="10dp"
             android:textColor="#FFFFFF"
-            android:background="#721B81"/>
+            android:background="@color/button_background_purple"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +59,7 @@
             android:textSize="11sp"
             android:layout_marginTop="10dp"
             android:textColor="#FFFFFF"
-            android:background="#721B81"/>
+            android:background="@color/button_background_purple"/>
     </LinearLayout>
 
 </LinearLayout>

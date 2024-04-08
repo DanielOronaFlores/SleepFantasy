@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:background="@color/background"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/layout_background_purple">
 
     <TextView
         android:id="@+id/challenge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/challengePanel"
+        android:background="@color/challengePanel_background_purple"
         android:layout_marginTop="5sp"
         android:textSize="15sp"
         android:textAllCaps="true"/>

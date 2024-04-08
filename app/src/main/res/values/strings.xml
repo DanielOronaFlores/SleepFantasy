@@ -44,4 +44,5 @@
     <string name="desafios_completados">DESAFIOS COMPLETADOS</string>
     <string name="desafios_fallados">DESAFIOS FALLADOS</string>
     <string name="desafios_sin_asignar">DESAFIOS SIN ASIGNAR</string>
+    <string name="listado">LISTADO</string>
 </resources>

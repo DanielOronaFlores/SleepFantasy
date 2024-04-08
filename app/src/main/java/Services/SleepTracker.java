@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import AudioFilter.AudioFilter;
@@ -35,6 +36,7 @@ import GameManagers.Missions.MissionsUpdater;
 import Models.Sound;
 import Notifications.Notifications;
 import Recorders.PCMRecorder;
+import Recorders.Preferences.RecordingPreferences;
 import Recorders.Recorder;
 import Serializers.Deserializer;
 import SleepEvents.Awakenings;
@@ -129,6 +131,8 @@ public class SleepTracker extends Service {
 
         releaseWakeLock();
         stopForeground(true);
+
+        System.out.println("Service stopped");
     }
 
     private void initializeComponents() {
@@ -184,6 +188,7 @@ public class SleepTracker extends Service {
 
     private void startRecording() {
         pcmRecorder.startRecording();
+        System.out.println("Save: " +  preferencesDataAccess.getSaveRecordings());
         if (preferencesDataAccess.getSaveRecordings()) {
             recorder.startRecording();
         }
@@ -199,8 +204,9 @@ public class SleepTracker extends Service {
     }
 
     private void filterAudio() {
+        RecordingPreferences recordingPreferences = new RecordingPreferences();
         AudioFilter audioFilter = new AudioFilter();
-        audioFilter.filterAudio();
+        audioFilter.filterAudio(recordingPreferences.getPreferredSamplingRate());
     }
 
     private void unregisterListeners() {
@@ -348,8 +354,8 @@ public class SleepTracker extends Service {
                 sensorManager.unregisterListener(lightListener);
             }
 
-            int delay = 30000; // 30000 ms = 30 s
-            if (timeAwake >= 20) { // 20 minutos
+            int delay = 30000 ; // 30000 ms = 30 s
+            if (timeAwake == 20) { // 20 minutos
                 timeAwake -= 20;
                 stopSelf();
             } else {
@@ -367,4 +373,14 @@ public class SleepTracker extends Service {
             eventsHandler.postDelayed(this, 1000); // 1000 ms = 1 s
         }
     };
+
+    private boolean isStopTime() {
+        int stopHour = 21;
+        int stopMinute = 55;
+
+        Calendar currentTime = Calendar.getInstance();
+        int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = currentTime.get(Calendar.MINUTE);
+        return currentHour == stopHour && currentMinute >= stopMinute;
+    }
 }

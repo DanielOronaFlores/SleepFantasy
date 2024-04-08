@@ -126,4 +126,17 @@ public class PreferencesDataAccess {
         cursor.close();
         return preferencesExist;
     }
+
+    public int getThemeSelected() {
+        String[] columns = {"theme"};
+        Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
+        int theme = 0;
+
+        if (cursor.moveToFirst()) {
+            theme = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return theme;
+    }
 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#210630"
+    android:background="@color/layout_background_purple"
     android:orientation="vertical"
     android:layout_gravity="center">
 
@@ -13,8 +13,7 @@
         android:layout_height="130dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        ></ImageView>
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/monsterNameTextView"

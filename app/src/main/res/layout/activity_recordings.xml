@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#210630">
+    android:background="@color/layout_background_purple">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:layout_marginTop="5sp"
             android:textSize="15sp"
             android:layout_gravity="center_horizontal"
-            android:background="@color/button"
+            android:background="@color/button_background_purple"
             android:text="@string/eliminar"
             android:textColor="@android:color/black"/>
 
@@ -50,7 +50,7 @@
             android:layout_marginTop="5sp"
             android:textSize="20sp"
             android:textColor="#FFFFFF"
-            android:text="LISTADO" />
+            android:text="@string/listado" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/loudSounds_list"

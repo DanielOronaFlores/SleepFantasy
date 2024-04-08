@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/layout_background_purple">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_row="4"
                 android:layout_column="1"
-                android:background="@color/buttonData"
+                android:background="@color/buttonData_background_purple"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"/>
         </GridLayout>
@@ -144,7 +144,7 @@
             android:layout_marginTop="10sp"
             android:layout_marginBottom="35sp"
             android:layout_gravity="center"
-            android:background="@color/button"
+            android:background="@color/button_background_purple"
             android:textColor="#FFFFFF"
             android:text="@string/guardar"/>
     </LinearLayout>

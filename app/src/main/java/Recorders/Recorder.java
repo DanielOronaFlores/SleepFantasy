@@ -10,9 +10,10 @@ import Recorders.Preferences.RecordingPreferences;
 public class Recorder {
     private final RecordingPreferences recordingPreferences = new RecordingPreferences();
     private final AudiosPaths audiosFiles = new AudiosPaths();
-    private MediaRecorder mediaRecorder = new MediaRecorder();
+    private MediaRecorder mediaRecorder;
 
     public void startRecording() {
+        mediaRecorder = new MediaRecorder();
         String outputFile = audiosFiles.getRecordings3GPPath();
 
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -36,6 +37,7 @@ public class Recorder {
         }
     }
     public boolean isRecording() {
+        System.out.println("is Recording: " + (mediaRecorder != null));
         return mediaRecorder != null;
     }
 }

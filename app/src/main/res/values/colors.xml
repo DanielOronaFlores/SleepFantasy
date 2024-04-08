@@ -2,14 +2,10 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="background">#210630</color>
     <color name="remSleep">#A830A6</color>
     <color name="deepSleep">#B764B6</color>
     <color name="lightSleep">#E47DE2</color>
     <color name="vigil">#F2D6B6</color>
-    <color name="button">#721B81</color>
-    <color name="buttonData">#921EDA</color>
     <color name="barCharColor1">#CAC96D</color>
     <color name="barCharColor2">#7A7A42</color>
-    <color name="challengePanel">#72773EAA</color>
 </resources>
