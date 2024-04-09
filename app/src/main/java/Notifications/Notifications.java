@@ -18,8 +18,6 @@ import AppContext.MyApplication;
 public class Notifications {
     private static final String CHANNEL_ID = "sleepfantasy_channel";
     private final Context context = MyApplication.getAppContext();
-
-
     public void showLowStorageNotification() {
         ChannelCreator.createNotificationChannel(context);
         IntentRecordsVisualizerCreator();

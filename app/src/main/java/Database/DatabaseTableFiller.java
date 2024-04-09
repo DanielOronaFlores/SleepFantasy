@@ -248,5 +248,11 @@ public class DatabaseTableFiller {
             values.put("given", 0);
             db.insert("Rewards", null, values);
         }
+
+        for (int i = 0; i < 15; i++) { //Type 3 = Notification Sounds
+            values.put("type", 3);
+            values.put("given", 0);
+            db.insert("Rewards", null, values);
+        }
     }
 }

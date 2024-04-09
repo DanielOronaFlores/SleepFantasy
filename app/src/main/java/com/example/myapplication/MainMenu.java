@@ -17,6 +17,7 @@ import Files.AudiosPaths;
 import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
+import Rewards.SoundsRewards;
 import Services.PostureSensor;
 import Styles.Themes;
 

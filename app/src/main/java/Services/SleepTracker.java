@@ -10,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,6 +19,8 @@ import android.os.PowerManager;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -267,11 +270,20 @@ public class SleepTracker extends Service {
 
     private Notification createNotification() {
         NotificationChannel channel;
+        Uri soundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.notification_ring);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channel = new NotificationChannel("sleep_tracker_channel", "Sleep Tracker Channel", NotificationManager.IMPORTANCE_DEFAULT);
+            System.out.println("Creating notification channel");
+
+            channel = new NotificationChannel("sleep_tracker_channel",
+                    "Sleep Tracker Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+
+
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "sleep_tracker_channel")
                 .setContentTitle("Sleep Tracker Service")
@@ -355,7 +367,7 @@ public class SleepTracker extends Service {
             }
 
             int delay = 30000 ; // 30000 ms = 30 s
-            if (timeAwake == 20) { // 20 minutos
+            if (isStopTime()) { // 20 minutos
                 timeAwake -= 20;
                 stopSelf();
             } else {
@@ -375,8 +387,8 @@ public class SleepTracker extends Service {
     };
 
     private boolean isStopTime() {
-        int stopHour = 21;
-        int stopMinute = 55;
+        int stopHour = 10;
+        int stopMinute = 00;
 
         Calendar currentTime = Calendar.getInstance();
         int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);

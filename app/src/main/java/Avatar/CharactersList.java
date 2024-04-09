@@ -43,13 +43,13 @@ public class CharactersList {
         return skins;
     }
     private static final int[] bowmanPhases = {
-            R.drawable.avatar_zholder_1,
-            R.drawable.avatar_zholder_2,
-            R.drawable.avatar_zholder_3,
+            R.drawable.avatar_bowman_1,
+            R.drawable.avatar_bowman_2,
+            R.drawable.avatar_bowman_3,
             R.drawable.avatar_bowman_4,
-            R.drawable.avatar_zholder_5,
-            R.drawable.avatar_zholder_6,
-            R.drawable.avatar_zholder_7
+            R.drawable.avatar_bowman_5,
+            R.drawable.avatar_bowman_6,
+            R.drawable.avatar_bowman_7
     };
     private static final int[] magePhases = {
             R.drawable.avatar_zholder_1,

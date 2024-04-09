@@ -36,7 +36,8 @@ public class Rewards {
 
                 break;
             case 3: // Sonidos Notificacion
-                // Give reward type 3
+                int totalRewards = rewardsDataAccess.getTotalRewards();
+                SoundsRewards.giveRewardSound(reward, totalRewards);
                 break;
             case 4: // Re coloreados
                 // Give reward type 4
