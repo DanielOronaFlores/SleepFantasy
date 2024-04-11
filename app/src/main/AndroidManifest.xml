@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.ACCELEROMETER" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_MEDIA_AUDIO" />
-    
+
     <application
         android:name="AppContext.MyApplication"
         android:allowBackup="true"
@@ -22,6 +22,11 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault"
         tools:ignore="WearStandaloneAppFlag">
+        <activity
+            android:name=".SkinSelector"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            tools:ignore="WearRecents" />
         <activity
             android:name=".ThemeSelector"
             android:exported="false"

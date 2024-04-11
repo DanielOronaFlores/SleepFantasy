@@ -254,5 +254,11 @@ public class DatabaseTableFiller {
             values.put("given", 0);
             db.insert("Rewards", null, values);
         }
+
+        for (int i = 0; i < 10; i++) { //Type 4 = Avatars Skins
+            values.put("type", 4);
+            values.put("given", 0);
+            db.insert("Rewards", null, values);
+        }
     }
 }

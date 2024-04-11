@@ -151,4 +151,27 @@ public class PreferencesDataAccess {
         }
         return theme;
     }
+
+    public void setAvatarSkin(int avatarSkin) {
+        ContentValues values = new ContentValues();
+        values.put("skin", avatarSkin);
+
+        if (isPreferencesCreated()) {
+            database.update("Preferences", values, null, null);
+        } else {
+            database.insert("Preferences", null, values);
+        }
+    }
+    public int getAvatarSkin() {
+        String[] columns = {"skin"};
+        Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
+        int avatarSkin = 0;
+
+        if (cursor.moveToFirst()) {
+            avatarSkin = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return avatarSkin;
+    }
 }

@@ -67,6 +67,12 @@ public class Configuration extends AppCompatActivity {
             Intent intent = new Intent(this, ThemeSelector.class);
             startActivity(intent);
         });
+        buttonChangeAvatarSkin.setOnClickListener(view -> {
+            if (avatarManager.isAvatarCreated()) {
+                Intent intent = new Intent(this, SkinSelector.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
