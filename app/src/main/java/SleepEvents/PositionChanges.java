@@ -32,6 +32,7 @@ public class PositionChanges {
             changeAccelerometerThreshold();
             totalPositionChanges++;
             accelerometerManager.unregisterListener(accelerometerListener);
+            System.out.println("Se ha detectado un cambio de posición.");
         }
     }
 

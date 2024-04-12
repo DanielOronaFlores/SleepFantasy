@@ -112,7 +112,6 @@ public class SleepTracker extends Service {
             if (StorageManager.isInsufficientStorage()) {
                 notifications.showLowStorageNotification();
             } else {
-                System.out.println("record = " + preferencesDataAccess.getRecordSnorings());
                 startRecording();
             }
         }
@@ -126,6 +125,7 @@ public class SleepTracker extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        System.out.println("Service detenido");
 
         stopRecording();
         filterAudio();
@@ -191,7 +191,6 @@ public class SleepTracker extends Service {
 
     private void startRecording() {
         pcmRecorder.startRecording();
-        System.out.println("Save: " +  preferencesDataAccess.getSaveRecordings());
         if (preferencesDataAccess.getSaveRecordings()) {
             recorder.startRecording();
         }
@@ -273,7 +272,6 @@ public class SleepTracker extends Service {
         Uri soundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.notification_ring);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            System.out.println("Creating notification channel");
 
             channel = new NotificationChannel("sleep_tracker_channel",
                     "Sleep Tracker Channel",
@@ -317,11 +315,14 @@ public class SleepTracker extends Service {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            System.out.println("Durimendo: " + isSleeping);
+            System.out.println("Eventos: " + isEventRunning);
+            System.out.println("Fase actual: " + currentSleepPhase);
+
             if (isSleeping && !isEventRunning) {
                 events.run();
                 isEventRunning = true;
             }
-            System.out.println("Minute counter: " + minuteCounter);
 
             sensorManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
             if (bpm > 0.0) bpmList.add(bpm);
@@ -330,27 +331,32 @@ public class SleepTracker extends Service {
             if (bpmList.size() == 10) { // 10 = 5 minutos
                 minuteCounter += 5;
                 bpmMean = averageCalculator.calculateMeanDouble(bpmList);
+                System.out.println("Promedio de LPM: " + bpmMean);
 
                 if (currentSleepPhase == 0) { // Despierto
                     currentSleepPhase = sleepCycleCalculator.hasAwakeningEnded(bpmMean) ? 1 : 0;
                     vigilTime += 5;
                 }
                 if (currentSleepPhase == 1) { // Ligero
+                    System.out.println("Se ha entrado en fase de sueño ligero");
                     isSleeping = true;
                     currentSleepPhase = sleepCycleCalculator.hasLightEnded(bpmMean) ? 2 : 1;
                     lightSleepTime += 5;
                 }
                 if (currentSleepPhase == 2) { // Profundo
+                    System.out.println("Se ha entrado en fase de sueño profundo");
                     currentSleepPhase = sleepCycleCalculator.hasDeepEnded(bpmMean) ? 3 : 2;
                     deepSleepTime += 5;
                 }
                 if (currentSleepPhase == 3) { // REM
+                    System.out.println("Se ha entrado en fase de sueño REM");
                     currentSleepPhase = sleepCycleCalculator.hasREMEnded(bpmMean) ? 1 : 3;
                     remSleepTime += 5;
                 }
 
                 if (isSleeping) {
                     if (awakenings.isAwakening(bpmMean, currentSleepPhase)) {
+                        System.out.println("Se ha detectado un despertar");
                         awakeningsAmount++;
                         timeAwake += 5;
                     } else {
@@ -366,8 +372,8 @@ public class SleepTracker extends Service {
                 sensorManager.unregisterListener(lightListener);
             }
 
-            int delay = 30000 ; // 30000 ms = 30 s
-            if (isStopTime()) { // 20 minutos
+            int delay = 1000 ; // 30000 ms = 30 s
+            if (timeAwake > 20) { // 20 minutos
                 timeAwake -= 20;
                 stopSelf();
             } else {
@@ -387,7 +393,7 @@ public class SleepTracker extends Service {
     };
 
     private boolean isStopTime() {
-        int stopHour = 10;
+        int stopHour = 18;
         int stopMinute = 00;
 
         Calendar currentTime = Calendar.getInstance();

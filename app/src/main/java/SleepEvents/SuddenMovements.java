@@ -45,6 +45,7 @@ public class SuddenMovements {
 
             if (isSuddenMovement(xRotationRate, yRotationRate, zRotationRate)) {
                 totalSuddenMovements++;
+                System.out.println("Se ha detectado un movimiento brusco.");
             }
         }
         @Override

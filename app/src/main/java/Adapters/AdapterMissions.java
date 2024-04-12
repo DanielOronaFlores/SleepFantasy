@@ -18,7 +18,7 @@ import Models.Mission;
 
 public class AdapterMissions extends RecyclerView.Adapter<AdapterMissions.ViewHolder> {
     private final List<Mission> missions;
-    private FragmentManager fragmentManager;
+    private final FragmentManager fragmentManager;
 
     public AdapterMissions(List<Mission> missions, FragmentManager fragmentManager) {
         this.missions = missions;
@@ -34,12 +34,18 @@ public class AdapterMissions extends RecyclerView.Adapter<AdapterMissions.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull AdapterMissions.ViewHolder holder, int position) {
+        int realPosition1 = position * 2;
+        int realPosition2 = (position * 2) + 1;
+
+        setMissionImage(holder.mission1, missions.get(realPosition1).getCurrentDifficult());
         holder.mission1.setOnClickListener(v -> {
-            Mission mission = missions.get(position * 2);
+            Mission mission = missions.get(realPosition1);
             showMission(mission.getId());
         });
+
+        setMissionImage(holder.mission2, missions.get(realPosition2).getCurrentDifficult());
         holder.mission2.setOnClickListener(v -> {
-            Mission mission = missions.get((position * 2) + 1);
+            Mission mission = missions.get(realPosition2);
             showMission(mission.getId());
         });
     }
@@ -61,5 +67,22 @@ public class AdapterMissions extends RecyclerView.Adapter<AdapterMissions.ViewHo
     private void showMission(int missionId) {
         ShowMissionFragment showMission = new ShowMissionFragment(missionId);
         showMission.show(fragmentManager, "showMission");
+    }
+
+    private void setMissionImage(ImageView mission, int currentDifficulty) {
+        switch (currentDifficulty){
+            case 1:
+                mission.setImageResource(R.drawable.medals_none);
+                break;
+            case 2:
+                mission.setImageResource(R.drawable.medals_bronze);
+                break;
+            case 3:
+                mission.setImageResource(R.drawable.medals_silver);
+                break;
+            default:
+                mission.setImageResource(R.drawable.medals_gold);
+                break;
+        }
     }
 }

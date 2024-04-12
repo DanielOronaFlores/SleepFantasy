@@ -9,6 +9,6 @@ public class Awakenings {
         return bpm > 60;
     }
     private boolean isValidPhase(int currentPhase) {
-        return currentPhase >= 1 && currentPhase <= 2;
+        return currentPhase == 1;
     }
 }
