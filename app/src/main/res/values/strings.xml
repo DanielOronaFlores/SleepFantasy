@@ -50,4 +50,5 @@
     <string name="recompensa_ganada">RECOMPENSA GANADA</string>
     <string name="recompensa">recompensa</string>
     <string name="has_ganado_la_recompensa">HAS GANADO LA RECOMPENSA:</string>
+    <string name="modificar_notificacion">modificar notificacion</string>
 </resources>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/NotificationSelector"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotificationSelector"
+    android:background="@color/layout_background_purple">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="35sp"
+        android:layout_marginBottom="35sp"
+        android:columnCount="8"
+        android:rowCount="2">
+
+        <ImageView
+            android:id="@+id/notification1"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:layout_marginStart="35sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification2"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification3"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification4"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_gravity="center"
+            android:src="@drawable/placeholder_ramon"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification5"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="4"
+            android:layout_row="0"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification6"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="5"
+            android:layout_row="0"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification7"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:layout_row="0"
+            android:layout_column="6"
+            android:layout_gravity="center"
+            android:src="@drawable/placeholder_ramon"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <ImageView
+            android:id="@+id/notification8"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:layout_marginStart="35sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification9"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification10"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="2"
+            android:layout_row="1"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification11"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:layout_row="1"
+            android:layout_column="3"
+            android:layout_gravity="center"
+            android:src="@drawable/placeholder_ramon"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification12"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="4"
+            android:layout_row="1"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification13"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="5"
+            android:layout_row="1"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/notification14"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:layout_row="1"
+            android:layout_column="6"
+            android:layout_gravity="center"
+            android:src="@drawable/placeholder_ramon"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <ImageView
+            android:id="@+id/notification15"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:layout_marginEnd="35sp"
+            android:src="@drawable/placeholder_ramon"
+            android:layout_column="7"
+            android:layout_row="1"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+    </GridLayout>
+</HorizontalScrollView>

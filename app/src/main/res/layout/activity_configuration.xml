@@ -137,6 +137,16 @@
                 android:textColor="@android:color/black"/>
         </GridLayout>
 
+        <Button
+            android:id="@+id/changeNotification"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5sp"
+            android:layout_gravity="center"
+            android:background="@color/button_background_purple"
+            android:textColor="#FFFFFF"
+            android:text="@string/modificar_notificacion"/>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,7 +154,7 @@
             <Button
                 android:id="@+id/changeTheme"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="5sp"
                 android:layout_gravity="center"
                 android:background="@color/button_background_purple"
@@ -157,7 +167,7 @@
             <Button
                 android:id="@+id/changeAvatarSkin"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="5sp"
                 android:layout_gravity="center"
                 android:background="@color/button_background_purple"
@@ -169,7 +179,7 @@
             android:id="@+id/savePreferences"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="20sp"
             android:layout_marginBottom="35sp"
             android:layout_gravity="center"
             android:background="@color/button_background_purple"

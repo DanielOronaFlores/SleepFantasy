@@ -29,7 +29,7 @@ public class Configuration extends AppCompatActivity {
     private PreferencesDataAccess preferencesDataAccess;
     private EditText editTextName, editTextAge;
     private CheckBox checkBoxSaveRecordings, checkBoxRecordAudios;
-    private Button buttonChangeAudioQuality, buttonSavePreferences, buttonChangeTheme, buttonChangeAvatarSkin;
+    private Button buttonChangeAudioQuality, buttonSavePreferences, buttonChangeTheme, buttonChangeAvatarSkin, buttonChangeNotificationSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class Configuration extends AppCompatActivity {
         buttonChangeAudioQuality = findViewById(R.id.btQuality);
         buttonChangeTheme = findViewById(R.id.changeTheme);
         buttonChangeAvatarSkin = findViewById(R.id.changeAvatarSkin);
+        buttonChangeNotificationSound = findViewById(R.id.changeNotification);
 
         checkBoxRecordAudios.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) Permissions.askRecordingPermission(this, this);
@@ -63,6 +64,10 @@ public class Configuration extends AppCompatActivity {
         );
         buttonChangeAudioQuality.setOnClickListener(view -> updateQuality());
 
+        buttonChangeNotificationSound.setOnClickListener(view -> {
+            Intent intent = new Intent(this, NotificationSelector.class);
+            startActivity(intent);
+        });
         buttonChangeTheme.setOnClickListener(view -> {
             Intent intent = new Intent(this, ThemeSelector.class);
             startActivity(intent);
