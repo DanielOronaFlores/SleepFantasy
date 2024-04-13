@@ -6,6 +6,7 @@ import AppContext.MyApplication;
 import Database.DataAccess.RewardsDataAccess;
 import Database.DataUpdates.RewardsDataUpdate;
 import Database.DatabaseConnection;
+import Notifications.Notifications;
 
 public class Rewards {
     private static RewardsDataAccess rewardsDataAccess;
@@ -29,18 +30,18 @@ public class Rewards {
         connection.openDatabase();
 
         switch (rewardType) {
-            case 1:
+            case 1: // Audios
                 AudiosRewards.giveRewardAudio(reward, connection);
+                Notifications.showRewardNotification(reward);
                 break;
-            case 2: // Temas de intefaz
-
+            case 2: // Interfaz
+            case 4: // Re coloreados
+                Notifications.showRewardNotification(reward);
                 break;
             case 3: // Sonidos Notificacion
                 int totalRewards = rewardsDataAccess.getTotalRewards();
                 SoundsRewards.giveRewardSound(reward, totalRewards);
-                break;
-            case 4: // Re coloreados
-                // Give reward type 4
+                Notifications.showRewardNotification(reward);
                 break;
             default:
                 break;

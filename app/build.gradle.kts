@@ -26,8 +26,12 @@ android {
     }
     compileOptions {
         targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
     }
     buildToolsVersion = "34.0.0"
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 
@@ -42,4 +46,6 @@ dependencies {
     implementation("com.github.wendykierp:JTransforms:3.1")
     implementation("io.github.gautamchibde:audiovisualizer:2.2.5")
     implementation("androidx.activity:activity:1.8.0")
+    implementation("androidx.navigation:navigation-fragment:2.6.0")
+    implementation("androidx.navigation:navigation-ui:2.6.0")
 }

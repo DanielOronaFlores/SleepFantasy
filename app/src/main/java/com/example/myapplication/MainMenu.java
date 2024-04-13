@@ -17,8 +17,7 @@ import Files.AudiosPaths;
 import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
-import Rewards.AudiosRewards;
-import Rewards.SoundsRewards;
+import Rewards.Rewards;
 import Services.PostureSensor;
 import Styles.Themes;
 
@@ -75,6 +74,8 @@ public class MainMenu extends AppCompatActivity {
         challengesManager.update();
 
         deleteRecordingsFiles();
+
+        Rewards.giveReward();
     }
     @Override
     protected void onStart() {

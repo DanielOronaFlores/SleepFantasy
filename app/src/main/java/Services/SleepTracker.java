@@ -58,7 +58,6 @@ public class SleepTracker extends Service {
     private SensorManager sensorManager;
     private Sensor heartRateSensor;
     private Sensor lightSensor;
-    private Notifications notifications;
     private PCMRecorder pcmRecorder;
     private Recorder recorder;
     private Handler handler;
@@ -110,7 +109,7 @@ public class SleepTracker extends Service {
         // Start recording
         if (preferencesDataAccess.getRecordSnorings()) {
             if (StorageManager.isInsufficientStorage()) {
-                notifications.showLowStorageNotification();
+                Notifications.showLowStorageNotification();
             } else {
                 startRecording();
             }
@@ -153,7 +152,6 @@ public class SleepTracker extends Service {
             stopSelf();
         }
 
-        notifications = new Notifications();
         pcmRecorder = new PCMRecorder();
         recorder = new Recorder();
 

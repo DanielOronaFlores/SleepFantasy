@@ -1,6 +1,7 @@
 package Notifications;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -10,39 +11,44 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.example.myapplication.R;
-import com.example.myapplication.Recordings;
+import com.example.myapplication.ShowReward;
 
 import AppContext.MyApplication;
 
 public class Notifications {
-    private static final String CHANNEL_ID = "sleepfantasy_channel";
-    private final Context context = MyApplication.getAppContext();
-    public void showLowStorageNotification() {
-        ChannelCreator.createNotificationChannel(context);
-        IntentRecordsVisualizerCreator();
 
-        NotificationCompat.Builder builder = createNotificationBuilder("BAJO ESPACIO DE ALMACENAMIENTO",
+    public static void showLowStorageNotification() {
+        Context context = MyApplication.getAppContext();
+
+        NotificationUtils.createNotificationChannel(context);
+        NotificationCompat.Builder builder = NotificationUtils.createNotificationBuilder("BAJO ESPACIO DE ALMACENAMIENTO",
                 "Debido al bajo almacenamiento de tu dispositivo no se guardarán las grabaciones.");
 
-        // Mostrar la notificación
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(1, builder.build());
         }
-        notificationManager.notify(1, builder.build());
     }
 
-    private NotificationCompat.Builder createNotificationBuilder(String title, String text) {
-        return new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.placeholder_ramon)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-    }
-    private void IntentRecordsVisualizerCreator() {
-        Intent intent = new Intent(context, Recordings.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+    @SuppressLint("WearRecents")
+    public static void showRewardNotification(int rewardId) {
+        Context context = MyApplication.getAppContext();
+
+        Intent intent = new Intent(context, ShowReward.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("rewardId", rewardId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationUtils.createNotificationChannel(context);
+
+        NotificationCompat.Builder builder = NotificationUtils.createNotificationBuilder("¡HAS GANADO UNA RECOMPENSA!",
+                "¡Haz clic aquí para descubrir que es!");
+
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(2, builder.build());
+        }
     }
 }

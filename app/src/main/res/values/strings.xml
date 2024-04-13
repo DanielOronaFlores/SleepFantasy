@@ -47,4 +47,7 @@
     <string name="listado">LISTADO</string>
     <string name="cambiar_tema">cambiar tema</string>
     <string name="cambiar_aspecto">cambiar aspecto</string>
+    <string name="recompensa_ganada">RECOMPENSA GANADA</string>
+    <string name="recompensa">recompensa</string>
+    <string name="has_ganado_la_recompensa">HAS GANADO LA RECOMPENSA:</string>
 </resources>

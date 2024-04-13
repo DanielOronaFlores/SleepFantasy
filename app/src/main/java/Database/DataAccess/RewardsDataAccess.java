@@ -32,12 +32,18 @@ public class RewardsDataAccess {
     public int getRewardType(int id) {
         String columnName = "type";
         Cursor cursor = database.query("Rewards", new String[]{columnName}, "id = " + id, null, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(columnName);
-        int type = cursor.getInt(columnIndex);
-        cursor.close();
-        return type;
+
+        if (cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(columnName);
+            int type = cursor.getInt(columnIndex);
+            cursor.close();
+            return type;
+        } else {
+            cursor.close();
+            return 0;
+        }
     }
+
 
     public int getTotalRewards() {
         String columnName = "id";
