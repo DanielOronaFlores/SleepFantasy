@@ -127,6 +127,7 @@ public class PreferencesDataAccess {
         return preferencesExist;
     }
 
+
     public int getThemeSelected() {
         String[] columns = {"theme"};
         Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
@@ -152,6 +153,7 @@ public class PreferencesDataAccess {
         return theme;
     }
 
+
     public void setAvatarSkin(int avatarSkin) {
         ContentValues values = new ContentValues();
         values.put("skin", avatarSkin);
@@ -173,5 +175,29 @@ public class PreferencesDataAccess {
 
         cursor.close();
         return avatarSkin;
+    }
+
+
+    public int getNotificationSound() {
+        String[] columns = {"notification"};
+        Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
+        int notificationSound = 0;
+
+        if (cursor.moveToFirst()) {
+            notificationSound = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return notificationSound;
+    }
+    public void setNotificationSound(int notificationSound) {
+        ContentValues values = new ContentValues();
+        values.put("notification", notificationSound);
+
+        if (isPreferencesCreated()) {
+            database.update("Preferences", values, null, null);
+        } else {
+            database.insert("Preferences", null, values);
+        }
     }
 }

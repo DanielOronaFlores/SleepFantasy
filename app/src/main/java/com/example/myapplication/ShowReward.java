@@ -1,19 +1,23 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RewardsDataAccess;
 import Database.DatabaseConnection;
 import Styles.Themes;
 
 public class ShowReward extends AppCompatActivity {
     private RewardsDataAccess rewardsDataAccess;
+    private PreferencesDataAccess preferencesDataAccess;
     private TextView titleReward, descriptionReward;
     private Intent intent;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +25,17 @@ public class ShowReward extends AppCompatActivity {
         setContentView(R.layout.activity_rewards);
 
         rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
+        preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(this));
 
         titleReward = findViewById(R.id.reward_name);
         descriptionReward = findViewById(R.id.reward_description);
 
         intent = getIntent();
+
+        int notificationSound = preferencesDataAccess.getNotificationSound();
+        if (notificationSound != 0) {
+            mediaPlayer = MediaPlayer.create(this, notificationSounds[notificationSound - 1]);
+        }
     }
     @Override
     protected void onStart() {
@@ -41,6 +51,10 @@ public class ShowReward extends AppCompatActivity {
         descriptionReward.setText(rewardDescription);
 
         setTheme();
+
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+        }
     }
 
     private String getRewardName(int rewardId) {
@@ -71,6 +85,24 @@ public class ShowReward extends AppCompatActivity {
                 return "Recompensa no encontrada";
         }
     }
+
+    private final int[] notificationSounds = {
+            R.raw.notification_banana,
+            R.raw.notification_dixie,
+            R.raw.notification_fanfare,
+            R.raw.notification_fantasy,
+            R.raw.notification_galaxy,
+            R.raw.notification_hidden,
+            R.raw.notification_jiggy,
+            R.raw.notification_mega,
+            R.raw.notification_minecraft,
+            R.raw.notification_pokemon,
+            R.raw.notification_shine,
+            R.raw.notification_sonic,
+            R.raw.notification_star,
+            R.raw.notification_steam,
+            R.raw.notification_xbox
+    };
 
     private void setTheme() {
         Themes.setBackgroundColor(this, findViewById(R.id.rewards));

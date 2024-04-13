@@ -267,7 +267,6 @@ public class SleepTracker extends Service {
 
     private Notification createNotification() {
         NotificationChannel channel;
-        Uri soundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.notification_ring);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -278,8 +277,6 @@ public class SleepTracker extends Service {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-
-
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "sleep_tracker_channel")
                 .setContentTitle("Sleep Tracker Service")
@@ -370,7 +367,7 @@ public class SleepTracker extends Service {
                 sensorManager.unregisterListener(lightListener);
             }
 
-            int delay = 1000 ; // 30000 ms = 30 s
+            int delay = 30000 ; // 30000 ms = 30 s
             if (timeAwake > 20) { // 20 minutos
                 timeAwake -= 20;
                 stopSelf();

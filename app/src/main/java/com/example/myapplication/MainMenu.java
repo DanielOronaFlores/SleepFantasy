@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import Avatar.CharactersList;
 import Database.DataAccess.AvatarDataAccess;
+import Database.DataAccess.RewardsDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
 import Dialogs.AvatarInformationFragment;
@@ -74,8 +75,6 @@ public class MainMenu extends AppCompatActivity {
         challengesManager.update();
 
         deleteRecordingsFiles();
-
-        Rewards.giveReward();
     }
     @Override
     protected void onStart() {

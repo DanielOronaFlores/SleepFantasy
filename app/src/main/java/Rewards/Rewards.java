@@ -29,24 +29,12 @@ public class Rewards {
         int rewardType = rewardsDataAccess.getRewardType(reward);
         connection.openDatabase();
 
-        switch (rewardType) {
-            case 1: // Audios
-                AudiosRewards.giveRewardAudio(reward, connection);
-                Notifications.showRewardNotification(reward);
-                break;
-            case 2: // Interfaz
-            case 4: // Re coloreados
-                Notifications.showRewardNotification(reward);
-                break;
-            case 3: // Sonidos Notificacion
-                int totalRewards = rewardsDataAccess.getTotalRewards();
-                SoundsRewards.giveRewardSound(reward, totalRewards);
-                Notifications.showRewardNotification(reward);
-                break;
-            default:
-                break;
+        if (rewardType == 1) {
+            AudiosRewards.giveRewardAudio(reward, connection);
         }
+
         RewardsDataUpdate rewardsDataUpdate = new RewardsDataUpdate(connection);
         rewardsDataUpdate.updateRewardGiven(reward);
+        Notifications.showRewardNotification(reward);
     }
 }

@@ -66,4 +66,23 @@ public class RewardsDataAccess {
         cursor.close();
         return given;
     }
+
+    public int getFirstRewardIdWithType(int type) {
+        String columnName = "id";
+        String selection = "type = ?";
+        String[] selectionArgs = {String.valueOf(type)};
+
+        Cursor cursor = database.query("Rewards", new String[]{columnName}, selection, selectionArgs, null, null, null);
+
+        int rewardId = 0; // Inicializamos con 0, en caso de que no se encuentre ningún resultado
+
+        if (cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(columnName);
+            rewardId = cursor.getInt(columnIndex);
+        }
+
+        cursor.close();
+        return rewardId;
+    }
+
 }

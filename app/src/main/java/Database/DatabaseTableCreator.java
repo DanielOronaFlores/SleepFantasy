@@ -46,7 +46,8 @@ public class DatabaseTableCreator {
                 "timerDuration INTEGER, " +
                 "audioQuality BOOLEAN, " +
                 "theme INTEGER, " +
-                "skin INTEGER);";
+                "skin INTEGER," +
+                "notification INTEGER);";
         db.execSQL(queryCreatePreferencesTable);
     }
     private static void createMissionTable(SQLiteDatabase db) {
