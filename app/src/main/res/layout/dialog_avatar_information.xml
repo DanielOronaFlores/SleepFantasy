@@ -44,4 +44,14 @@
             android:textSize="20sp"/>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/monster"
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="10sp"
+        android:layout_gravity="center"
+        android:background="@color/button_background_purple"
+        android:text="@string/monstruos_de_pante_n"/>
+
 </LinearLayout>

@@ -49,6 +49,22 @@ public class DateManager {
 
         return isConsecutive(currentDateFormatted, oldDateFormatted);
     }
+
+    public String getDateNextDays(String date, int days) {
+        SimpleDateFormat sdf = getDateFormat();
+        String endDate;
+        try {
+            Date inputDate = sdf.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            assert inputDate != null;
+            calendar.setTime(inputDate);
+            calendar.add(Calendar.DAY_OF_YEAR, days);
+            endDate = sdf.format(calendar.getTime());
+        } catch (ParseException e) {
+            return null;
+        }
+        return endDate;
+    }
     public boolean isSunday() {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -149,6 +165,7 @@ public class DateManager {
             throw new RuntimeException(e);
         }
 
+        assert dateFormatted != null;
         return sdf.format(dateFormatted);
     }
 

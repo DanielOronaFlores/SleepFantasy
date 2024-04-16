@@ -17,6 +17,7 @@ import Dialogs.AvatarInformationFragment;
 import Files.AudiosPaths;
 import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
+import GameManagers.Monsters.MonstersManager;
 import Permissions.Permissions;
 import Rewards.Rewards;
 import Services.PostureSensor;

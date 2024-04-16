@@ -37,4 +37,13 @@ public class SecondsCounter {
         return consecutiveNumbersList;
     }
 
+    public int getTotalSeconds(List<Sound> soundList) {
+        int totalSeconds = 0;
+
+        for (Sound sound : soundList) {
+            totalSeconds += sound.getSecond();
+        }
+
+        return totalSeconds;
+    }
 }

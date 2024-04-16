@@ -4,14 +4,17 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.myapplication.MonsterVisualizer;
 import com.example.myapplication.R;
 
 import AppContext.MyApplication;
@@ -46,7 +49,15 @@ public class AvatarInformationFragment extends DialogFragment {
                 String.valueOf(avatarDataAccess.getLevel()));
         txExperience.setText(avatarDataAccess.getCurrentExperience() + "/" + avatarDataAccess.getRequiredExperience());
 
+        Button monsterVisualizer = view.findViewById(R.id.monster);
+        monsterVisualizer.setOnClickListener(v -> {
+            Intent intent = new Intent(context, MonsterVisualizer.class);
+            startActivity(intent);
+            dismiss();
+        });
+
         Themes.setBackgroundColor(getActivity(), view);
+        Themes.setButtonTheme(getActivity(), monsterVisualizer);
 
         builder.setView(view);
         return builder.create();

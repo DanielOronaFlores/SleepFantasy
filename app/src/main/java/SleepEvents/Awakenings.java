@@ -6,9 +6,9 @@ public class Awakenings {
     }
 
     private boolean bmpIsHigh(double bpm) {
-        return bpm > 60;
+        return bpm > 65;
     }
     private boolean isValidPhase(int currentPhase) {
-        return currentPhase == 1;
+        return currentPhase == 1; // Sueno ligero
     }
 }

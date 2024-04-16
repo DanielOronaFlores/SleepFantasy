@@ -1,19 +1,19 @@
 package GameManagers.Monsters;
 
 public class AppearingConditions {
-    public boolean isInsomnia(int efficiency) {
+    public static boolean isInsomnia(int efficiency) {
         return efficiency < 80;
     }
-    public boolean isLoudSound(int time) {
+    public static boolean isLoudSound(int time) {
         return time > 30;
     }
-    public boolean isAnxiety(int lpm, int positionChanges, int suddenMovements) { // Cada hora
-        return lpm > 80 && suddenMovements > 20 && positionChanges > 50;
+    public static boolean isAnxiety(int lpm, int positionChanges, int movements) { // Cada hora
+        return lpm > 80 && movements > 20 && positionChanges > 50;
     }
-    public boolean isNightmare(int lpm, int movements) { // Cada hora
+    public static boolean isNightmare(int lpm, int movements) { // Cada hora
         return lpm > 80 && movements > 30;
     }
-    public boolean isSomnambulism(int movements, boolean vertical) {
+    public static boolean isSomnambulism(int movements, boolean vertical) {
         return movements > 30 && vertical;
     }
 }

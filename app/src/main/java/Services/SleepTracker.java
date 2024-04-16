@@ -10,7 +10,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -20,9 +19,8 @@ import android.os.PowerManager;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.example.myapplication.R;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -36,6 +34,7 @@ import Files.AudiosPaths;
 import Files.StorageManager;
 import GameManagers.Challenges.ChallengesUpdater;
 import GameManagers.Missions.MissionsUpdater;
+import GameManagers.Monsters.AppearingConditions;
 import Models.Sound;
 import Notifications.Notifications;
 import Recorders.PCMRecorder;
@@ -58,6 +57,7 @@ public class SleepTracker extends Service {
     private SensorManager sensorManager;
     private Sensor heartRateSensor;
     private Sensor lightSensor;
+    private Sensor accelerometerSensor;
     private PCMRecorder pcmRecorder;
     private Recorder recorder;
     private Handler handler;
@@ -78,6 +78,12 @@ public class SleepTracker extends Service {
     // Sleep data variables
     private int vigilTime, lightSleepTime, deepSleepTime, remSleepTime;
     private float light;
+    private int lastHourMovements;
+    boolean isVertical;
+
+    // Monsters variables
+    private final boolean[] appearingMonsters = new boolean[5];
+    private final boolean[] defeatedMonsters = new boolean[5];
 
     @Nullable
     @Override
@@ -147,6 +153,7 @@ public class SleepTracker extends Service {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         if (isMissingSensors()) {
             stopSelf();
@@ -185,6 +192,9 @@ public class SleepTracker extends Service {
         bpmList = new ArrayList<>();
         lightList = new ArrayList<>();
         awakenings = new Awakenings();
+
+        Arrays.fill(appearingMonsters, false);
+        Arrays.fill(defeatedMonsters, false);
     }
 
     private void startRecording() {
@@ -212,6 +222,7 @@ public class SleepTracker extends Service {
     private void unregisterListeners() {
         sensorManager.unregisterListener(heartRateListener);
         sensorManager.unregisterListener(lightListener);
+        sensorManager.unregisterListener(accelerometerListener);
         handler.removeCallbacks(runnable);
         eventsHandler.removeCallbacks(events);
     }
@@ -245,7 +256,9 @@ public class SleepTracker extends Service {
                     remSleepTime,
                     awakeningsAmount,
                     suddenMovementsCount,
-                    positionChangesCount);
+                    positionChangesCount,
+                    appearingMonsters,
+                    defeatedMonsters);
 
             ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
             challengesUpdater.updateSleepingConditions();
@@ -306,23 +319,44 @@ public class SleepTracker extends Service {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
+    private final SensorEventListener accelerometerListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float[] values = event.values;
+            float x = values[0];
+            float y = values[1];
+            float z = values[2];
+
+            double angle = Math.atan2(Math.sqrt(x * x + y * y), z);
+            double angleInDegrees = Math.toDegrees(angle);
+            double threshold = 30.0; // Umbral en grados
+
+            isVertical = (angleInDegrees >= (90 - threshold) && angleInDegrees <= (90 + threshold));
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            System.out.println("Durimendo: " + isSleeping);
+            System.out.println("Durmiendo: " + isSleeping);
             System.out.println("Eventos: " + isEventRunning);
             System.out.println("Fase actual: " + currentSleepPhase);
 
             if (isSleeping && !isEventRunning) {
                 events.run();
                 isEventRunning = true;
+                lastHourMovements = 0;
             }
 
             sensorManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
             if (bpm > 0.0) bpmList.add(bpm);
 
-            double bpmMean;
+            double bpmMean = 0;
             if (bpmList.size() == 10) { // 10 = 5 minutos
                 minuteCounter += 5;
                 bpmMean = averageCalculator.calculateMeanDouble(bpmList);
@@ -331,19 +365,16 @@ public class SleepTracker extends Service {
                 if (currentSleepPhase == 0) { // Despierto
                     currentSleepPhase = sleepCycleCalculator.hasAwakeningEnded(bpmMean) ? 1 : 0;
                     vigilTime += 5;
-                }
-                if (currentSleepPhase == 1) { // Ligero
+                } else if (currentSleepPhase == 1) { // Ligero
                     System.out.println("Se ha entrado en fase de sueño ligero");
                     isSleeping = true;
                     currentSleepPhase = sleepCycleCalculator.hasLightEnded(bpmMean) ? 2 : 1;
                     lightSleepTime += 5;
-                }
-                if (currentSleepPhase == 2) { // Profundo
+                } else if (currentSleepPhase == 2) { // Profundo
                     System.out.println("Se ha entrado en fase de sueño profundo");
                     currentSleepPhase = sleepCycleCalculator.hasDeepEnded(bpmMean) ? 3 : 2;
                     deepSleepTime += 5;
-                }
-                if (currentSleepPhase == 3) { // REM
+                } else if (currentSleepPhase == 3) { // REM
                     System.out.println("Se ha entrado en fase de sueño REM");
                     currentSleepPhase = sleepCycleCalculator.hasREMEnded(bpmMean) ? 1 : 3;
                     remSleepTime += 5;
@@ -367,8 +398,29 @@ public class SleepTracker extends Service {
                 sensorManager.unregisterListener(lightListener);
             }
 
-            int delay = 30000 ; // 30000 ms = 30 s
-            if (timeAwake > 20) { // 20 minutos
+            if (minuteCounter % 60 == 0) { // 60 = 1 hora
+                if (AppearingConditions.isAnxiety((int) bpmMean, positionChanges.getTotalPositionChanges(), suddenMovements.getTotalSuddenMovements())) {
+                    appearingMonsters[2] = true;
+                    System.out.println("Monstruos: ha aparecido un monstruo por ansiedad");
+                }
+                if (AppearingConditions.isNightmare((int) bpmMean, suddenMovements.getTotalSuddenMovements())) {
+                    appearingMonsters[3] = true;
+                    System.out.println("Monstruos: ha aparecido un monstruo por pesadilla");
+                }
+
+                int movementsPerHour = suddenMovements.getTotalSuddenMovements() - lastHourMovements;
+                if (AppearingConditions.isSomnambulism(movementsPerHour, isVertical)) {
+                    appearingMonsters[4] = true;
+                    System.out.println("Monstruos: ha aparecido un monstruo por sonambulismo");
+                }
+                lastHourMovements = suddenMovements.getTotalSuddenMovements();
+            }
+
+            sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+            System.out.println("Vertical: " + isVertical);
+            int delay = 1000 ; // 30000 ms = 30 s
+            if (timeAwake > 20 && isVertical) { // 20 minutos
                 timeAwake -= 20;
                 stopSelf();
             } else {

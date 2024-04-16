@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.ParseException;
-
 import Database.DataAccess.MonstersDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
@@ -19,11 +17,11 @@ public class MonsterVisualizer extends AppCompatActivity {
     private final MonstersDataAccess monstersDataAccess = new MonstersDataAccess(connection);;
     private final DateManager dateManager = new DateManager();
     private final int[] monsters = { //TODO: Cambiar por los monstruos reales.
-            R.drawable.avatar_zholder_1,
-            R.drawable.avatar_zholder_2,
-            R.drawable.avatar_zholder_3,
+            R.drawable.menu_gamification,
+            R.drawable.menu_challenges,
+            R.drawable.menu_missions,
             R.drawable.fantasy,
-            R.drawable.avatar_zholder_5
+            R.drawable.medals_gold
     };
 
     @SuppressLint("SetTextI18n")
@@ -73,7 +71,12 @@ public class MonsterVisualizer extends AppCompatActivity {
 
     private int getDaysRemaining() {
         String currentDay = dateManager.getCurrentDate();
-        String lastDay = monstersDataAccess.getDateDisappearedActiveMonster();
+        System.out.println("Current day: " + currentDay);
+        String appearedDay = monstersDataAccess.getDateAppearedActiveMonster();
+        System.out.println("Appeared day: " + appearedDay);
+        String lastDay = dateManager.getDateNextDays(appearedDay, 3);
+        System.out.println("Last day: " + lastDay);
+        if (lastDay == null) return 0;
         return (int) dateManager.getDaysDifference(currentDay, lastDay);
     }
 

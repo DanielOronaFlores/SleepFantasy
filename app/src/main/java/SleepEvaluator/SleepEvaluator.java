@@ -1,15 +1,23 @@
 package SleepEvaluator;
 
+import java.util.List;
+
 import AppContext.MyApplication;
 import Calculators.SleepData;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.ProbabilitiesDataAccess;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
+import Files.AudiosPaths;
 import GameManagers.Challenges.ChallengesUpdater;
 import GameManagers.ExperienceManager;
 import GameManagers.Missions.MissionsUpdater;
+import GameManagers.Monsters.AppearingConditions;
+import GameManagers.Monsters.MonstersManager;
+import Models.Sound;
+import Serializers.Deserializer;
 import SleepEvaluator.Trainer.PrioriCategories;
+import Utils.SecondsCounter;
 
 public class SleepEvaluator {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
@@ -119,7 +127,7 @@ public class SleepEvaluator {
         return category;
     }
 
-    public void evaluate(int vigilTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int awakenings, int suddenMovements, int positionChanges) {
+    public void evaluate(int vigilTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int awakenings, int suddenMovements, int positionChanges, boolean[] appearingMonsters, boolean[] defeatedMonsters) {
         this.lightSleepTime = lightSleepTime;
         this.deepSleepTime = deepSleepTime;
         this.remSleepTime = remSleepTime;
@@ -139,8 +147,28 @@ public class SleepEvaluator {
         ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
         challengesUploader.updateCategoryRecord(category);
 
-        updateMissions(category, (int) vigilTime);
+        updateMissions(category, vigilTime);
         addExperience(category);
+
+        if (AppearingConditions.isInsomnia((int) efficiency)) {
+            appearingMonsters[0] = true;
+            System.out.println("Monstruos: ha aparecido un monstruo por insomnio");
+        }
+
+        AudiosPaths audioPaths = new AudiosPaths();
+        Deserializer deserializer = new Deserializer();
+        SecondsCounter secondsCounter = new SecondsCounter();
+        List<Sound> soundsList = deserializer.deserializeFromXML(audioPaths.getListSoundsPath());
+        int loudSoundsMinutes = secondsCounter.getTotalSeconds(soundsList) * 60;
+        System.out.println("Minutos de ruido fuerte: " + loudSoundsMinutes);
+        if (AppearingConditions.isLoudSound(loudSoundsMinutes)) {
+            appearingMonsters[1] = true;
+            System.out.println("Monstruos: ha aparecido un monstruo por ruido fuerte");
+        }
+
+        // appearingMonsters = {insomnia, loudSound, anxiety, nightmare, somnambulism}
+        MonstersManager monstersManager = new MonstersManager();
+        monstersManager.updateMonster(appearingMonsters, defeatedMonsters);
     }
 
     private void addExperience(int category) {

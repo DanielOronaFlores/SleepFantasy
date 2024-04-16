@@ -10,8 +10,8 @@ public class MonstersDataUpdate {
         this.database = connection.getDatabase();
     }
 
-    public void updateMonsterActiveStatus(int id, String date) {
-        String query = "UPDATE Monster SET active = 1, date = '" + date + "' WHERE id = " + id + ";";
+    public void updateMonsterActiveStatus(int id, String dateAppeared) {
+        String query = "UPDATE Monster SET active = 1, dateAppeared = '" + dateAppeared + "' WHERE id = " + id + ";";
         database.execSQL(query);
     }
 
@@ -20,8 +20,8 @@ public class MonstersDataUpdate {
         database.execSQL(query);
     }
 
-    public void updateMonsterOldDate(int id, String date) {
-        String query = "UPDATE Monster SET oldDate = '" + date + "' WHERE id = " + id + ";";
+    public void updateMonsterOldDate(int id, String dateAppeared) {
+        String query = "UPDATE Monster SET dateAppeared = '" + dateAppeared + "' WHERE id = " + id + ";";
         database.execSQL(query);
     }
 }
