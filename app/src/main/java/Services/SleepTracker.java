@@ -34,7 +34,7 @@ import Files.AudiosPaths;
 import Files.StorageManager;
 import GameManagers.Challenges.ChallengesUpdater;
 import GameManagers.Missions.MissionsUpdater;
-import GameManagers.Monsters.AppearingConditions;
+import GameManagers.Monsters.MonsterConditions;
 import Models.Sound;
 import Notifications.Notifications;
 import Recorders.PCMRecorder;
@@ -82,8 +82,7 @@ public class SleepTracker extends Service {
     boolean isVertical;
 
     // Monsters variables
-    private final boolean[] appearingMonsters = new boolean[5];
-    private final boolean[] defeatedMonsters = new boolean[5];
+    private final boolean[] monsterConditions = new boolean[5];
 
     @Nullable
     @Override
@@ -193,8 +192,7 @@ public class SleepTracker extends Service {
         lightList = new ArrayList<>();
         awakenings = new Awakenings();
 
-        Arrays.fill(appearingMonsters, false);
-        Arrays.fill(defeatedMonsters, false);
+        Arrays.fill(monsterConditions, false);
     }
 
     private void startRecording() {
@@ -257,8 +255,7 @@ public class SleepTracker extends Service {
                     awakeningsAmount,
                     suddenMovementsCount,
                     positionChangesCount,
-                    appearingMonsters,
-                    defeatedMonsters);
+                    monsterConditions);
 
             ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
             challengesUpdater.updateSleepingConditions();
@@ -399,18 +396,18 @@ public class SleepTracker extends Service {
             }
 
             if (minuteCounter % 60 == 0) { // 60 = 1 hora
-                if (AppearingConditions.isAnxiety((int) bpmMean, positionChanges.getTotalPositionChanges(), suddenMovements.getTotalSuddenMovements())) {
-                    appearingMonsters[2] = true;
+                if (MonsterConditions.isAnxiety((int) bpmMean, positionChanges.getTotalPositionChanges(), suddenMovements.getTotalSuddenMovements())) {
+                    monsterConditions[2] = true;
                     System.out.println("Monstruos: ha aparecido un monstruo por ansiedad");
                 }
-                if (AppearingConditions.isNightmare((int) bpmMean, suddenMovements.getTotalSuddenMovements())) {
-                    appearingMonsters[3] = true;
+                if (MonsterConditions.isNightmare((int) bpmMean, suddenMovements.getTotalSuddenMovements())) {
+                    monsterConditions[3] = true;
                     System.out.println("Monstruos: ha aparecido un monstruo por pesadilla");
                 }
 
                 int movementsPerHour = suddenMovements.getTotalSuddenMovements() - lastHourMovements;
-                if (AppearingConditions.isSomnambulism(movementsPerHour, isVertical)) {
-                    appearingMonsters[4] = true;
+                if (MonsterConditions.isSomnambulism(movementsPerHour, isVertical)) {
+                    monsterConditions[4] = true;
                     System.out.println("Monstruos: ha aparecido un monstruo por sonambulismo");
                 }
                 lastHourMovements = suddenMovements.getTotalSuddenMovements();

@@ -1,6 +1,6 @@
 package GameManagers.Monsters;
 
-public class AppearingConditions {
+public class MonsterConditions {
     public static boolean isInsomnia(int efficiency) {
         return efficiency < 80;
     }

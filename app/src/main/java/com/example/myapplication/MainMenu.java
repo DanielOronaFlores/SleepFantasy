@@ -10,16 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import Avatar.CharactersList;
 import Database.DataAccess.AvatarDataAccess;
-import Database.DataAccess.RewardsDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
 import Dialogs.AvatarInformationFragment;
 import Files.AudiosPaths;
 import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
-import GameManagers.Monsters.MonstersManager;
 import Permissions.Permissions;
-import Rewards.Rewards;
 import Services.PostureSensor;
 import Styles.Themes;
 

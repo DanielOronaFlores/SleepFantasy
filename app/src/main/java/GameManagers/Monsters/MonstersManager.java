@@ -1,7 +1,5 @@
 package GameManagers.Monsters;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import AppContext.MyApplication;
@@ -12,8 +10,6 @@ import Dates.DateManager;
 import GameManagers.Challenges.ChallengesUpdater;
 import GameManagers.ExperienceManager;
 import GameManagers.Missions.MissionsUpdater;
-import GameManagers.Monsters.AppearingConditions;
-import GameManagers.Monsters.DisappearanceConditions;
 
 public class MonstersManager {
     private final ChallengesUpdater challengesUpdater;
@@ -34,18 +30,16 @@ public class MonstersManager {
         dateManager = new DateManager();
     }
 
-    public void updateMonster(boolean[] appearingMonsters, boolean[] defeatedMonsters) {
-        for (boolean monster : appearingMonsters) {
+    public void updateMonster(boolean[] monsterConditions) {
+        for (boolean monster : monsterConditions) {
             System.out.print("Monstruo: " + monster + " ");
         }
 
         if (monstersDataAccess.getActiveMonster() == -1) { // Si no hay monstruo activo //
-            if (isMonsterAppearing(appearingMonsters) && new Random().nextBoolean()) { // 50% de probabilidad de que aparezca
-                int selectedMonster = selectMonster(appearingMonsters);
-                System.out.println("Monstruo seleccionado: " + selectedMonster);
+            if (isMonsterAppearing(monsterConditions) && new Random().nextBoolean()) { // 50% de probabilidad de que aparezca
+                int selectedMonster = selectMonster(monsterConditions);
                 monstersDataUpdate.updateMonsterActiveStatus(selectedMonster, dateManager.getCurrentDate());
                 challengesUpdater.updateMonsterAppearedRecord(true);
-                System.out.println("Apareció un monstruo");
             } else {
                 challengesUpdater.updateMonsterAppearedRecord(false);
                 missionsUpdater.updateMission5(); // Apareció un monstruo pero no se activó
@@ -55,7 +49,7 @@ public class MonstersManager {
             if (dateManager.haveThreeDaysPassed(monstersDataAccess.getDateAppearedActiveMonster())) {
                 monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
             } else { // Si no han pasado 3 días
-                handleActiveMonster(defeatedMonsters);
+                handleActiveMonster(monsterConditions);
             }
         }
     }
@@ -75,8 +69,8 @@ public class MonstersManager {
         return false;
     }
 
-    private void handleActiveMonster(boolean[] defeatedMonsters) {
-        if (defeatedMonsters[monstersDataAccess.getActiveMonster()]) {
+    private void handleActiveMonster(boolean[] monsterConditions) {
+        if (!monsterConditions[monstersDataAccess.getActiveMonster() - 1]) {
             monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
             missionsUpdater.updateMission18();
             experienceManager.addExperience(500);

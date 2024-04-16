@@ -12,7 +12,7 @@ import Files.AudiosPaths;
 import GameManagers.Challenges.ChallengesUpdater;
 import GameManagers.ExperienceManager;
 import GameManagers.Missions.MissionsUpdater;
-import GameManagers.Monsters.AppearingConditions;
+import GameManagers.Monsters.MonsterConditions;
 import GameManagers.Monsters.MonstersManager;
 import Models.Sound;
 import Serializers.Deserializer;
@@ -127,7 +127,7 @@ public class SleepEvaluator {
         return category;
     }
 
-    public void evaluate(int vigilTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int awakenings, int suddenMovements, int positionChanges, boolean[] appearingMonsters, boolean[] defeatedMonsters) {
+    public void evaluate(int vigilTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int awakenings, int suddenMovements, int positionChanges, boolean[] monsterConditions) {
         this.lightSleepTime = lightSleepTime;
         this.deepSleepTime = deepSleepTime;
         this.remSleepTime = remSleepTime;
@@ -150,8 +150,8 @@ public class SleepEvaluator {
         updateMissions(category, vigilTime);
         addExperience(category);
 
-        if (AppearingConditions.isInsomnia((int) efficiency)) {
-            appearingMonsters[0] = true;
+        if (MonsterConditions.isInsomnia((int) efficiency)) {
+            monsterConditions[0] = true;
             System.out.println("Monstruos: ha aparecido un monstruo por insomnio");
         }
 
@@ -161,14 +161,14 @@ public class SleepEvaluator {
         List<Sound> soundsList = deserializer.deserializeFromXML(audioPaths.getListSoundsPath());
         int loudSoundsMinutes = secondsCounter.getTotalSeconds(soundsList) * 60;
         System.out.println("Minutos de ruido fuerte: " + loudSoundsMinutes);
-        if (AppearingConditions.isLoudSound(loudSoundsMinutes)) {
-            appearingMonsters[1] = true;
+        if (MonsterConditions.isLoudSound(loudSoundsMinutes)) {
+            monsterConditions[1] = true;
             System.out.println("Monstruos: ha aparecido un monstruo por ruido fuerte");
         }
 
         // appearingMonsters = {insomnia, loudSound, anxiety, nightmare, somnambulism}
         MonstersManager monstersManager = new MonstersManager();
-        monstersManager.updateMonster(appearingMonsters, defeatedMonsters);
+        monstersManager.updateMonster(monsterConditions);
     }
 
     private void addExperience(int category) {
