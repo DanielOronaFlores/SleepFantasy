@@ -13,17 +13,16 @@ import Dates.DateManager;
 import GameManagers.ExperienceManager;
 
 public class ChallengesManager {
-    private final ChallengesDataAccess challengesDataAccess;
-    private final ChallengesDataUpdate challengesDataUpdate;
-    private final PreferencesDataAccess preferencesDataAccess;
-    private final RecordsDataAccess recordsDataAccess;
-    private final DateManager dateManager;
-    private final ExperienceManager experienceManager;
+    private static ChallengesDataAccess challengesDataAccess;
+    private static ChallengesDataUpdate challengesDataUpdate;
+    private static PreferencesDataAccess preferencesDataAccess;
+    private static RecordsDataAccess recordsDataAccess;
+    private static DateManager dateManager;
+    private static ExperienceManager experienceManager;
     private static final int MAX_CHALLENGE_NUMBER = 15;
     private static final int MIN_CHALLENGE_NUMBER = 1;
 
     public ChallengesManager() {
-        super();
         DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
 
         challengesDataAccess = new ChallengesDataAccess(connection);
@@ -50,7 +49,7 @@ public class ChallengesManager {
     }
 
     //Para seleccionar un nuevo reto
-    private boolean isUpdateChallenge() {
+    private static boolean isUpdateChallenge() {
         String currentDate = dateManager.getCurrentDate();
         String oldDate = challengesDataAccess.getDate(challengesDataAccess.getActiveChallenge());
         if (oldDate == null) return true;
@@ -58,7 +57,7 @@ public class ChallengesManager {
         return dateManager.isSunday() || dateManager.getDaysDifference(currentDate, oldDate) > 14;
     }
 
-    private void selectNewChallenge() {
+    private static void selectNewChallenge() {
         if (challengesDataAccess.allChallengesDisplayed()) challengesDataUpdate.resetChallenges();
 
         if (isUpdateChallenge()) {
@@ -70,7 +69,7 @@ public class ChallengesManager {
             setNewChallenge(newChallenge);
         }
     }
-    private int getRandomChallenge() {
+    private static int getRandomChallenge() {
         Random random = new Random();
         int challenge;
 
@@ -80,19 +79,19 @@ public class ChallengesManager {
 
         return challenge;
     }
-    private void setNewChallenge(int challenge) {
+    private static void setNewChallenge(int challenge) {
         challengesDataUpdate.markAsDisplayed(challenge);
         challengesDataUpdate.markAsActive(challenge);
     }
 
 
     // Para manejar el reto actual
-    private void currentChallengeConditions(int challenge) {
+    private static void currentChallengeConditions(int challenge) {
         if (challenge >= MIN_CHALLENGE_NUMBER && challenge <= MAX_CHALLENGE_NUMBER) {
             handleChallenge(challenge);
         }
     }
-    private void handleChallenge(int challenge) {
+    private static void handleChallenge(int challenge) {
         String currentDate = dateManager.getCurrentDate();
 
         if (challengeConditionsMet(challenge)) {
@@ -113,14 +112,14 @@ public class ChallengesManager {
         }
     }
 
-    private boolean challengeConditionsMet(int challenge) {
+    private static boolean challengeConditionsMet(int challenge) {
         switch (challenge) {
             case 1:
                 return consecutiveDaysCondition(challenge);
             case 2:
                 return preferencesDataAccess.getSaveRecordings() && consecutiveDaysCondition(challenge);
             case 3:
-                return preferencesDataAccess.getRecordSnorings() && consecutiveDaysCondition(challenge);
+                return preferencesDataAccess.getRecordAudios() && consecutiveDaysCondition(challenge);
             case 4:
                 return recordsDataAccess.isPlayingMusic() && consecutiveDaysCondition(challenge);
             case 5:
@@ -149,7 +148,7 @@ public class ChallengesManager {
                 return false;
         }
     }
-    private boolean consecutiveDaysCondition(int challenge) {
+    private static boolean consecutiveDaysCondition(int challenge) {
         String oldDate = challengesDataAccess.getDate(challenge);
         if (oldDate != null)
         {
@@ -161,7 +160,7 @@ public class ChallengesManager {
         }
         return false;
     }
-    private boolean consecutiveWeek(int challenge) {
+    private static boolean consecutiveWeek(int challenge) {
         return challengesDataAccess.getCounter(challenge) >= 7;
     }
 }

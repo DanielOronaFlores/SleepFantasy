@@ -16,6 +16,7 @@ public class DatabaseTableCreator {
         createPlaylistSongsTable(db);
         createProbabilitiesTable(db);
         createRewardsTable(db);
+        createTipsTable(db);
     }
 
     private static void createRewardsTable(SQLiteDatabase db) {
@@ -38,11 +39,12 @@ public class DatabaseTableCreator {
                 "requiredExperience INTEGER);";
         db.execSQL(queryCreateAvatarTable);
     }
+
     private static void createPreferencesTable(SQLiteDatabase db) {
         String queryCreatePreferencesTable = "CREATE TABLE Preferences ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "saveRecordings BOOLEAN, " +
-                "recordSnorings BOOLEAN, " +
+                "recordAudios BOOLEAN, " +
                 "timerDuration INTEGER, " +
                 "audioQuality BOOLEAN, " +
                 "theme INTEGER, " +
@@ -50,6 +52,7 @@ public class DatabaseTableCreator {
                 "notification INTEGER);";
         db.execSQL(queryCreatePreferencesTable);
     }
+
     private static void createMissionTable(SQLiteDatabase db) {
         String queryCreateMissionTable = "CREATE TABLE Missions (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -63,7 +66,7 @@ public class DatabaseTableCreator {
 
     private static void createChallengeTable(SQLiteDatabase db) {
         String queryCreateChallengeTable = "CREATE TABLE Challenges (" +
-        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Displayed BOOLEAN, " +
                 "Completed BOOLEAN, " +
                 "Counter INT, " +
@@ -125,6 +128,7 @@ public class DatabaseTableCreator {
                 "createdBySystem BOOLEAN);";
         db.execSQL(queryCreatePlaylistTable);
     }
+
     private static void createSongsTable(SQLiteDatabase db) {
         String queryCreateSongsTable = "CREATE TABLE Songs (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -132,6 +136,7 @@ public class DatabaseTableCreator {
                 "ibBySystem BOOLEAN);";
         db.execSQL(queryCreateSongsTable);
     }
+
     private static void createPlaylistSongsTable(SQLiteDatabase db) {
         String queryCreatePlaylistSongsTable = "CREATE TABLE PlaylistSongs (" +
                 "playlistId INTEGER, " +
@@ -141,6 +146,7 @@ public class DatabaseTableCreator {
                 "FOREIGN KEY (songId) REFERENCES Songs(id) ON DELETE CASCADE);";
         db.execSQL(queryCreatePlaylistSongsTable);
     }
+
     private static void createProbabilitiesTable(SQLiteDatabase db) {
         String queryCreateProbabilitiesTable = "CREATE TABLE Probabilities (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -154,5 +160,13 @@ public class DatabaseTableCreator {
                 "category6 REAL, " +
                 "category7 REAL); ";
         db.execSQL(queryCreateProbabilitiesTable);
+    }
+
+    private static void createTipsTable(SQLiteDatabase db) {
+        String queryCreateTipsTable = "CREATE TABLE Tips (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "current BOOLEAN, " +
+                "lastDateAppeared TEXT);";
+        db.execSQL(queryCreateTipsTable);
     }
 }

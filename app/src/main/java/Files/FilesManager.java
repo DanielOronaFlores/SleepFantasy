@@ -19,10 +19,9 @@ public class FilesManager {
         return null;
     }
 
-    public static void deleteFiles(String path) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static void deleteFile(String path) {
         File file = new File(path);
-        if (file.exists()) {
-            file.delete();
-        }
+        if (file.exists()) file.delete();
     }
 }

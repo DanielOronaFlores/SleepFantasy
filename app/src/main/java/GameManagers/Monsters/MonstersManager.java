@@ -70,7 +70,7 @@ public class MonstersManager {
     }
 
     private void handleActiveMonster(boolean[] monsterConditions) {
-        if (!monsterConditions[monstersDataAccess.getActiveMonster() - 1]) {
+        if (!monsterConditions[monstersDataAccess.getActiveMonster() - 1]) { // False significa que el monstruo ha sido derrotado
             monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
             missionsUpdater.updateMission18();
             experienceManager.addExperience(500);

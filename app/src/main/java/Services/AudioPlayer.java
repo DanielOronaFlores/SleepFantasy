@@ -1,7 +1,6 @@
 package Services;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -33,6 +32,7 @@ import Database.DataAccess.SongsDataAccess;
 import Database.DataUpdates.PlaylistSongsDataUpdate;
 import Database.DataUpdates.SongsDataUpdate;
 import Database.DatabaseConnection;
+import Files.AudiosPaths;
 import Models.Audio;
 import Models.PlaylistAudios;
 
@@ -42,7 +42,6 @@ public class AudioPlayer extends Service {
     private List<Audio> audios;
     private static MediaPlayer mediaPlayer;
     private int position;
-    private Activity activity;
 
     @Nullable
     @Override
@@ -108,7 +107,7 @@ public class AudioPlayer extends Service {
     @SuppressLint("ForegroundServiceType")
     private void playSongCreatedByUser(String audioName) {
         mediaPlayer = new MediaPlayer();
-        String audioPath = "/sdcard/Music/" + audioName;
+        String audioPath = AudiosPaths.getMusicPath() + audioName;
 
         File audioFile = new File(audioPath);
         if (audioFile.exists()) {

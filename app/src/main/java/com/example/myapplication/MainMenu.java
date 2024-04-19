@@ -21,7 +21,6 @@ import Services.PostureSensor;
 import Styles.Themes;
 
 public class MainMenu extends AppCompatActivity {
-    private DatabaseConnection connection;
     private AvatarDataAccess avatarDataAccess;
     private ImageView imgAvatar, imgGameSelector, imgRecordVisualizer, imgChartsVisualizer, imgAvatarInformation, imgMusicSelector;
 
@@ -31,8 +30,7 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        connection = DatabaseConnection.getInstance(this);
-        avatarDataAccess = new AvatarDataAccess(connection);
+        avatarDataAccess = new AvatarDataAccess(DatabaseConnection.getInstance(this));
 
         imgAvatar = findViewById(R.id.avatarDisplay);
         imgGameSelector = findViewById(R.id.gameSelectorButton);
@@ -71,13 +69,11 @@ public class MainMenu extends AppCompatActivity {
 
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.update();
-
         deleteRecordingsFiles();
     }
     @Override
     protected void onStart() {
         super.onStart();
-        connection.openDatabase();
 
         int[] skins = CharactersList.getCharacterPhases(avatarDataAccess.getCharacterClass());
         imgAvatar.setImageResource(skins[avatarDataAccess.getCharacterPhase() -1]);
@@ -88,21 +84,17 @@ public class MainMenu extends AppCompatActivity {
     }
 
     private void deleteRecordingsFiles() {
-        DateManager dateManager = new DateManager();
-        AudiosPaths audiosPaths = new AudiosPaths();
+        String lastDateModified = FilesManager.getLastDateModified(AudiosPaths.getRecordingsPCMPath());
+        lastDateModified = DateManager.convertDate(lastDateModified);
 
-        String lastDateModified = FilesManager.getLastDateModified(audiosPaths.getRecordingsPCMPath());
-        lastDateModified = dateManager.convertDate(lastDateModified);
-
-        if (lastDateModified != null && dateManager.havePassed24Hours(lastDateModified)) {
-            FilesManager.deleteFiles(audiosPaths.getRecordingsPCMPath());
-            FilesManager.deleteFiles(audiosPaths.getRecordings3GPPath());
-            FilesManager.deleteFiles(audiosPaths.getListSoundsPath());
+        if (lastDateModified != null && DateManager.hasPassedHoursSince(lastDateModified, 24)) {
+            FilesManager.deleteFile(AudiosPaths.getRecordingsPCMPath());
+            FilesManager.deleteFile(AudiosPaths.getRecordings3GPPath());
+            FilesManager.deleteFile(AudiosPaths.getListSoundsPath());
         }
     }
 
     private void setTheme() {
-        View view = findViewById(R.id.mainMenu);
-        Themes.setBackgroundColor(this, view);
+        Themes.setBackgroundColor(this, findViewById(R.id.mainMenu));
     }
 }

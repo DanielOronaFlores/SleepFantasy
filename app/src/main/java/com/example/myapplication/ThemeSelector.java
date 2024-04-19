@@ -11,11 +11,12 @@ import java.util.List;
 
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RewardsDataAccess;
+import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
 import Styles.Themes;
 
 public class ThemeSelector extends AppCompatActivity {
-    private PreferencesDataAccess preferencesDataAccess;
+    private PreferencesDataUpdate preferencesDataUpdate;
     private RewardsDataAccess rewardsDataAccess;
     private ImageView theme1, theme2, theme3, theme4, theme5, theme6;
     private List<ImageView> themes;
@@ -26,7 +27,7 @@ public class ThemeSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme_selector);
 
-        preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(this));
+        preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
         rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
 
         theme1 = findViewById(R.id.theme1);
@@ -66,7 +67,7 @@ public class ThemeSelector extends AppCompatActivity {
 
     private void changeTheme(int theme) {
         if (theme == 0 || given.get(theme -1)) {
-            preferencesDataAccess.setTheme(theme);
+            preferencesDataUpdate.setTheme(theme);
             Themes.setBackgroundColor(this, findViewById(R.id.ThemeSelector));
             recreate();
         }

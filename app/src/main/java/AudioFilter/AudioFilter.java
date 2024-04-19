@@ -12,15 +12,14 @@ import Serializers.Serializer;
 import Models.Sound;
 
 public class AudioFilter {
-    private final AudiosPaths audiosFiles = new AudiosPaths();
-    private final List<Sound> soundsList = new ArrayList<>();
+    public static void filterAudio(float sampleRate) {
+        List<Sound> soundsList = new ArrayList<>();
+        File file = new File(AudiosPaths.getRecordingsPCMPath());
 
-    public void filterAudio(float sampleRate) {
-        File file = new File(audiosFiles.getRecordingsPCMPath());
         if (file.exists()) {
             try {
                 double segmentDuration = 1.0;
-                FileInputStream fileInputStream = new FileInputStream(audiosFiles.getRecordingsPCMPath());
+                FileInputStream fileInputStream = new FileInputStream(AudiosPaths.getRecordingsPCMPath());
 
                 int samplesPerSegment = (int) (sampleRate * segmentDuration);
                 double[] samples = new double[samplesPerSegment];

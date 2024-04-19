@@ -22,17 +22,18 @@ import java.util.Objects;
 import AppContext.MyApplication;
 import Database.DataAccess.SongsDataAccess;
 import Database.DatabaseConnection;
+import Files.AudiosPaths;
 
 public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.ViewHolder> {
     private static List<Boolean> checkedList;
-    private final List<String> audios = new ArrayList<>();
-    @SuppressLint("SdCardPath")
-    private final String PATH = "/sdcard/Music/";
+    private final List<String> audiosFileName;
 
     public AdapterAddAudios() {
+        audiosFileName = new ArrayList<>();
         initializeAudioFilesList();
-        checkedList = new ArrayList<>(audios.size());
-        for (int i = 0; i < audios.size(); i++) {
+
+        checkedList = new ArrayList<>(audiosFileName.size());
+        for (int i = 0; i < audiosFileName.size(); i++) {
             checkedList.add(false);
         }
     }
@@ -45,27 +46,26 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
     }
     @Override
     public void onBindViewHolder(@NonNull AdapterAddAudios.ViewHolder holder, int position) {
-        holder.setAudios(audios.get(position));
+        holder.setAudios(audiosFileName.get(position));
         holder.checkBox.setChecked(checkedList.get(position));
     }
     @Override
     public int getItemCount() {
-        return audios.size();
+        return audiosFileName.size();
     }
 
     public List<String> getSelectedAudios() {
         List<String> selectedAudios = new ArrayList<>();
-        for (int i = 0; i < audios.size(); i++) {
+        for (int i = 0; i < audiosFileName.size(); i++) {
             if (checkedList.get(i)) {
-                selectedAudios.add(audios.get(i));
+                selectedAudios.add(audiosFileName.get(i));
             }
         }
         return selectedAudios;
     }
 
-    @SuppressLint("SdCardPath")
     private void initializeAudioFilesList() {
-        File folder = new File(PATH);
+        File folder = new File(AudiosPaths.getMusicPath());
         if (folder.exists() && folder.isDirectory()) {
             File[] audioFiles = folder.listFiles();
             if (audioFiles != null) {
@@ -79,31 +79,34 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
     private void getAudioFilesFromDevice(File[] audioFiles) {
         for (File audioFile : audioFiles) {
             if (audioFile.getName().endsWith(".mp3")){
-                String audioName = audioFile.getName();
-                audios.add(audioName);
+                audiosFileName.add(audioFile.getName());
             }
         }
     }
     private void deletedAudiosAlreadyInDatabase() {
         DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
-        List<String> audiosInDatabase = songsDataAccess.getSongsNotCreatedBySystem();
-        audios.removeIf(audiosInDatabase::contains);
+        List<String> audiosInDatabase = songsDataAccess.getAudiosNotCreatedBySystem();
+        audiosFileName.removeIf(audiosInDatabase::contains);
     }
+    @SuppressLint("NewApi")
     private void deleteAudiosNotInRange() {
-        Iterator<String> iterator = audios.iterator();
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        Iterator<String> iterator = audiosFileName.iterator();
 
         while (iterator.hasNext()) {
-            String audio = iterator.next();
-            String audioPath = PATH + audio;
+            String audioPath = AudiosPaths.getMusicPath() + iterator.next();
             File audioFile = new File(audioPath);
-            retriever.setDataSource(audioPath);
-            if (audioFile.exists()) {
-                long audioDuration = Long.parseLong(Objects.requireNonNull(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)));
-                if (audioDuration < 30000 || audioDuration > 600000) {
-                    iterator.remove();
+
+            try (MediaMetadataRetriever retriever = new MediaMetadataRetriever()) {
+                retriever.setDataSource(audioPath);
+                if (audioFile.exists()) {
+                    long audioDuration = Long.parseLong(Objects.requireNonNull(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)));
+                    if (audioDuration < 30000 || audioDuration > 600000) {
+                        iterator.remove();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -126,8 +129,8 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
         }
 
         private void setAudios(String audioName) {
-            String shortAudioName = audioName.substring(0, Math.min(audioName.length(), 7));
-            this.audioName.setText(shortAudioName);
+            audioName = audioName.substring(0, Math.min(audioName.length(), 7));
+            this.audioName.setText(audioName);
         }
     }
 }

@@ -6,19 +6,18 @@ import android.os.Environment;
 
 import AppContext.MyApplication;
 
+@SuppressLint("SdCardPath")
 public class AudiosPaths {
-    private final Context context = MyApplication.getAppContext();
-
-    @SuppressLint("SdCardPath")
-    public String getRecordings3GPPath() {
+    public static String getRecordings3GPPath() {
         return  "/sdcard/Music/recording.3gp";
     }
-
-    public String getRecordingsPCMPath() {
-        return context.getExternalFilesDir(Environment.DIRECTORY_MUSIC) + "/recording.pcm";
+    public static String getRecordingsPCMPath() {
+        return MyApplication.getAppContext().getExternalFilesDir(Environment.DIRECTORY_MUSIC) + "/recording.pcm";
     }
-
-    public String getListSoundsPath() {
-        return context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/listSounds.xml";
+    public static String getListSoundsPath() {
+        return MyApplication.getAppContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/listSounds.xml";
+    }
+    public static String getMusicPath() {
+        return "/sdcard/Music/";
     }
 }

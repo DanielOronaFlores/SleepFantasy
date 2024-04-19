@@ -11,11 +11,12 @@ import java.util.List;
 
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RewardsDataAccess;
+import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
 import Styles.Themes;
 
 public class NotificationSelector extends AppCompatActivity {
-    private PreferencesDataAccess preferencesDataAccess;
+    private PreferencesDataUpdate preferencesDataUpdate;
     private RewardsDataAccess rewardsDataAccess;
     private List<ImageView> sounds;
     private List<Boolean> given;
@@ -25,7 +26,7 @@ public class NotificationSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_selector);
 
-        preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(this));
+        preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
         rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
 
         given = rewardsDataAccess.getGivenPerType(3);
@@ -63,7 +64,7 @@ public class NotificationSelector extends AppCompatActivity {
     private void setNotificationImage(int notificationID ) {
         if (given.get(notificationID)) {
             System.out.println("Notification: " + notificationID);
-            preferencesDataAccess.setNotificationSound(notificationID);
+            preferencesDataUpdate.setNotificationSound(notificationID);
             Toast.makeText(this, "SE HA CAMBIADO EL SONIDO DE NOTIFICACION", Toast.LENGTH_SHORT).show();
             finish();
         }

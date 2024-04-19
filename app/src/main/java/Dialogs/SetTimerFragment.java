@@ -17,14 +17,16 @@ import com.example.myapplication.R;
 import AppContext.MyApplication;
 import Clocker.Clock;
 import Database.DataAccess.PreferencesDataAccess;
+import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
 import Styles.Themes;
 
 public class SetTimerFragment extends DialogFragment {
-    private PreferencesDataAccess preferencesDataAccess;
+    private PreferencesDataUpdate preferencesDataUpdate;
     private EditText timerHoursDuration, timerMinutesDuration;
     private DatabaseConnection connection;
     private Clock clock;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class SetTimerFragment extends DialogFragment {
 
         connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         connection.openDatabase();
-        preferencesDataAccess = new PreferencesDataAccess(connection);
+        preferencesDataUpdate = new PreferencesDataUpdate(connection);
 
         timerHoursDuration = view.findViewById(R.id.timerHoursDuration);
         timerMinutesDuration = view.findViewById(R.id.timerMinutesDuration);
@@ -46,14 +48,14 @@ public class SetTimerFragment extends DialogFragment {
             int hour = convertStringToNumber(timerHoursDuration.getText().toString());
             int minute = convertStringToNumber(timerMinutesDuration.getText().toString());
             int totalMillis = (hour * 60 * 60 * 1000) + (minute * 60 * 1000);
-                preferencesDataAccess.setTimerDuration(totalMillis);
-                Toast.makeText(MyApplication.getAppContext(),
-                        "Temporizador establecido en: " +
-                                clock.convertMillisToHours(totalMillis) + " horas y " +
-                                clock.convertMillisToMinutes(totalMillis) + " minutos",
-                        Toast.LENGTH_SHORT).show();
-                getActivity().recreate();
-                dismiss();
+            preferencesDataUpdate.setTimerDuration(totalMillis);
+            Toast.makeText(MyApplication.getAppContext(),
+                    "Temporizador establecido en: " +
+                            clock.convertMillisToHours(totalMillis) + " horas y " +
+                            clock.convertMillisToMinutes(totalMillis) + " minutos",
+                    Toast.LENGTH_SHORT).show();
+            getActivity().recreate();
+            dismiss();
         });
 
         Themes.setBackgroundColor(getActivity(), view);

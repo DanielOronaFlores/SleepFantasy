@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateManager {
-    private SimpleDateFormat getDateFormat() {
+    private static SimpleDateFormat getDateFormat() {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
-    public String convertDate(String date) {
+    public static String convertDate(String date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         SimpleDateFormat newDateFormat;
         String formattedDate = null;
@@ -106,7 +106,9 @@ public class DateManager {
         long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
         return differenceMillis / (24 * 60 * 60 * 1000);
     }
-    public boolean havePassed24Hours(String oldDateStr) {
+
+    // Ya limpio
+    public static boolean hasPassedHoursSince(String oldDateStr, int hours) {
         boolean havePassed24Hours;
         long differenceHours = 0;
 
@@ -123,10 +125,12 @@ public class DateManager {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         } finally {
-            havePassed24Hours = differenceHours >= 24;
+            havePassed24Hours = differenceHours >= hours;
         }
         return havePassed24Hours;
     }
+    // --- Limpio
+
     public String getPastWeek(String date) {
         SimpleDateFormat sdf = getDateFormat();
         String startDate;

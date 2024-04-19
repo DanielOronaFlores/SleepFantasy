@@ -112,7 +112,7 @@ public class SleepTracker extends Service {
         initializeVariables();
 
         // Start recording
-        if (preferencesDataAccess.getRecordSnorings()) {
+        if (preferencesDataAccess.getRecordAudios()) {
             if (StorageManager.isInsufficientStorage()) {
                 Notifications.showLowStorageNotification();
             } else {
@@ -213,8 +213,7 @@ public class SleepTracker extends Service {
 
     private void filterAudio() {
         RecordingPreferences recordingPreferences = new RecordingPreferences();
-        AudioFilter audioFilter = new AudioFilter();
-        audioFilter.filterAudio(recordingPreferences.getPreferredSamplingRate());
+        AudioFilter.filterAudio(recordingPreferences.getPreferredSamplingRate());
     }
 
     private void unregisterListeners() {
@@ -416,7 +415,7 @@ public class SleepTracker extends Service {
             sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
             System.out.println("Vertical: " + isVertical);
-            int delay = 1000 ; // 30000 ms = 30 s
+            int delay = 30000 ; // 30000 ms = 30 s
             if (timeAwake > 20 && isVertical) { // 20 minutos
                 timeAwake -= 20;
                 stopSelf();
@@ -437,7 +436,7 @@ public class SleepTracker extends Service {
     };
 
     private boolean isStopTime() {
-        int stopHour = 18;
+        int stopHour = 8;
         int stopMinute = 00;
 
         Calendar currentTime = Calendar.getInstance();

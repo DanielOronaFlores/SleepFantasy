@@ -8,6 +8,7 @@ import Dates.DateManager;
 public class DatabaseTableFiller {
     private static final DateManager dateManager = new DateManager();
     public static void fillTables(SQLiteDatabase db) {
+        fillPreferencesTable(db);
         fillMissionTable(db);
         fillChallengeTable(db);
         fillRecordTable(db);
@@ -16,6 +17,11 @@ public class DatabaseTableFiller {
         fillSongsTable(db);
         fillPlaylistSongs(db);
         fillRewardsTable(db );
+    }
+    private static void fillPreferencesTable(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        values.put("audioQuality", false);
+        db.insert("Preferences", null, values);
     }
     private static void fillMissionTable(SQLiteDatabase db) {
         for (int i = 0; i < 20; i++) {

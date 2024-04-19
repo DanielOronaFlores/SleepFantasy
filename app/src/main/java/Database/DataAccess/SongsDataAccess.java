@@ -57,7 +57,7 @@ public class SongsDataAccess {
         return songList;
     }
 
-    public List<String> getSongsNotCreatedBySystem() {
+    public List<String> getAudiosNotCreatedBySystem() {
         List<String> songList = new ArrayList<>();
         String query = "SELECT name FROM Songs WHERE ibBySystem = 0;";
 

@@ -13,54 +13,6 @@ public class PreferencesDataAccess {
         database = connection.getDatabase();
     }
 
-    public void updatePreferences(boolean saveRecordings, boolean recordSnorings) {
-        ContentValues values = new ContentValues();
-        values.put("saveRecordings", saveRecordings);
-        values.put("recordSnorings", recordSnorings);
-
-        if (isPreferencesCreated()) {
-            database.update("Preferences", values, null, null);
-        } else {
-            database.insert("Preferences", null, values);
-        }
-    }
-
-    public void updateAudioQuality(boolean audioQuality) {
-        ContentValues values = new ContentValues();
-        values.put("audioQuality", audioQuality);
-
-        if (isPreferencesCreated()) {
-            database.update("Preferences", values, null, null);
-        } else {
-            database.insert("Preferences", null, values);
-        }
-    }
-
-    public void setTimerDuration(int timerDuration) {
-        ContentValues values = new ContentValues();
-        values.put("timerDuration", timerDuration);
-
-        if (isPreferencesCreated()) {
-            database.update("Preferences", values, null, null);
-        } else {
-            database.insert("Preferences", null, values);
-        }
-    }
-
-    public String[] getPreferencesData() {
-        String[] columns = {"recordSnorings", "saveRecordings"};
-        Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
-        String[] preferences = new String[2];
-
-        if (cursor.moveToFirst()) {
-            preferences[0] = String.valueOf(cursor.getInt(0));
-            preferences[1] = String.valueOf(cursor.getInt(1));
-        }
-
-        cursor.close();
-        return preferences;
-    }
-
     public boolean getSaveRecordings() {
         String[] columns = {"saveRecordings"};
         Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
@@ -74,17 +26,17 @@ public class PreferencesDataAccess {
         return saveRecordings;
     }
 
-    public boolean getRecordSnorings() {
-        String[] columns = {"recordSnorings"};
+    public boolean getRecordAudios() {
+        String[] columns = {"recordAudios"};
         Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
-        boolean recordSnorings = false;
+        boolean recordAudios = false;
 
         if (cursor.moveToFirst()) {
-            recordSnorings = cursor.getInt(0) == 1;
+            recordAudios = cursor.getInt(0) == 1;
         }
 
         cursor.close();
-        return recordSnorings;
+        return recordAudios;
     }
 
     public boolean getAudioQuality() {
@@ -113,21 +65,6 @@ public class PreferencesDataAccess {
         return timerDuration;
     }
 
-    public void setDefaultAudioQuality() {
-        ContentValues values = new ContentValues();
-        values.put("audioQuality", false);
-        database.insert("Preferences", null, values);
-    }
-
-    public boolean isPreferencesCreated() {
-        String query = "SELECT 1 FROM Preferences LIMIT 1;";
-        Cursor cursor = database.rawQuery(query, null);
-        boolean preferencesExist = cursor.getCount() > 0;
-        cursor.close();
-        return preferencesExist;
-    }
-
-
     public int getThemeSelected() {
         String[] columns = {"theme"};
         Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
@@ -141,29 +78,6 @@ public class PreferencesDataAccess {
         return theme;
     }
 
-    public int setTheme(int theme) {
-        ContentValues values = new ContentValues();
-        values.put("theme", theme);
-
-        if (isPreferencesCreated()) {
-            database.update("Preferences", values, null, null);
-        } else {
-            database.insert("Preferences", null, values);
-        }
-        return theme;
-    }
-
-
-    public void setAvatarSkin(int avatarSkin) {
-        ContentValues values = new ContentValues();
-        values.put("skin", avatarSkin);
-
-        if (isPreferencesCreated()) {
-            database.update("Preferences", values, null, null);
-        } else {
-            database.insert("Preferences", null, values);
-        }
-    }
     public int getAvatarSkin() {
         String[] columns = {"skin"};
         Cursor cursor = database.query("Preferences", columns, null, null, null, null, null);
@@ -189,15 +103,5 @@ public class PreferencesDataAccess {
 
         cursor.close();
         return notificationSound;
-    }
-    public void setNotificationSound(int notificationSound) {
-        ContentValues values = new ContentValues();
-        values.put("notification", notificationSound);
-
-        if (isPreferencesCreated()) {
-            database.update("Preferences", values, null, null);
-        } else {
-            database.insert("Preferences", null, values);
-        }
     }
 }

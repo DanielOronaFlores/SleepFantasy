@@ -11,11 +11,12 @@ import java.util.List;
 
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RewardsDataAccess;
+import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
 import Styles.Themes;
 
 public class SkinSelector extends AppCompatActivity {
-    private PreferencesDataAccess preferencesDataAccess;
+    private PreferencesDataUpdate preferencesDataUpdate;
     private RewardsDataAccess rewardsDataAccess;
     private List<ImageView> skins;
     private List<Boolean> given;
@@ -24,7 +25,7 @@ public class SkinSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skin_selector);
 
-        preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(this));
+        preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
         rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
         given = rewardsDataAccess.getGivenPerType(4);
 
@@ -62,7 +63,7 @@ public class SkinSelector extends AppCompatActivity {
     private void setAvatarSkin(int skinID ) {
         if (skinID == 0 || given.get(skinID -1)) {
             System.out.println("setAvatarSkin: " + skinID);
-            preferencesDataAccess.setAvatarSkin(skinID);
+            preferencesDataUpdate.setAvatarSkin(skinID);
             Toast.makeText(this, "SE HA CAMBIADO EL ASPECTO DEL AVATAR", Toast.LENGTH_SHORT).show();
             finish();
         }
