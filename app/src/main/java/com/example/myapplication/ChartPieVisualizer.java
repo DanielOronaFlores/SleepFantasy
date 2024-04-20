@@ -50,7 +50,7 @@ public class ChartPieVisualizer extends AppCompatActivity {
         super.onStart();
         connection.openDatabase();
 
-        float totalSleepTime = sleepDataAccess.totalSleepTime(date);
+        float totalSleepTime = sleepDataAccess.getTotalSleepTime(date);
         float deepSleepPercentage = convertDataToPercentage(sleepDataAccess.getDeepSleepTime(date), totalSleepTime);
         float lightSleepPercentage = convertDataToPercentage(sleepDataAccess.getLightSleepTime(date), totalSleepTime);
         float remSleepPercentage = convertDataToPercentage(sleepDataAccess.getRemSleepTime(date), totalSleepTime);

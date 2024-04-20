@@ -166,6 +166,7 @@ public class DatabaseTableCreator {
         String queryCreateTipsTable = "CREATE TABLE Tips (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "current BOOLEAN, " +
+                "type INTEGER, " +
                 "lastDateAppeared TEXT);";
         db.execSQL(queryCreateTipsTable);
     }

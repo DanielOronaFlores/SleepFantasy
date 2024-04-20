@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="tips_sleepEvents">
+        <item>"Entre mayor sea la frecuencia de consumo de bebidas energéticas, menos serán las horas de sueño."</item>
+        <item>"El consumo de cafeína, alcohol y nicotina puede afectar la calidad de tu sueño."</item>
+        <item>"Dedica entre 30 minutos y una hora antes de dormir a actividades relajantes que te ayuden a desconectar del día, como leer un libro, practicar meditación o escuchar música suave."</item>
+        <item>"Evita las comidas pesadas, picantes o muy condimentadas antes de dormir."</item>
+        <item>"Debe evitarse el ejercicio, al menos tres horas antes de dormir."</item>
+        <item>"Limita la ingesta de líquidos antes de dormir para prevenir los despertares nocturnos para ir al baño"</item>
+        <item>"No te acuestes con hambre ni demasiado lleno ya que ambas condiciones pueden causar incomodidad y dificultar el sueño."</item>
+        <item>"Establece una rutina de sueño y realiza actividades menos estresantes antes de dormir."</item>
+        <item>"Tomar una ducha caliente ayudar a relajar el cuerpo"</item>
+        <item>"Mantén tu habitación fresca, oscura y tranquila para promover un sueño reparador."</item>
+    </array>
+
+    <array name="tips_sleepTime">
+        <item>"Intenta programar tu tiempo de sueño de manera que despiertes al final de un ciclo de sueño."</item>
+        <item>" Las siestas largas durante el día pueden interferir con el sueño nocturno. Si eliges hacer una siesta, limita la siesta a 30 minutos."</item>
+        <item>"La luz azul emitida por teléfonos, tablets, computadoras y televisores puede interferir con tu producción de melatonina, una hormona que regula el sueño."</item>
+        <item>"El ejercicio regular puede ayudarte a conciliar el sueño más rápidamente y a disfrutar de un sueño más profundo."</item>
+        <item>"Técnicas como la meditación, el yoga o la respiración profunda pueden promover un mejor sueño al reducir el estrés y la ansiedad."</item>
+        <item>"Mirar el reloj cuando te despiertas en medio de la noche puede provocar estrés y hacer que sea más difícil volver a dormir."</item>
+        <item>"Si tienes problemas persistentes para dormir, puede ser útil hablar con un profesional de la salud o un especialista en sueño."</item>
+        <item>"Usa la cama solo para dormir. Evitar trabajar, comer o ver la televisión en la cama puede ayudar a tu cerebro a asociar la cama con el sueño."</item>
+        <item>"Si no puedes conciliar el sueño después de 20 minutos, levántate y haz algo relajante hasta que te sientas somnoliento."</item>
+    </array>
+
+    <array name="tips_sleepEnvironment">
+        <item>"Considera usar una almohada y un colchón cómodos: La comodidad puede tener un gran impacto en tu capacidad para conciliar el sueño y permanecer dormido."</item>
+        <item>"Pasa tiempo en luz brillante durante el día, luz natural o de brillo equivalente."</item>
+        <item>"Evita la luz brillante antes de acostarte."</item>
+        <item>"Se recomienda una iluminación de al menos 300 lux en las zonas de trabajo y de 150 lux en las zonas de descanso."</item>
+        <item>"Los colores cálidos de luz son siempre preferibles a la luz más fría."</item>
+        <item>"Dormir totalmente a oscuras es lo más recomendable para que tu ritmo circadiano esté bien regulado."</item>
+        <item>"En el dormitorio, la iluminación debe ser más suave y relajante para crear un ambiente propicio para el descanso."</item>
+        <item>"Si no puedes evitar la luz externa, como la de la calle o la del amanecer, las cortinas opacas o un antifaz pueden ser de gran ayuda."</item>
+        <item>"Si necesitas levantarte durante la noche, una luz nocturna de baja intensidad puede ayudarte a moverte sin despertarte completamente."</item>
+        <item>"Intenta exponerte a luz brillante durante el día y disminuir la intensidad de la luz a medida que se acerca la hora de dormir."</item>
+        <item>"Si trabajas por turnos o viajas frecuentemente a diferentes zonas horarias, mantener la luz de tu entorno constante puede ayudar a regular tu sueño."</item>
+    </array>
+
+</resources>

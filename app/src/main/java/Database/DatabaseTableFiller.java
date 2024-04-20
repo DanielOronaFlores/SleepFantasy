@@ -16,7 +16,8 @@ public class DatabaseTableFiller {
         fillPlayListTable(db);
         fillSongsTable(db);
         fillPlaylistSongs(db);
-        fillRewardsTable(db );
+        fillRewardsTable(db);
+        fillTipsTable(db);
     }
     private static void fillPreferencesTable(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
@@ -265,6 +266,16 @@ public class DatabaseTableFiller {
             values.put("type", 4);
             values.put("given", 0);
             db.insert("Rewards", null, values);
+        }
+    }
+
+    private static void fillTipsTable(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        for (int i = 1; i <= 3; i++) {
+            values.put("current", false);
+            values.put("type", i);
+            values.put("lastDateAppeared", dateManager.getCurrentDate());
+            db.insert("Tips", null, values);
         }
     }
 }

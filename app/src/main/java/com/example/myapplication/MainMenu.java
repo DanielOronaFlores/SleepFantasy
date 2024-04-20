@@ -3,7 +3,6 @@ package com.example.myapplication;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +18,7 @@ import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
 import Services.PostureSensor;
 import Styles.Themes;
+import Tips.Tips;
 
 public class MainMenu extends AppCompatActivity {
     private AvatarDataAccess avatarDataAccess;
@@ -70,6 +70,9 @@ public class MainMenu extends AppCompatActivity {
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.update();
         deleteRecordingsFiles();
+
+        Tips tips = new Tips();
+        tips.updateTip();
     }
     @Override
     protected void onStart() {

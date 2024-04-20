@@ -51,4 +51,17 @@ public class Notifications {
             notificationManager.notify(2, builder.build());
         }
     }
+
+    public static void showTipNotification(String tip) {
+        Context context = MyApplication.getAppContext();
+
+        NotificationUtils.createNotificationChannel(context);
+        NotificationCompat.Builder builder = NotificationUtils.createNotificationBuilder("SleepFantasy recomienda:",
+                tip);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(3, builder.build());
+        }
+    }
 }

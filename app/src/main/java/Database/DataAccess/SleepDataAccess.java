@@ -62,7 +62,7 @@ public class SleepDataAccess {
             return -1;
         }
     }
-    public int totalSleepTime(String date) {
+    public int getTotalSleepTime(String date) {
         String query = "SELECT totalSleepTime FROM SleepData WHERE date = ?;";
         SQLiteStatement statement = database.compileStatement(query);
         statement.bindString(1, date);
@@ -153,5 +153,52 @@ public class SleepDataAccess {
 
         cursor.close();
         return array;
+    }
+
+
+    // Use in Tips
+    public int getAwakenings(String date) {
+        String query = "SELECT awakeningAmount FROM SleepData WHERE date = ?;";
+        SQLiteStatement statement = database.compileStatement(query);
+        statement.bindString(1, date);
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            return 0;
+        }
+    }
+    public int getSuddenMovements(String date) {
+        String query = "SELECT suddenMovementsAmount FROM SleepData WHERE date = ?;";
+        SQLiteStatement statement = database.compileStatement(query);
+        statement.bindString(1, date);
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            return 0;
+        }
+    }
+    public int getPositionChanges(String date) {
+        String query = "SELECT positionChangesAmount FROM SleepData WHERE date = ?;";
+        SQLiteStatement statement = database.compileStatement(query);
+        statement.bindString(1, date);
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            return 0;
+        }
+    }
+    public int getLux(String date) {
+        String query = "SELECT lightValue FROM SleepData WHERE date = ?;";
+        SQLiteStatement statement = database.compileStatement(query);
+        statement.bindString(1, date);
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            return 0;
+        }
     }
 }

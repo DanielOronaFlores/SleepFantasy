@@ -18,11 +18,6 @@ public class SongsDataAccess {
         this.database = connection.getDatabase();
     }
 
-    public String getSongTitle(int songID) {
-        String query = "SELECT name FROM Songs WHERE id = " + songID + ";";
-        return database.compileStatement(query).simpleQueryForString();
-    }
-
     public int getSongID(String songTitle) {
         int songID = -1;
 

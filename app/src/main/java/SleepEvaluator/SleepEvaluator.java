@@ -17,6 +17,7 @@ import GameManagers.Monsters.MonstersManager;
 import Models.Sound;
 import Serializers.Deserializer;
 import SleepEvaluator.Trainer.PrioriCategories;
+import Tips.Tips;
 import Utils.SecondsCounter;
 
 public class SleepEvaluator {
@@ -169,6 +170,9 @@ public class SleepEvaluator {
         // appearingMonsters = {insomnia, loudSound, anxiety, nightmare, somnambulism}
         MonstersManager monstersManager = new MonstersManager();
         monstersManager.updateMonster(monsterConditions);
+
+        Tips tips = new Tips();
+        tips.updateTip();
     }
 
     private void addExperience(int category) {

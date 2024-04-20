@@ -33,10 +33,7 @@ public class DateManager {
         return Math.abs(differenceDays) == 1;
     }
 
-    public String getCurrentDate() {
-        Date currentDate = new Date(System.currentTimeMillis());
-        return getDateFormat().format(currentDate);
-    }
+
 
     public boolean compareDates(String oldDateStr) throws ParseException {
         String currentDateStr = getCurrentDate();
@@ -88,26 +85,28 @@ public class DateManager {
             throw new RuntimeException(e);
         }
     }
-    public long getDaysDifference(String startDate, String endDate) {
-        Date startDateFormatted;
-        Date endDateFormatted;
-
+    public static String getPastDaySinceCurrentDate(int day) {
+        SimpleDateFormat sdf = getDateFormat();
+        String startDate;
         try {
-            startDateFormatted = getDateFormat().parse(startDate);
-            endDateFormatted = getDateFormat().parse(endDate);
-        } catch (ParseException e) {
+            Date currentDate = new Date(System.currentTimeMillis());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.DAY_OF_YEAR, -day);
+            startDate = sdf.format(calendar.getTime());
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        if (startDateFormatted == null || endDateFormatted == null) {
-            throw new RuntimeException("Error parsing dates");
-        }
-
-        long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
-        return differenceMillis / (24 * 60 * 60 * 1000);
+        return startDate;
     }
 
+
     // Ya limpio
+    public static String getCurrentDate() {
+        Date currentDate = new Date(System.currentTimeMillis());
+        return getDateFormat().format(currentDate);
+    }
+
     public static boolean hasPassedHoursSince(String oldDateStr, int hours) {
         boolean havePassed24Hours;
         long differenceHours = 0;
@@ -128,6 +127,26 @@ public class DateManager {
             havePassed24Hours = differenceHours >= hours;
         }
         return havePassed24Hours;
+    }
+
+    public static long getDaysDifference(String startDate, String endDate) {
+        Date startDateFormatted;
+        Date endDateFormatted;
+
+        try {
+            startDateFormatted = getDateFormat().parse(startDate);
+            endDateFormatted = getDateFormat().parse(endDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (startDateFormatted == null || endDateFormatted == null) {
+            throw new RuntimeException("Error parsing dates");
+        }
+
+        long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
+        System.out.println("Dias de diferencia: " + differenceMillis / (24 * 60 * 60 * 1000));
+        return Math.abs(differenceMillis / (24 * 60 * 60 * 1000));
     }
     // --- Limpio
 
