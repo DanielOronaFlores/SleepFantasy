@@ -19,6 +19,5 @@
     <string name="mission17">CONSIGUE UN PORCENTAJE DE ENTRE EL 20% Y 25% EN SUEÑO PROFUNDO EN UN CICLO DE SUEÑO</string>
     <string name="mission18">DERROTA LA SIGUIENTE CANTIDAD DE MONSTROUS DE PESADILLA</string>
     <string name="mission19">VISUALIZA UNA CANTIDAD MENOR DE CONSEJOS</string>
-    <string name="mission20">LOGRA QUE TU HORARIO DE SUEÑO DE INICIO DE CICLO DE SUEÑO EMPIECE EN UN HORARIO SIMILAR (MARGEN DE 30 MINUTOS)</string>
     <string name="missionDefault">MISIÓN NO ENCONTRADA</string>
 </resources>

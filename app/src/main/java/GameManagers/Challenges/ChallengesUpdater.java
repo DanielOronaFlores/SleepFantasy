@@ -48,15 +48,15 @@ public class ChallengesUpdater {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
         recordsDataUpdate.updateMonsterAppeared(appeared);
     }
-    public void updateAvatarVisualRecord() { // TODO: Implementar en selector de skins
+    public void updateAvatarVisualRecord() {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
         recordsDataUpdate.updateHasAvatarVisualChanged(true);
     }
-    public void updateNotificationSoundRecord() { // TODO: Implementar en selector de notificaciones
+    public void updateNotificationSoundRecord() {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
         recordsDataUpdate.updateHasAvatarVisualChanged(true);
     }
-    public void updateInterfaceRecord() { // TODO: Implementar de selector interfaz
+    public void updateInterfaceRecord() {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
         recordsDataUpdate.updateHasAvatarVisualChanged(true);
     }

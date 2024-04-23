@@ -12,12 +12,15 @@ import Database.DataAccess.TipsDataAccess;
 import Database.DataUpdates.TipsDataUpdate;
 import Database.DatabaseConnection;
 import Dates.DateManager;
+import GameManagers.Challenges.ChallengesUpdater;
+import GameManagers.Missions.MissionsUpdater;
 import Notifications.Notifications;
 
 public class Tips {
     private final SleepDataAccess sleepDataAccess;
     private final TipsDataAccess tipsDataAccess;
     private final TipsDataUpdate tipsDataUpdate;
+    private final MissionsUpdater missionsUpdater;
     private final Context context;
 
     public Tips() {
@@ -26,6 +29,7 @@ public class Tips {
         sleepDataAccess = new SleepDataAccess(connection);
         tipsDataAccess = new TipsDataAccess(connection);
         tipsDataUpdate = new TipsDataUpdate(connection);
+        missionsUpdater = new MissionsUpdater();
     }
 
     public void updateTip() {
@@ -48,7 +52,10 @@ public class Tips {
         System.out.println("Last tip type: " + lastTipType);
         System.out.println("Tip type: " + tipType);
 
-        if (tipType == 0) return; // No hay tips disponibles
+        if (tipType == 0) {  // No hay tips disponibles
+            missionsUpdater.updateMission19();
+            return;
+        }
 
         String[] tips = null;
         switch (tipType) {

@@ -75,7 +75,7 @@ public class MissionsUpdater {
         }
     }
 
-    public void updateMission13() { //TODO: Implementar en consejos de sueño
+    public void updateMission13() {
         missionsManager.updateMission(13, 1);
     }
 
@@ -107,13 +107,9 @@ public class MissionsUpdater {
         missionsManager.updateMission(18, 1);
     }
 
-    public void updateMission19(int tips) { //TOOD: Implementar en consejos de sueño
+    public void updateMission19(int tips) {
         if (tips < 5) {
             missionsManager.updateMission(19, 1);
         }
-    }
-
-    public void updateMission20() { //TODO: Hay que cambiar esta mision jajaja
-        missionsManager.updateMission(20, 1);
     }
 }

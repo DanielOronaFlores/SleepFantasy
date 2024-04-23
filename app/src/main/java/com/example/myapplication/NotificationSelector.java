@@ -9,15 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RewardsDataAccess;
 import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.Challenges.ChallengesUpdater;
 import Styles.Themes;
 
 public class NotificationSelector extends AppCompatActivity {
     private PreferencesDataUpdate preferencesDataUpdate;
     private RewardsDataAccess rewardsDataAccess;
+    private ChallengesUpdater challengesUpdater;
     private List<ImageView> sounds;
     private List<Boolean> given;
 
@@ -28,6 +29,7 @@ public class NotificationSelector extends AppCompatActivity {
 
         preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
         rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
+        challengesUpdater = new ChallengesUpdater(DatabaseConnection.getInstance(this));
 
         given = rewardsDataAccess.getGivenPerType(3);
         sounds = new ArrayList<>();
@@ -58,14 +60,15 @@ public class NotificationSelector extends AppCompatActivity {
     private void setNotificationOnClickListeners() {
         for (int i = 0; i < 15; i++) {
             final int notificationIndex = i;
-            sounds.get(i).setOnClickListener(v -> setNotificationImage(notificationIndex));
+            sounds.get(i).setOnClickListener(v -> setNotification(notificationIndex));
         }
     }
-    private void setNotificationImage(int notificationID ) {
+    private void setNotification(int notificationID ) {
         if (given.get(notificationID)) {
             System.out.println("Notification: " + notificationID);
             preferencesDataUpdate.setNotificationSound(notificationID);
             Toast.makeText(this, "SE HA CAMBIADO EL SONIDO DE NOTIFICACION", Toast.LENGTH_SHORT).show();
+            challengesUpdater.updateNotificationSoundRecord();
             finish();
         }
     }

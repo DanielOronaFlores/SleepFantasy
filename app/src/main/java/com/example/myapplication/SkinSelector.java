@@ -13,11 +13,13 @@ import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RewardsDataAccess;
 import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.Challenges.ChallengesUpdater;
 import Styles.Themes;
 
 public class SkinSelector extends AppCompatActivity {
     private PreferencesDataUpdate preferencesDataUpdate;
     private RewardsDataAccess rewardsDataAccess;
+    private ChallengesUpdater challengesUpdater;
     private List<ImageView> skins;
     private List<Boolean> given;
     @Override
@@ -27,8 +29,9 @@ public class SkinSelector extends AppCompatActivity {
 
         preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
         rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
-        given = rewardsDataAccess.getGivenPerType(4);
+        challengesUpdater = new ChallengesUpdater(DatabaseConnection.getInstance(this));
 
+        given = rewardsDataAccess.getGivenPerType(4);
         skins = new ArrayList<>();
         initializeImageViews();
         setSkinOnClickListeners();
@@ -65,6 +68,7 @@ public class SkinSelector extends AppCompatActivity {
             System.out.println("setAvatarSkin: " + skinID);
             preferencesDataUpdate.setAvatarSkin(skinID);
             Toast.makeText(this, "SE HA CAMBIADO EL ASPECTO DEL AVATAR", Toast.LENGTH_SHORT).show();
+            challengesUpdater.updateAvatarVisualRecord();
             finish();
         }
     }
