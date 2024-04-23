@@ -53,7 +53,7 @@ public class Tips {
         System.out.println("Tip type: " + tipType);
 
         if (tipType == 0) {  // No hay tips disponibles
-            missionsUpdater.updateMission19();
+            missionsUpdater.updateMission19(tipsConditions.length);
             return;
         }
 
