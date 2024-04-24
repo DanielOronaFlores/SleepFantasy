@@ -23,6 +23,17 @@ public class TipsDataAccess {
         }
     }
 
+    public int getCurrentTipId() {
+        String query = "SELECT id FROM Tips WHERE current = 1;";
+        SQLiteStatement statement = database.compileStatement(query);
+        try {
+            long result = statement.simpleQueryForLong();
+            return (int) result;
+        } catch (SQLiteDoneException e) {
+            return -1;
+        }
+    }
+
     public String getLastDateAppeared() {
         String query = "SELECT lastDateAppeared FROM Tips WHERE current = 1;";
         SQLiteStatement statement = database.compileStatement(query);

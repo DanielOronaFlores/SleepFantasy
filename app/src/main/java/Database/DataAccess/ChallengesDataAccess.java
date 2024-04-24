@@ -2,6 +2,7 @@ package Database.DataAccess;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -17,158 +18,144 @@ public class ChallengesDataAccess {
     }
 
     public boolean isChallengeAvailable(int challenge) {
+        boolean available = false;
         String query = "SELECT Displayed FROM Challenges WHERE id = " + challenge + ";";
-        Cursor cursor = database.rawQuery(query, null);
 
-        if (cursor.moveToFirst()) {
-            cursor.close();
-            return true;
-        } else {
-            cursor.close();
-            return false;
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            available = cursor.moveToFirst();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return available;
     }
 
     public boolean allChallengesDisplayed() {
+        boolean allDisplayed = true;
         String query = "SELECT Displayed FROM Challenges WHERE Displayed = 0;";
-        Cursor cursor = database.rawQuery(query, null);
 
-        if (cursor.moveToFirst()) {
-            cursor.close();
-            return false;
-        } else {
-            cursor.close();
-            return true;
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            allDisplayed = !cursor.moveToFirst();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    }
 
-    public int getActiveChallenge() {
-        String query = "SELECT id FROM Challenges WHERE Active = 1;";
-        Cursor cursor = database.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            int challenge = cursor.getInt(0);
-            cursor.close();
-            return challenge;
-        } else {
-            cursor.close();
-            return 0;
-        }
+        return allDisplayed;
     }
 
     public boolean isCompleted(int challenge) {
+        boolean completed = false;
         String query = "SELECT Completed FROM Challenges WHERE id = " + challenge + ";";
-        Cursor cursor = database.rawQuery(query, null);
 
-        if (cursor.moveToFirst()) {
-            boolean completed = cursor.getInt(0) == 1;
-            cursor.close();
-            return completed;
-        } else {
-            cursor.close();
-            return false;
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            if (cursor.moveToFirst()) {
+                completed = cursor.getInt(0) == 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return completed;
     }
 
-    public boolean isDisplayed(int challenge) {
-        String query = "SELECT Displayed FROM Challenges WHERE id = " + challenge + ";";
-        Cursor cursor = database.rawQuery(query, null);
+    public int getActiveChallenge() {
+        int challengeId = 0;
+        String query = "SELECT id FROM Challenges WHERE Active = 1;";
 
-        if (cursor.moveToFirst()) {
-            boolean displayed = cursor.getInt(0) == 1;
-            cursor.close();
-            return displayed;
-        } else {
-            cursor.close();
-            return false;
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            if (cursor.moveToFirst()) {
+                challengeId = cursor.getInt(0);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return challengeId;
     }
 
     public String getDate(int challenge) {
-        String query = "SELECT OldDate FROM Challenges WHERE id = " + challenge + ";";
-        Cursor cursor = database.rawQuery(query, null);
-
         String date = null;
+        String query = "SELECT OldDate FROM Challenges WHERE id = " + challenge + ";";
 
-        try {
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.moveToFirst()) date = cursor.getString(0);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            cursor.close();
         }
 
         return date;
     }
 
+    public int getCounter(int challenge) {
+        int counter = -1;
+        String query = "SELECT Counter FROM Challenges WHERE id = " + challenge + ";";
 
-    public int getCounter(int mission) {
-        int counter = -1; // Valor predeterminado en caso de que no haya resultados
-
-        String query = "SELECT Counter FROM Challenges WHERE id = " + mission + ";";
-        Cursor cursor = null;
-
-        try {
-            cursor = database.rawQuery(query, null);
-
-            if (cursor != null && cursor.moveToFirst()) {
-                counter = cursor.getInt(cursor.getColumnIndexOrThrow("Counter"));
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            if (cursor.moveToFirst()) {
+                counter = cursor.getInt(0);
             }
-        } finally {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return counter;
     }
 
-    @SuppressLint("Range")
     public List<Integer> getCompletedChallenges() {
         List<Integer> challenges = new ArrayList<>();
         String query = "SELECT id FROM Challenges WHERE Completed = 1;";
-        Cursor cursor = database.rawQuery(query, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                int challengeId = cursor.getInt(cursor.getColumnIndex("id"));
-                challenges.add(challengeId);
-            } while (cursor.moveToNext());
-            cursor.close();
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            int idColumnIndex = cursor.getColumnIndex("id");
+
+            if (idColumnIndex != -1 && cursor.moveToFirst()) {
+                do {
+                    int challengeId = cursor.getInt(idColumnIndex);
+                    challenges.add(challengeId);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return challenges;
     }
 
-    @SuppressLint("Range")
     public List<Integer> getFailedChallenges() {
         List<Integer> challenges = new ArrayList<>();
         String query = "SELECT id FROM Challenges WHERE Completed = 0 AND Displayed = 1 AND Active = 0;";
-        Cursor cursor = database.rawQuery(query, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                int challengeId = cursor.getInt(cursor.getColumnIndex("id"));
-                challenges.add(challengeId);
-            } while (cursor.moveToNext());
-            cursor.close();
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            int idColumnIndex = cursor.getColumnIndex("id");
+
+            if (idColumnIndex != -1 && cursor.moveToFirst()) {
+                do {
+                    int challengeId = cursor.getInt(idColumnIndex);
+                    challenges.add(challengeId);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return challenges;
     }
 
-    @SuppressLint("Range")
     public List<Integer> getUnassignedChallenges() {
         List<Integer> challenges = new ArrayList<>();
         String query = "SELECT id FROM Challenges WHERE Displayed = 0;";
-        Cursor cursor = database.rawQuery(query, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                int challengeId = cursor.getInt(cursor.getColumnIndex("id"));
-                challenges.add(challengeId);
-            } while (cursor.moveToNext());
-            cursor.close();
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            int idColumnIndex = cursor.getColumnIndex("id");
+
+            if (idColumnIndex != -1 && cursor.moveToFirst()) {
+                do {
+                    int challengeId = cursor.getInt(idColumnIndex);
+                    challenges.add(challengeId);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return challenges;

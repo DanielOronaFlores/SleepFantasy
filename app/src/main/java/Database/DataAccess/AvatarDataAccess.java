@@ -34,7 +34,6 @@ public class AvatarDataAccess {
                 age = cursor.getString(0);
             }
         } catch (SQLiteException e) {
-            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
             e.printStackTrace();
         }
         return age;
@@ -48,7 +47,6 @@ public class AvatarDataAccess {
                 level = (byte) cursor.getInt(0);
             }
         } catch (SQLiteException e) {
-            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
             e.printStackTrace();
         }
         return level;
@@ -62,7 +60,6 @@ public class AvatarDataAccess {
                 characterClass = (byte) cursor.getInt(0);
             }
         } catch (SQLiteException e) {
-            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
             e.printStackTrace();
         }
         return characterClass;
@@ -76,7 +73,6 @@ public class AvatarDataAccess {
                 characterPhase = (byte) cursor.getInt(0);
             }
         } catch (SQLiteException e) {
-            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
             e.printStackTrace();
         }
         return characterPhase;
@@ -90,7 +86,6 @@ public class AvatarDataAccess {
                 currentExperience = cursor.getInt(0);
             }
         } catch (SQLiteException e) {
-            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
             e.printStackTrace();
         }
         return currentExperience;
@@ -104,7 +99,6 @@ public class AvatarDataAccess {
                 requiredExperience = cursor.getInt(0);
             }
         } catch (SQLiteException e) {
-            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada.
             e.printStackTrace();
         }
         return requiredExperience;

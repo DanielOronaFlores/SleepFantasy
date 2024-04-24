@@ -100,7 +100,7 @@ public class ShowMissionFragment extends DialogFragment {
             case 17: resourceId = R.string.mission17; break;
             case 18: resourceId = R.string.mission18; break;
             case 19: resourceId = R.string.mission19; break;
-            case 20: resourceId = R.string.mission20; break;
+            //   case 20: resourceId = R.string.mission20; break;
             default: resourceId = R.string.missionDefault;
         }
         return getResources().getString(resourceId);

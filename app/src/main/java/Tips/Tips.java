@@ -33,16 +33,25 @@ public class Tips {
     }
 
     public void updateTip() {
+        if (tipsDataAccess.getCurrentTipId() == -1) {
+            selectTip();
+        }
+
         String lastDateAppeared = tipsDataAccess.getLastDateAppeared();
-       if (DateManager.getDaysDifference(DateManager.getCurrentDate(), lastDateAppeared) > 3) {
-           selectTip();
-       } else System.out.println("No se puede mostrar un nuevo tip debido a que ya se mostró uno recientemente.");
+
+        if (lastDateAppeared != null && DateManager.getDaysDifference(DateManager.getCurrentDate(), lastDateAppeared) > 3) {
+            selectTip();
+        } else
+            System.out.println("No se puede mostrar un nuevo tip debido a que ya se mostró uno recientemente.");
     }
 
     public void selectTip() {
         int sleepEventType = getSleepEventType(); // 0: No hay eventos, 1: Despertares, 2: Cambios de posición, 3: Movimientos bruscos
+        System.out.println("Sleep event type: " + sleepEventType);
         boolean isSleepTimeDecreased = isDecreased();
+        System.out.println("Is sleep time decreased: " + isSleepTimeDecreased);
         boolean isHighLux = getLuxValue() > 50;
+        System.out.println("Is high lux: " + isHighLux);
 
         boolean[] tipsConditions = {sleepEventType > 0, isSleepTimeDecreased, isHighLux};
         int lastTipType = tipsDataAccess.getCurrentTipType();
@@ -52,8 +61,10 @@ public class Tips {
         System.out.println("Last tip type: " + lastTipType);
         System.out.println("Tip type: " + tipType);
 
+
         if (tipType == 0) {  // No hay tips disponibles
             missionsUpdater.updateMission19(tipsConditions.length);
+            System.out.println("No hay tips disponibles");
             return;
         }
 
@@ -134,6 +145,15 @@ public class Tips {
     private int selectTipType(boolean[] tipsConditions, int lastTipType) {
         int counterConditionsType = 0;
         int tipType = 0;
+        boolean isTipAvaible = false;
+
+        for (boolean tipsCondition : tipsConditions) {
+            if (tipsCondition) {
+                isTipAvaible = true;
+                break;
+            }
+        }
+        if (!isTipAvaible) return 0;
 
         for (int i = 0; i < tipsConditions.length; i++) {
             if (tipsConditions[i]) {
