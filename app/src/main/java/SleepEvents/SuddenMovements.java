@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 public class SuddenMovements {
     private final SensorManager sensorManager;
     private final Sensor gyroscopeSensor;
+    boolean canDetectSuddenMovement = true;
     int totalSuddenMovements = 0;
 
     public SuddenMovements(Context context) {
@@ -39,13 +40,16 @@ public class SuddenMovements {
     private final SensorEventListener sensorListenerGyroscope = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            float xRotationRate = event.values[0];
-            float yRotationRate = event.values[1];
-            float zRotationRate = event.values[2];
+            float xRotationRate = Math.abs(event.values[0]);
+            float yRotationRate = Math.abs(event.values[1]);
+            float zRotationRate = Math.abs(event.values[2]);
 
-            if (isSuddenMovement(xRotationRate, yRotationRate, zRotationRate)) {
+            if (isSuddenMovement(xRotationRate, yRotationRate, zRotationRate) && canDetectSuddenMovement) {
                 totalSuddenMovements++;
+                canDetectSuddenMovement = false;
                 System.out.println("Se ha detectado un movimiento brusco.");
+            } else {
+                canDetectSuddenMovement = true;
             }
         }
         @Override

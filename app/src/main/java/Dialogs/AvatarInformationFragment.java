@@ -46,8 +46,13 @@ public class AvatarInformationFragment extends DialogFragment {
         NameClasses nameClasses = new NameClasses();
         txAvatarData.setText(
                 nameClasses.getNameClass(avatarDataAccess.getCharacterClass()) + " - Lvl " +
-                String.valueOf(avatarDataAccess.getLevel()));
-        txExperience.setText(avatarDataAccess.getCurrentExperience() + "/" + avatarDataAccess.getRequiredExperience());
+                String.valueOf(avatarDataAccess.getLevel())
+        );
+        if (avatarDataAccess.getLevel() >= 50) {
+            txExperience.setText(avatarDataAccess.getCurrentExperience());
+        } else {
+            txExperience.setText(avatarDataAccess.getCurrentExperience() + "/" + avatarDataAccess.getRequiredExperience());
+        }
 
         Button monsterVisualizer = view.findViewById(R.id.monster);
         monsterVisualizer.setOnClickListener(v -> {

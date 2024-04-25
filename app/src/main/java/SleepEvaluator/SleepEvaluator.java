@@ -136,11 +136,18 @@ public class SleepEvaluator {
         this.suddenMovements = suddenMovements;
         this.positionChanges = positionChanges;
 
+        System.out.println("----------------- Evaluación de sueño -----------------");
+
         totalSleepTime = SleepData.getTotalSleepTime(lightSleepTime, deepSleepTime, remSleepTime);
         int timeInBed = SleepData.getTimeInBed(vigilTime, (int) totalSleepTime);
         efficiency = SleepData.getSleepEfficiency((int) totalSleepTime, timeInBed);
 
         int category = evaluateSleep();
+
+        System.out.println("Tiempo total: " + totalSleepTime);
+        System.out.println("Tiempo en cama: " + timeInBed);
+        System.out.println("Eficiencia: " + efficiency);
+        System.out.println("Categoria: " + category);
 
         AvatarDataUpdate avatarDataUpdate = new AvatarDataUpdate(connection);
         avatarDataUpdate.updateCharacterPhase((byte) category);
@@ -155,13 +162,10 @@ public class SleepEvaluator {
             monsterConditions[0] = true;
             System.out.println("Monstruos: ha aparecido un monstruo por insomnio");
         }
-
-        AudiosPaths audioPaths = new AudiosPaths();
-        Deserializer deserializer = new Deserializer();
+        
         SecondsCounter secondsCounter = new SecondsCounter();
-        List<Sound> soundsList = deserializer.deserializeFromXML(audioPaths.getListSoundsPath());
+        List<Sound> soundsList = Deserializer.deserializeFromXML(AudiosPaths.getListSoundsPath());
         int loudSoundsMinutes = secondsCounter.getTotalSeconds(soundsList) * 60;
-        System.out.println("Minutos de ruido fuerte: " + loudSoundsMinutes);
         if (MonsterConditions.isLoudSound(loudSoundsMinutes)) {
             monsterConditions[1] = true;
             System.out.println("Monstruos: ha aparecido un monstruo por ruido fuerte");

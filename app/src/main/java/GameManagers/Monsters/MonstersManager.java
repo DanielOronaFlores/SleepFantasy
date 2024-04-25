@@ -30,7 +30,10 @@ public class MonstersManager {
         dateManager = new DateManager();
     }
 
-    public void updateMonster(boolean[] monsterConditions) {
+    public void updateMonster(boolean[] monsterConditions) { // appearingMonsters = {insomnia, loudSound, anxiety, nightmare, somnambulism}
+        System.out.println("---------Evaluacion de monstruos---------");
+        System.out.println("Insomnio | Ruido | Ansiedad | Pesadilla | Sonambulismo");
+
         for (boolean monster : monsterConditions) {
             System.out.print("Monstruo: " + monster + " ");
         }

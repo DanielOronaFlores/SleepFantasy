@@ -1,7 +1,7 @@
 package GameManagers.Missions;
 
 public class MissionsUpdater {
-    private final MissionsManager missionsManager;
+    private static MissionsManager missionsManager;
 
     public MissionsUpdater() {
         missionsManager = new MissionsManager();
@@ -25,7 +25,7 @@ public class MissionsUpdater {
         }
     }
 
-    public void updateMission4(float light) {
+    public static void updateMission4(float light) {
         if (light < 100) {
             missionsManager.updateMission(4, 1);
         }

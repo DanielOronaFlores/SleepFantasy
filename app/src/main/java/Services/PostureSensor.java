@@ -53,6 +53,7 @@ public class PostureSensor extends Service {
     @SuppressLint("ForegroundServiceType")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println("Posture Sensor Service started");
         Notification notification = createNotification();
         startForeground(1, notification);
 
@@ -96,6 +97,9 @@ public class PostureSensor extends Service {
             managerAccelerometer.registerListener(sensorListenerAccelerometer, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
             managerGyroscope.registerListener(sensorListenerGyroscope, sensorGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
 
+            System.out.println("isHorizontal: " + isHorizontal);
+            System.out.println("isLowRotation: " + isLowRotation);
+
             if (isUserLyingDown()) {
                 startService(sleepTrackerServiceIntent);
                 stopSelf();
@@ -129,11 +133,9 @@ public class PostureSensor extends Service {
             float yRotationRate = event.values[1];
             float zRotationRate = event.values[2];
 
-            if (xRotationRate != 0.0f || yRotationRate != 0.0f || zRotationRate != 0.0f) {
-                double magnitude = Math.sqrt(xRotationRate * xRotationRate + yRotationRate * yRotationRate + zRotationRate * zRotationRate);
-                double threshold = 0.5;
-                isLowRotation = magnitude < threshold;
-            }
+            double magnitude = Math.sqrt(xRotationRate * xRotationRate + yRotationRate * yRotationRate + zRotationRate * zRotationRate);
+            double threshold = 0.5;
+            isLowRotation = magnitude < threshold;
 
         }
 

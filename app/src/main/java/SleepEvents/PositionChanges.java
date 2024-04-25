@@ -37,11 +37,21 @@ public class PositionChanges {
     }
 
     private void changeAccelerometerThreshold() {
+        // Imprimir los valores del previo umbral
+        System.out.println("-----------UMBRAL DE CAMBIO DE POSICION-----------");
+        System.out.println("Umbral X: " + accelerometerXThreshold[0] + " - " + accelerometerXThreshold[1]);
+        System.out.println("Umbral Y: " + accelerometerYThreshold[0] + " - " + accelerometerYThreshold[1]);
+
         accelerometerXThreshold[0] = accelerometerValues[0] - 5;
         accelerometerXThreshold[1] = accelerometerValues[0] + 5;
 
         accelerometerYThreshold[0] = accelerometerValues[1] - 5;
         accelerometerYThreshold[1] = accelerometerValues[1] + 5;
+
+        // Imprimir los valores del nuevo umbral
+        System.out.println("Nuevo umbral X: " + accelerometerXThreshold[0] + " - " + accelerometerXThreshold[1]);
+        System.out.println("Nuevo umbral Y: " + accelerometerYThreshold[0] + " - " + accelerometerYThreshold[1]);
+        System.out.println("---------------------------------------------------");
     }
 
     private boolean isPositionChangeDetected() {

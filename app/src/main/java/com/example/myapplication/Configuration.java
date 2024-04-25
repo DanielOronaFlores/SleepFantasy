@@ -60,7 +60,7 @@ public class Configuration extends AppCompatActivity {
         });
 
         buttonSavePreferences.setOnClickListener(view ->
-                setUserData(editTextName.getText().toString(), Byte.parseByte(editTextAge.getText().toString()))
+                setUserData(editTextName.getText().toString(), editTextAge.getText().toString())
         );
         buttonChangeAudioQuality.setOnClickListener(view -> updateQuality());
         buttonChangeTheme.setOnClickListener(view -> {
@@ -95,19 +95,27 @@ public class Configuration extends AppCompatActivity {
         setTheme();
     }
 
-    private void setUserData(String name, byte age) {
-        if (!name.isEmpty() && age > 0) {
+    private void setUserData(String name, String age) {
+        if (name.isEmpty()) {
+            Toast.makeText(this, "INGRESE UN NOMBRE", Toast.LENGTH_SHORT).show();
+        } else if (age.isEmpty()) {
+            Toast.makeText(this, "INGRESE UNA EDAD", Toast.LENGTH_SHORT).show();
+        } else {
+            byte ageByte = Byte.parseByte(age);
+            if (ageByte <= 0 || ageByte >= 100) {
+                Toast.makeText(this, "EDAD INVALIDA", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             preferencesDataUpdate.updatePreferences(checkBoxSaveRecordings.isChecked(), checkBoxRecordAudios.isChecked());
             if (avatarManager.isAvatarCreated()) {
-                avatarDataUpdate.updateNameAndAge(name, age);
+                avatarDataUpdate.updateNameAndAge(name, ageByte);
                 finish();
                 goToMainMenu();
             } else {
-                goToCharacterChoice(name, age);
+                goToCharacterChoice(name, ageByte);
             }
             Toast.makeText(this, "PREFERENCIAS GUARDADAS", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "DATOS INGRESADOS NO VALIDOS", Toast.LENGTH_SHORT).show();
         }
     }
 

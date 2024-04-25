@@ -15,7 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import Models.Sound;
 
 public class Deserializer {
-    public List<Sound> deserializeFromXML(String fileName) {
+    public static List<Sound> deserializeFromXML(String fileName) {
         List<Sound> soundList = new ArrayList<>();
 
         try {

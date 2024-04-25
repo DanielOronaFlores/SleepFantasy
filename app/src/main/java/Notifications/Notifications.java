@@ -64,4 +64,30 @@ public class Notifications {
             notificationManager.notify(3, builder.build());
         }
     }
+
+    public static void showMissingSensorsNotification() {
+        Context context = MyApplication.getAppContext();
+
+        NotificationUtils.createNotificationChannel(context);
+        NotificationCompat.Builder builder = NotificationUtils.createNotificationBuilder("¡Faltan sensores!",
+                "No será posible realizar el rastero sin los sensores necesarios.");
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(4, builder.build());
+        }
+    }
+
+    public static void showMissingDataNotification() {
+        Context context = MyApplication.getAppContext();
+
+        NotificationUtils.createNotificationChannel(context);
+        NotificationCompat.Builder builder = NotificationUtils.createNotificationBuilder("¡Error al guardar tu ciclo de sueños!",
+                "Parece que no pudimos registrar una fase de sueño. Por favor, intenta nuevamente.");
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(5, builder.build());
+        }
+    }
 }
