@@ -4,21 +4,21 @@ import android.database.sqlite.SQLiteDatabase;
 
 import Database.DatabaseConnection;
 
-public class SongsDataUpdate {
+public class AudiosDataUpdate {
     private final SQLiteDatabase database;
 
-    public SongsDataUpdate(DatabaseConnection connection) {
+    public AudiosDataUpdate(DatabaseConnection connection) {
         this.database = connection.getDatabase();
     }
 
-    public void addSong(String songName, boolean createdBySystem) {
-        int ibBySystem = createdBySystem ? 1 : 0;
-        String query = "INSERT INTO Songs (name, ibBySystem) VALUES (?, ?)";
-        database.execSQL(query, new String[]{songName, String.valueOf(ibBySystem)});
+    public void addaudio(String audioName, boolean createdBySystem) {
+        int createdBySystem = createdBySystem ? 1 : 0;
+        String query = "INSERT INTO Audios (name, createdBySystem) VALUES (?, ?)";
+        database.execSQL(query, new String[]{audioName, String.valueOf(createdBySystem)});
     }
 
-    public void deleteSong(String songName) {
-        String query = "DELETE FROM Songs WHERE name = ?";
-        database.execSQL(query, new String[]{songName});
+    public void deleteaudio(String audioName) {
+        String query = "DELETE FROM Audios WHERE name = ?";
+        database.execSQL(query, new String[]{audioName});
     }
 }

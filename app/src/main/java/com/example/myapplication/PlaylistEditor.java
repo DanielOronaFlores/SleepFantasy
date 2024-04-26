@@ -16,9 +16,9 @@ import java.util.Objects;
 
 import Adapters.AdapterPlaylistCreator;
 import Database.DataAccess.PlaylistDataAccess;
-import Database.DataAccess.PlaylistSongsDataAccess;
+import Database.DataAccess.PlaylistAudiosDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
-import Database.DataUpdates.PlaylistSongsDataUpdate;
+import Database.DataUpdates.PlaylistAudiosDataUpdate;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
 import Models.Audio;
@@ -26,14 +26,14 @@ import Styles.Themes;
 
 public class PlaylistEditor extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private final PlaylistSongsDataAccess playlistSongsDataAccess = new PlaylistSongsDataAccess(connection);
+    private final PlaylistAudiosDataAccess PlaylistAudiosDataAccess = new PlaylistAudiosDataAccess(connection);
     private final PlaylistDataAccess playlistDataAccess = new PlaylistDataAccess(connection);
     private final PlaylistDataUpdate playlistDataUpdate = new PlaylistDataUpdate(connection);
-    private final PlaylistSongsDataUpdate playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
+    private final PlaylistAudiosDataUpdate PlaylistAudiosDataUpdate = new PlaylistAudiosDataUpdate(connection);
     private RecyclerView recyclerView;
     private EditText playlistName;
-    private List<Audio> songs, selectedSongs;
-    private boolean addSongsMode;
+    private List<Audio> Audios, selectedAudios;
+    private boolean addAudiosMode;
     private int playlistID;
 
     @Override
@@ -49,16 +49,16 @@ public class PlaylistEditor extends AppCompatActivity {
         playlistName = findViewById(R.id.editPlaylistName);
         playlistName.setText(playlistDataAccess.getPlaylistTitle(playlistID));
 
-        Button addSongs = findViewById(R.id.addSongs);
-        addSongs.setOnClickListener(v -> showNotInPlaylist(playlistID));
+        Button addAudios = findViewById(R.id.addAudios);
+        addAudios.setOnClickListener(v -> showNotInPlaylist(playlistID));
 
-        Button deleteSongs = findViewById(R.id.deleteSongs);
-        deleteSongs.setOnClickListener(v -> showInPlaylist(playlistID));
+        Button deleteAudios = findViewById(R.id.deleteAudios);
+        deleteAudios.setOnClickListener(v -> showInPlaylist(playlistID));
 
         Button editPlaylist = findViewById(R.id.editPlaylist);
         editPlaylist.setOnClickListener(v -> updatePlaylist());
 
-        recyclerView = findViewById(R.id.recyclerEditSongs);
+        recyclerView = findViewById(R.id.recyclerEditAudios);
     }
 
     @Override
@@ -67,38 +67,38 @@ public class PlaylistEditor extends AppCompatActivity {
         setTheme();
     }
 
-    private void generateSongsList(List<Audio> songs) {
+    private void generateAudiosList(List<Audio> Audios) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new AdapterPlaylistCreator(songs));
+        recyclerView.setAdapter(new AdapterPlaylistCreator(Audios));
     }
 
     private void showInPlaylist(int playlistID) {
-        addSongsMode = false;
-        songs = playlistSongsDataAccess.getSongsFromPlaylist(playlistID);
-        generateSongsList(songs);
+        addAudiosMode = false;
+        Audios = PlaylistAudiosDataAccess.getAudiosFromPlaylist(playlistID);
+        generateAudiosList(Audios);
     }
     private void showNotInPlaylist(int playlistID) {
-        addSongsMode = true;
-        songs = playlistSongsDataAccess.getNotSongsFromPlaylist(playlistID);
-        generateSongsList(songs);
+        addAudiosMode = true;
+        Audios = PlaylistAudiosDataAccess.getNotAudiosFromPlaylist(playlistID);
+        generateAudiosList(Audios);
     }
 
-    private void deleteSongsFromPlaylist() {
-        for (Audio song : selectedSongs) {
-            if (song.getIbBySystem() == 0) {
+    private void deleteAudiosFromPlaylist() {
+        for (Audio audio: selectedAudios) {
+            if (audio.getcreatedBySystem() == 0) {
                 ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
                 challengesUploader.updateDeleteAudioRecord();
             }
-            playlistSongsDataUpdate.deleteAudioFromPlaylist(playlistID, song.getId());
+            PlaylistAudiosDataUpdate.deleteAudioFromPlaylist(playlistID, audio.getId());
         }
     }
-    private void addSongsToPlaylist() {
-        for (Audio song : selectedSongs) {
-            playlistSongsDataUpdate.addSongToPlaylist(playlistID, song.getId());
+    private void addAudiosToPlaylist() {
+        for (Audio audio: selectedAudios) {
+            PlaylistAudiosDataUpdate.addaudioToPlaylist(playlistID, audio.getId());
         }
     }
 
-    private boolean isEditingSongs() {
+    private boolean isEditingAudios() {
         return recyclerView.getAdapter() instanceof AdapterPlaylistCreator;
     }
     private void updatePlaylistName(String name) {
@@ -112,15 +112,15 @@ public class PlaylistEditor extends AppCompatActivity {
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Nombre de playlist no puede estar vacío", Toast.LENGTH_SHORT).show();
         } else {
-            if (isEditingSongs()) {
-                selectedSongs = ((AdapterPlaylistCreator) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedSongs();
-                if (addSongsMode) {
-                    addSongsToPlaylist();
+            if (isEditingAudios()) {
+                selectedAudios = ((AdapterPlaylistCreator) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedAudios();
+                if (addAudiosMode) {
+                    addAudiosToPlaylist();
                     Toast.makeText(this, "Audios agregados a la playlist", Toast.LENGTH_SHORT).show();
                 } else {
-                    deleteSongsFromPlaylist();
+                    deleteAudiosFromPlaylist();
                     Toast.makeText(this, "Audios eliminados de la playlist", Toast.LENGTH_SHORT).show();
-                    if (selectedSongs.size() == songs.size()) {
+                    if (selectedAudios.size() == Audios.size()) {
                         Toast.makeText(this, "No hay audios en la playlist, lista eliminada", Toast.LENGTH_SHORT).show();
                         playlistDataUpdate.deletePlaylist(playlistID);
                     }
@@ -134,8 +134,8 @@ public class PlaylistEditor extends AppCompatActivity {
 
     private void setTheme() {
         Themes.setBackgroundColor(this, findViewById(R.id.playlistEditor));
-        Themes.setButtonTheme(this, findViewById(R.id.addSongs));
-        Themes.setButtonTheme(this, findViewById(R.id.deleteSongs));
+        Themes.setButtonTheme(this, findViewById(R.id.addAudios));
+        Themes.setButtonTheme(this, findViewById(R.id.deleteAudios));
         Themes.setButtonTheme(this, findViewById(R.id.editPlaylist));
     }
 }

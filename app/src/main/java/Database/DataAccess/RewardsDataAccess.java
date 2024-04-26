@@ -43,46 +43,4 @@ public class RewardsDataAccess {
             return 0;
         }
     }
-
-
-    public int getTotalRewards() {
-        String columnName = "id";
-        Cursor cursor = database.query("Rewards", new String[]{columnName}, null, null, null, null, null);
-        int totalRewards = cursor.getCount();
-        cursor.close();
-        return totalRewards;
-    }
-
-    public List<Boolean> getGivenPerType(int type) {
-        String columnName = "given";
-        Cursor cursor = database.query("Rewards", new String[]{columnName}, "type = " + type, null, null, null, null);
-        List<Boolean> given = new ArrayList<>();
-
-        while (cursor.moveToNext()) {
-            int columnIndex = cursor.getColumnIndex(columnName);
-            given.add(cursor.getInt(columnIndex) == 1);
-        }
-
-        cursor.close();
-        return given;
-    }
-
-    public int getFirstRewardIdWithType(int type) {
-        String columnName = "id";
-        String selection = "type = ?";
-        String[] selectionArgs = {String.valueOf(type)};
-
-        Cursor cursor = database.query("Rewards", new String[]{columnName}, selection, selectionArgs, null, null, null);
-
-        int rewardId = 0; // Inicializamos con 0, en caso de que no se encuentre ningún resultado
-
-        if (cursor.moveToFirst()) {
-            int columnIndex = cursor.getColumnIndex(columnName);
-            rewardId = cursor.getInt(columnIndex);
-        }
-
-        cursor.close();
-        return rewardId;
-    }
-
 }

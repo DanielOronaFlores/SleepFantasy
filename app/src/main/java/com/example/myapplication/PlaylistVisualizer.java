@@ -14,7 +14,7 @@ import java.util.List;
 
 import Adapters.AdapterAudios;
 import Database.DataAccess.PlaylistDataAccess;
-import Database.DataAccess.PlaylistSongsDataAccess;
+import Database.DataAccess.PlaylistAudiosDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
 import Database.DatabaseConnection;
 import Models.Audio;
@@ -23,14 +23,14 @@ import Styles.Themes;
 public class PlaylistVisualizer extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
     private final PlaylistDataAccess playListDataAccess = new PlaylistDataAccess(connection);
-    private final PlaylistSongsDataAccess playlistSongsDataAccess = new PlaylistSongsDataAccess(connection);
+    private final PlaylistAudiosDataAccess PlaylistAudiosDataAccess = new PlaylistAudiosDataAccess(connection);
     private final PlaylistDataUpdate playlistDataUpdate = new PlaylistDataUpdate(connection);
     private RecyclerView recyclerView;
-    private AdapterAudios adapterSongs;
+    private AdapterAudios adapterAudios;
     private TextView playlistTitle;
     private ImageView deletePlaylist, editPlaylist;
     private int playlistID;
-    private List<Audio> songs;
+    private List<Audio> Audios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class PlaylistVisualizer extends AppCompatActivity {
             throw new RuntimeException("Playlist ID not found");
         }
 
-        recyclerView = findViewById(R.id.recyclerSongsSelector);
+        recyclerView = findViewById(R.id.recyclerAudiosSelector);
         playlistTitle = findViewById(R.id.playlistTitle);
 
         deletePlaylist = findViewById(R.id.deletePlaylist);
@@ -72,19 +72,19 @@ public class PlaylistVisualizer extends AppCompatActivity {
         }
 
         setPlaylistTitle();
-        setSongsList();
+        setAudiosList();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        songs = playlistSongsDataAccess.getSongsFromPlaylist(playlistID);
-        if (songs.isEmpty()) {
+        Audios = PlaylistAudiosDataAccess.getAudiosFromPlaylist(playlistID);
+        if (Audios.isEmpty()) {
             playlistDataUpdate.deletePlaylist(playlistID);
             finish();
         } else {
             setPlaylistTitle();
-            setSongsList();
+            setAudiosList();
         }
 
         setTheme();
@@ -94,10 +94,10 @@ public class PlaylistVisualizer extends AppCompatActivity {
         String title = playListDataAccess.getPlaylistTitle(playlistID);
         playlistTitle.setText(title);
     }
-    private void setSongsList() {
-        adapterSongs = new AdapterAudios(songs, this);
+    private void setAudiosList() {
+        adapterAudios = new AdapterAudios(Audios, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapterSongs);
+        recyclerView.setAdapter(adapterAudios);
     }
     private void deletePlaylist() {
         playlistDataUpdate.deletePlaylist(playlistID);

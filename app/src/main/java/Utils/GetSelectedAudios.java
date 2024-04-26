@@ -6,13 +6,13 @@ import java.util.List;
 import Models.Audio;
 
 public class GetSelectedAudios {
-    public List<Audio> getSelectedSongs(List<Audio> songs, List<Boolean> checkedList) {
-        List<Audio> selectedSongs = new ArrayList<>();
-        for (int i = 0; i < songs.size(); i++) {
+    public List<Audio> getSelectedAudios(List<Audio> Audios, List<Boolean> checkedList) {
+        List<Audio> selectedAudios = new ArrayList<>();
+        for (int i = 0; i < Audios.size(); i++) {
             if (checkedList.get(i)) {
-                selectedSongs.add(songs.get(i));
+                selectedAudios.add(Audios.get(i));
             }
         }
-        return selectedSongs;
+        return selectedAudios;
     }
 }

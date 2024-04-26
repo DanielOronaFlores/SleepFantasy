@@ -1,6 +1,5 @@
 package Database.DataAccess;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -90,7 +89,6 @@ public class PreferencesDataAccess {
         cursor.close();
         return avatarSkin;
     }
-
 
     public int getNotificationSound() {
         String[] columns = {"notification"};

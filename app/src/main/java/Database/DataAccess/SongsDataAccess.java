@@ -12,29 +12,29 @@ import java.util.List;
 import Database.DatabaseConnection;
 import Models.Audio;
 
-public class SongsDataAccess {
+public class AudiosDataAccess {
     private final SQLiteDatabase database;
-    public SongsDataAccess(DatabaseConnection connection) {
+    public AudiosDataAccess(DatabaseConnection connection) {
         this.database = connection.getDatabase();
     }
 
-    public int getSongID(String songTitle) {
-        int songID = -1;
+    public int getaudioID(String audioTitle) {
+        int audioID = -1;
 
-        try (SQLiteStatement statement = database.compileStatement("SELECT id FROM Songs WHERE name = ?")) {
-            statement.bindString(1, songTitle);
+        try (SQLiteStatement statement = database.compileStatement("SELECT id FROM Audios WHERE name = ?")) {
+            statement.bindString(1, audioTitle);
             long result = statement.simpleQueryForLong();
-            songID = (int) result;
+            audioID = (int) result;
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return songID;
+        return audioID;
     }
 
-    public List<Audio> getAllSongs() {
-        List<Audio> songList = new ArrayList<>();
-        String query = "SELECT * FROM Songs;";
+    public List<Audio> getAllAudios() {
+        List<Audio> audioList = new ArrayList<>();
+        String query = "SELECT * FROM Audios;";
 
         Cursor cursor = database.rawQuery(query, null);
 
@@ -42,29 +42,29 @@ public class SongsDataAccess {
             do {
                 @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("id"));
                 @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
-                @SuppressLint("Range") int ibBySystem = cursor.getInt(cursor.getColumnIndex("ibBySystem"));
+                @SuppressLint("Range") int createdBySystem = cursor.getInt(cursor.getColumnIndex("createdBySystem"));
 
-                Audio song = new Audio(id, name, ibBySystem);
-                songList.add(song);
+                Audio audio= new Audio(id, name, createdBySystem);
+                audioList.add(audio);
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return songList;
+        return audioList;
     }
 
     public List<String> getAudiosNotCreatedBySystem() {
-        List<String> songList = new ArrayList<>();
-        String query = "SELECT name FROM Songs WHERE ibBySystem = 0;";
+        List<String> audioList = new ArrayList<>();
+        String query = "SELECT name FROM Audios WHERE createdBySystem = 0;";
 
         Cursor cursor = database.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
                 @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
-                songList.add(name);
+                audioList.add(name);
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return songList;
+        return audioList;
     }
 }

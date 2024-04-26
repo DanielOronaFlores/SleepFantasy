@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import AppContext.MyApplication;
-import Database.DataAccess.SongsDataAccess;
+import Database.DataAccess.AudiosDataAccess;
 import Database.DatabaseConnection;
 import Files.AudiosPaths;
 
@@ -85,8 +85,8 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
     }
     private void deletedAudiosAlreadyInDatabase() {
         DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
-        SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
-        List<String> audiosInDatabase = songsDataAccess.getAudiosNotCreatedBySystem();
+        AudiosDataAccess AudiosDataAccess = new AudiosDataAccess(connection);
+        List<String> audiosInDatabase = AudiosDataAccess.getAudiosNotCreatedBySystem();
         audiosFileName.removeIf(audiosInDatabase::contains);
     }
     @SuppressLint("NewApi")
@@ -117,8 +117,8 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            audioName = itemView.findViewById(R.id.songElement);
-            checkBox = itemView.findViewById(R.id.songCheckBox);
+            audioName = itemView.findViewById(R.id.audioElement);
+            checkBox = itemView.findViewById(R.id.audioCheckBox);
 
             checkBox.setOnClickListener(v -> {
                 int position = getAbsoluteAdapterPosition();

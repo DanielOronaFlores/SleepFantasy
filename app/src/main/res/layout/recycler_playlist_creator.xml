@@ -6,13 +6,13 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/songElement"
+        android:id="@+id/audioElement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"/>
 
     <CheckBox
-        android:id="@+id/songCheckBox"
+        android:id="@+id/audioCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"/>

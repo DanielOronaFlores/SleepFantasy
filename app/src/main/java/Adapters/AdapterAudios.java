@@ -27,15 +27,15 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
     private final List<Audio> audios;
     private final Activity activity;
 
-    public AdapterAudios(List<Audio> songs, Activity activity) {
-        this.audios = songs;
+    public AdapterAudios(List<Audio> Audios, Activity activity) {
+        this.audios = Audios;
         this.activity = activity;
     }
 
     @NonNull
     @Override
     public AdapterAudios.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_song_selector, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_audio_selector, parent, false);
 
         IntentFilter filter = new IntentFilter("RECREAR_ACTIVIDAD");
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, filter);
@@ -44,7 +44,7 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
     }
     @Override
     public void onBindViewHolder(@NonNull AdapterAudios.ViewHolder holder, int position) {
-        holder.setSongs(audios.get(position).getName());
+        holder.setAudios(audios.get(position).getName());
         holder.button.setOnClickListener(v -> {
 
             Intent intent = new Intent(activity, AudioPlayer.class);
@@ -64,9 +64,9 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
         private final Button button;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            button = itemView.findViewById(R.id.selectSong);
+            button = itemView.findViewById(R.id.selectaudio);
         }
-        public void setSongs(String s) {
+        public void setAudios(String s) {
             button.setText(s);
             Themes.setButtonDataTheme(button.getContext(), button);
         }

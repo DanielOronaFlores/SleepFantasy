@@ -2,31 +2,29 @@ package Services;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
 import AppContext.MyApplication;
+import Notifications.Notifications;
 
 public class PostureSensor extends Service {
-    private SensorManager managerAccelerometer, managerGyroscope;
-    private Sensor sensorAccelerometer, sensorGyroscope;
+    private SensorManager sensorManager;
+    private Sensor sensorAccelerometer, sensorGyroscope, sensorHeartRate;
     private Handler handler;
     private Intent sleepTrackerServiceIntent;
     private boolean isHorizontal = false;
     private boolean isLowRotation = false;
+    private boolean isHeartRateLow = false;
 
     @Nullable
     @Override
@@ -37,13 +35,12 @@ public class PostureSensor extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        managerAccelerometer = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorAccelerometer = managerAccelerometer.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorGyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        sensorHeartRate = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
 
-        managerGyroscope = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorGyroscope = managerGyroscope.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-
-        if (sensorAccelerometer == null || sensorGyroscope == null) stopSelf();
+        if (sensorAccelerometer == null || sensorGyroscope == null || sensorHeartRate == null) stopSelf();
 
         handler = new Handler(Looper.getMainLooper());
 
@@ -54,7 +51,7 @@ public class PostureSensor extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         System.out.println("Posture Sensor Service started");
-        Notification notification = createNotification();
+        Notification notification = Notifications.getNotification();
         startForeground(1, notification);
 
         runnable.run();
@@ -67,46 +64,30 @@ public class PostureSensor extends Service {
         super.onDestroy();
 
         handler.removeCallbacks(runnable);
-        managerAccelerometer.unregisterListener(sensorListenerAccelerometer);
-        managerGyroscope.unregisterListener(sensorListenerGyroscope);
-    }
-
-    private Notification createNotification() {
-        NotificationChannel channel;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            channel = new NotificationChannel("sleep_tracker_channel",
-                    "Sleep Tracker Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "sleep_tracker_channel")
-                .setContentTitle("Sleep Tracker Service")
-                .setContentText("Running");
-
-        return builder.build();
+        sensorManager.unregisterListener(sensorListenerAccelerometer);
+        sensorManager.unregisterListener(sensorListenerGyroscope);
+        sensorManager.unregisterListener(sensorListenerHeartRate);
     }
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            managerAccelerometer.registerListener(sensorListenerAccelerometer, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-            managerGyroscope.registerListener(sensorListenerGyroscope, sensorGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(sensorListenerAccelerometer, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(sensorListenerGyroscope, sensorGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(sensorListenerHeartRate, sensorHeartRate, SensorManager.SENSOR_DELAY_NORMAL);
 
+            System.out.println("----------POSICION----------");
             System.out.println("isHorizontal: " + isHorizontal);
             System.out.println("isLowRotation: " + isLowRotation);
+            System.out.println("isHeartRateLow: " + isHeartRateLow);
 
             if (isUserLyingDown()) {
                 startService(sleepTrackerServiceIntent);
                 stopSelf();
             }
 
-            // 1 segundos
-            long delay = 1000;
+            System.out.println("-----------------------------");
+            long delay = 5000;
             handler.postDelayed(this, delay);
         }
     };
@@ -133,10 +114,21 @@ public class PostureSensor extends Service {
             float yRotationRate = event.values[1];
             float zRotationRate = event.values[2];
 
+            //Velocidad angular
             double magnitude = Math.sqrt(xRotationRate * xRotationRate + yRotationRate * yRotationRate + zRotationRate * zRotationRate);
-            double threshold = 0.5;
+            double threshold = sensorGyroscope.getMaximumRange() * 0.1;
             isLowRotation = magnitude < threshold;
+        }
 
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+    };
+
+    private final SensorEventListener sensorListenerHeartRate = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            isHeartRateLow = event.values[0] < 65;
         }
 
         @Override
@@ -145,6 +137,6 @@ public class PostureSensor extends Service {
     };
 
     private boolean isUserLyingDown() {
-        return isHorizontal && isLowRotation;
+        return isHeartRateLow && isLowRotation;
     }
 }

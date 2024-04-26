@@ -1,506 +1,726 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Para la categoria 1 (exclente) -->
     <instance>
-        <totalSleepTime>360</totalSleepTime>
-        <lightSleepTime>66.66</lightSleepTime>
-        <deepSleepTime>16.66</deepSleepTime>
-        <remSleepTime>16.66</remSleepTime>
-        <efficiency>85</efficiency>
+        <totalSleepTime>480</totalSleepTime>
+        <lightSleepTime>55.00</lightSleepTime>
+        <deepSleepTime>23.33</deepSleepTime>
+        <remSleepTime>22.50</remSleepTime>
+        <efficiency>90</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>1</suddenMovements>
+        <positionChanges>2</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>520</totalSleepTime>
+        <lightSleepTime>52.00</lightSleepTime>
+        <deepSleepTime>21.67</deepSleepTime>
+        <remSleepTime>24.17</remSleepTime>
+        <efficiency>92</efficiency>
         <awakenings>1</awakenings>
+        <suddenMovements>0</suddenMovements>
+        <positionChanges>1</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>450</totalSleepTime>
+        <lightSleepTime>58.00</lightSleepTime>
+        <deepSleepTime>25.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>88</efficiency>
+        <awakenings>0</awakenings>
         <suddenMovements>2</suddenMovements>
-        <positionChanges>10</positionChanges>
+        <positionChanges>3</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>500</totalSleepTime>
+        <lightSleepTime>54.00</lightSleepTime>
+        <deepSleepTime>22.50</deepSleepTime>
+        <remSleepTime>23.33</remSleepTime>
+        <efficiency>95</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>1</suddenMovements>
+        <positionChanges>0</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>430</totalSleepTime>
+        <lightSleepTime>57.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>87</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>0</suddenMovements>
+        <positionChanges>1</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>510</totalSleepTime>
+        <lightSleepTime>50.00</lightSleepTime>
+        <deepSleepTime>24.17</deepSleepTime>
+        <remSleepTime>21.67</remSleepTime>
+        <efficiency>91</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>0</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>470</totalSleepTime>
+        <lightSleepTime>53.00</lightSleepTime>
+        <deepSleepTime>22.50</deepSleepTime>
+        <remSleepTime>22.50</remSleepTime>
+        <efficiency>90</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>1</suddenMovements>
+        <positionChanges>2</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>530</totalSleepTime>
+        <lightSleepTime>51.00</lightSleepTime>
+        <deepSleepTime>23.33</deepSleepTime>
+        <remSleepTime>23.33</remSleepTime>
+        <efficiency>93</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>0</suddenMovements>
+        <positionChanges>3</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>440</totalSleepTime>
+        <lightSleepTime>55.00</lightSleepTime>
+        <deepSleepTime>21.67</deepSleepTime>
+        <remSleepTime>21.67</remSleepTime>
+        <efficiency>88</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>1</suddenMovements>
+        <positionChanges>1</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>490</totalSleepTime>
+        <lightSleepTime>59.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>85</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>2</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>540</totalSleepTime>
+        <lightSleepTime>52.00</lightSleepTime>
+        <deepSleepTime>25.00</deepSleepTime>
+        <remSleepTime>25.00</remSleepTime>
+        <efficiency>95</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>0</suddenMovements>
+        <positionChanges>0</positionChanges>
+        <category>1</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>500</totalSleepTime>
+        <lightSleepTime>56.00</lightSleepTime>
+        <deepSleepTime>22.00</deepSleepTime>
+        <remSleepTime>22.00</remSleepTime>
+        <efficiency>89</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>1</suddenMovements>
+        <positionChanges>0</positionChanges>
         <category>1</category>
     </instance>
 
     <instance>
         <totalSleepTime>420</totalSleepTime>
-        <lightSleepTime>71.41</lightSleepTime>
-        <deepSleepTime>19.04</deepSleepTime>
-        <remSleepTime>9.52</remSleepTime>
-        <efficiency>80</efficiency>
-        <awakenings>2</awakenings>
-        <suddenMovements>3</suddenMovements>
-        <positionChanges>12</positionChanges>
-        <category>2</category>
+        <lightSleepTime>51.00</lightSleepTime>
+        <deepSleepTime>24.00</deepSleepTime>
+        <remSleepTime>24.00</remSleepTime>
+        <efficiency>92</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>0</suddenMovements>
+        <positionChanges>2</positionChanges>
+        <category>1</category>
     </instance>
 
     <instance>
-        <totalSleepTime>390</totalSleepTime>
-        <lightSleepTime>69.23</lightSleepTime>
-        <deepSleepTime>17.94</deepSleepTime>
-        <remSleepTime>12.82</remSleepTime>
-        <efficiency>75</efficiency>
-        <awakenings>3</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>11</positionChanges>
-        <category>3</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>330</totalSleepTime>
-        <lightSleepTime>60.60</lightSleepTime>
-        <deepSleepTime>27.27</deepSleepTime>
-        <remSleepTime>12.12</remSleepTime>
-        <efficiency>70</efficiency>
-        <awakenings>4</awakenings>
+        <totalSleepTime>520</totalSleepTime>
+        <lightSleepTime>58.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>86</efficiency>
+        <awakenings>1</awakenings>
         <suddenMovements>2</suddenMovements>
-        <positionChanges>8</positionChanges>
-        <category>4</category>
+        <positionChanges>3</positionChanges>
+        <category>1</category>
     </instance>
 
     <instance>
-        <totalSleepTime>300</totalSleepTime>
-        <lightSleepTime>60</lightSleepTime>
-        <deepSleepTime>26.66</deepSleepTime>
-        <remSleepTime>13.33</remSleepTime>
-        <efficiency>65</efficiency>
-        <awakenings>5</awakenings>
-        <suddenMovements>2</suddenMovements>
-        <positionChanges>7</positionChanges>
-        <category>5</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>270</totalSleepTime>
-        <lightSleepTime>55.55</lightSleepTime>
-        <deepSleepTime>25.92</deepSleepTime>
-        <remSleepTime>18.51</remSleepTime>
-        <efficiency>60</efficiency>
-        <awakenings>6</awakenings>
+        <totalSleepTime>480</totalSleepTime>
+        <lightSleepTime>52.00</lightSleepTime>
+        <deepSleepTime>23.00</deepSleepTime>
+        <remSleepTime>23.00</remSleepTime>
+        <efficiency>90</efficiency>
+        <awakenings>0</awakenings>
         <suddenMovements>1</suddenMovements>
-        <positionChanges>6</positionChanges>
-        <category>6</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>240</totalSleepTime>
-        <lightSleepTime>50</lightSleepTime>
-        <deepSleepTime>25</deepSleepTime>
-        <remSleepTime>25</remSleepTime>
-        <efficiency>55</efficiency>
-        <awakenings>7</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>5</positionChanges>
-        <category>7</category>
+        <positionChanges>1</positionChanges>
+        <category>1</category>
     </instance>
 
     <instance>
         <totalSleepTime>450</totalSleepTime>
-        <lightSleepTime>71.11</lightSleepTime>
-        <deepSleepTime>22.22</deepSleepTime>
-        <remSleepTime>6.66</remSleepTime>
-        <efficiency>90</efficiency>
-        <awakenings>2</awakenings>
-        <suddenMovements>4</suddenMovements>
-        <positionChanges>13</positionChanges>
+        <lightSleepTime>59.00</lightSleepTime>
+        <deepSleepTime>19.00</deepSleepTime>
+        <remSleepTime>19.00</remSleepTime>
+        <efficiency>88</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>0</suddenMovements>
+        <positionChanges>2</positionChanges>
         <category>1</category>
     </instance>
 
     <instance>
-        <totalSleepTime>410</totalSleepTime>
-        <lightSleepTime>70.73</lightSleepTime>
-        <deepSleepTime>19.51</deepSleepTime>
-        <remSleepTime>9.75</remSleepTime>
-        <efficiency>85</efficiency>
-        <awakenings>3</awakenings>
+        <totalSleepTime>540</totalSleepTime>
+        <lightSleepTime>50.00</lightSleepTime>
+        <deepSleepTime>25.00</deepSleepTime>
+        <remSleepTime>25.00</remSleepTime>
+        <efficiency>94</efficiency>
+        <awakenings>0</awakenings>
         <suddenMovements>2</suddenMovements>
-        <positionChanges>11</positionChanges>
-        <category>2</category>
+        <positionChanges>0</positionChanges>
+        <category>1</category>
     </instance>
 
     <instance>
-        <totalSleepTime>380</totalSleepTime>
-        <lightSleepTime>68.42</lightSleepTime>
-        <deepSleepTime>18.42</deepSleepTime>
-        <remSleepTime>13.15</remSleepTime>
-        <efficiency>80</efficiency>
-        <awakenings>4</awakenings>
-        <suddenMovements>3</suddenMovements>
-        <positionChanges>10</positionChanges>
-        <category>3</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>350</totalSleepTime>
-        <lightSleepTime>68.57</lightSleepTime>
-        <deepSleepTime>25.71</deepSleepTime>
-        <remSleepTime>5.71</remSleepTime>
-        <efficiency>75</efficiency>
-        <awakenings>5</awakenings>
-        <suddenMovements>2</suddenMovements>
-        <positionChanges>9</positionChanges>
-        <category>4</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>320</totalSleepTime>
-        <lightSleepTime>62.5</lightSleepTime>
-        <deepSleepTime>25</deepSleepTime>
-        <remSleepTime>12.5</remSleepTime>
-        <efficiency>70</efficiency>
-        <awakenings>6</awakenings>
-        <suddenMovements>2</suddenMovements>
-        <positionChanges>8</positionChanges>
-        <category>5</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>290</totalSleepTime>
-        <lightSleepTime>58.62</lightSleepTime>
-        <deepSleepTime>24.13</deepSleepTime>
-        <remSleepTime>17.24</remSleepTime>
-        <efficiency>65</efficiency>
-        <awakenings>7</awakenings>
+        <totalSleepTime>470</totalSleepTime>
+        <lightSleepTime>56.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>89</efficiency>
+        <awakenings>0</awakenings>
         <suddenMovements>1</suddenMovements>
-        <positionChanges>7</positionChanges>
-        <category>6</category>
+        <positionChanges>2</positionChanges>
+        <category>1</category>
     </instance>
 
     <instance>
-        <totalSleepTime>260</totalSleepTime>
-        <lightSleepTime>53.85</lightSleepTime>
-        <deepSleepTime>23.07</deepSleepTime>
-        <remSleepTime>23.07</remSleepTime>
-        <efficiency>60</efficiency>
-        <awakenings>8</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>6</positionChanges>
-        <category>7</category>
+        <totalSleepTime>510</totalSleepTime>
+        <lightSleepTime>53.00</lightSleepTime>
+        <deepSleepTime>24.00</deepSleepTime>
+        <remSleepTime>24.00</remSleepTime>
+        <efficiency>93</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>0</suddenMovements>
+        <positionChanges>1</positionChanges>
+        <category>1</category>
     </instance>
 
     <instance>
         <totalSleepTime>440</totalSleepTime>
-        <lightSleepTime>70.45</lightSleepTime>
-        <deepSleepTime>20.45</deepSleepTime>
-        <remSleepTime>9.09</remSleepTime>
-        <efficiency>95</efficiency>
-        <awakenings>1</awakenings>
-        <suddenMovements>5</suddenMovements>
-        <positionChanges>14</positionChanges>
+        <lightSleepTime>59.00</lightSleepTime>
+        <deepSleepTime>21.00</deepSleepTime>
+        <remSleepTime>21.00</remSleepTime>
+        <efficiency>86</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>3</positionChanges>
         <category>1</category>
     </instance>
 
+    <!-- Para la categoria 2 (buena) -->
     <instance>
-        <totalSleepTime>400</totalSleepTime>
-        <lightSleepTime>70</lightSleepTime>
-        <deepSleepTime>20</deepSleepTime>
-        <remSleepTime>10</remSleepTime>
-        <efficiency>90</efficiency>
+        <totalSleepTime>380</totalSleepTime>
+        <lightSleepTime>45.00</lightSleepTime>
+        <deepSleepTime>18.00</deepSleepTime>
+        <remSleepTime>18.00</remSleepTime>
+        <efficiency>80</efficiency>
         <awakenings>2</awakenings>
-        <suddenMovements>4</suddenMovements>
-        <positionChanges>12</positionChanges>
+        <suddenMovements>3</suddenMovements>
+        <positionChanges>4</positionChanges>
         <category>2</category>
     </instance>
 
     <instance>
-        <totalSleepTime>370</totalSleepTime>
-        <lightSleepTime>67.56</lightSleepTime>
-        <deepSleepTime>18.91</deepSleepTime>
-        <remSleepTime>13.51</remSleepTime>
-        <efficiency>85</efficiency>
-        <awakenings>3</awakenings>
-        <suddenMovements>3</suddenMovements>
-        <positionChanges>11</positionChanges>
-        <category>3</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>340</totalSleepTime>
-        <lightSleepTime>64.70</lightSleepTime>
-        <deepSleepTime>26.47</deepSleepTime>
-        <remSleepTime>8.82</remSleepTime>
-        <efficiency>80</efficiency>
-        <awakenings>4</awakenings>
+        <totalSleepTime>400</totalSleepTime>
+        <lightSleepTime>42.00</lightSleepTime>
+        <deepSleepTime>17.00</deepSleepTime>
+        <remSleepTime>17.00</remSleepTime>
+        <efficiency>78</efficiency>
+        <awakenings>1</awakenings>
         <suddenMovements>2</suddenMovements>
-        <positionChanges>10</positionChanges>
-        <category>4</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>310</totalSleepTime>
-        <lightSleepTime>61.29</lightSleepTime>
-        <deepSleepTime>25.80</deepSleepTime>
-        <remSleepTime>12.90</remSleepTime>
-        <efficiency>75</efficiency>
-        <awakenings>5</awakenings>
-        <suddenMovements>2</suddenMovements>
-        <positionChanges>9</positionChanges>
-        <category>5</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>280</totalSleepTime>
-        <lightSleepTime>57.14</lightSleepTime>
-        <deepSleepTime>25</deepSleepTime>
-        <remSleepTime>17.85</remSleepTime>
-        <efficiency>70</efficiency>
-        <awakenings>6</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>8</positionChanges>
-        <category>6</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>250</totalSleepTime>
-        <lightSleepTime>52</lightSleepTime>
-        <deepSleepTime>24</deepSleepTime>
-        <remSleepTime>24</remSleepTime>
-        <efficiency>65</efficiency>
-        <awakenings>7</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>7</positionChanges>
-        <category>7</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>430</totalSleepTime>
-        <lightSleepTime>69.76</lightSleepTime>
-        <deepSleepTime>23.25</deepSleepTime>
-        <remSleepTime>6.97</remSleepTime>
-        <efficiency>100</efficiency>
-        <awakenings>2</awakenings>
-        <suddenMovements>6</suddenMovements>
-        <positionChanges>15</positionChanges>
-        <category>1</category>
+        <positionChanges>3</positionChanges>
+        <category>2</category>
     </instance>
 
     <instance>
         <totalSleepTime>390</totalSleepTime>
-        <lightSleepTime>69.23</lightSleepTime>
-        <deepSleepTime>23.07</deepSleepTime>
-        <remSleepTime>6.69</remSleepTime>
-        <efficiency>95</efficiency>
-        <awakenings>3</awakenings>
-        <suddenMovements>5</suddenMovements>
-        <positionChanges>13</positionChanges>
+        <lightSleepTime>48.00</lightSleepTime>
+        <deepSleepTime>19.00</deepSleepTime>
+        <remSleepTime>19.00</remSleepTime>
+        <efficiency>83</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>410</totalSleepTime>
+        <lightSleepTime>47.00</lightSleepTime>
+        <deepSleepTime>15.00</deepSleepTime>
+        <remSleepTime>15.00</remSleepTime>
+        <efficiency>81</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>3</suddenMovements>
+        <positionChanges>4</positionChanges>
         <category>2</category>
     </instance>
 
     <instance>
         <totalSleepTime>360</totalSleepTime>
-        <lightSleepTime>66.66</lightSleepTime>
-        <deepSleepTime>22.22</deepSleepTime>
-        <remSleepTime>11.11</remSleepTime>
-        <efficiency>90</efficiency>
-        <awakenings>4</awakenings>
-        <suddenMovements>4</suddenMovements>
-        <positionChanges>12</positionChanges>
-        <category>3</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>330</totalSleepTime>
-        <lightSleepTime>63.63</lightSleepTime>
-        <deepSleepTime>21.21</deepSleepTime>
-        <remSleepTime>15.15</remSleepTime>
-        <efficiency>85</efficiency>
-        <awakenings>5</awakenings>
-        <suddenMovements>3</suddenMovements>
-        <positionChanges>11</positionChanges>
-        <category>4</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>300</totalSleepTime>
-        <lightSleepTime>60</lightSleepTime>
-        <deepSleepTime>26.66</deepSleepTime>
-        <remSleepTime>13.33</remSleepTime>
-        <efficiency>80</efficiency>
-        <awakenings>6</awakenings>
-        <suddenMovements>2</suddenMovements>
-        <positionChanges>10</positionChanges>
-        <category>5</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>270</totalSleepTime>
-        <lightSleepTime>55.55</lightSleepTime>
-        <deepSleepTime>25.92</deepSleepTime>
-        <remSleepTime>18.51</remSleepTime>
+        <lightSleepTime>40.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
         <efficiency>75</efficiency>
-        <awakenings>7</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>9</positionChanges>
-        <category>6</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>240</totalSleepTime>
-        <lightSleepTime>50</lightSleepTime>
-        <deepSleepTime>25</deepSleepTime>
-        <remSleepTime>25</remSleepTime>
-        <efficiency>70</efficiency>
-        <awakenings>8</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>8</positionChanges>
-        <category>7</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>450</totalSleepTime>
-        <lightSleepTime>71.11</lightSleepTime>
-        <deepSleepTime>22.22</deepSleepTime>
-        <remSleepTime>6.66</remSleepTime>
-        <efficiency>100</efficiency>
-        <awakenings>1</awakenings>
-        <suddenMovements>5</suddenMovements>
-        <positionChanges>16</positionChanges>
-        <category>1</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>410</totalSleepTime>
-        <lightSleepTime>70.73</lightSleepTime>
-        <deepSleepTime>19.51</deepSleepTime>
-        <remSleepTime>9.75</remSleepTime>
-        <efficiency>95</efficiency>
         <awakenings>2</awakenings>
-        <suddenMovements>4</suddenMovements>
-        <positionChanges>13</positionChanges>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>3</positionChanges>
         <category>2</category>
     </instance>
 
     <instance>
-        <totalSleepTime>350</totalSleepTime>
-        <lightSleepTime>65.71</lightSleepTime>
-        <deepSleepTime>22.85</deepSleepTime>
-        <remSleepTime>11.42</remSleepTime>
-        <efficiency>85</efficiency>
-        <awakenings>3</awakenings>
-        <suddenMovements>3</suddenMovements>
-        <positionChanges>13</positionChanges>
-        <category>3</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>320</totalSleepTime>
-        <lightSleepTime>62.5</lightSleepTime>
-        <deepSleepTime>21.87</deepSleepTime>
-        <remSleepTime>15.62</remSleepTime>
-        <efficiency>80</efficiency>
-        <awakenings>4</awakenings>
-        <suddenMovements>2</suddenMovements>
-        <positionChanges>12</positionChanges>
-        <category>4</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>290</totalSleepTime>
-        <lightSleepTime>58.62</lightSleepTime>
-        <deepSleepTime>27.58</deepSleepTime>
-        <remSleepTime>10.34</remSleepTime>
-        <efficiency>75</efficiency>
-        <awakenings>5</awakenings>
-        <suddenMovements>2</suddenMovements>
-        <positionChanges>11</positionChanges>
-        <category>5</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>260</totalSleepTime>
-        <lightSleepTime>53.84</lightSleepTime>
-        <deepSleepTime>26.92</deepSleepTime>
-        <remSleepTime>19.23</remSleepTime>
-        <efficiency>70</efficiency>
-        <awakenings>6</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>10</positionChanges>
-        <category>6</category>
-    </instance>
-
-    <instance>
-        <totalSleepTime>230</totalSleepTime>
-        <lightSleepTime>47.82</lightSleepTime>
-        <deepSleepTime>26.08</deepSleepTime>
-        <remSleepTime>26.08</remSleepTime>
-        <efficiency>65</efficiency>
-        <awakenings>7</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>9</positionChanges>
-        <category>7</category>
-    </instance>
-
-    <instance>
         <totalSleepTime>410</totalSleepTime>
-        <lightSleepTime>68.29</lightSleepTime>
-        <deepSleepTime>24.39</deepSleepTime>
-        <remSleepTime>7.31</remSleepTime>
-        <efficiency>100</efficiency>
-        <awakenings>2</awakenings>
-        <suddenMovements>6</suddenMovements>
-        <positionChanges>17</positionChanges>
-        <category>1</category>
+        <lightSleepTime>44.00</lightSleepTime>
+        <deepSleepTime>16.00</deepSleepTime>
+        <remSleepTime>16.00</remSleepTime>
+        <efficiency>82</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>3</suddenMovements>
+        <positionChanges>4</positionChanges>
+        <category>2</category>
     </instance>
 
     <instance>
         <totalSleepTime>370</totalSleepTime>
-        <lightSleepTime>67.56</lightSleepTime>
-        <deepSleepTime>24.32</deepSleepTime>
-        <remSleepTime>8.10</remSleepTime>
-        <efficiency>95</efficiency>
-        <awakenings>3</awakenings>
-        <suddenMovements>5</suddenMovements>
-        <positionChanges>15</positionChanges>
+        <lightSleepTime>46.00</lightSleepTime>
+        <deepSleepTime>18.00</deepSleepTime>
+        <remSleepTime>18.00</remSleepTime>
+        <efficiency>77</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>5</positionChanges>
         <category>2</category>
     </instance>
 
     <instance>
-        <totalSleepTime>340</totalSleepTime>
-        <lightSleepTime>64.70</lightSleepTime>
-        <deepSleepTime>23.52</deepSleepTime>
-        <remSleepTime>11.76</remSleepTime>
-        <efficiency>90</efficiency>
-        <awakenings>4</awakenings>
+        <totalSleepTime>420</totalSleepTime>
+        <lightSleepTime>41.00</lightSleepTime>
+        <deepSleepTime>19.00</deepSleepTime>
+        <remSleepTime>19.00</remSleepTime>
+        <efficiency>85</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>3</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>390</totalSleepTime>
+        <lightSleepTime>49.00</lightSleepTime>
+        <deepSleepTime>15.00</deepSleepTime>
+        <remSleepTime>15.00</remSleepTime>
+        <efficiency>81</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>3</suddenMovements>
+        <positionChanges>4</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>380</totalSleepTime>
+        <lightSleepTime>45.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>78</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>3</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>400</totalSleepTime>
+        <lightSleepTime>43.00</lightSleepTime>
+        <deepSleepTime>17.00</deepSleepTime>
+        <remSleepTime>17.00</remSleepTime>
+        <efficiency>83</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>4</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>360</totalSleepTime>
+        <lightSleepTime>47.00</lightSleepTime>
+        <deepSleepTime>19.00</deepSleepTime>
+        <remSleepTime>19.00</remSleepTime>
+        <efficiency>76</efficiency>
+        <awakenings>1</awakenings>
         <suddenMovements>4</suddenMovements>
-        <positionChanges>14</positionChanges>
+        <positionChanges>5</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>420</totalSleepTime>
+        <lightSleepTime>40.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>84</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>3</suddenMovements>
+        <positionChanges>4</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>390</totalSleepTime>
+        <lightSleepTime>45.00</lightSleepTime>
+        <deepSleepTime>15.00</deepSleepTime>
+        <remSleepTime>15.00</remSleepTime>
+        <efficiency>80</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>3</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>370</totalSleepTime>
+        <lightSleepTime>49.00</lightSleepTime>
+        <deepSleepTime>18.00</deepSleepTime>
+        <remSleepTime>18.00</remSleepTime>
+        <efficiency>77</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>410</totalSleepTime>
+        <lightSleepTime>46.00</lightSleepTime>
+        <deepSleepTime>19.00</deepSleepTime>
+        <remSleepTime>19.00</remSleepTime>
+        <efficiency>82</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>3</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>380</totalSleepTime>
+        <lightSleepTime>44.00</lightSleepTime>
+        <deepSleepTime>17.00</deepSleepTime>
+        <remSleepTime>17.00</remSleepTime>
+        <efficiency>79</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>4</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>400</totalSleepTime>
+        <lightSleepTime>42.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>85</efficiency>
+        <awakenings>0</awakenings>
+        <suddenMovements>3</suddenMovements>
+        <positionChanges>4</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>370</totalSleepTime>
+        <lightSleepTime>48.00</lightSleepTime>
+        <deepSleepTime>16.00</deepSleepTime>
+        <remSleepTime>16.00</remSleepTime>
+        <efficiency>78</efficiency>
+        <awakenings>1</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>390</totalSleepTime>
+        <lightSleepTime>41.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>81</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>2</suddenMovements>
+        <positionChanges>3</positionChanges>
+        <category>2</category>
+    </instance>
+
+    <!-- Para la categoria 3 (regular) -->
+    <instance>
+        <totalSleepTime>580</totalSleepTime>
+        <lightSleepTime>65.00</lightSleepTime>
+        <deepSleepTime>28.00</deepSleepTime>
+        <remSleepTime>28.00</remSleepTime>
+        <efficiency>70</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>5</suddenMovements>
+        <positionChanges>6</positionChanges>
         <category>3</category>
     </instance>
 
     <instance>
-        <totalSleepTime>310</totalSleepTime>
-        <lightSleepTime>61.29</lightSleepTime>
-        <deepSleepTime>22.58</deepSleepTime>
-        <remSleepTime>16.12</remSleepTime>
-        <efficiency>85</efficiency>
-        <awakenings>5</awakenings>
-        <suddenMovements>3</suddenMovements>
-        <positionChanges>13</positionChanges>
-        <category>4</category>
+        <totalSleepTime>570</totalSleepTime>
+        <lightSleepTime>62.00</lightSleepTime>
+        <deepSleepTime>27.00</deepSleepTime>
+        <remSleepTime>27.00</remSleepTime>
+        <efficiency>68</efficiency>
+        <awakenings>3</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>7</positionChanges>
+        <category>3</category>
     </instance>
 
     <instance>
-        <totalSleepTime>280</totalSleepTime>
-        <lightSleepTime>57.14</lightSleepTime>
-        <deepSleepTime>28.57</deepSleepTime>
-        <remSleepTime>10.71</remSleepTime>
-        <efficiency>80</efficiency>
-        <awakenings>6</awakenings>
-        <suddenMovements>2</suddenMovements>
-        <positionChanges>12</positionChanges>
-        <category>5</category>
+        <totalSleepTime>550</totalSleepTime>
+        <lightSleepTime>68.00</lightSleepTime>
+        <deepSleepTime>25.00</deepSleepTime>
+        <remSleepTime>25.00</remSleepTime>
+        <efficiency>73</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>6</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>3</category>
     </instance>
 
     <instance>
-        <totalSleepTime>250</totalSleepTime>
-        <lightSleepTime>52</lightSleepTime>
-        <deepSleepTime>28</deepSleepTime>
-        <remSleepTime>20</remSleepTime>
+        <totalSleepTime>590</totalSleepTime>
+        <lightSleepTime>60.00</lightSleepTime>
+        <deepSleepTime>30.00</deepSleepTime>
+        <remSleepTime>30.00</remSleepTime>
         <efficiency>75</efficiency>
-        <awakenings>7</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>11</positionChanges>
-        <category>6</category>
+        <awakenings>3</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>6</positionChanges>
+        <category>3</category>
     </instance>
 
     <instance>
-        <totalSleepTime>220</totalSleepTime>
-        <lightSleepTime>45.45</lightSleepTime>
-        <deepSleepTime>27.27</deepSleepTime>
-        <remSleepTime>27.27</remSleepTime>
-        <efficiency>70</efficiency>
-        <awakenings>8</awakenings>
-        <suddenMovements>1</suddenMovements>
-        <positionChanges>10</positionChanges>
-        <category>7</category>
+        <totalSleepTime>560</totalSleepTime>
+        <lightSleepTime>67.00</lightSleepTime>
+        <deepSleepTime>29.00</deepSleepTime>
+        <remSleepTime>29.00</remSleepTime>
+        <efficiency>67</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>5</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>3</category>
     </instance>
+
+    <instance>
+        <totalSleepTime>580</totalSleepTime>
+        <lightSleepTime>68.00</lightSleepTime>
+        <deepSleepTime>23.00</deepSleepTime>
+        <remSleepTime>23.00</remSleepTime>
+        <efficiency>60</efficiency>
+        <awakenings>4</awakenings>
+        <suddenMovements>6</suddenMovements>
+        <positionChanges>7</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>560</totalSleepTime>
+        <lightSleepTime>65.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>55</efficiency>
+        <awakenings>5</awakenings>
+        <suddenMovements>5</suddenMovements>
+        <positionChanges>6</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>540</totalSleepTime>
+        <lightSleepTime>70.00</lightSleepTime>
+        <deepSleepTime>22.00</deepSleepTime>
+        <remSleepTime>22.00</remSleepTime>
+        <efficiency>63</efficiency>
+        <awakenings>3</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>590</totalSleepTime>
+        <lightSleepTime>63.00</lightSleepTime>
+        <deepSleepTime>18.00</deepSleepTime>
+        <remSleepTime>18.00</remSleepTime>
+        <efficiency>58</efficiency>
+        <awakenings>4</awakenings>
+        <suddenMovements>7</suddenMovements>
+        <positionChanges>7</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>570</totalSleepTime>
+        <lightSleepTime>61.00</lightSleepTime>
+        <deepSleepTime>28.00</deepSleepTime>
+        <remSleepTime>28.00</remSleepTime>
+        <efficiency>62</efficiency>
+        <awakenings>3</awakenings>
+        <suddenMovements>5</suddenMovements>
+        <positionChanges>6</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>550</totalSleepTime>
+        <lightSleepTime>62.00</lightSleepTime>
+        <deepSleepTime>25.00</deepSleepTime>
+        <remSleepTime>25.00</remSleepTime>
+        <efficiency>57</efficiency>
+        <awakenings>4</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>6</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>590</totalSleepTime>
+        <lightSleepTime>67.00</lightSleepTime>
+        <deepSleepTime>19.00</deepSleepTime>
+        <remSleepTime>19.00</remSleepTime>
+        <efficiency>61</efficiency>
+        <awakenings>5</awakenings>
+        <suddenMovements>6</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>540</totalSleepTime>
+        <lightSleepTime>69.00</lightSleepTime>
+        <deepSleepTime>21.00</deepSleepTime>
+        <remSleepTime>21.00</remSleepTime>
+        <efficiency>65</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>7</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>580</totalSleepTime>
+        <lightSleepTime>60.00</lightSleepTime>
+        <deepSleepTime>29.00</deepSleepTime>
+        <remSleepTime>29.00</remSleepTime>
+        <efficiency>59</efficiency>
+        <awakenings>3</awakenings>
+        <suddenMovements>7</suddenMovements>
+        <positionChanges>6</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>560</totalSleepTime>
+        <lightSleepTime>64.00</lightSleepTime>
+        <deepSleepTime>24.00</deepSleepTime>
+        <remSleepTime>24.00</remSleepTime>
+        <efficiency>64</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>5</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>570</totalSleepTime>
+        <lightSleepTime>66.00</lightSleepTime>
+        <deepSleepTime>27.00</deepSleepTime>
+        <remSleepTime>27.00</remSleepTime>
+        <efficiency>60</efficiency>
+        <awakenings>4</awakenings>
+        <suddenMovements>5</suddenMovements>
+        <positionChanges>7</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>550</totalSleepTime>
+        <lightSleepTime>70.00</lightSleepTime>
+        <deepSleepTime>20.00</deepSleepTime>
+        <remSleepTime>20.00</remSleepTime>
+        <efficiency>56</efficiency>
+        <awakenings>5</awakenings>
+        <suddenMovements>6</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>590</totalSleepTime>
+        <lightSleepTime>61.00</lightSleepTime>
+        <deepSleepTime>30.00</deepSleepTime>
+        <remSleepTime>30.00</remSleepTime>
+        <efficiency>62</efficiency>
+        <awakenings>3</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>6</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>540</totalSleepTime>
+        <lightSleepTime>68.00</lightSleepTime>
+        <deepSleepTime>26.00</deepSleepTime>
+        <remSleepTime>26.00</remSleepTime>
+        <efficiency>64</efficiency>
+        <awakenings>2</awakenings>
+        <suddenMovements>7</suddenMovements>
+        <positionChanges>5</positionChanges>
+        <category>3</category>
+    </instance>
+
+    <instance>
+        <totalSleepTime>580</totalSleepTime>
+        <lightSleepTime>64.00</lightSleepTime>
+        <deepSleepTime>22.00</deepSleepTime>
+        <remSleepTime>22.00</remSleepTime>
+        <efficiency>58</efficiency>
+        <awakenings>4</awakenings>
+        <suddenMovements>4</suddenMovements>
+        <positionChanges>6</positionChanges>
+        <category>3</category>
+    </instance>
+
 </resources>

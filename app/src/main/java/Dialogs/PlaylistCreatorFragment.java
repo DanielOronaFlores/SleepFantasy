@@ -20,17 +20,17 @@ import java.util.List;
 import AppContext.MyApplication;
 import Database.DataAccess.PlaylistDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
-import Database.DataUpdates.PlaylistSongsDataUpdate;
+import Database.DataUpdates.PlaylistAudiosDataUpdate;
 import Database.DatabaseConnection;
 import Models.Audio;
 import Styles.Themes;
 
 public class PlaylistCreatorFragment extends DialogFragment {
-    private List<Audio> selectedSongs;
+    private List<Audio> selectedAudios;
     private Context context;
     private PlaylistDataAccess playlistDataAccess;
     private PlaylistDataUpdate playlistDataUpdate;
-    private PlaylistSongsDataUpdate playlistSongsDataUpdate;
+    private PlaylistAudiosDataUpdate PlaylistAudiosDataUpdate;
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -43,13 +43,13 @@ public class PlaylistCreatorFragment extends DialogFragment {
         connection.openDatabase();
         playlistDataAccess = new PlaylistDataAccess(connection);
         playlistDataUpdate = new PlaylistDataUpdate(connection);
-        playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
+        PlaylistAudiosDataUpdate = new PlaylistAudiosDataUpdate(connection);
 
         EditText playlistName = view.findViewById(R.id.playlistName);
         Button createPlaylist = view.findViewById(R.id.createPlaylist);
 
         createPlaylist.setOnClickListener(v -> {
-            if (isAnySongSelected()) {
+            if (isAnyAudioselected()) {
                 createPlaylist(playlistName.getText().toString());
                 dismiss();
             } else {
@@ -65,12 +65,12 @@ public class PlaylistCreatorFragment extends DialogFragment {
         return builder.create();
     }
 
-    public void setSelectedSongs(List<Audio> selectedSongs) {
-        this.selectedSongs = selectedSongs;
+    public void setSelectedAudios(List<Audio> selectedAudios) {
+        this.selectedAudios = selectedAudios;
     }
 
-    private boolean isAnySongSelected() {
-        return selectedSongs.size() > 0;
+    private boolean isAnyAudioselected() {
+        return selectedAudios.size() > 0;
     }
     private void createPlaylist(String playlistName) {
         if (playlistDataAccess.isPlaylistCreated(playlistName)) {
@@ -82,8 +82,8 @@ public class PlaylistCreatorFragment extends DialogFragment {
         } else {
             playlistDataUpdate.createPlaylist(playlistName, false);
             int playlistId = playlistDataAccess.getPlaylistId(playlistName);
-            for (Audio song : selectedSongs) {
-                playlistSongsDataUpdate.addSongToPlaylist(playlistId, song.getId());
+            for (Audio audio: selectedAudios) {
+                PlaylistAudiosDataUpdate.addaudioToPlaylist(playlistId, audio.getId());
             }
             Toast toast = Toast.makeText(context, "Playlist creada", Toast.LENGTH_SHORT);
             toast.show();

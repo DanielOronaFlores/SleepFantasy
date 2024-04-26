@@ -1,22 +1,22 @@
 package Rewards;
 
 import Database.DataAccess.PlaylistDataAccess;
-import Database.DataAccess.SongsDataAccess;
-import Database.DataUpdates.PlaylistSongsDataUpdate;
-import Database.DataUpdates.SongsDataUpdate;
+import Database.DataAccess.AudiosDataAccess;
+import Database.DataUpdates.PlaylistAudiosDataUpdate;
+import Database.DataUpdates.AudiosDataUpdate;
 import Database.DatabaseConnection;
 
 public class AudiosRewards {
-    private static SongsDataUpdate songsDataUpdate;
+    private static AudiosDataUpdate AudiosDataUpdate;
     private static PlaylistDataAccess playlistDataAccess;
-    private static SongsDataAccess songsDataAccess;
-    private static PlaylistSongsDataUpdate playlistSongsDataUpdate;
+    private static AudiosDataAccess AudiosDataAccess;
+    private static PlaylistAudiosDataUpdate PlaylistAudiosDataUpdate;
 
     private static void initializeConnections(DatabaseConnection connection) {
-        songsDataUpdate = new SongsDataUpdate(connection);
+        AudiosDataUpdate = new AudiosDataUpdate(connection);
         playlistDataAccess = new PlaylistDataAccess(connection);
-        songsDataAccess = new SongsDataAccess(connection);
-        playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
+        AudiosDataAccess = new AudiosDataAccess(connection);
+        PlaylistAudiosDataUpdate = new PlaylistAudiosDataUpdate(connection);
     }
     private static String getAudioName(int id) {
         switch (id) {
@@ -74,10 +74,10 @@ public class AudiosRewards {
         String[] playlistAudioName = getPlaylistAudioName(getAudioName(id));
 
         int playlistId = playlistDataAccess.getPlaylistId(playlistAudioName[0]);
-        songsDataUpdate.addSong(playlistAudioName[1], true);
+        AudiosDataUpdate.addaudio(playlistAudioName[1], true);
 
-        int songId = songsDataAccess.getSongID(playlistAudioName[1]);
-        playlistSongsDataUpdate.addSongToPlaylist(playlistId, songId);
+        int audioId = AudiosDataAccess.getaudioID(playlistAudioName[1]);
+        PlaylistAudiosDataUpdate.addaudioToPlaylist(playlistId, audioId);
 
         System.out.println("Se ha dado el audio " + playlistAudioName[1] + " de la playlist " + playlistAudioName[0]);
     }

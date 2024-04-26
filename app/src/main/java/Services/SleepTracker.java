@@ -67,13 +67,14 @@ public class SleepTracker extends Service {
     private int currentSleepPhase, timeAwake;
     private float minuteCounter;
     private boolean isSleeping, isEventRunning;
+    int awakeningsBeforeThreshold;
 
     // Sleep events
     private Handler eventsHandler;
     private SuddenMovements suddenMovements;
     private PositionChanges positionChanges;
     private Awakenings awakenings;
-    private int awakeningsAmount = 0;
+    private int awakeningsAmount;
 
     // Sleep data variables
     private int vigilTime, lightSleepTime, deepSleepTime, remSleepTime;
@@ -180,6 +181,9 @@ public class SleepTracker extends Service {
         minuteCounter = 0.0f;
         currentSleepPhase = 0;
 
+        awakeningsAmount = 0;
+        awakeningsBeforeThreshold = 0;
+
         bpmList = new ArrayList<>();
         lightList = new ArrayList<>();
         awakenings = new Awakenings();
@@ -233,6 +237,7 @@ public class SleepTracker extends Service {
             System.out.println("Cantidad de movimientos bruscos: " + suddenMovementsCount);
             System.out.println("Cantidad de cambios de posición: " + positionChangesCount);
             System.out.println("Cantidad de sonidos fuertes: " + loudSoundsAmount);
+            System.out.println("Cantidad de despertares: " + awakeningsAmount);
 
             sleepDataUpdate.insertData(vigilTime, // Insterta los datos en la base de datos
                     lightSleepTime,
@@ -384,10 +389,12 @@ public class SleepTracker extends Service {
                 if (isSleeping) {
                     if (awakenings.isAwakening(bpmMean, currentSleepPhase)) {
                         awakeningsAmount++;
+                        awakeningsBeforeThreshold++;
                         timeAwake += (int) (realMinutes * multiplier);
                         System.out.println("Se ha detectado un despertar");
                         System.out.println("Tiempo despierto: " + timeAwake);
                     } else {
+                        awakeningsBeforeThreshold = 0;
                         timeAwake = 0;
                     }
                 }
@@ -425,7 +432,7 @@ public class SleepTracker extends Service {
                 System.out.println("Vertical: " + isVertical);
 
                 if (isVertical) {
-                    awakeningsAmount -= (int) (realMinutes * multiplier);
+                    awakeningsAmount -= awakeningsBeforeThreshold;
                     stopSelf();
                 }
             }

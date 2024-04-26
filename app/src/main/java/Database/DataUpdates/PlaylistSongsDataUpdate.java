@@ -4,22 +4,22 @@ import android.database.sqlite.SQLiteDatabase;
 
 import Database.DatabaseConnection;
 
-public class PlaylistSongsDataUpdate {
-    private final String TABLE_NAME = "PlaylistSongs";
+public class PlaylistAudiosDataUpdate {
+    private final String TABLE_NAME = "PlaylistAudios";
     private final SQLiteDatabase database;
-    public PlaylistSongsDataUpdate(DatabaseConnection connection) {
+    public PlaylistAudiosDataUpdate(DatabaseConnection connection) {
         this.database = connection.getDatabase();
     }
 
-    public void addSongToPlaylist(int playlistId, int songId) {
-        database.execSQL("INSERT INTO PlaylistSongs (playlistId, songId) VALUES (" + playlistId + ", " + songId + ")");
+    public void addaudioToPlaylist(int playlistId, int audioId) {
+        database.execSQL("INSERT INTO PlaylistAudios (playlistId, audioId) VALUES (" + playlistId + ", " + audioId + ")");
     }
 
-    public void deleteAudioFromPlaylist(int playlistId, int songId) {
-        database.execSQL("DELETE FROM PlaylistSongs WHERE playlistId = " + playlistId + " AND songId = " + songId);
+    public void deleteAudioFromPlaylist(int playlistId, int audioId) {
+        database.execSQL("DELETE FROM PlaylistAudios WHERE playlistId = " + playlistId + " AND audioId = " + audioId);
     }
 
     public void deleteAudio(int audioID) {
-        database.delete(TABLE_NAME, "songId=?", new String[]{String.valueOf(audioID)});
+        database.delete(TABLE_NAME, "audioId=?", new String[]{String.valueOf(audioID)});
     }
 }

@@ -12,8 +12,8 @@ public class DatabaseTableCreator {
         createSleepDataTable(db);
         createMonsterTable(db);
         createPlaylistTable(db);
-        createSongsTable(db);
-        createPlaylistSongsTable(db);
+        createAudiosTable(db);
+        createPlaylistAudiosTable(db);
         createProbabilitiesTable(db);
         createRewardsTable(db);
         createTipsTable(db);
@@ -129,22 +129,22 @@ public class DatabaseTableCreator {
         db.execSQL(queryCreatePlaylistTable);
     }
 
-    private static void createSongsTable(SQLiteDatabase db) {
-        String queryCreateSongsTable = "CREATE TABLE Songs (" +
+    private static void createAudiosTable(SQLiteDatabase db) {
+        String queryCreateAudiosTable = "CREATE TABLE Audios (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, " +
-                "ibBySystem BOOLEAN);";
-        db.execSQL(queryCreateSongsTable);
+                "createdBySystem BOOLEAN);";
+        db.execSQL(queryCreateAudiosTable);
     }
 
-    private static void createPlaylistSongsTable(SQLiteDatabase db) {
-        String queryCreatePlaylistSongsTable = "CREATE TABLE PlaylistSongs (" +
+    private static void createPlaylistAudiosTable(SQLiteDatabase db) {
+        String queryCreatePlaylistAudiosTable = "CREATE TABLE PlaylistAudios (" +
                 "playlistId INTEGER, " +
-                "songId INTEGER, " +
-                "PRIMARY KEY (playlistId, songId), " +
+                "audioId INTEGER, " +
+                "PRIMARY KEY (playlistId, audioId), " +
                 "FOREIGN KEY (playlistId) REFERENCES Playlist(id) ON DELETE CASCADE, " +
-                "FOREIGN KEY (songId) REFERENCES Songs(id) ON DELETE CASCADE);";
-        db.execSQL(queryCreatePlaylistSongsTable);
+                "FOREIGN KEY (audioId) REFERENCES Audios(id) ON DELETE CASCADE);";
+        db.execSQL(queryCreatePlaylistAudiosTable);
     }
 
     private static void createProbabilitiesTable(SQLiteDatabase db) {

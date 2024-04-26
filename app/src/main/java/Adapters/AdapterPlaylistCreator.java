@@ -18,13 +18,13 @@ import Models.Audio;
 import Utils.GetSelectedAudios;
 
 public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylistCreator.ViewHolder> {
-    private final List<Audio> songs;
+    private final List<Audio> Audios;
     private final List<Boolean> checkedList;
 
-    public AdapterPlaylistCreator(List<Audio> songs) {
-        this.songs = songs;
-        checkedList = new ArrayList<>(songs.size());
-        for (int i = 0; i < songs.size(); i++) {
+    public AdapterPlaylistCreator(List<Audio> Audios) {
+        this.Audios = Audios;
+        checkedList = new ArrayList<>(Audios.size());
+        for (int i = 0; i < Audios.size(); i++) {
             checkedList.add(false);
         }
     }
@@ -38,7 +38,7 @@ public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylist
 
     @Override
     public void onBindViewHolder(@NonNull AdapterPlaylistCreator.ViewHolder holder, int position) {
-        String shortName = songs.get(position).getName();
+        String shortName = Audios.get(position).getName();
         if (shortName.length() > 7) {
             shortName = shortName.substring(0, 7) + "...";
         }
@@ -49,12 +49,12 @@ public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylist
 
     @Override
     public int getItemCount() {
-        return songs.size();
+        return Audios.size();
     }
 
-    public List<Audio> getSelectedSongs() {
-        GetSelectedAudios listSongUtil = new GetSelectedAudios();
-        return listSongUtil.getSelectedSongs(songs, checkedList);
+    public List<Audio> getSelectedAudios() {
+        GetSelectedAudios listaudioUtil = new GetSelectedAudios();
+        return listaudioUtil.getSelectedAudios(Audios, checkedList);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -63,9 +63,9 @@ public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylist
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            audioName = itemView.findViewById(R.id.songElement);
+            audioName = itemView.findViewById(R.id.audioElement);
 
-            checkBox = itemView.findViewById(R.id.songCheckBox);
+            checkBox = itemView.findViewById(R.id.audioCheckBox);
             checkBox.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
@@ -74,8 +74,8 @@ public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylist
             });
         }
 
-        public void setPlaylistName(String songName) {
-            this.audioName.setText(songName);
+        public void setPlaylistName(String audioName) {
+            this.audioName.setText(audioName);
         }
     }
 }

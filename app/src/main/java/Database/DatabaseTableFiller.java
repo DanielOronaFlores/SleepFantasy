@@ -14,8 +14,8 @@ public class DatabaseTableFiller {
         fillRecordTable(db);
         fillMonsterTable(db);
         fillPlayListTable(db);
-        fillSongsTable(db);
-        fillPlaylistSongs(db);
+        fillAudiosTable(db);
+        fillPlaylistAudios(db);
         fillRewardsTable(db);
         fillTipsTable(db);
     }
@@ -109,137 +109,137 @@ public class DatabaseTableFiller {
         db.insert("Playlist", null, values);
     }
 
-    private static void fillSongsTable(SQLiteDatabase db) {
+    private static void fillAudiosTable(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
 
-        //Nature Songs
+        //Nature Audios
         values.put("name", "Lluvia");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
         values.clear();
         values.put("name", "Rio");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
         values.clear();
         values.put("name", "Oleaje");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
-        //Classical Songs
+        //Classical Audios
         values.clear();
         values.put("name", "Adagio");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
         values.clear();
         values.put("name", "Clair De Lune");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
         values.clear();
         values.put("name", "Pavane");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
-        //WhiteNoise Songs
+        //WhiteNoise Audios
         values.clear();
         values.put("name", "Marron");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
         values.clear();
         values.put("name", "Rosa");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
         values.clear();
         values.put("name", "Blanco");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
-        //Ambient Songs
+        //Ambient Audios
         values.clear();
         values.put("name", "Cafe");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
         values.clear();
         values.put("name", "Tren");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
 
         values.clear();
         values.put("name", "Oficina");
-        values.put("ibBySystem", true);
-        db.insert("Songs", null, values);
+        values.put("createdBySystem", true);
+        db.insert("Audios", null, values);
     }
 
-    private static void fillPlaylistSongs(SQLiteDatabase db) {
+    private static void fillPlaylistAudios(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         // Nature Playlist
         values.put("playlistId", 1);
-        values.put("songId", 1);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 1);
+        db.insert("PlaylistAudios", null, values);
 
         values.clear();
         values.put("playlistId", 1);
-        values.put("songId", 2);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 2);
+        db.insert("PlaylistAudios", null, values);
 
         values.clear();
         values.put("playlistId", 1);
-        values.put("songId", 3);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 3);
+        db.insert("PlaylistAudios", null, values);
 
         // Classical Playlist
         values.clear();
         values.put("playlistId", 2);
-        values.put("songId", 4);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 4);
+        db.insert("PlaylistAudios", null, values);
 
         values.clear();
         values.put("playlistId", 2);
-        values.put("songId", 5);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 5);
+        db.insert("PlaylistAudios", null, values);
 
         values.clear();
         values.put("playlistId", 2);
-        values.put("songId", 6);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 6);
+        db.insert("PlaylistAudios", null, values);
 
         // WhiteNoise Playlist
         values.clear();
         values.put("playlistId", 3);
-        values.put("songId", 7);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 7);
+        db.insert("PlaylistAudios", null, values);
 
         values.clear();
         values.put("playlistId", 3);
-        values.put("songId", 8);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 8);
+        db.insert("PlaylistAudios", null, values);
 
         values.clear();
         values.put("playlistId", 3);
-        values.put("songId", 9);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 9);
+        db.insert("PlaylistAudios", null, values);
 
         // Ambient Playlist
         values.clear();
         values.put("playlistId", 4);
-        values.put("songId", 10);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 10);
+        db.insert("PlaylistAudios", null, values);
 
         values.clear();
         values.put("playlistId", 4);
-        values.put("songId", 11);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 11);
+        db.insert("PlaylistAudios", null, values);
 
         values.clear();
         values.put("playlistId", 4);
-        values.put("songId", 12);
-        db.insert("PlaylistSongs", null, values);
+        values.put("audioId", 12);
+        db.insert("PlaylistAudios", null, values);
     }
 
     private static void fillRewardsTable(SQLiteDatabase db) {

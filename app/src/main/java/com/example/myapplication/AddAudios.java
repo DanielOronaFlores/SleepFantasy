@@ -16,21 +16,21 @@ import java.util.Objects;
 
 import Adapters.AdapterAddAudios;
 import Database.DataAccess.PlaylistDataAccess;
-import Database.DataAccess.SongsDataAccess;
+import Database.DataAccess.AudiosDataAccess;
 import Database.DataUpdates.PlaylistDataUpdate;
-import Database.DataUpdates.PlaylistSongsDataUpdate;
-import Database.DataUpdates.SongsDataUpdate;
+import Database.DataUpdates.PlaylistAudiosDataUpdate;
+import Database.DataUpdates.AudiosDataUpdate;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
 import Styles.Themes;
 
 public class AddAudios extends AppCompatActivity {
     private DatabaseConnection connection;
-    private SongsDataUpdate songsDataUpdate;
-    private SongsDataAccess songsDataAccess;
+    private AudiosDataUpdate AudiosDataUpdate;
+    private AudiosDataAccess AudiosDataAccess;
     private PlaylistDataUpdate playlistDataUpdate;
     private PlaylistDataAccess playlistDataAccess;
-    private PlaylistSongsDataUpdate playlistSongsDataUpdate;
+    private PlaylistAudiosDataUpdate PlaylistAudiosDataUpdate;
     private RecyclerView recyclerView;
     private Button addAudios;
 
@@ -41,11 +41,11 @@ public class AddAudios extends AppCompatActivity {
         setContentView(R.layout.activity_add_audios);
 
         connection = DatabaseConnection.getInstance(this);
-        songsDataUpdate = new SongsDataUpdate(connection);
-        songsDataAccess = new SongsDataAccess(connection);
+        AudiosDataUpdate = new AudiosDataUpdate(connection);
+        AudiosDataAccess = new AudiosDataAccess(connection);
         playlistDataUpdate = new PlaylistDataUpdate(connection);
         playlistDataAccess = new PlaylistDataAccess(connection);
-        playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
+        PlaylistAudiosDataUpdate = new PlaylistAudiosDataUpdate(connection);
 
         recyclerView = findViewById(R.id.newAudiosRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -72,9 +72,9 @@ public class AddAudios extends AppCompatActivity {
             int playListID = playlistDataAccess.getPlaylistId("Audio Propios");
 
             for (String audio : selectedAudios) {
-                songsDataUpdate.addSong(audio, false);
-                int songID = songsDataAccess.getSongID(audio);
-                playlistSongsDataUpdate.addSongToPlaylist(playListID, songID);
+                AudiosDataUpdate.addaudio(audio, false);
+                int audioID = AudiosDataAccess.getaudioID(audio);
+                PlaylistAudiosDataUpdate.addaudioToPlaylist(playListID, audioID);
             }
             Toast.makeText(this, "AUDIOS AGREGADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
             ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);

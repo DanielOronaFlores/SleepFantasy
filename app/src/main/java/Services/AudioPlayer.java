@@ -28,9 +28,9 @@ import java.util.List;
 import AppContext.MyApplication;
 import Broadcasts.MusicBroadcast;
 import Database.DataAccess.PreferencesDataAccess;
-import Database.DataAccess.SongsDataAccess;
-import Database.DataUpdates.PlaylistSongsDataUpdate;
-import Database.DataUpdates.SongsDataUpdate;
+import Database.DataAccess.AudiosDataAccess;
+import Database.DataUpdates.PlaylistAudiosDataUpdate;
+import Database.DataUpdates.AudiosDataUpdate;
 import Database.DatabaseConnection;
 import Files.AudiosPaths;
 import Models.Audio;
@@ -86,26 +86,26 @@ public class AudioPlayer extends Service {
     public void playAudioInLoop(int position) {
         if (mediaPlayer != null) mediaPlayer.release();
 
-        String songName = audios.get(position).getName();
-        int isCreatedBySystem = audios.get(position).getIbBySystem();
+        String audioName = audios.get(position).getName();
+        int isCreatedBySystem = audios.get(position).getcreatedBySystem();
 
         if (isCreatedBySystem == 1) {
-            int songID = selectSong(songName);
-            playSongCreatedBySystem(songID, MyApplication.getAppContext());
+            int audioID = selectaudio(audioName);
+            playaudioCreatedBySystem(audioID, MyApplication.getAppContext());
         } else {
-            playSongCreatedByUser(songName);
+            playaudioCreatedByUser(audioName);
         }
 
         mediaPlayer.setOnCompletionListener(mp -> resetAudioLoop());
     }
 
-    private void playSongCreatedBySystem(int songID, Context context) {
-        mediaPlayer = MediaPlayer.create(context, songID);
+    private void playaudioCreatedBySystem(int audioID, Context context) {
+        mediaPlayer = MediaPlayer.create(context, audioID);
         mediaPlayer.start();
     }
 
     @SuppressLint("ForegroundServiceType")
-    private void playSongCreatedByUser(String audioName) {
+    private void playaudioCreatedByUser(String audioName) {
         mediaPlayer = new MediaPlayer();
         String audioPath = AudiosPaths.getMusicPath() + audioName;
 
@@ -127,14 +127,14 @@ public class AudioPlayer extends Service {
 
             DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
 
-            SongsDataUpdate songsDataUpdate = new SongsDataUpdate(connection);
-            songsDataUpdate.deleteSong(audioName);
+            AudiosDataUpdate AudiosDataUpdate = new AudiosDataUpdate(connection);
+            AudiosDataUpdate.deleteaudio(audioName);
 
-            SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
-            int songID = songsDataAccess.getSongID(audioName);
+            AudiosDataAccess AudiosDataAccess = new AudiosDataAccess(connection);
+            int audioID = AudiosDataAccess.getaudioID(audioName);
 
-            PlaylistSongsDataUpdate playlistSongsDataUpdate = new PlaylistSongsDataUpdate(connection);
-            playlistSongsDataUpdate.deleteAudio(songID);
+            PlaylistAudiosDataUpdate PlaylistAudiosDataUpdate = new PlaylistAudiosDataUpdate(connection);
+            PlaylistAudiosDataUpdate.deleteAudio(audioID);
 
             recreateActivity();
 
@@ -142,9 +142,9 @@ public class AudioPlayer extends Service {
         }
     }
 
-    private int selectSong(String songName) {
-        PlaylistAudios playlistSongs = new PlaylistAudios();
-        return playlistSongs.getResourceId(songName);
+    private int selectaudio(String audioName) {
+        PlaylistAudios PlaylistAudios = new PlaylistAudios();
+        return PlaylistAudios.getResourceId(audioName);
     }
 
     private void resetAudioLoop() {

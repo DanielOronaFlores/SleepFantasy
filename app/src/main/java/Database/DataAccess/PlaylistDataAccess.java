@@ -18,14 +18,16 @@ public class PlaylistDataAccess {
     }
 
     public boolean isPlaylistCreated(String playlistName) {
+        boolean isCreated = false;
         String query = "SELECT * FROM Playlist WHERE name = ?";
 
+
         try (Cursor cursor = database.rawQuery(query, new String[]{playlistName})) {
-            return cursor.getCount() > 0;
+            isCreated = cursor.getCount() > 0;
         } catch (SQLiteException e) {
             e.printStackTrace();
-            return false;
         }
+        return isCreated;
     }
 
     public String getPlaylistTitle(int playlistID) {
@@ -34,24 +36,24 @@ public class PlaylistDataAccess {
     }
     @SuppressLint("Range")
     public int getPlaylistId(String playlistName) {
+        int playlistID = -1;
         String query = "SELECT id FROM Playlist WHERE name = ?";
 
         try (Cursor cursor = database.rawQuery(query, new String[]{playlistName})) {
             if (cursor.moveToFirst()) {
-                return cursor.getInt(cursor.getColumnIndex("id"));
-            } else {
-                return -1;
+                playlistID = cursor.getInt(cursor.getColumnIndex("id"));
             }
         } catch (SQLiteException e) {
             e.printStackTrace();
-            return -1;
         }
+        return playlistID;
     }
     public boolean isCreatedBySystem(int playlistID) {
         String query = "SELECT createdBySystem FROM Playlist WHERE id = " + playlistID + ";";
         return database.compileStatement(query).simpleQueryForLong() == 1;
     }
 
+    @SuppressLint("Range")
     public List<Playlist> getAllPlaylists() {
         List<Playlist> playlists = new ArrayList<>();
         String query = "SELECT * FROM Playlist;";
@@ -60,9 +62,9 @@ public class PlaylistDataAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("id"));
-                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
-                @SuppressLint("Range") int createdBySystem = cursor.getInt(cursor.getColumnIndex("createdBySystem"));
+                int id = cursor.getInt(cursor.getColumnIndex("id"));
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                int createdBySystem = cursor.getInt(cursor.getColumnIndex("createdBySystem"));
 
                 Playlist playlist = new Playlist(id, name, createdBySystem);
                 playlists.add(playlist);

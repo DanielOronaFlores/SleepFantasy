@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Objects;
+
 import Database.DatabaseConnection;
 
 public class ProbabilitiesDataAccess {
@@ -23,15 +25,13 @@ public class ProbabilitiesDataAccess {
 
             cursor = database.rawQuery(query, selectionArgs);
 
-            if (cursor != null && cursor.moveToFirst()) {
+            if (cursor.moveToFirst()) {
                 probability = cursor.getFloat(0);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
+            Objects.requireNonNull(cursor).close();
         }
         return probability;
     }

@@ -2,10 +2,14 @@ package Notifications;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -89,5 +93,15 @@ public class Notifications {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notificationManager.notify(5, builder.build());
         }
+    }
+
+    public static Notification getNotification() {
+        Context context = MyApplication.getAppContext();
+
+        NotificationUtils.createNotificationChannel(context);
+        NotificationCompat.Builder builder = NotificationUtils.createNotificationBuilder("Sleep Tracker Service",
+                "SleepFantasy está corriendo.");
+
+        return builder.build();
     }
 }

@@ -8,7 +8,7 @@ import android.media.MediaPlayer;
 import Services.AudioPlayer;
 
 public class MusicBroadcast extends BroadcastReceiver {
-    private MediaPlayer mediaPlayer;
+    private final MediaPlayer mediaPlayer;
 
     public MusicBroadcast() {
         mediaPlayer = AudioPlayer.getMediaPlayer();

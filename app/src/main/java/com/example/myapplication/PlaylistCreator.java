@@ -10,8 +10,8 @@ import android.widget.Button;
 import java.util.List;
 import java.util.Objects;
 
-import Adapters.AdapterChecklistSongs;
-import Database.DataAccess.SongsDataAccess;
+import Adapters.AdapterChecklistAudios;
+import Database.DataAccess.AudiosDataAccess;
 import Database.DatabaseConnection;
 import Dialogs.PlaylistCreatorFragment;
 import Models.Audio;
@@ -19,7 +19,7 @@ import Styles.Themes;
 
 public class PlaylistCreator extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private final SongsDataAccess songsDataAccess = new SongsDataAccess(connection);
+    private final AudiosDataAccess AudiosDataAccess = new AudiosDataAccess(connection);
     private RecyclerView recyclerView;
     private Button createPlaylist;
 
@@ -29,11 +29,11 @@ public class PlaylistCreator extends AppCompatActivity {
         setContentView(R.layout.activity_playlist_creator);
 
         connection.openDatabase();
-        List<Audio> songs = songsDataAccess.getAllSongs();
+        List<Audio> Audios = AudiosDataAccess.getAllAudios();
 
-        recyclerView = findViewById(R.id.recyclerSongs);
+        recyclerView = findViewById(R.id.recyclerAudios);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new AdapterChecklistSongs(songs));
+        recyclerView.setAdapter(new AdapterChecklistAudios(Audios));
 
         createPlaylist = findViewById(R.id.createPlaylist);
         createPlaylist.setOnClickListener(v -> openPlaylistSelectionNameDialog());
@@ -52,11 +52,11 @@ public class PlaylistCreator extends AppCompatActivity {
     }
 
     private void openPlaylistSelectionNameDialog() {
-        List<Audio> selectedSongs;
-        selectedSongs = ((AdapterChecklistSongs) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedSongs();
+        List<Audio> selectedAudios;
+        selectedAudios = ((AdapterChecklistAudios) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedAudios();
 
         PlaylistCreatorFragment playlistCreator = new PlaylistCreatorFragment();
-        playlistCreator.setSelectedSongs(selectedSongs);
+        playlistCreator.setSelectedAudios(selectedAudios);
         playlistCreator.show(getSupportFragmentManager(), "PlaylistCreator");
     }
 }

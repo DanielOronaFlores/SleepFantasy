@@ -12,8 +12,8 @@ private Context context;
         context = myApplication.getAppContext();
     }
 
-    public int getResourceId(String songName) {
-        String resourceName = "music_" + songName.trim().toLowerCase().replace(" ", "");
+    public int getResourceId(String audioName) {
+        String resourceName = "music_" + audioName.trim().toLowerCase().replace(" ", "");
         return context.getResources().getIdentifier(resourceName, "raw", context.getPackageName());
     }
 }
