@@ -17,6 +17,8 @@ import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
 import Services.PostureSensor;
+import SleepEvaluator.SleepEvaluator;
+import SleepEvaluator.Trainer.BayesCreator;
 import Styles.Themes;
 import Tips.Tips;
 
@@ -70,9 +72,6 @@ public class MainMenu extends AppCompatActivity {
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.update();
         deleteRecordingsFiles();
-
-        Tips tips = new Tips();
-        tips.updateTip();
     }
     @Override
     protected void onStart() {

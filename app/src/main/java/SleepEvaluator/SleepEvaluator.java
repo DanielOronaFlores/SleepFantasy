@@ -33,14 +33,14 @@ public class SleepEvaluator {
     private float positionChanges;
 
     // Probabilities per Attribute & Category
-    private float[] totalSleepTimeProbailities = new float[7];
-    private float[] lightSleepTimeProbabilities = new float[7];
-    private float[] deepSleepTimeProbabilities = new float[7];
-    private float[] remSleepTimeProbabilities = new float[7];
-    private float[] efficiencyProbabilities = new float[7];
-    private float[] awakeningsProbabilities = new float[7];
-    private float[] suddenMovementsProbabilities = new float[7];
-    private float[] positionChangesProbabilities = new float[7];
+    private final float[] totalSleepTimeProbailities = new float[7];
+    private final float[] lightSleepTimeProbabilities = new float[7];
+    private final float[] deepSleepTimeProbabilities = new float[7];
+    private final float[] remSleepTimeProbabilities = new float[7];
+    private final float[] efficiencyProbabilities = new float[7];
+    private final float[] awakeningsProbabilities = new float[7];
+    private final float[] suddenMovementsProbabilities = new float[7];
+    private final float[] positionChangesProbabilities = new float[7];
 
     private final int[] ranges = new int[8];
     private final float[][] categoryProbabilities = new float[8][7]; // 8 attributes, 7 categories
@@ -120,7 +120,7 @@ public class SleepEvaluator {
         float maxProbability = 0;
         int category = 0;
         for (int i = 0; i < finalCategoriesProbabilities.length; i++) {
-            if (finalCategoriesProbabilities[i] > maxProbability) {
+            if (finalCategoriesProbabilities[i] >= maxProbability) {
                 maxProbability = finalCategoriesProbabilities[i];
                 category = i + 1;
             }
@@ -140,7 +140,7 @@ public class SleepEvaluator {
 
         totalSleepTime = SleepData.getTotalSleepTime(lightSleepTime, deepSleepTime, remSleepTime);
         int timeInBed = SleepData.getTimeInBed(vigilTime, (int) totalSleepTime);
-        efficiency = SleepData.getSleepEfficiency((int) totalSleepTime, timeInBed);
+        efficiency = SleepData.getSleepEfficiency(totalSleepTime, timeInBed);
 
         int category = evaluateSleep();
 

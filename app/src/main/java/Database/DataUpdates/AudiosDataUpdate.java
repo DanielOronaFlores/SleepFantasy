@@ -11,13 +11,12 @@ public class AudiosDataUpdate {
         this.database = connection.getDatabase();
     }
 
-    public void addaudio(String audioName, boolean createdBySystem) {
-        int createdBySystem = createdBySystem ? 1 : 0;
+    public void addAudio(String audioName, boolean createdBySystem) {
         String query = "INSERT INTO Audios (name, createdBySystem) VALUES (?, ?)";
         database.execSQL(query, new String[]{audioName, String.valueOf(createdBySystem)});
     }
 
-    public void deleteaudio(String audioName) {
+    public void deleteAudio(String audioName) {
         String query = "DELETE FROM Audios WHERE name = ?";
         database.execSQL(query, new String[]{audioName});
     }

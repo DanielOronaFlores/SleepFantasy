@@ -35,7 +35,7 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
     @NonNull
     @Override
     public AdapterAudios.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_audio_selector, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_song_selector, parent, false);
 
         IntentFilter filter = new IntentFilter("RECREAR_ACTIVIDAD");
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, filter);

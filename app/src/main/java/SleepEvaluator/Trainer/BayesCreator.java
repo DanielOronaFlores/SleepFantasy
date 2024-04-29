@@ -1,5 +1,7 @@
 package SleepEvaluator.Trainer;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
 import java.util.ArrayList;
 
 import AppContext.MyApplication;
@@ -8,19 +10,19 @@ import Database.DatabaseConnection;
 import SleepEvaluator.RangesValues;
 
 public class BayesCreator {
-    private final Instances deserializer = new Instances();
-    private final float[][] frequencyTotalSleepTime = new float[7][7];
-    private final float[][] frequencyLightSleepTime = new float[7][7];
-    private final float[][] frequencyDeepSleepTime = new float[7][7];
-    private final float[][] frequencyRemSleepTime = new float[7][7];
-    private final float[][] frequencyEfficiency = new float[7][7];
-    private final float[][] frequencyAwakenings = new float[7][7];
-    private final float[][] frequencySuddenMovements = new float[7][7];
-    private final float[][] frequencyPositionChanges = new float[7][7];
-    int totalInstances;
+    private static final Instances deserializer = new Instances();
+    private static final float[][] frequencyTotalSleepTime = new float[7][7];
+    private static final float[][] frequencyLightSleepTime = new float[7][7];
+    private static final float[][] frequencyDeepSleepTime = new float[7][7];
+    private static final float[][] frequencyRemSleepTime = new float[7][7];
+    private static final float[][] frequencyEfficiency = new float[7][7];
+    private static final float[][] frequencyAwakenings = new float[7][7];
+    private static final float[][] frequencySuddenMovements = new float[7][7];
+    private static final float[][] frequencyPositionChanges = new float[7][7];
+    private static int totalInstances;
 
 
-    private void setFrequency(int category, float value, float[][] attributeValues, int id) {
+    private static void setFrequency(int category, float value, float[][] attributeValues, int id) {
         int column = category - 1;
         int row = 0;
         switch (id) {
@@ -52,7 +54,7 @@ public class BayesCreator {
         attributeValues[row][column]++;
     }
 
-    private String getAttributeName(int attribute) {
+    private static String getAttributeName(int attribute) {
         switch (attribute) {
             case 0:
                 return "totalSleepTime";
@@ -75,7 +77,7 @@ public class BayesCreator {
         }
     }
 
-    private int calculateSumColumn(float[][] attributeValues, int column) {
+    private static int calculateSumColumn(float[][] attributeValues, int column) {
         int sum = 0;
         for (int i = 0; i < 7; i++) {
             sum += attributeValues[i][column];
@@ -83,18 +85,24 @@ public class BayesCreator {
         return sum;
     }
 
-    private void calculateFrequencyProbabilities() {
+    private static void calculateFrequencyProbabilities() {
         totalInstances = deserializer.countInstances();
 
         ArrayList<String> categoryValues, attributeValues;
 
         categoryValues = deserializer.getValueForElement("category");
+        printArrayList(categoryValues);
 
         for (int i = 0; i < 8; i++) {
             attributeValues = deserializer.getValueForElement(getAttributeName(i));
+            System.out.println("----" + getAttributeName(i) + "----");
+            printArrayList(categoryValues);
+
             for (int j = 0; j < totalInstances; j++) {
                 float value = Float.parseFloat(attributeValues.get(j));
                 int category = Integer.parseInt(categoryValues.get(j));
+
+                System.out.println("Category: " + category + " Value: " + value);
                 switch (i) {
                     case 0:
                         setFrequency(category, value, frequencyTotalSleepTime, i);
@@ -123,9 +131,11 @@ public class BayesCreator {
                 }
             }
         }
+
+        printALL();
     }
 
-    private void setLaPlaceSmoothing() {
+    private static void setLaPlaceSmoothing() {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 frequencyTotalSleepTime[i][j]++;
@@ -140,7 +150,7 @@ public class BayesCreator {
         }
     }
 
-    private void calculateConditionalProbabilities() {
+    private static void calculateConditionalProbabilities() {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 frequencyTotalSleepTime[i][j] /= calculateSumColumn(frequencyTotalSleepTime, j);
@@ -155,7 +165,7 @@ public class BayesCreator {
         }
     }
 
-    private void saveProbabilities() {
+    private static void saveProbabilities() {
         DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         ProbabilitiesDataUpdate probabilitiesDataUpdate = new ProbabilitiesDataUpdate(connection);
 
@@ -169,10 +179,56 @@ public class BayesCreator {
         probabilitiesDataUpdate.addProbabilities(7, frequencyPositionChanges);
     }
 
-    public void createProbabilities() {
+    public static void createProbabilities() {
+        System.out.println("----Calcular frecuencias de probabilidades----");
         calculateFrequencyProbabilities();
+        printALL();
+
         setLaPlaceSmoothing();
         calculateConditionalProbabilities();
         saveProbabilities();
+    }
+
+
+    private static void printALL() {
+        System.out.println("----Total Sleep Time----");
+        printMatrix(frequencyTotalSleepTime);
+
+        System.out.println("----Light Sleep Time----");
+        printMatrix(frequencyLightSleepTime);
+
+        System.out.println("----Deep Sleep Time----");
+        printMatrix(frequencyDeepSleepTime);
+
+        System.out.println("----Rem Sleep Time----");
+        printMatrix(frequencyRemSleepTime);
+
+        System.out.println("----Efficiency----");
+        printMatrix(frequencyEfficiency);
+
+        System.out.println("----Awakenings----");
+        printMatrix(frequencyAwakenings);
+
+        System.out.println("----Sudden Movements----");
+        printMatrix(frequencySuddenMovements);
+
+        System.out.println("----Position Changes----");
+        printMatrix(frequencyPositionChanges);
+    }
+
+    private static void printMatrix(float[][] matrix) {
+        for (float[] floats : matrix) {
+            for (float aFloat : floats) {
+                System.out.print(aFloat + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    private static void printArrayList(ArrayList<String> list) {
+        for (String v : list) {
+            System.out.print(v + "\t");
+        }
+        System.out.println();
     }
 }

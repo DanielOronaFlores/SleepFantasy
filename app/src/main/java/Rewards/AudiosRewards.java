@@ -74,7 +74,7 @@ public class AudiosRewards {
         String[] playlistAudioName = getPlaylistAudioName(getAudioName(id));
 
         int playlistId = playlistDataAccess.getPlaylistId(playlistAudioName[0]);
-        AudiosDataUpdate.addaudio(playlistAudioName[1], true);
+        AudiosDataUpdate.addAudio(playlistAudioName[1], true);
 
         int audioId = AudiosDataAccess.getaudioID(playlistAudioName[1]);
         PlaylistAudiosDataUpdate.addaudioToPlaylist(playlistId, audioId);

@@ -128,7 +128,7 @@ public class AudioPlayer extends Service {
             DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
 
             AudiosDataUpdate AudiosDataUpdate = new AudiosDataUpdate(connection);
-            AudiosDataUpdate.deleteaudio(audioName);
+            AudiosDataUpdate.deleteAudio(audioName);
 
             AudiosDataAccess AudiosDataAccess = new AudiosDataAccess(connection);
             int audioID = AudiosDataAccess.getaudioID(audioName);
