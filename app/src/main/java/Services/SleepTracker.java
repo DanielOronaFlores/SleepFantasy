@@ -54,9 +54,7 @@ public class SleepTracker extends Service {
     private List<Double> bpmList;
     private List<Float> lightList;
     private SensorManager sensorManager;
-    private Sensor heartRateSensor;
-    private Sensor lightSensor;
-    private Sensor accelerometerSensor;
+    private Sensor heartRateSensor, lightSensor, accelerometerSensor;
     private PCMRecorder pcmRecorder;
     private Recorder recorder;
     private Handler handler;
@@ -135,6 +133,7 @@ public class SleepTracker extends Service {
     }
 
     private void initializeComponents() {
+
         connection = DatabaseConnection.getInstance(this);
         sleepDataUpdate = new SleepDataUpdate(connection);
         preferencesDataAccess = new PreferencesDataAccess(connection);
@@ -238,6 +237,7 @@ public class SleepTracker extends Service {
             System.out.println("Cantidad de cambios de posición: " + positionChangesCount);
             System.out.println("Cantidad de sonidos fuertes: " + loudSoundsAmount);
             System.out.println("Cantidad de despertares: " + awakeningsAmount);
+            System.out.println("Luz obtenida: " + averageCalculator.calculateMeanFloat(lightList));
 
             sleepDataUpdate.insertData(vigilTime, // Insterta los datos en la base de datos
                     lightSleepTime,
@@ -325,15 +325,9 @@ public class SleepTracker extends Service {
         @Override
         public void onSensorChanged(SensorEvent event) {
             float[] values = event.values;
-            float x = values[0];
-            float y = values[1];
-            float z = values[2];
+            float x = Math.abs(values[0]);
 
-            double angle = Math.atan2(Math.sqrt(x * x + y * y), z);
-            double angleInDegrees = Math.toDegrees(angle);
-            double threshold = 30.0; // Umbral en grados
-
-            isVertical = (angleInDegrees >= (90 - threshold) && angleInDegrees <= (90 + threshold));
+            isVertical = x > 9.7;
         }
 
         @Override
@@ -347,8 +341,17 @@ public class SleepTracker extends Service {
         private final float realMinutes = 0.08333f; // Segundos equivalentes a DELAY_TIME / 60
         private final float virtualMinutes = 10f; // Minutos que queremos que pasen en la aplicación
         private final float multiplier = virtualMinutes / realMinutes;
+
         @Override
         public void run() {
+            sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+            if (!isSleeping && isVertical) {
+                Intent intent = new Intent(SleepTracker.this, PostureSensor.class);
+                startService(intent);
+                stopSelf();
+            }
+
             if (isSleeping && !isEventRunning) {
                 events.run();
                 isEventRunning = true;
@@ -387,7 +390,7 @@ public class SleepTracker extends Service {
                 }
 
                 if (isSleeping) {
-                    if (awakenings.isAwakening(bpmMean, currentSleepPhase)) {
+                    if (awakenings.isAwakening(isVertical, currentSleepPhase)) {
                         awakeningsAmount++;
                         awakeningsBeforeThreshold++;
                         timeAwake += (int) (realMinutes * multiplier);
@@ -427,7 +430,7 @@ public class SleepTracker extends Service {
             }
             // ----- MONSTRUOS -----
 
-            if (timeAwake > 10) {
+            if (timeAwake > 15) {
                 sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
                 System.out.println("Vertical: " + isVertical);
 

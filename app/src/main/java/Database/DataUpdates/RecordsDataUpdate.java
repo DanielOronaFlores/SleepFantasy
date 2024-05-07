@@ -46,4 +46,19 @@ public class RecordsDataUpdate {
     public void updateHasObtainedExperience(boolean value) {
         database.execSQL("UPDATE Records SET hasObtainedExperience = " + value);
     }
+
+    public void restartAllValues() {
+        database.execSQL("UPDATE Records SET isPlayingMusic = 0, " +
+                "isTemporizerActive = 0, " +
+                "hasMonsterAppeared = 0, " +
+                "isCategoryValid = 0, " +
+                "hasDeletedAudio = 0, " +
+                "hasAvatarVisualChanged = 0, " +
+                "isNewSoundSet = 0, " +
+                "isNewInterface = 0, " +
+                "isNewAudioUpoloaded    = 0, " +
+                "hasAudiosPlayed = 0, " +
+                "isGraphDisplayed = 0, " +
+                "hasObtainedExperience = 0");
+    }
 }

@@ -18,7 +18,7 @@ public class AudiosDataAccess {
         this.database = connection.getDatabase();
     }
 
-    public int getaudioID(String audioTitle) {
+    public int getAudioID(String audioTitle) {
         int audioID = -1;
 
         try (SQLiteStatement statement = database.compileStatement("SELECT id FROM Audios WHERE name = ?")) {
@@ -32,6 +32,7 @@ public class AudiosDataAccess {
         return audioID;
     }
 
+    @SuppressLint("Range")
     public List<Audio> getAllAudios() {
         List<Audio> audioList = new ArrayList<>();
         String query = "SELECT * FROM Audios;";
@@ -40,9 +41,9 @@ public class AudiosDataAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("id"));
-                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
-                @SuppressLint("Range") int createdBySystem = cursor.getInt(cursor.getColumnIndex("createdBySystem"));
+                int id = cursor.getInt(cursor.getColumnIndex("id"));
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                int createdBySystem = cursor.getInt(cursor.getColumnIndex("createdBySystem"));
 
                 Audio audio= new Audio(id, name, createdBySystem);
                 audioList.add(audio);
@@ -52,6 +53,7 @@ public class AudiosDataAccess {
         return audioList;
     }
 
+    @SuppressLint("Range")
     public List<String> getAudiosNotCreatedBySystem() {
         List<String> audioList = new ArrayList<>();
         String query = "SELECT name FROM Audios WHERE createdBySystem = 0;";
@@ -60,7 +62,7 @@ public class AudiosDataAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
+                String name = cursor.getString(cursor.getColumnIndex("name"));
                 audioList.add(name);
             } while (cursor.moveToNext());
         }

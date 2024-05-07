@@ -131,7 +131,7 @@ public class AudioPlayer extends Service {
             AudiosDataUpdate.deleteAudio(audioName);
 
             AudiosDataAccess AudiosDataAccess = new AudiosDataAccess(connection);
-            int audioID = AudiosDataAccess.getaudioID(audioName);
+            int audioID = AudiosDataAccess.getAudioID(audioName);
 
             PlaylistAudiosDataUpdate PlaylistAudiosDataUpdate = new PlaylistAudiosDataUpdate(connection);
             PlaylistAudiosDataUpdate.deleteAudio(audioID);

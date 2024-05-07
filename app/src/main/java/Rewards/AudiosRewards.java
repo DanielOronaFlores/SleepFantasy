@@ -76,7 +76,7 @@ public class AudiosRewards {
         int playlistId = playlistDataAccess.getPlaylistId(playlistAudioName[0]);
         AudiosDataUpdate.addAudio(playlistAudioName[1], true);
 
-        int audioId = AudiosDataAccess.getaudioID(playlistAudioName[1]);
+        int audioId = AudiosDataAccess.getAudioID(playlistAudioName[1]);
         PlaylistAudiosDataUpdate.addaudioToPlaylist(playlistId, audioId);
 
         System.out.println("Se ha dado el audio " + playlistAudioName[1] + " de la playlist " + playlistAudioName[0]);

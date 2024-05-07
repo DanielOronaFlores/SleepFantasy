@@ -6,6 +6,7 @@ import java.util.Random;
 import AppContext.MyApplication;
 import Database.DataAccess.ChallengesDataAccess;
 import Database.DataUpdates.ChallengesDataUpdate;
+import Database.DataUpdates.RecordsDataUpdate;
 import Database.DatabaseConnection;
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RecordsDataAccess;
@@ -17,6 +18,7 @@ public class ChallengesManager {
     private static ChallengesDataUpdate challengesDataUpdate;
     private static PreferencesDataAccess preferencesDataAccess;
     private static RecordsDataAccess recordsDataAccess;
+    private static RecordsDataUpdate recordsDataUpdate;
     private static DateManager dateManager;
     private static ExperienceManager experienceManager;
     private static final int MAX_CHALLENGE_NUMBER = 15;
@@ -29,6 +31,7 @@ public class ChallengesManager {
         challengesDataUpdate = new ChallengesDataUpdate(connection);
         preferencesDataAccess = new PreferencesDataAccess(connection);
         recordsDataAccess = new RecordsDataAccess(connection);
+        recordsDataUpdate = new RecordsDataUpdate(connection);
 
         dateManager = new DateManager();
         experienceManager = new ExperienceManager();
@@ -63,7 +66,7 @@ public class ChallengesManager {
         if (isUpdateChallenge()) {
             int currentActiveChallenge = challengesDataAccess.getActiveChallenge();
             challengesDataUpdate.markAsInactive(currentActiveChallenge);
-            recordsDataAccess.restartAllValues();
+            recordsDataUpdate.restartAllValues();
 
             int newChallenge = getRandomChallenge();
             setNewChallenge(newChallenge);
@@ -107,7 +110,7 @@ public class ChallengesManager {
             if (!currentDate.equals(challengesDataAccess.getDate(challenge))) {
                 challengesDataUpdate.updateCounter(challenge, 0);
                 challengesDataUpdate.updateOldDate(challenge, currentDate);
-                recordsDataAccess.restartAllValues();
+                recordsDataUpdate.restartAllValues();
             }
         }
     }

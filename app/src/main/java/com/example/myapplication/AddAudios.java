@@ -73,7 +73,7 @@ public class AddAudios extends AppCompatActivity {
 
             for (String audio : selectedAudios) {
                 AudiosDataUpdate.addAudio(audio, false);
-                int audioID = AudiosDataAccess.getaudioID(audio);
+                int audioID = AudiosDataAccess.getAudioID(audio);
                 PlaylistAudiosDataUpdate.addaudioToPlaylist(playListID, audioID);
             }
             Toast.makeText(this, "AUDIOS AGREGADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
