@@ -46,10 +46,10 @@ public class MissionDataAccess {
 
         try (Cursor cursor = database.rawQuery(query, null)) {
             while (cursor.moveToNext()) {
-                byte id = (byte) cursor.getInt(cursor.getColumnIndex("id"));
+               byte id = (byte) cursor.getInt(cursor.getColumnIndex("id"));
                 byte currentDifficult = (byte) cursor.getInt(cursor.getColumnIndex("currentDifficult"));
-                byte currentQuantity = (byte) cursor.getInt(cursor.getColumnIndex("currentQuantity"));
-                byte requiredQuantity = (byte) cursor.getInt(cursor.getColumnIndex("requiredQuantity"));
+                byte currentQuantity = (byte) cursor.getInt(cursor.getColumnIndex("currentCuantity"));
+                byte requiredQuantity = (byte) cursor.getInt(cursor.getColumnIndex("requiredCuantity"));
                 String date = String.valueOf(cursor.getInt(cursor.getColumnIndex("date")));
                 boolean completed = cursor.getInt(cursor.getColumnIndex("completed")) == 1;
 

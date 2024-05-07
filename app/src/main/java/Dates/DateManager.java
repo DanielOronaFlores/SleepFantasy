@@ -148,6 +148,35 @@ public class DateManager {
         System.out.println("Dias de diferencia: " + differenceMillis / (24 * 60 * 60 * 1000));
         return Math.abs(differenceMillis / (24 * 60 * 60 * 1000));
     }
+
+    public static String getDateSinceDate(int days) {
+        SimpleDateFormat sdf = getDateFormat();
+        String startDate;
+        try {
+            Date currentDate = new Date(System.currentTimeMillis());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.DAY_OF_YEAR, -days);
+            startDate = sdf.format(calendar.getTime());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return startDate;
+    }
+
+    public static String convertToFormat(String date, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
+        Date dateFormatted;
+
+        try {
+            dateFormatted = getDateFormat().parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        assert dateFormatted != null;
+        return sdf.format(dateFormatted);
+    }
     // --- Limpio
 
     public String getPastWeek(String date) {
@@ -178,19 +207,7 @@ public class DateManager {
         }
         return startDate;
     }
-    public String monthDayOnly(String date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd", Locale.getDefault());
-        Date dateFormatted;
 
-        try {
-            dateFormatted = getDateFormat().parse(date);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-        assert dateFormatted != null;
-        return sdf.format(dateFormatted);
-    }
 
     public String formatDate(String date) {
         Date dateFormatted;

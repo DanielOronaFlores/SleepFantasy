@@ -88,6 +88,7 @@ public class Themes {
                 button.setBackgroundColor(context.getResources().getColor(R.color.buttonData_background_purple));
                 break;
         }
+        button.setTextColor(context.getResources().getColor(R.color.white));
     }
 
     public static void setChallengeTextViewTheme(Context context, TextView textView) {

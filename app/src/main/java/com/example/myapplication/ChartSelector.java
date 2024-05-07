@@ -61,9 +61,9 @@ public class ChartSelector extends AppCompatActivity {
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
         if (date == null) {
-            DateManager dateManager = new DateManager();
-            date = dateManager.getCurrentDate();
+            date = DateManager.getCurrentDate();
         }
+        btDate.setText(date);
 
         btnConsult = findViewById(R.id.chartConsult);
         btnConsult.setOnClickListener(view -> {
