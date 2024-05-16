@@ -19,4 +19,14 @@ public class TipsDataUpdate {
         String query = "UPDATE Tips SET lastDateAppeared = ?";
         database.execSQL(query, new String[]{date});
     }
+
+    public void updateCurrentTipId(int tipId) {
+        String query = "UPDATE Tips SET currentID = ?";
+        database.execSQL(query, new String[]{String.valueOf(tipId)});
+    }
+
+    public void updateDisplayed(boolean displayed) {
+        String query = "UPDATE Tips SET displayed = ?";
+        database.execSQL(query, new String[]{displayed ? "1" : "0"});
+    }
 }

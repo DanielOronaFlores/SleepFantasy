@@ -33,13 +33,17 @@ public class Tips {
     }
 
     public void updateTip() {
-        if (tipsDataAccess.getCurrentTipId() == -1) {
+        String lastDateAppeared = tipsDataAccess.getLastDateAppeared();
+        if (lastDateAppeared == null || tipsDataAccess.getCurrentTipType() == -1) {
             selectTip();
+            return;
         }
 
-        String lastDateAppeared = tipsDataAccess.getLastDateAppeared();
+        long daysDifference = Math.abs(DateManager.getDaysDifference(DateManager.getCurrentDate(), lastDateAppeared));
+        System.out.println("Last date appeared: " + lastDateAppeared);
+        System.out.println("Days difference: " + daysDifference);
 
-        if (lastDateAppeared != null && DateManager.getDaysDifference(DateManager.getCurrentDate(), lastDateAppeared) > 3) {
+        if (daysDifference >= 3) {
             selectTip();
         } else
             System.out.println("No se puede mostrar un nuevo tip debido a que ya se mostró uno recientemente.");
@@ -61,25 +65,19 @@ public class Tips {
         System.out.println("Last tip type: " + lastTipType);
         System.out.println("Tip type: " + tipType);
 
-
         if (tipType == 0) {  // No hay tips disponibles
-            missionsUpdater.updateMission19(tipsConditions.length);
+            //missionsUpdater.updateMission13();
+            //missionsUpdater.updateMission19(tipsConditions.length);
             System.out.println("No hay tips disponibles");
             return;
         }
 
-        String[] tips = null;
-        switch (tipType) {
-            case 1:
-                tips = context.getResources().getStringArray(R.array.tips_sleepEvents);
-                break;
-            case 2:
-                tips = context.getResources().getStringArray(R.array.tips_sleepTime);
-                break;
-            case 3:
-                tips = context.getResources().getStringArray(R.array.tips_sleepEnvironment);
-                break;
-        }
+        String[] tips = switch (tipType) {
+            case 1 -> context.getResources().getStringArray(R.array.tips_sleepEvents);
+            case 2 -> context.getResources().getStringArray(R.array.tips_sleepTime);
+            case 3 -> context.getResources().getStringArray(R.array.tips_sleepEnvironment);
+            default -> null;
+        };
 
         tipsDataUpdate.updateCurrentTip(lastTipType, false);
         tipsDataUpdate.updateCurrentTip(tipType, true);
@@ -87,6 +85,10 @@ public class Tips {
 
         int tipIndex = (int) (Math.random() * Objects.requireNonNull(tips).length);
         Notifications.showTipNotification(tips[tipIndex]);
+
+        tipsDataUpdate.updateCurrentTipId(tipIndex);
+        tipsDataUpdate.updateDisplayed(false);
+
         System.out.println("Tip: " + tips[tipIndex]);
     }
 

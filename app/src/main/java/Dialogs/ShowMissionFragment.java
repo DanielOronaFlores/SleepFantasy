@@ -38,7 +38,6 @@ public class ShowMissionFragment extends DialogFragment {
         missionDescription = view.findViewById(R.id.missionDescription);
         missionPeriod = view.findViewById(R.id.missionPeriod);
 
-
         missionDescription.setText(getMissionDescription(missionId));
         missionPeriod.setText(getMissionPeriod(missionId));
 

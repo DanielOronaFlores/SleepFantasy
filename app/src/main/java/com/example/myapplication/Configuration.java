@@ -17,7 +17,10 @@ import Database.DataUpdates.AvatarDataUpdate;
 import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
 import Permissions.Permissions;
+import SleepEvaluator.SleepEvaluator;
+import SleepEvaluator.Trainer.BayesCreator;
 import Styles.Themes;
+import Tips.Tips;
 
 public class Configuration extends AppCompatActivity {
     private AvatarCreator avatarManager;
@@ -77,6 +80,19 @@ public class Configuration extends AppCompatActivity {
             Intent intent = new Intent(this, NotificationSelector.class);
             startActivity(intent);
         });
+
+        Tips tips = new Tips();
+        tips.updateTip();
+
+        //BayesCreator.createProbabilities();
+        //case1();
+        //case2();
+        //case3();
+        //case4();
+        //case5();
+        //case6();
+        //case7();
+        //case8();
     }
 
     @Override
@@ -152,5 +168,128 @@ public class Configuration extends AppCompatActivity {
         Themes.setButtonTheme(this, buttonChangeTheme);
         Themes.setButtonTheme(this, buttonChangeAvatarSkin);
         Themes.setButtonDataTheme(this, buttonChangeAudioQuality);
+    }
+
+
+    // ------------- CASOS
+    private void case1() {
+        boolean[] monsters = {false, false, false, false, false};
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(
+                10,
+                240,
+                120,
+                120,
+                0,
+                0,
+                0,
+                monsters
+        );
+    }
+
+    private void case2() {
+        boolean[] monsters = {false, false, false, false, false};
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(110,
+                215,
+                130,
+                100,
+                2,
+                1,
+                2,
+                monsters
+        );
+    }
+
+    private void case3() {
+        boolean[] monsters = {false, false, false, false, false};
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(60,
+                215,
+                130,
+                130,
+                2,
+                1,
+                4,
+                monsters
+        );
+    }
+
+    private void case4() {
+        boolean[] monsters = {false, false, false, false, false};
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(60,
+                175,
+                50,
+                25,
+                8,
+                20,
+                10,
+                monsters
+        );
+    }
+
+    private void case5() {
+        boolean[] monsters = {false, false, false, false, false};
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(90,
+                60,
+                20,
+                10,
+                5,
+                9,
+                15,
+                monsters
+        );
+    }
+
+    private void case6() {
+        boolean[] monsters = {false, false, false, false, false};
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(120,
+                60,
+                20,
+                10,
+                5,
+                9,
+                10,
+                monsters
+        );
+    }
+
+    private void case7() {
+        boolean[] monsters = {false, false, false, false, false};
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(90,
+                60,
+                20,
+                10,
+                5,
+                9,
+                22,
+                monsters
+        );
+    }
+
+    private void case8() {
+        boolean[] monsters = {false, false, false, false, false};
+
+        SleepEvaluator sleepEvaluator = new SleepEvaluator();
+        sleepEvaluator.evaluate(0,
+                300,
+                100,
+                50,
+                3,
+                10,
+                7,
+                monsters
+        );
     }
 }

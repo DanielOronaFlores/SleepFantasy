@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
 
 import Database.DatabaseConnection;
+import Dates.DateManager;
 
 public class TipsDataAccess {
     private final SQLiteDatabase database;
@@ -24,13 +25,24 @@ public class TipsDataAccess {
     }
 
     public int getCurrentTipId() {
-        String query = "SELECT id FROM Tips WHERE current = 1;";
+        String query = "SELECT currentID FROM Tips WHERE current = 1;";
         SQLiteStatement statement = database.compileStatement(query);
         try {
             long result = statement.simpleQueryForLong();
             return (int) result;
         } catch (SQLiteDoneException e) {
             return -1;
+        }
+    }
+
+    public boolean isDisplayed() {
+        String query = "SELECT displayed FROM Tips WHERE current = 1;";
+        SQLiteStatement statement = database.compileStatement(query);
+        try {
+            long result = statement.simpleQueryForLong();
+            return result == 1;
+        } catch (SQLiteDoneException e) {
+            return false;
         }
     }
 
