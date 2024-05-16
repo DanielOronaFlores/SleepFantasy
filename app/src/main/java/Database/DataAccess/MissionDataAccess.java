@@ -61,4 +61,12 @@ public class MissionDataAccess {
 
         return missions;
     }
+
+    //TODO: Vamos a actualizar el reporte de codigo.
+    public int getCurrentQuantity(int mission) {
+        String query = "SELECT currentCuantity FROM Missions WHERE id = ?;";
+        SQLiteStatement statement = database.compileStatement(query);
+        statement.bindLong(1, mission);
+        return (int) statement.simpleQueryForLong();
+    }
 }

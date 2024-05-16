@@ -1,5 +1,7 @@
 package SleepEvaluator.Trainer;
 
+import android.util.Log;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
@@ -77,32 +79,30 @@ public class BayesCreator {
         }
     }
 
-    private static int calculateSumColumn(float[][] attributeValues, int column) {
-        int sum = 0;
+    private static float calculateSumColumn(float[][] attributeValues, int column) {
+        float sum = 0;
+
         for (int i = 0; i < 7; i++) {
             sum += attributeValues[i][column];
         }
+        //System.out.println("Suma de columna " + column + ": " + sum);
         return sum;
     }
 
     private static void calculateFrequencyProbabilities() {
         totalInstances = deserializer.countInstances();
+        System.out.println("Total instancias: " + totalInstances);
 
         ArrayList<String> categoryValues, attributeValues;
-
         categoryValues = deserializer.getValueForElement("category");
-        printArrayList(categoryValues);
 
         for (int i = 0; i < 8; i++) {
             attributeValues = deserializer.getValueForElement(getAttributeName(i));
-            System.out.println("----" + getAttributeName(i) + "----");
-            printArrayList(categoryValues);
 
             for (int j = 0; j < totalInstances; j++) {
                 float value = Float.parseFloat(attributeValues.get(j));
                 int category = Integer.parseInt(categoryValues.get(j));
 
-                System.out.println("Category: " + category + " Value: " + value);
                 switch (i) {
                     case 0:
                         setFrequency(category, value, frequencyTotalSleepTime, i);
@@ -131,8 +131,6 @@ public class BayesCreator {
                 }
             }
         }
-
-        printALL();
     }
 
     private static void setLaPlaceSmoothing() {
@@ -150,19 +148,24 @@ public class BayesCreator {
         }
     }
 
-    private static void calculateConditionalProbabilities() {
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
-                frequencyTotalSleepTime[i][j] /= calculateSumColumn(frequencyTotalSleepTime, j);
-                frequencyLightSleepTime[i][j] /= calculateSumColumn(frequencyLightSleepTime, j);
-                frequencyDeepSleepTime[i][j] /= calculateSumColumn(frequencyDeepSleepTime, j);
-                frequencyRemSleepTime[i][j] /= calculateSumColumn(frequencyRemSleepTime, j);
-                frequencyEfficiency[i][j] /= calculateSumColumn(frequencyEfficiency, j);
-                frequencyAwakenings[i][j] /= calculateSumColumn(frequencyAwakenings, j);
-                frequencySuddenMovements[i][j] /= calculateSumColumn(frequencySuddenMovements, j);
-                frequencyPositionChanges[i][j] /= calculateSumColumn(frequencyPositionChanges, j);
+    private static void setConditionalProbabilities(float[][] attributeValues) {
+        for (int column = 0; column < 7; column++) {
+            float sumPerColumn = calculateSumColumn(attributeValues, column);
+            for (int i = 0; i < 7; i++) {
+                attributeValues[i][column] /= sumPerColumn;
             }
         }
+    }
+
+    private static void calculateConditionalProbabilities() {
+        setConditionalProbabilities(frequencyTotalSleepTime);
+        setConditionalProbabilities(frequencyLightSleepTime);
+        setConditionalProbabilities(frequencyDeepSleepTime);
+        setConditionalProbabilities(frequencyRemSleepTime);
+        setConditionalProbabilities(frequencyEfficiency);
+        setConditionalProbabilities(frequencyAwakenings);
+        setConditionalProbabilities(frequencySuddenMovements);
+        setConditionalProbabilities(frequencyPositionChanges);
     }
 
     private static void saveProbabilities() {
@@ -180,12 +183,21 @@ public class BayesCreator {
     }
 
     public static void createProbabilities() {
-        System.out.println("----Calcular frecuencias de probabilidades----");
+        System.out.println("---------Calcular frecuencias de probabilidades---------");
         calculateFrequencyProbabilities();
+        System.out.println();
         printALL();
 
+        System.out.println("---------Suavizado de Laplace---------");
         setLaPlaceSmoothing();
+        System.out.println();
+        printALL();
+
+        System.out.println("---------Calcular probabilidades condicionales---------");
         calculateConditionalProbabilities();
+        System.out.println();
+        printALL();
+
         saveProbabilities();
     }
 
@@ -223,12 +235,5 @@ public class BayesCreator {
             }
             System.out.println();
         }
-    }
-
-    private static void printArrayList(ArrayList<String> list) {
-        for (String v : list) {
-            System.out.print(v + "\t");
-        }
-        System.out.println();
     }
 }

@@ -232,18 +232,20 @@ public class SleepTracker extends Service {
             int suddenMovementsCount = suddenMovements.getTotalSuddenMovements();
             int positionChangesCount = positionChanges.getTotalPositionChanges();
             int loudSoundsAmount = soundsList.size();
+            int lightMean = (int) averageCalculator.calculateMeanFloat(lightList);
+
 
             System.out.println("Cantidad de movimientos bruscos: " + suddenMovementsCount);
             System.out.println("Cantidad de cambios de posición: " + positionChangesCount);
             System.out.println("Cantidad de sonidos fuertes: " + loudSoundsAmount);
             System.out.println("Cantidad de despertares: " + awakeningsAmount);
-            System.out.println("Luz obtenida: " + averageCalculator.calculateMeanFloat(lightList));
+            System.out.println("Luz obtenida: " + lightMean);
 
             sleepDataUpdate.insertData(vigilTime, // Insterta los datos en la base de datos
                     lightSleepTime,
                     deepSleepTime,
                     remSleepTime,
-                    averageCalculator.calculateMeanFloat(lightList),
+                    lightMean,
                     loudSoundsAmount,
                     suddenMovementsCount,
                     positionChangesCount,
@@ -262,7 +264,7 @@ public class SleepTracker extends Service {
             ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
             challengesUpdater.updateSleepingConditions(); // Actualiza las condiciones de sueño
 
-            MissionsUpdater.updateMission4(light);
+            //MissionsUpdater.updateMission4(lightMean);
 
         } else {
             System.out.println("No se han registrado datos");
@@ -339,13 +341,13 @@ public class SleepTracker extends Service {
     Runnable runnable = new Runnable() {
         private final int DELAY_TIME = 5000; // Valor en milisegundos (real)
         private final float realMinutes = 0.08333f; // Segundos equivalentes a DELAY_TIME / 60
-        private final float virtualMinutes = 10f; // Minutos que queremos que pasen en la aplicación
+        private final float virtualMinutes = 30; // Minutos que queremos que pasen en la aplicación
         private final float multiplier = virtualMinutes / realMinutes;
 
         @Override
         public void run() {
             sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
+            System.out.println("Parado " + isVertical);
             if (!isSleeping && isVertical) {
                 Intent intent = new Intent(SleepTracker.this, PostureSensor.class);
                 startService(intent);

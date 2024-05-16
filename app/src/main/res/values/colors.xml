@@ -2,9 +2,9 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="remSleep">#A830A6</color>
-    <color name="deepSleep">#B764B6</color>
-    <color name="lightSleep">#E47DE2</color>
+    <color name="remSleep">#98212F</color>
+    <color name="deepSleep">#FFC107</color>
+    <color name="lightSleep">#E85EE5</color>
     <color name="vigil">#F2D6B6</color>
     <color name="barCharColor1">#CAC96D</color>
     <color name="barCharColor2">#7A7A42</color>

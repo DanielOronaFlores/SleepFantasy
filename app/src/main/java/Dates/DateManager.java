@@ -27,7 +27,7 @@ public class DateManager {
         return formattedDate;
     }
 
-    private boolean isConsecutive(Date currentDate, Date oldDate) {
+    private static boolean isConsecutive(Date currentDate, Date oldDate) {
         long differenceMillis = currentDate.getTime() - oldDate.getTime();
         long differenceDays = differenceMillis / (24 * 60 * 60 * 1000); // 24 hours in a day, 60 minutes in an hour, 60 seconds in a minute, 1000 milliseconds in a second
         return Math.abs(differenceDays) == 1;
@@ -35,15 +35,24 @@ public class DateManager {
 
 
 
-    public boolean compareDates(String oldDateStr) throws ParseException {
+    public static boolean isConsecutiveDays(String oldDateStr) {
         String currentDateStr = getCurrentDate();
-        Date currentDateFormatted = getDateFormat().parse(currentDateStr);
-        Date oldDateFormatted = getDateFormat().parse(oldDateStr);
+        Date currentDateFormatted;
+        Date oldDateFormatted;
 
-        if (currentDateFormatted == null || oldDateFormatted == null) {
-            throw new ParseException("Error parsing dates", 0);
+        System.out.println("Fecha actual: " + currentDateStr);
+        System.out.println("Fecha antigua: " + oldDateStr);
+
+        try {
+            currentDateFormatted = getDateFormat().parse(currentDateStr);
+            oldDateFormatted = getDateFormat().parse(oldDateStr);
+        } catch (ParseException e) {
+            return false;
         }
 
+        if (currentDateFormatted == null || oldDateFormatted == null) {
+            return false;
+        }
         return isConsecutive(currentDateFormatted, oldDateFormatted);
     }
 
@@ -137,7 +146,7 @@ public class DateManager {
             startDateFormatted = getDateFormat().parse(startDate);
             endDateFormatted = getDateFormat().parse(endDate);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            return 0;
         }
 
         if (startDateFormatted == null || endDateFormatted == null) {

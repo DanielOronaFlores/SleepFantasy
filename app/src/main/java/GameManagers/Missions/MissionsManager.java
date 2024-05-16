@@ -9,6 +9,7 @@ import AppContext.MyApplication;
 import Database.DataAccess.MissionDataAccess;
 import Database.DataUpdates.MissionDataUpdate;
 import Database.DatabaseConnection;
+import Dates.DateManager;
 import GameManagers.ExperienceManager;
 
 public class MissionsManager {
@@ -26,17 +27,26 @@ public class MissionsManager {
         systemExperience = new ExperienceManager();
     }
 
-    public void updateMission(int id, int quantity) {
+    public void updateMission(int id) {
+        System.out.println("Mision ID: " + id);
+        System.out.println("Mision disponible: " + isMissionAvailable(id));
         if (isMissionAvailable(id)) {
             String missionType = getMissionType(id);
-            if (missionType.equals("dias") && !areConsecutiveDays(id)) {
+            System.out.println("Tipo de mision: " + missionType);
+
+            boolean areConsecutive = areConsecutiveDays(id);
+            System.out.println("Dias conesecutivos: " + areConsecutive);
+
+            missionDataUpdate.updateDate(id);
+            if (missionType.equals("dias") && !areConsecutive) {
                 return;
             }
 
-            missionDataUpdate.updateDate(id);
-            missionDataUpdate.updateCurrentQuantity(id, quantity);
+            int currentQuantity = missionDataAccess.getCurrentQuantity(id);
+            int newQuantity = currentQuantity + 1;
+            missionDataUpdate.updateCurrentQuantity(id, newQuantity);
 
-            if (isMissionCompleted(id, quantity)) {
+            if (isMissionCompleted(id, newQuantity)) {
                 addExperience(missionDataAccess.getCurrentDifficult(id));
                 increaseMissionDifficulty(id);
             }
@@ -45,23 +55,12 @@ public class MissionsManager {
     }
 
     private boolean areConsecutiveDays(int id) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date = new Date(System.currentTimeMillis());
-        String oldDay = dateFormat.format(date);
-
-        LocalDate localDate1;
-        LocalDate localDate2;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            localDate1 = LocalDate.parse(oldDay);
-            localDate2 = LocalDate.parse(missionDataAccess.getDate(id));
-
-            return localDate2.isEqual(localDate1.plusDays(1));
-        }
-        return false;
+        String oldDay = missionDataAccess.getDate(id);
+        return DateManager.isConsecutiveDays(oldDay);
     }
 
     private void checkAndUpdateMissionStatus(int id) {
-        if (missionDataAccess.getCurrentDifficult(id) > 3) {
+        if (missionDataAccess.getCurrentDifficult(id) >= 3) {
             missionDataUpdate.updateCompleteStatus(id);
         }
     }
@@ -94,6 +93,8 @@ public class MissionsManager {
     }
     private boolean isMissionCompleted(int id, int currentQuantity) {
         int requiredQuantity = missionDataAccess.getRequiredQuantity(id);
+        System.out.println("Cantidad actual: " + currentQuantity);
+        System.out.println("Cantidad requerida: " + requiredQuantity);
         return currentQuantity >= requiredQuantity;
     }
     private String getMissionType(int id) {

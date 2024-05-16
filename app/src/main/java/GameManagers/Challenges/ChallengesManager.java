@@ -1,6 +1,5 @@
 package GameManagers.Challenges;
 
-import java.text.ParseException;
 import java.util.Random;
 
 import AppContext.MyApplication;
@@ -155,11 +154,8 @@ public class ChallengesManager {
         String oldDate = challengesDataAccess.getDate(challenge);
         if (oldDate != null)
         {
-            try {
-                return dateManager.compareDates(oldDate);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+            return false;
+            //return DateManager.isConsecutiveDays(oldDate);
         }
         return false;
     }

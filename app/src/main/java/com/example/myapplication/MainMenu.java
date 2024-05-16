@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import Avatar.CharactersList;
 import Database.DataAccess.AvatarDataAccess;
+import Database.DataAccess.TipsDataAccess;
 import Database.DatabaseConnection;
 import Dates.DateManager;
 import Dialogs.AvatarInformationFragment;
+import Dialogs.TipFragment;
 import Files.AudiosPaths;
 import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
@@ -24,6 +26,7 @@ import Tips.Tips;
 
 public class MainMenu extends AppCompatActivity {
     private AvatarDataAccess avatarDataAccess;
+    private TipsDataAccess tipsDataAccess;
     private ImageView imgAvatar, imgGameSelector, imgRecordVisualizer, imgChartsVisualizer, imgAvatarInformation, imgMusicSelector;
 
     @SuppressLint("SetTextI18n")
@@ -33,6 +36,7 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         avatarDataAccess = new AvatarDataAccess(DatabaseConnection.getInstance(this));
+        tipsDataAccess = new TipsDataAccess(DatabaseConnection.getInstance(this));
 
         imgAvatar = findViewById(R.id.avatarDisplay);
         imgGameSelector = findViewById(R.id.gameSelectorButton);
@@ -81,6 +85,11 @@ public class MainMenu extends AppCompatActivity {
         imgAvatar.setImageResource(skins[avatarDataAccess.getCharacterPhase() -1]);
 
         Permissions.askBodySensorsPermission(this, this);
+
+        if (!tipsDataAccess.isDisplayed()) {
+            TipFragment tipFragment = new TipFragment();
+            tipFragment.show(getSupportFragmentManager(), "Tip");
+        }
 
         setTheme();
     }

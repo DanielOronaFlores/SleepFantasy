@@ -36,16 +36,16 @@ public class MonstersManager {
 
         for (boolean monster : monsterConditions) {
             System.out.print("Monstruo: " + monster + " ");
-        }
+        } System.out.println();
 
         if (monstersDataAccess.getActiveMonster() == -1) { // Si no hay monstruo activo //
             if (isMonsterAppearing(monsterConditions) && new Random().nextBoolean()) { // 50% de probabilidad de que aparezca
                 int selectedMonster = selectMonster(monsterConditions);
-                monstersDataUpdate.updateMonsterActiveStatus(selectedMonster, dateManager.getCurrentDate());
+                monstersDataUpdate.updateMonsterActiveStatus(selectedMonster, DateManager.getCurrentDate());
                 challengesUpdater.updateMonsterAppearedRecord(true);
             } else {
                 challengesUpdater.updateMonsterAppearedRecord(false);
-                missionsUpdater.updateMission5(); // Apareció un monstruo pero no se activó
+                //missionsUpdater.updateMission5(); // Apareció un monstruo pero no se activó
                 System.out.println("No apareció un monstruo");
             }
         } else { // Si hay monstruo activo
@@ -75,7 +75,7 @@ public class MonstersManager {
     private void handleActiveMonster(boolean[] monsterConditions) {
         if (!monsterConditions[monstersDataAccess.getActiveMonster() - 1]) { // False significa que el monstruo ha sido derrotado
             monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
-            missionsUpdater.updateMission18();
+            //missionsUpdater.updateMission18();
             experienceManager.addExperience(500);
         }
     }

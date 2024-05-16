@@ -1,5 +1,7 @@
 package SleepEvaluator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import AppContext.MyApplication;
@@ -44,21 +46,34 @@ public class SleepEvaluator {
 
     private final int[] ranges = new int[8];
     private final float[][] categoryProbabilities = new float[8][7]; // 8 attributes, 7 categories
-    private final float[] finalCategoriesProbabilities = new float[7]; // 7 categories
+    private final double[] finalCategoriesProbabilities = new double[7]; // 7 categories
 
     public SleepEvaluator() {
         probabilitiesDataAccess = new ProbabilitiesDataAccess(connection);
     }
 
     private void setRanges() {
-        ranges[0] = RangesValues.awakenings(totalSleepTime);
-        ranges[1] = RangesValues.suddenMovements(lightSleepTime);
-        ranges[2] = RangesValues.positionChanges(deepSleepTime);
-        ranges[3] = RangesValues.totalSleepTime(remSleepTime);
-        ranges[4] = RangesValues.lightSleepTime(efficiency);
-        ranges[5] = RangesValues.deepSleepTime(awakenings);
-        ranges[6] = RangesValues.remSleepTime(suddenMovements);
-        ranges[7] = RangesValues.efficiency(positionChanges);
+        System.out.println("----------Rangos-------------");
+        System.out.println("totalSleepTime: " + totalSleepTime);
+        System.out.println("lightSleepTime: " + lightSleepTime);
+        System.out.println("deepSleepTime: " + deepSleepTime);
+        System.out.println("remSleepTime: " + remSleepTime);
+        System.out.println("efficiency: " + efficiency);
+        System.out.println("awakenings: " + awakenings);
+        System.out.println("suddenMovements: " + suddenMovements);
+        System.out.println("positionChanges: " + positionChanges);
+
+        ranges[0] = RangesValues.totalSleepTime(totalSleepTime);
+        ranges[1] = RangesValues.lightSleepTime(lightSleepTime);
+        ranges[2] = RangesValues.deepSleepTime(deepSleepTime);
+        ranges[3] = RangesValues.remSleepTime(remSleepTime);
+        ranges[4] = RangesValues.efficiency(efficiency);
+        ranges[5] = RangesValues.awakenings(awakenings);
+        ranges[6] = RangesValues.suddenMovements(suddenMovements);
+        ranges[7] = RangesValues.positionChanges(positionChanges);
+
+        System.out.println("----------Rangos-------------");
+        System.out.println(Arrays.toString(ranges));
     }
 
     private void getInitialAttributeProbabilitiesPerRange(float[] attribute, int range, String attributeName) {
@@ -69,19 +84,24 @@ public class SleepEvaluator {
     }
 
     private void generateCategoryProbabilities(int attributeID, float[] attribute) {
-        for (int i = 0; i < attribute.length; i++) {
-            categoryProbabilities[attributeID][i] = attribute[i];
-        }
+        System.arraycopy(attribute, 0, categoryProbabilities[attributeID], 0, attribute.length);
     }
 
     private void calculateFinalAttributeProbabilities() {
-        for (int i = 0; i < finalCategoriesProbabilities.length; i++) {
+        float[] prioriCategories = PrioriCategories.getPrioriProbabilities();
+        System.out.println("-----------Probabilidades Priori--------------");
+        System.out.println(Arrays.toString(prioriCategories));
+        System.out.println("----------------------------------------------");
+
+        for (int column = 0; column < categoryProbabilities[0].length; column++) {
             float mult = 1;
-            for (int j = 0; j < categoryProbabilities[0].length; j++) {
-                mult *= categoryProbabilities[i][j];
+            for (float[] categoryProbability : categoryProbabilities) {
+                //System.out.println("Probabilidad: " + categoryProbability[column]);
+                mult *= categoryProbability[column];
             }
-            mult *= PrioriCategories.getPrioriProbabilities()[i];
-            finalCategoriesProbabilities[i] = mult;
+            //System.out.println("Multiplicación: " + mult);
+            mult *= prioriCategories[column];
+            finalCategoriesProbabilities[column] = mult;
         }
     }
 
@@ -91,9 +111,9 @@ public class SleepEvaluator {
         remSleepTime = PercentageConverter.convertToPercentage(remSleepTime, totalSleepTime);
 
         setRanges();
-        connection.openDatabase();
 
-        // Get the initial probabilities for each attribute
+        // Aqui solo se obtienen las probabilidades iniciales de cada atributo de la base de datos
+        System.out.println("----------------Probabilidades de cada atributo----------------");
         getInitialAttributeProbabilitiesPerRange(totalSleepTimeProbailities, ranges[0], "totalSleepTime");
         getInitialAttributeProbabilitiesPerRange(lightSleepTimeProbabilities, ranges[1], "lightSleepTime");
         getInitialAttributeProbabilitiesPerRange(deepSleepTimeProbabilities, ranges[2], "deepSleepTime");
@@ -102,6 +122,7 @@ public class SleepEvaluator {
         getInitialAttributeProbabilitiesPerRange(awakeningsProbabilities, ranges[5], "awakenings");
         getInitialAttributeProbabilitiesPerRange(suddenMovementsProbabilities, ranges[6], "suddenMovements");
         getInitialAttributeProbabilitiesPerRange(positionChangesProbabilities, ranges[7], "positionChanges");
+        printAll();
 
         // Generate the category probabilities
         generateCategoryProbabilities(0, totalSleepTimeProbailities);
@@ -113,20 +134,36 @@ public class SleepEvaluator {
         generateCategoryProbabilities(6, suddenMovementsProbabilities);
         generateCategoryProbabilities(7, positionChangesProbabilities);
 
+        //Imprimir las probabilidades de cada categoria
+        printProba();
+
         //Calculate the final probabilities
         calculateFinalAttributeProbabilities();
+        System.out.println("Probabilidades Finales: " + Arrays.toString(finalCategoriesProbabilities));
 
         //Evaluate Sleep
-        float maxProbability = 0;
+        double maxProbability = 0;
         int category = 0;
         for (int i = 0; i < finalCategoriesProbabilities.length; i++) {
-            if (finalCategoriesProbabilities[i] >= maxProbability) {
+            if (finalCategoriesProbabilities[i] > maxProbability) {
                 maxProbability = finalCategoriesProbabilities[i];
+                System.out.println("Probabilidad Maxima: " + maxProbability);
                 category = i + 1;
             }
         }
         return category;
     }
+
+    private void printProba() {
+        System.out.println("----------------Probabilidades categoryProbabilities----------------");
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 7; j++) {
+                System.out.print(categoryProbabilities[i][j] + "\t");
+            }
+            System.out.println(); // Saltar a la siguiente línea después de imprimir una fila completa
+        }
+    }
+
 
     public void evaluate(int vigilTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int awakenings, int suddenMovements, int positionChanges, boolean[] monsterConditions) {
         this.lightSleepTime = lightSleepTime;
@@ -205,26 +242,51 @@ public class SleepEvaluator {
     }
 
     private void updateMissions(int category, int vigilTime) {
+        System.out.println("-------------------Misiones-------------------");
         MissionsUpdater missionsUpdater = new MissionsUpdater();
 
-        missionsUpdater.updateMission1((int) totalSleepTime);
-        missionsUpdater.updateMission2((int) awakenings);
-        missionsUpdater.updateMission3(efficiency);
-        missionsUpdater.updateMission6(category);
-        missionsUpdater.updateMission8(PercentageConverter.convertToPercentage(remSleepTime, totalSleepTime));
-        missionsUpdater.updateMission9((int) positionChanges);
-        missionsUpdater.updateMission10(vigilTime);
-        missionsUpdater.updateMission11((int) positionChanges);
-        missionsUpdater.updateMission12(PercentageConverter.convertToPercentage(lightSleepTime, totalSleepTime));
+        //missionsUpdater.updateMission1((int) totalSleepTime);
+        //missionsUpdater.updateMission2((int) awakenings);
+        //missionsUpdater.updateMission3(efficiency);
+
+        //missionsUpdater.updateMission6(category);
+
+        //missionsUpdater.updateMission8(remSleepTime);
+        //missionsUpdater.updateMission9((int) positionChanges);
+        //missionsUpdater.updateMission10(vigilTime);
+        //missionsUpdater.updateMission11((int) positionChanges);
+        //missionsUpdater.updateMission12(lightSleepTime);
 
         AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
-        int currentCategory = avatarDataAccess.getCharacterPhase();
-        missionsUpdater.updateMission14(category, currentCategory);
+        int oldCategory = avatarDataAccess.getCharacterPhase();
+        //missionsUpdater.updateMission14(category, oldCategory);
 
         int totalEvents = (int) awakenings + (int) suddenMovements + (int) positionChanges;
-        missionsUpdater.updateMission15(totalEvents);
+        //missionsUpdater.updateMission15(totalEvents);
 
-        missionsUpdater.updateMission16((int) totalSleepTime);
-        missionsUpdater.updateMission17(PercentageConverter.convertToPercentage(deepSleepTime, totalSleepTime));
+        //missionsUpdater.updateMission16((int) totalSleepTime);
+        //missionsUpdater.updateMission17(PercentageConverter.convertToPercentage(deepSleepTime, totalSleepTime));
+    }
+
+    private void printAll() {
+        printArray(totalSleepTimeProbailities);
+        printArray(lightSleepTimeProbabilities);
+        printArray(deepSleepTimeProbabilities);
+        printArray(remSleepTimeProbabilities);
+        printArray(efficiencyProbabilities);
+        printArray(awakeningsProbabilities);
+        printArray(suddenMovementsProbabilities);
+        printArray(positionChangesProbabilities);
+    }
+
+    private static void printArray(float[] array) {
+        System.out.print("[");
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i]);
+            if (i < array.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
     }
 }

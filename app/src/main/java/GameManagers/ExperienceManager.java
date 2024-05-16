@@ -39,7 +39,10 @@ public class ExperienceManager {
     }
 
     private void levelUp() {
-        avatarDataUpdate.updateLevel(avatarDataAccess.getLevel() + 1);
+        int currentLevel = avatarDataAccess.getLevel();
+        int newLevel = currentLevel + 1;
+
+        avatarDataUpdate.updateLevel(newLevel);
         avatarDataUpdate.updateRequiredExperience(calculateRequiredExperience(avatarDataAccess.getLevel()));
         MissionsUpdater missionsUpdater = new MissionsUpdater();
         missionsUpdater.updateMission7();

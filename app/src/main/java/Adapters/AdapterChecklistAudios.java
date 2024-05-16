@@ -53,8 +53,7 @@ public class AdapterChecklistAudios extends RecyclerView.Adapter<AdapterChecklis
     }
 
     public List<Audio> getSelectedAudios() {
-        GetSelectedAudios listaudioUtil = new GetSelectedAudios();
-        return listaudioUtil.getSelectedAudios(Audios, checkedList);
+        return GetSelectedAudios.getSelectedAudios(Audios, checkedList);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

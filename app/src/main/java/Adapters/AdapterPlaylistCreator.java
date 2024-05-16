@@ -18,11 +18,11 @@ import Models.Audio;
 import Utils.GetSelectedAudios;
 
 public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylistCreator.ViewHolder> {
-    private final List<Audio> Audios;
+    private final List<Audio> audios;
     private final List<Boolean> checkedList;
 
     public AdapterPlaylistCreator(List<Audio> Audios) {
-        this.Audios = Audios;
+        this.audios = Audios;
         checkedList = new ArrayList<>(Audios.size());
         for (int i = 0; i < Audios.size(); i++) {
             checkedList.add(false);
@@ -38,7 +38,7 @@ public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylist
 
     @Override
     public void onBindViewHolder(@NonNull AdapterPlaylistCreator.ViewHolder holder, int position) {
-        String shortName = Audios.get(position).getName();
+        String shortName = audios.get(position).getName();
         if (shortName.length() > 7) {
             shortName = shortName.substring(0, 7) + "...";
         }
@@ -49,12 +49,11 @@ public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylist
 
     @Override
     public int getItemCount() {
-        return Audios.size();
+        return audios.size();
     }
 
     public List<Audio> getSelectedAudios() {
-        GetSelectedAudios listaudioUtil = new GetSelectedAudios();
-        return listaudioUtil.getSelectedAudios(Audios, checkedList);
+        return GetSelectedAudios.getSelectedAudios(audios, checkedList);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

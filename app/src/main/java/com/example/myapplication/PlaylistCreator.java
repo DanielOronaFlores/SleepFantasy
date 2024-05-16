@@ -52,8 +52,7 @@ public class PlaylistCreator extends AppCompatActivity {
     }
 
     private void openPlaylistSelectionNameDialog() {
-        List<Audio> selectedAudios;
-        selectedAudios = ((AdapterChecklistAudios) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedAudios();
+        List<Audio> selectedAudios = ((AdapterChecklistAudios) Objects.requireNonNull(recyclerView.getAdapter())).getSelectedAudios();
 
         PlaylistCreatorFragment playlistCreator = new PlaylistCreatorFragment();
         playlistCreator.setSelectedAudios(selectedAudios);
