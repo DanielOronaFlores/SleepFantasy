@@ -2,11 +2,13 @@ package com.example.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import AudioFilter.AudioFilter;
 import Avatar.CharactersList;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.TipsDataAccess;
@@ -75,7 +77,10 @@ public class MainMenu extends AppCompatActivity {
 
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.update();
-        deleteRecordingsFiles();
+        //deleteRecordingsFiles();
+
+        Tips tips = new Tips();
+        tips.updateTip();
     }
     @Override
     protected void onStart() {
@@ -92,16 +97,29 @@ public class MainMenu extends AppCompatActivity {
         }
 
         setTheme();
+
+        //MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
+        //metadataRetriever.setDataSource(AudiosPaths.getRecordings3GPPath());
+        //float sampleRate = Float.parseFloat(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE));
+        //AudioFilter.startFilter(sampleRate);
     }
 
     private void deleteRecordingsFiles() {
-        String lastDateModified = FilesManager.getLastDateModified(AudiosPaths.getRecordingsPCMPath());
-        lastDateModified = DateManager.convertDate(lastDateModified);
+        String lastDateModified = FilesManager.getLastDateModified(AudiosPaths.getRecordings3GPPath());
+        System.out.println("Last date modified: " + lastDateModified);
 
-        if (lastDateModified != null && DateManager.hasPassedHoursSince(lastDateModified, 24)) {
-            FilesManager.deleteFile(AudiosPaths.getRecordingsPCMPath());
-            FilesManager.deleteFile(AudiosPaths.getRecordings3GPPath());
-            FilesManager.deleteFile(AudiosPaths.getListSoundsPath());
+
+        if (lastDateModified != null) {
+            //lastDateModified = DateManager.convertDate(lastDateModified);
+            //System.out.println("Last date modified: " + lastDateModified);
+
+            System.out.println("Has passed 24 hours?: " + DateManager.hasPassedHoursSince(lastDateModified, 24));
+            if (lastDateModified != null && DateManager.hasPassedHoursSince(lastDateModified, 24)) {
+                System.out.println("Deleting files");
+                FilesManager.deleteFile(AudiosPaths.getRecordingsPCMPath());
+                FilesManager.deleteFile(AudiosPaths.getRecordings3GPPath());
+                FilesManager.deleteFile(AudiosPaths.getListSoundsPath());
+            }
         }
     }
 

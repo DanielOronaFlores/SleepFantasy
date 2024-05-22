@@ -5,11 +5,10 @@ import android.content.Context;
 import AppContext.MyApplication;
 
 public class PlaylistAudios {
-private Context context;
+private final Context context;
 
     public PlaylistAudios() {
-        MyApplication myApplication = new MyApplication();
-        context = myApplication.getAppContext();
+        context = MyApplication.getAppContext();
     }
 
     public int getResourceId(String audioName) {

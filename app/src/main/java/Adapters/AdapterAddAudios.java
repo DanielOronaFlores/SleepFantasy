@@ -15,6 +15,7 @@ import com.example.myapplication.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -66,12 +67,24 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
 
     private void initializeAudioFilesList() {
         File folder = new File(AudiosPaths.getMusicPath());
+        System.out.println("Exits: " + folder.exists() + " Is directory: " + folder.isDirectory());
         if (folder.exists() && folder.isDirectory()) {
             File[] audioFiles = folder.listFiles();
+            System.out.println("Audio files: ");
+            System.out.println(Arrays.toString(audioFiles));
+
             if (audioFiles != null) {
+                System.out.println("Audio files: ");
                 getAudioFilesFromDevice(audioFiles);
+                System.out.println(audiosFileName);
+
+                System.out.println("Deleted audios already in database");
                 deletedAudiosAlreadyInDatabase();
+                System.out.println(audiosFileName);
+
+                System.out.println("Deleted audios not in range");
                 deleteAudiosNotInRange();
+                System.out.println(audiosFileName);
             }
         }
     }
@@ -101,7 +114,7 @@ public class AdapterAddAudios extends RecyclerView.Adapter<AdapterAddAudios.View
                 retriever.setDataSource(audioPath);
                 if (audioFile.exists()) {
                     long audioDuration = Long.parseLong(Objects.requireNonNull(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)));
-                    if (audioDuration < 30000 || audioDuration > 600000) {
+                    if (audioDuration < 10000 || audioDuration > 600000) {
                         iterator.remove();
                     }
                 }

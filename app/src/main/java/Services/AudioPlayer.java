@@ -87,7 +87,7 @@ public class AudioPlayer extends Service {
         if (mediaPlayer != null) mediaPlayer.release();
 
         String audioName = audios.get(position).getName();
-        int isCreatedBySystem = audios.get(position).getcreatedBySystem();
+        int isCreatedBySystem = audios.get(position).getIsCreatedBySystem();
 
         if (isCreatedBySystem == 1) {
             int audioID = selectaudio(audioName);

@@ -65,7 +65,7 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
     }
 
     private void playSound(Context context, List<Integer> seconds) {
-        String recordFilePath = audioFiles.getRecordings3GPPath();
+        String recordFilePath = AudiosPaths.getRecordings3GPPath();
 
         int startMillis = seconds.get(0) * 1000;
         int endSecond = seconds.get(seconds.size() - 1) + 1;
@@ -76,6 +76,8 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
             mediaPlayer.prepare();
             mediaPlayer.seekTo(startMillis);
             mediaPlayer.start();
+
+            System.out.println("Reproduciendo sonido desde " + startMillis + " hasta " + endMillis);
 
             Handler handler = new Handler();
             handler.postDelayed(this::stopPlaying, endMillis - startMillis);

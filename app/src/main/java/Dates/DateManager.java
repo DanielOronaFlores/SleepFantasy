@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateManager {
-    private static SimpleDateFormat getDateFormat() {
-        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    }
     public static String convertDate(String date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         SimpleDateFormat newDateFormat;
@@ -27,36 +24,18 @@ public class DateManager {
         return formattedDate;
     }
 
-    private static boolean isConsecutive(Date currentDate, Date oldDate) {
-        long differenceMillis = currentDate.getTime() - oldDate.getTime();
-        long differenceDays = differenceMillis / (24 * 60 * 60 * 1000); // 24 hours in a day, 60 minutes in an hour, 60 seconds in a minute, 1000 milliseconds in a second
-        return Math.abs(differenceDays) == 1;
+
+    // Ya limpio
+    private static SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
 
-
-
-    public static boolean isConsecutiveDays(String oldDateStr) {
-        String currentDateStr = getCurrentDate();
-        Date currentDateFormatted;
-        Date oldDateFormatted;
-
-        System.out.println("Fecha actual: " + currentDateStr);
-        System.out.println("Fecha antigua: " + oldDateStr);
-
-        try {
-            currentDateFormatted = getDateFormat().parse(currentDateStr);
-            oldDateFormatted = getDateFormat().parse(oldDateStr);
-        } catch (ParseException e) {
-            return false;
-        }
-
-        if (currentDateFormatted == null || oldDateFormatted == null) {
-            return false;
-        }
-        return isConsecutive(currentDateFormatted, oldDateFormatted);
+    public static String getCurrentDate() {
+        Date currentDate = new Date(System.currentTimeMillis());
+        return getDateFormat().format(currentDate);
     }
 
-    public String getDateNextDays(String date, int days) {
+    public static String getDateNextDays(String date, int days) {
         SimpleDateFormat sdf = getDateFormat();
         String endDate;
         try {
@@ -70,50 +49,6 @@ public class DateManager {
             return null;
         }
         return endDate;
-    }
-    public boolean isSunday() {
-        Calendar calendar = Calendar.getInstance();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-
-        return dayOfWeek == Calendar.SUNDAY;
-    }
-    public boolean haveThreeDaysPassed(String endDateStr) {
-        try {
-            Date startDateFormatted = getDateFormat().parse(getCurrentDate());
-            Date endDateFormatted = getDateFormat().parse(endDateStr);
-
-            if (startDateFormatted == null || endDateFormatted == null) {
-                throw new ParseException("Error parsing dates", 0);
-            }
-
-            long differenceMillis = endDateFormatted.getTime() - startDateFormatted.getTime();
-            long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
-
-            return differenceDays > 3;
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static String getPastDaySinceCurrentDate(int day) {
-        SimpleDateFormat sdf = getDateFormat();
-        String startDate;
-        try {
-            Date currentDate = new Date(System.currentTimeMillis());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(currentDate);
-            calendar.add(Calendar.DAY_OF_YEAR, -day);
-            startDate = sdf.format(calendar.getTime());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return startDate;
-    }
-
-
-    // Ya limpio
-    public static String getCurrentDate() {
-        Date currentDate = new Date(System.currentTimeMillis());
-        return getDateFormat().format(currentDate);
     }
 
     public static boolean hasPassedHoursSince(String oldDateStr, int hours) {
@@ -173,6 +108,42 @@ public class DateManager {
         return startDate;
     }
 
+    public static String getPastDaySinceCurrentDate(int day) {
+        SimpleDateFormat sdf = getDateFormat();
+        String startDate;
+        try {
+            Date currentDate = new Date(System.currentTimeMillis());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.DAY_OF_YEAR, -day);
+            startDate = sdf.format(calendar.getTime());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return startDate;
+    }
+
+    public static boolean isConsecutive(String currentDate, String oldDate) {
+        Date currentDateFormatted;
+        Date oldDateFormatted;
+        long differenceDays;
+
+        try {
+            currentDateFormatted = getDateFormat().parse(currentDate);
+            oldDateFormatted = getDateFormat().parse(oldDate);
+
+            if (currentDateFormatted == null || oldDateFormatted == null) {
+                throw new ParseException("Error parsing dates", 0);
+            }
+
+            long differenceMillis = currentDateFormatted.getTime() - oldDateFormatted.getTime();
+            differenceDays = differenceMillis / (24 * 60 * 60 * 1000); // 24 hours in a day, 60 minutes in an hour, 60 seconds in a minute, 1000 milliseconds in a second
+        } catch (ParseException e) {
+            return false;
+        }
+        return Math.abs(differenceDays) == 1;
+    }
+
     public static String convertToFormat(String date, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
         Date dateFormatted;
@@ -186,7 +157,12 @@ public class DateManager {
         assert dateFormatted != null;
         return sdf.format(dateFormatted);
     }
-    // --- Limpio
+
+    public boolean isDayOfWeek(int dayOfWeek) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+        return calendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek;
+    }
 
     public String getPastWeek(String date) {
         SimpleDateFormat sdf = getDateFormat();
@@ -216,9 +192,10 @@ public class DateManager {
         }
         return startDate;
     }
+    // --- Limpio
 
 
-    public String formatDate(String date) {
+    public static String formatDate(String date) {
         Date dateFormatted;
 
         try {

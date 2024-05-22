@@ -52,11 +52,11 @@ public class ChallengesManager {
 
     //Para seleccionar un nuevo reto
     private static boolean isUpdateChallenge() {
-        String currentDate = dateManager.getCurrentDate();
+        String currentDate = DateManager.getCurrentDate();
         String oldDate = challengesDataAccess.getDate(challengesDataAccess.getActiveChallenge());
         if (oldDate == null) return true;
 
-        return dateManager.isSunday() || dateManager.getDaysDifference(currentDate, oldDate) > 14;
+        return dateManager.isDayOfWeek(7) || DateManager.getDaysDifference(currentDate, oldDate) > 14;
     }
 
     private static void selectNewChallenge() {

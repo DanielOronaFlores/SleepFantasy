@@ -1,6 +1,5 @@
 package Styles;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
@@ -13,8 +12,7 @@ import Database.DatabaseConnection;
 
 public class Themes {
     public static void setBackgroundColor(Context context, View view) {
-        DatabaseConnection connection = DatabaseConnection.getInstance(context);
-        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
+        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(context));
 
         switch (preferencesDataAccess.getThemeSelected()) {
             case 1:
@@ -39,8 +37,7 @@ public class Themes {
     }
 
     public static void setButtonTheme(Context context, Button button) {
-        DatabaseConnection connection = DatabaseConnection.getInstance(context);
-        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
+        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(context));
 
         switch (preferencesDataAccess.getThemeSelected()) {
             case 1:
@@ -65,8 +62,7 @@ public class Themes {
     }
 
     public static void setButtonDataTheme(Context context, Button button) {
-        DatabaseConnection connection = DatabaseConnection.getInstance(context);
-        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
+        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(context));
 
         switch (preferencesDataAccess.getThemeSelected()) {
           case 1:
@@ -92,8 +88,7 @@ public class Themes {
     }
 
     public static void setChallengeTextViewTheme(Context context, TextView textView) {
-        DatabaseConnection connection = DatabaseConnection.getInstance(context);
-        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(connection);
+        PreferencesDataAccess preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(context));
 
         switch (preferencesDataAccess.getThemeSelected()) {
             case 1:

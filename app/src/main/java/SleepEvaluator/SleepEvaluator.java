@@ -264,7 +264,7 @@ public class SleepEvaluator {
         int totalEvents = (int) awakenings + (int) suddenMovements + (int) positionChanges;
         //missionsUpdater.updateMission15(totalEvents);
 
-        //missionsUpdater.updateMission16((int) totalSleepTime);
+        missionsUpdater.updateMission16((int) suddenMovements);
         //missionsUpdater.updateMission17(PercentageConverter.convertToPercentage(deepSleepTime, totalSleepTime));
     }
 

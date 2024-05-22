@@ -12,10 +12,18 @@ import Serializers.Serializer;
 import Models.Sound;
 
 public class AudioFilter {
-    public static void filterAudio(float sampleRate) {
+
+    public static void startFilter(float sampleRate) {
+        System.out.println("Starting filter");
+        Thread thread = new Thread(() -> filterAudio(sampleRate));
+        thread.start();
+    }
+
+    private static void filterAudio(float sampleRate) {
         List<Sound> soundsList = new ArrayList<>();
         File file = new File(AudiosPaths.getRecordingsPCMPath());
 
+        System.out.println("File exists: " + file.exists());
         if (file.exists()) {
             try {
                 double segmentDuration = 1.0;
@@ -55,6 +63,7 @@ public class AudioFilter {
 
                     if (second % 2 != 0) {
                         if (samples[0] != 0) {
+                            System.out.println("Second: " + second + " - " + samples[0]);
                             int realSecond = (second / 2) / 10;
                             soundsList.add(new Sound(realSecond));
                         }
@@ -66,6 +75,7 @@ public class AudioFilter {
             }
             Serializer serializer = new Serializer();
             serializer.serializeSoundsToXML(soundsList);
+            System.out.println("Finished filter");
         }
     }
 }

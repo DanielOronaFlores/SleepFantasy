@@ -72,7 +72,7 @@ public class AdapterAudios extends RecyclerView.Adapter<AdapterAudios.ViewHolder
         }
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if ("RECREAR_ACTIVIDAD".equals(intent.getAction())) {

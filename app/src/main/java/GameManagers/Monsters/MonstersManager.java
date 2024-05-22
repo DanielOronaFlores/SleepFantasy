@@ -49,7 +49,9 @@ public class MonstersManager {
                 System.out.println("No apareció un monstruo");
             }
         } else { // Si hay monstruo activo
-            if (dateManager.haveThreeDaysPassed(monstersDataAccess.getDateAppearedActiveMonster())) {
+            String dateAppeared = monstersDataAccess.getDateAppearedActiveMonster();
+            String currentDate = DateManager.getCurrentDate();
+            if (DateManager.getDaysDifference(dateAppeared, currentDate) >= 3) {
                 monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
             } else { // Si no han pasado 3 días
                 handleActiveMonster(monsterConditions);

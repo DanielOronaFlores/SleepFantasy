@@ -58,7 +58,6 @@ public class AddAudios extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        connection.openDatabase();
         setTheme();
     }
 

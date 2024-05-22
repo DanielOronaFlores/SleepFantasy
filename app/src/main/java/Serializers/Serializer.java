@@ -6,7 +6,6 @@ import java.io.Writer;
 import java.util.List;
 
 import Files.AudiosPaths;
-import Models.SleepCycle;
 import Models.Sound;
 
 public class Serializer {

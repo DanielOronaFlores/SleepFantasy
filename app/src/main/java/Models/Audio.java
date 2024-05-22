@@ -5,12 +5,12 @@ import java.io.Serializable;
 public class Audio implements Serializable {
     private int id;
     private String name;
-    private int createdBySystem;
+    private int isCreatedBySystem;
 
     public Audio(int id, String name, int createdBySystem) {
         this.id = id;
         this.name = name;
-        this.createdBySystem = createdBySystem;
+        this.isCreatedBySystem = createdBySystem;
     }
 
     public int getId() {
@@ -27,10 +27,10 @@ public class Audio implements Serializable {
         this.name = name;
     }
 
-    public int getcreatedBySystem() {
-        return createdBySystem;
+    public int getIsCreatedBySystem() {
+        return isCreatedBySystem;
     }
-    public void setcreatedBySystem(int createdBySystem) {
-        this.createdBySystem = createdBySystem;
+    public void setIsCreatedBySystem(int createdBySystem) {
+        this.isCreatedBySystem = createdBySystem;
     }
 }

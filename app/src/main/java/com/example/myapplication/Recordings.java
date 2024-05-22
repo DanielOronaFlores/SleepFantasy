@@ -27,7 +27,6 @@ import Styles.Themes;
 import Utils.SecondsCounter;
 
 public class Recordings extends AppCompatActivity {
-    private final AudiosPaths audiosFiles = new AudiosPaths();
     private final SecondsCounter secondsCounter = new SecondsCounter();
     private AdapterLoudSounds adapterLoudSounds;
     private RecyclerView recyclerView;
@@ -43,7 +42,7 @@ public class Recordings extends AppCompatActivity {
 
         Space space = findViewById(R.id.space);
 
-        File file = new File(audiosFiles.getRecordings3GPPath());
+        File file = new File(AudiosPaths.getRecordings3GPPath());
         if (getSoundsList().isEmpty() || !file.exists()) {
             recyclerView.setVisibility(View.GONE);
         } else {
@@ -78,11 +77,13 @@ public class Recordings extends AppCompatActivity {
     }
 
     private void deleteRecording() {
+        System.out.println("Existen archivos?: " + areFilesExist());
         if (areFilesExist()) {
+            //System.out.println("Se eliminaron los archivos?: " + areFilesDeleted());
             if (areFilesDeleted()) {
                 Toast.makeText(this, "Audio Eliminado", Toast.LENGTH_SHORT).show();
                 recreate();
-            } else Toast.makeText(this, "No se pudo eliminar el archivo", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(this, "No se pudo eliminar el audio", Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(this, "No hay audio disponible", Toast.LENGTH_SHORT).show();
@@ -90,23 +91,24 @@ public class Recordings extends AppCompatActivity {
     }
 
     private List<List<Integer>> getSoundsList() {
-        Deserializer deserializer = new Deserializer();
-        List<Sound> soundsList = deserializer.deserializeFromXML(audiosFiles.getListSoundsPath());
+        List<Sound> soundsList = Deserializer.deserializeFromXML(AudiosPaths.getListSoundsPath());
 
         return secondsCounter.getConsecutiveSeconds(soundsList);
     }
 
     private boolean areFilesDeleted() {
-        File file3GP = new File(audiosFiles.getRecordings3GPPath());
-        File filePCM = new File(audiosFiles.getRecordingsPCMPath());
-        File fileXML = new File(audiosFiles.getListSoundsPath());
-        return file3GP.delete() && filePCM.delete() && fileXML.delete();
+        File file3GP = new File(AudiosPaths.getRecordings3GPPath());
+        File filePCM = new File(AudiosPaths.getRecordingsPCMPath());
+        File fileXML = new File(AudiosPaths.getListSoundsPath());
+        file3GP.delete();
+
+        return filePCM.delete() && fileXML.delete();
     }
 
     private boolean areFilesExist() {
-        File file3GP = new File(audiosFiles.getRecordings3GPPath());
-        File filePCM = new File(audiosFiles.getRecordingsPCMPath());
-        File fileXML = new File(audiosFiles.getListSoundsPath());
+        File file3GP = new File(AudiosPaths.getRecordings3GPPath());
+        File filePCM = new File(AudiosPaths.getRecordingsPCMPath());
+        File fileXML = new File(AudiosPaths.getListSoundsPath());
         return file3GP.exists() && filePCM.exists() && fileXML.exists();
     }
 

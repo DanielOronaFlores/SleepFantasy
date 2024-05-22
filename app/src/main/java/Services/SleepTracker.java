@@ -32,7 +32,6 @@ import Calculators.SleepCycle;
 import Files.AudiosPaths;
 import Files.StorageManager;
 import GameManagers.Challenges.ChallengesUpdater;
-import GameManagers.Missions.MissionsUpdater;
 import GameManagers.Monsters.MonsterConditions;
 import Models.Sound;
 import Notifications.Notifications;
@@ -208,7 +207,7 @@ public class SleepTracker extends Service {
 
     private void filterAudio() {
         RecordingPreferences recordingPreferences = new RecordingPreferences();
-        AudioFilter.filterAudio(recordingPreferences.getPreferredSamplingRate());
+        AudioFilter.startFilter(recordingPreferences.getPreferredSamplingRate());
     }
 
     private void unregisterListeners() {
@@ -341,7 +340,7 @@ public class SleepTracker extends Service {
     Runnable runnable = new Runnable() {
         private final int DELAY_TIME = 5000; // Valor en milisegundos (real)
         private final float realMinutes = 0.08333f; // Segundos equivalentes a DELAY_TIME / 60
-        private final float virtualMinutes = 30; // Minutos que queremos que pasen en la aplicación
+        private final float virtualMinutes = 10; // Minutos que queremos que pasen en la aplicación
         private final float multiplier = virtualMinutes / realMinutes;
 
         @Override
@@ -422,13 +421,11 @@ public class SleepTracker extends Service {
                     monsterConditions[3] = true;
                     System.out.println("Monstruos: ha aparecido un monstruo por pesadilla");
                 }
+            }
 
-                int movementsPerHour = suddenMovements.getTotalSuddenMovements() - lastHourMovements;
-                if (MonsterConditions.isSomnambulism(movementsPerHour, isVertical)) {
-                    monsterConditions[4] = true;
-                    System.out.println("Monstruos: ha aparecido un monstruo por sonambulismo");
-                }
-                lastHourMovements = suddenMovements.getTotalSuddenMovements();
+            if (MonsterConditions.isSomnambulism(currentSleepPhase, isVertical)) {
+                monsterConditions[4] = true;
+                System.out.println("Monstruos: ha aparecido un monstruo por sonambulismo");
             }
             // ----- MONSTRUOS -----
 

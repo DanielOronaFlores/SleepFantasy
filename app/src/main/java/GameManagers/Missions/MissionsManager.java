@@ -56,7 +56,7 @@ public class MissionsManager {
 
     private boolean areConsecutiveDays(int id) {
         String oldDay = missionDataAccess.getDate(id);
-        return DateManager.isConsecutiveDays(oldDay);
+        return DateManager.isConsecutive(DateManager.getCurrentDate(), oldDay);
     }
 
     private void checkAndUpdateMissionStatus(int id) {

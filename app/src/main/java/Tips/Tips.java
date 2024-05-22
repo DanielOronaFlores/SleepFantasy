@@ -121,15 +121,16 @@ public class Tips {
 
     private boolean isDecreased() {
         int sleepTime = sleepDataAccess.getTotalSleepTime(DateManager.getCurrentDate());
+        System.out.println("Sleep time: " + sleepTime);
 
         for (int i = 0; i < 3; i++) {
-            String date = DateManager.getPastDaySinceCurrentDate(i);
-            int sleepTimePast = sleepDataAccess.getTotalSleepTime(date);
-            if (sleepTimePast > sleepTime && sleepTimePast < 420) {
-                return true;
-            }
-        }
+            String date = DateManager.getPastDaySinceCurrentDate(i + 1);
+            System.out.println("Date: " + date);
 
+            int sleepTimePast = sleepDataAccess.getTotalSleepTime(date);
+            System.out.println("Sleep time past: " + sleepTimePast);
+            if (sleepTimePast < sleepTime && sleepTimePast < 420) return true;
+        }
         return false;
     }
 

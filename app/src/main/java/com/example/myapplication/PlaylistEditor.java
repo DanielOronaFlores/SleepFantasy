@@ -85,7 +85,7 @@ public class PlaylistEditor extends AppCompatActivity {
 
     private void deleteAudiosFromPlaylist() {
         for (Audio audio: selectedAudios) {
-            if (audio.getcreatedBySystem() == 0) {
+            if (audio.getIsCreatedBySystem() == 0) {
                 ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
                 challengesUploader.updateDeleteAudioRecord();
             }

@@ -12,8 +12,9 @@ public class AudiosDataUpdate {
     }
 
     public void addAudio(String audioName, boolean createdBySystem) {
+        int createdBySystemInt = createdBySystem ? 1 : 0;
         String query = "INSERT INTO Audios (name, createdBySystem) VALUES (?, ?)";
-        database.execSQL(query, new String[]{audioName, String.valueOf(createdBySystem)});
+        database.execSQL(query, new String[]{audioName, String.valueOf(createdBySystemInt)});
     }
 
     public void deleteAudio(String audioName) {

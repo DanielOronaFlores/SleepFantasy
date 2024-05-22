@@ -39,6 +39,8 @@ public class TipFragment extends DialogFragment {
         confirmButton = view.findViewById(R.id.tip_dialog_button);
 
         String tip = getCurrentTip();
+        if (tip == null) dismiss();
+
         tipText.setText(tip);
 
         confirmButton.setOnClickListener(v -> {

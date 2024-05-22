@@ -167,6 +167,8 @@ public class DatabaseTableCreator {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "current BOOLEAN, " +
                 "type INTEGER, " +
+                "currentID INTEGER, " +
+                "displayed BOOLEAN, " +
                 "lastDateAppeared TEXT);";
         db.execSQL(queryCreateTipsTable);
     }
