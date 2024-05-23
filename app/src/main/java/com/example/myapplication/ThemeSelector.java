@@ -11,6 +11,7 @@ import java.util.List;
 
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DataAccess.RewardsDataAccess;
+import Database.DataUpdates.ChallengesDataUpdate;
 import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
 import GameManagers.Challenges.ChallengesUpdater;
@@ -18,6 +19,7 @@ import Styles.Themes;
 
 public class ThemeSelector extends AppCompatActivity {
     private PreferencesDataUpdate preferencesDataUpdate;
+    private ChallengesDataUpdate challengesDataUpdate;
     private RewardsDataAccess rewardsDataAccess;
     private ChallengesUpdater challengesUpdater;
     private ImageView theme1, theme2, theme3, theme4, theme5, theme6;
@@ -32,6 +34,7 @@ public class ThemeSelector extends AppCompatActivity {
         preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
         rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
         challengesUpdater = new ChallengesUpdater(DatabaseConnection.getInstance(this));
+        challengesDataUpdate = new ChallengesDataUpdate(DatabaseConnection.getInstance(this));
 
         theme1 = findViewById(R.id.theme1);
         theme2 = findViewById(R.id.theme2);
@@ -71,8 +74,10 @@ public class ThemeSelector extends AppCompatActivity {
     private void changeTheme(int theme) {
         if (theme == 0 || given.get(theme -1)) {
             preferencesDataUpdate.setTheme(theme);
-            Themes.setBackgroundColor(this, findViewById(R.id.ThemeSelector));
             challengesUpdater.updateInterfaceRecord();
+            challengesDataUpdate.updateCounter(11, 0);
+
+            Themes.setBackgroundColor(this, findViewById(R.id.ThemeSelector));
             recreate();
         }
     }

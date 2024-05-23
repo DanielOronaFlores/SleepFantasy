@@ -1,6 +1,5 @@
 package Database.DataAccess;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Database.DatabaseConnection;
+import Dates.DateManager;
 
 public class ChallengesDataAccess {
     private final SQLiteDatabase database;
@@ -22,7 +22,9 @@ public class ChallengesDataAccess {
         String query = "SELECT Displayed FROM Challenges WHERE id = " + challenge + ";";
 
         try (Cursor cursor = database.rawQuery(query, null)) {
-            available = cursor.moveToFirst();
+            if (cursor.moveToFirst()) {
+                available = cursor.getInt(0) == 0;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,7 +75,7 @@ public class ChallengesDataAccess {
         return challengeId;
     }
 
-    public String getDate(int challenge) {
+    public String getOldDate(int challenge) {
         String date = null;
         String query = "SELECT OldDate FROM Challenges WHERE id = " + challenge + ";";
 
@@ -83,6 +85,18 @@ public class ChallengesDataAccess {
             e.printStackTrace();
         }
 
+        return date;
+    }
+
+    public String getStartDate(int challenge) {
+        String date = DateManager.getCurrentDate();
+        String query = "SELECT startDate FROM Challenges WHERE id = " + challenge + ";";
+
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            if (cursor.moveToFirst()) date = cursor.getString(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return date;
     }
 

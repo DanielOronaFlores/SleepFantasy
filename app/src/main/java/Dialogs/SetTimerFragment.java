@@ -17,12 +17,14 @@ import com.example.myapplication.R;
 import AppContext.MyApplication;
 import Clocker.Clock;
 import Database.DataAccess.PreferencesDataAccess;
+import Database.DataUpdates.ChallengesDataUpdate;
 import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
 import Styles.Themes;
 
 public class SetTimerFragment extends DialogFragment {
     private PreferencesDataUpdate preferencesDataUpdate;
+    private ChallengesDataUpdate challengesDataUpdate;
     private EditText timerHoursDuration, timerMinutesDuration;
     private DatabaseConnection connection;
     private Clock clock;
@@ -48,6 +50,7 @@ public class SetTimerFragment extends DialogFragment {
             int hour = convertStringToNumber(timerHoursDuration.getText().toString());
             int minute = convertStringToNumber(timerMinutesDuration.getText().toString());
             int totalMillis = (hour * 60 * 60 * 1000) + (minute * 60 * 1000);
+
             preferencesDataUpdate.setTimerDuration(totalMillis);
             Toast.makeText(MyApplication.getAppContext(),
                     "Temporizador establecido en: " +

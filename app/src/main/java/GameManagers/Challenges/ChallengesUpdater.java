@@ -12,12 +12,14 @@ import Services.AudioPlayer;
 public class ChallengesUpdater {
     private final DatabaseConnection connection;
     private final ChallengesDataAccess challengesDataAccess;
+    private final ChallengesDataUpdate challengesDataUpdate;
     private final RecordsDataUpdate recordsDataUpdate;
 
     public ChallengesUpdater(DatabaseConnection connection) {
         this.connection = connection;
         this.challengesDataAccess = new ChallengesDataAccess(connection);
         this.recordsDataUpdate = new RecordsDataUpdate(connection);
+        this.challengesDataUpdate = new ChallengesDataUpdate(connection);
     }
 
     public void updateSleepingConditions() {
@@ -38,7 +40,8 @@ public class ChallengesUpdater {
     }
     public void updateCategoryRecord(int category) {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
-        recordsDataUpdate.updateIsCategoryValid(category >= 3);
+        System.out.println("Category: " + category + " >= 3: " + (category <= 3));
+        recordsDataUpdate.updateIsCategoryValid(category <= 3);
     }
     public void updateDeleteAudioRecord() {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
@@ -53,16 +56,18 @@ public class ChallengesUpdater {
         recordsDataUpdate.updateHasAvatarVisualChanged(true);
     }
     public void updateNotificationSoundRecord() {
+        challengesDataUpdate.updateCounter(10, 0);
+
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
-        recordsDataUpdate.updateHasAvatarVisualChanged(true);
+        recordsDataUpdate.updateIsNewSoundSet(true);
     }
     public void updateInterfaceRecord() {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
-        recordsDataUpdate.updateHasAvatarVisualChanged(true);
+        recordsDataUpdate.updateIsNewInterface(true);
     }
     public void updateAddAudio() {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);
-        recordsDataUpdate.updateIsNewSoundSet(true);
+        recordsDataUpdate.updateIsNewAudioUploaded(true);
     }
     public void updateLoudSoundsRecord() {
         RecordsDataUpdate recordsDataUpdate = new RecordsDataUpdate(connection);

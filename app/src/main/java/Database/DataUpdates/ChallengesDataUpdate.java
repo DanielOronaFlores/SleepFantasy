@@ -45,4 +45,9 @@ public class ChallengesDataUpdate {
         String query = "UPDATE Challenges SET OldDate = '" + currentDate + "' WHERE id = " + challenge + ";";
         database.execSQL(query);
     }
+
+    public void updateStartDate(int challenge, String date) {
+        String query = "UPDATE Challenges SET startDate = '" + date + "' WHERE id = " + challenge + ";";
+        database.execSQL(query);
+    }
 }

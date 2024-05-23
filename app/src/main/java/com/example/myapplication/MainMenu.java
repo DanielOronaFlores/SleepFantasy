@@ -2,13 +2,11 @@ package com.example.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import AudioFilter.AudioFilter;
 import Avatar.CharactersList;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.TipsDataAccess;
@@ -21,8 +19,6 @@ import Files.FilesManager;
 import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
 import Services.PostureSensor;
-import SleepEvaluator.SleepEvaluator;
-import SleepEvaluator.Trainer.BayesCreator;
 import Styles.Themes;
 import Tips.Tips;
 
@@ -75,12 +71,7 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = new Intent(this, PostureSensor.class);
         startService(intent);
 
-        ChallengesManager challengesManager = new ChallengesManager();
-        challengesManager.update();
         //deleteRecordingsFiles();
-
-        Tips tips = new Tips();
-        tips.updateTip();
     }
     @Override
     protected void onStart() {

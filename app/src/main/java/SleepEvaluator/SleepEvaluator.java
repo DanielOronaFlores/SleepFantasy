@@ -11,6 +11,7 @@ import Database.DataAccess.ProbabilitiesDataAccess;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DatabaseConnection;
 import Files.AudiosPaths;
+import GameManagers.Challenges.ChallengesManager;
 import GameManagers.Challenges.ChallengesUpdater;
 import GameManagers.ExperienceManager;
 import GameManagers.Missions.MissionsUpdater;
@@ -33,6 +34,7 @@ public class SleepEvaluator {
     private float awakenings;
     private float suddenMovements;
     private float positionChanges;
+    private int timeInBed;
 
     // Probabilities per Attribute & Category
     private final float[] totalSleepTimeProbailities = new float[7];
@@ -176,7 +178,7 @@ public class SleepEvaluator {
         System.out.println("----------------- Evaluación de sueño -----------------");
 
         totalSleepTime = SleepData.getTotalSleepTime(lightSleepTime, deepSleepTime, remSleepTime);
-        int timeInBed = SleepData.getTimeInBed(vigilTime, (int) totalSleepTime);
+        timeInBed = SleepData.getTimeInBed(vigilTime, (int) totalSleepTime);
         efficiency = SleepData.getSleepEfficiency(totalSleepTime, timeInBed);
 
         int category = evaluateSleep();
@@ -202,8 +204,9 @@ public class SleepEvaluator {
         
         SecondsCounter secondsCounter = new SecondsCounter();
         List<Sound> soundsList = Deserializer.deserializeFromXML(AudiosPaths.getListSoundsPath());
-        int loudSoundsMinutes = secondsCounter.getTotalSeconds(soundsList) * 60;
-        if (MonsterConditions.isLoudSound(loudSoundsMinutes)) {
+        int loudSoundsSeconds = secondsCounter.getTotalSeconds(soundsList);
+        System.out.println("Sonidos fuertes: " + loudSoundsSeconds);
+        if (MonsterConditions.isLoudSound(loudSoundsSeconds)) {
             monsterConditions[1] = true;
             System.out.println("Monstruos: ha aparecido un monstruo por ruido fuerte");
         }
@@ -214,6 +217,9 @@ public class SleepEvaluator {
 
         Tips tips = new Tips();
         tips.updateTip();
+
+        ChallengesManager challengesManager = new ChallengesManager();
+        challengesManager.manageChallenges();
     }
 
     private void addExperience(int category) {
@@ -264,8 +270,11 @@ public class SleepEvaluator {
         int totalEvents = (int) awakenings + (int) suddenMovements + (int) positionChanges;
         //missionsUpdater.updateMission15(totalEvents);
 
-        missionsUpdater.updateMission16((int) suddenMovements);
-        //missionsUpdater.updateMission17(PercentageConverter.convertToPercentage(deepSleepTime, totalSleepTime));
+        //missionsUpdater.updateMission16((int) suddenMovements);
+        //missionsUpdater.updateMission17(deepSleepTime);
+
+        System.out.println("Time in Bed: " + timeInBed);
+        missionsUpdater.updateMission20(timeInBed);
     }
 
     private void printAll() {

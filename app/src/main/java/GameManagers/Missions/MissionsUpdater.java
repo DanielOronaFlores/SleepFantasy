@@ -114,9 +114,13 @@ public class MissionsUpdater {
         missionsManager.updateMission(18);
     }
 
-    public void updateMission19(int tips) {
-        if (tips < 5) {
-            missionsManager.updateMission(19);
+    public void updateMission19() {
+        missionsManager.updateMission(19);
+    }
+
+    public void updateMission20(int timeInBed) {
+        if (timeInBed >= 420) {
+            missionsManager.updateMission(20);
         }
     }
 }

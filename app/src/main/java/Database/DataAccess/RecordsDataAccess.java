@@ -36,6 +36,7 @@ public class RecordsDataAccess {
         }
 
         cursor.close();
+        System.out.println("Temporizer active: " + temporizerActive);
         return temporizerActive;
     }
     public boolean hasMonsterAppeared() {
@@ -65,7 +66,7 @@ public class RecordsDataAccess {
         return categoryValid;
     }
     public boolean isDeletedAudio() {
-        String columnName = "isDeletedAudio";
+        String columnName = "hasDeletedAudio";
         Cursor cursor = database.query("Records", new String[]{columnName}, null, null, null, null, null);
         boolean deletedAudio = false;
 

@@ -15,13 +15,12 @@ import Styles.Themes;
 public class MonsterVisualizer extends AppCompatActivity {
     private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
     private final MonstersDataAccess monstersDataAccess = new MonstersDataAccess(connection);;
-    private final DateManager dateManager = new DateManager();
-    private final int[] monsters = { //TODO: Cambiar por los monstruos reales.
-            R.drawable.menu_gamification,
-            R.drawable.menu_challenges,
-            R.drawable.menu_missions,
-            R.drawable.fantasy,
-            R.drawable.medals_gold
+    private final int[] monsters = { //
+            R.drawable.monster_insomnio,
+            R.drawable.monster_sounds,
+            R.drawable.monster_anxiety,
+            R.drawable.monster_nightmare,
+            R.drawable.monster_sonambulism
     };
 
     @SuppressLint("SetTextI18n")
@@ -53,31 +52,25 @@ public class MonsterVisualizer extends AppCompatActivity {
     }
 
     private String getMonsterName(int id){
-        switch (id) {
-            case 1:
-                return "INSOMNIA";
-            case 2:
-                return "RUIDOS ALTOS";
-            case 3:
-                return "INTRANQUILIDAD";
-            case 4:
-                return "PESADILLAS";
-            case 5:
-                return "SONAMBULISMO";
-            default:
-                return "SIN MONSTRUO";
-        }
+        return switch (id) {
+            case 1 -> "INSOMNIA";
+            case 2 -> "RUIDOS ALTOS";
+            case 3 -> "INTRANQUILIDAD";
+            case 4 -> "PESADILLAS";
+            case 5 -> "SONAMBULISMO";
+            default -> "SIN MONSTRUO";
+        };
     }
 
     private int getDaysRemaining() {
-        String currentDay = dateManager.getCurrentDate();
+        String currentDay = DateManager.getCurrentDate();
         System.out.println("Current day: " + currentDay);
         String appearedDay = monstersDataAccess.getDateAppearedActiveMonster();
         System.out.println("Appeared day: " + appearedDay);
-        String lastDay = dateManager.getDateNextDays(appearedDay, 3);
+        String lastDay = DateManager.getDateNextDays(appearedDay, 3);
         System.out.println("Last day: " + lastDay);
         if (lastDay == null) return 0;
-        return (int) dateManager.getDaysDifference(currentDay, lastDay);
+        return (int) DateManager.getDaysDifference(currentDay, lastDay);
     }
 
     private void setTheme() {

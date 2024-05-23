@@ -13,15 +13,14 @@ import Dates.DateManager;
 import GameManagers.ExperienceManager;
 
 public class ChallengesManager {
+    private static final int MAX_CHALLENGE_NUMBER = 15;
+    private static final int MIN_CHALLENGE_NUMBER = 1;
     private static ChallengesDataAccess challengesDataAccess;
     private static ChallengesDataUpdate challengesDataUpdate;
     private static PreferencesDataAccess preferencesDataAccess;
     private static RecordsDataAccess recordsDataAccess;
     private static RecordsDataUpdate recordsDataUpdate;
-    private static DateManager dateManager;
     private static ExperienceManager experienceManager;
-    private static final int MAX_CHALLENGE_NUMBER = 15;
-    private static final int MIN_CHALLENGE_NUMBER = 1;
 
     public ChallengesManager() {
         DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
@@ -32,45 +31,22 @@ public class ChallengesManager {
         recordsDataAccess = new RecordsDataAccess(connection);
         recordsDataUpdate = new RecordsDataUpdate(connection);
 
-        dateManager = new DateManager();
         experienceManager = new ExperienceManager();
-    }
-
-    public void update() {
-        int activeChallenge = challengesDataAccess.getActiveChallenge();
-
-        if (activeChallenge == 0) { // No hay reto activo
-            selectNewChallenge();
-        } else {
-            if (challengesDataAccess.isCompleted(activeChallenge)) { // Si el reto está completado
-                selectNewChallenge();
-            } else {
-                currentChallengeConditions(activeChallenge);
-            }
-        }
-    }
-
-    //Para seleccionar un nuevo reto
-    private static boolean isUpdateChallenge() {
-        String currentDate = DateManager.getCurrentDate();
-        String oldDate = challengesDataAccess.getDate(challengesDataAccess.getActiveChallenge());
-        if (oldDate == null) return true;
-
-        return dateManager.isDayOfWeek(7) || DateManager.getDaysDifference(currentDate, oldDate) > 14;
     }
 
     private static void selectNewChallenge() {
         if (challengesDataAccess.allChallengesDisplayed()) challengesDataUpdate.resetChallenges();
 
-        if (isUpdateChallenge()) {
-            int currentActiveChallenge = challengesDataAccess.getActiveChallenge();
-            challengesDataUpdate.markAsInactive(currentActiveChallenge);
-            recordsDataUpdate.restartAllValues();
+        int currentActiveChallenge = challengesDataAccess.getActiveChallenge();
+        challengesDataUpdate.markAsInactive(currentActiveChallenge);
+        recordsDataUpdate.restartAllValues();
 
-            int newChallenge = getRandomChallenge();
-            setNewChallenge(newChallenge);
-        }
+        int newChallenge = getRandomChallenge();
+        setNewChallenge(newChallenge);
+
+        challengesDataUpdate.updateStartDate(newChallenge, DateManager.getCurrentDate());
     }
+
     private static int getRandomChallenge() {
         Random random = new Random();
         int challenge;
@@ -81,11 +57,11 @@ public class ChallengesManager {
 
         return challenge;
     }
+
     private static void setNewChallenge(int challenge) {
         challengesDataUpdate.markAsDisplayed(challenge);
         challengesDataUpdate.markAsActive(challenge);
     }
-
 
     // Para manejar el reto actual
     private static void currentChallengeConditions(int challenge) {
@@ -93,11 +69,13 @@ public class ChallengesManager {
             handleChallenge(challenge);
         }
     }
-    private static void handleChallenge(int challenge) {
-        String currentDate = dateManager.getCurrentDate();
 
+    private static void handleChallenge(int challenge) {
+        String currentDate = DateManager.getCurrentDate();
+        System.out.println("Se cumplio la condicion del reto " + challenge + ": " + challengeConditionsMet(challenge));
         if (challengeConditionsMet(challenge)) {
             int days = challengesDataAccess.getCounter(challenge);
+            System.out.println("Dias del reto (anterior) " + days);
             challengesDataUpdate.updateCounter(challenge, days + 1);
             challengesDataUpdate.updateOldDate(challenge, currentDate);
 
@@ -106,7 +84,9 @@ public class ChallengesManager {
                 experienceManager.addExperience(500);
             }
         } else {
-            if (!currentDate.equals(challengesDataAccess.getDate(challenge))) {
+            if (!currentDate.equals(challengesDataAccess.getOldDate(challenge))) {
+                System.out.println("Se reinicio el reto " + challenge);
+
                 challengesDataUpdate.updateCounter(challenge, 0);
                 challengesDataUpdate.updateOldDate(challenge, currentDate);
                 recordsDataUpdate.restartAllValues();
@@ -115,51 +95,61 @@ public class ChallengesManager {
     }
 
     private static boolean challengeConditionsMet(int challenge) {
-        switch (challenge) {
-            case 1:
-                return consecutiveDaysCondition(challenge);
-            case 2:
-                return preferencesDataAccess.getSaveRecordings() && consecutiveDaysCondition(challenge);
-            case 3:
-                return preferencesDataAccess.getRecordAudios() && consecutiveDaysCondition(challenge);
-            case 4:
-                return recordsDataAccess.isPlayingMusic() && consecutiveDaysCondition(challenge);
-            case 5:
-                return recordsDataAccess.isTemporizerActive() && consecutiveDaysCondition(challenge);
-            case 6:
-                return recordsDataAccess.hasMonsterAppeared() && consecutiveDaysCondition(challenge);
-            case 7:
-                return recordsDataAccess.isCategoryValid() && consecutiveDaysCondition(challenge);
-            case 8:
-                return recordsDataAccess.isDeletedAudio();
-            case 9:
-                return recordsDataAccess.hasAvatarVisualChanged();
-            case 10:
-                return recordsDataAccess.isNewSoundSet() && consecutiveDaysCondition(challenge);
-            case 11:
-                return recordsDataAccess.isNewInterface() && consecutiveDaysCondition(challenge);
-            case 12:
-                return recordsDataAccess.isNewAudioUploaded() && consecutiveDaysCondition(challenge);
-            case 13:
-                return recordsDataAccess.hasAudiosPlayed();
-            case 14:
-                return recordsDataAccess.isGraphDisplayed() && consecutiveDaysCondition(challenge);
-            case 15:
-                return recordsDataAccess.hasObtainedExperience();
-            default:
-                return false;
-        }
+        return switch (challenge) {
+            case 1 -> consecutiveDaysCondition(challenge);
+            case 2 ->
+                    preferencesDataAccess.getSaveRecordings() && consecutiveDaysCondition(challenge);
+            case 3 ->
+                    preferencesDataAccess.getRecordAudios() && consecutiveDaysCondition(challenge);
+            case 4 -> recordsDataAccess.isPlayingMusic() && consecutiveDaysCondition(challenge);
+            case 5 -> recordsDataAccess.isTemporizerActive() && consecutiveDaysCondition(challenge);
+            case 6 -> recordsDataAccess.hasMonsterAppeared() && consecutiveDaysCondition(challenge);
+            case 7 -> recordsDataAccess.isCategoryValid() && consecutiveDaysCondition(challenge);
+            case 8 -> recordsDataAccess.isDeletedAudio();
+            case 9 -> recordsDataAccess.hasAvatarVisualChanged() && consecutiveDaysCondition(challenge);
+            case 10 -> recordsDataAccess.isNewSoundSet() && consecutiveDaysCondition(challenge);
+            case 11 -> recordsDataAccess.isNewInterface() && consecutiveDaysCondition(challenge);
+            case 12 ->
+                    recordsDataAccess.isNewAudioUploaded() && consecutiveDaysCondition(challenge);
+            case 13 -> recordsDataAccess.hasAudiosPlayed();
+            case 14 -> recordsDataAccess.isGraphDisplayed() && consecutiveDaysCondition(challenge);
+            case 15 -> recordsDataAccess.hasObtainedExperience();
+            default -> false;
+        };
     }
+
     private static boolean consecutiveDaysCondition(int challenge) {
-        String oldDate = challengesDataAccess.getDate(challenge);
-        if (oldDate != null)
-        {
-            return false;
-            //return DateManager.isConsecutiveDays(oldDate);
+        String oldDate = challengesDataAccess.getOldDate(challenge);
+        System.out.println("oldDate: " + oldDate);
+        if (oldDate != null) {
+            return DateManager.isConsecutive(DateManager.getCurrentDate(), oldDate);
         }
         return false;
     }
+
     private static boolean consecutiveWeek(int challenge) {
         return challengesDataAccess.getCounter(challenge) >= 7;
+    }
+
+    public void manageChallenges() {
+        System.out.println("-------------Desafios-------------");
+        int activeChallenge = challengesDataAccess.getActiveChallenge();
+        System.out.println("activeChallenge: " + activeChallenge);
+
+        if (activeChallenge == 0) { // No hay reto activo
+            selectNewChallenge();
+        } else {
+            String startDate = challengesDataAccess.getStartDate(activeChallenge);
+            if (DateManager.getDaysDifference(DateManager.getCurrentDate(), startDate) > 15) {
+                selectNewChallenge();
+            }
+
+            System.out.println("isCompleted: " + challengesDataAccess.isCompleted(activeChallenge));
+            if (challengesDataAccess.isCompleted(activeChallenge)) { // Si el reto está completado
+                selectNewChallenge();
+            } else {
+                currentChallengeConditions(activeChallenge);
+            }
+        }
     }
 }

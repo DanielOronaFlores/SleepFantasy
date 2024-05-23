@@ -65,10 +65,11 @@ public class NotificationSelector extends AppCompatActivity {
     }
     private void setNotification(int notificationID ) {
         if (given.get(notificationID)) {
-            System.out.println("Notification: " + notificationID);
             preferencesDataUpdate.setNotificationSound(notificationID);
-            Toast.makeText(this, "SE HA CAMBIADO EL SONIDO DE NOTIFICACION", Toast.LENGTH_SHORT).show();
             challengesUpdater.updateNotificationSoundRecord();
+
+            Toast.makeText(this, "SE HA CAMBIADO EL SONIDO DE NOTIFICACION", Toast.LENGTH_SHORT).show();
+
             finish();
         }
     }

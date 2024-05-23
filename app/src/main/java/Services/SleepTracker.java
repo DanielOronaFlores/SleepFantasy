@@ -106,6 +106,7 @@ public class SleepTracker extends Service {
 
         if (preferencesDataAccess.getRecordAudios()) {
             if (StorageManager.isInsufficientStorage()) {
+                System.out.println("No hay suficiente espacio de almacenamiento");
                 Notifications.showLowStorageNotification();
             } else {
                 startRecording();
@@ -123,7 +124,6 @@ public class SleepTracker extends Service {
         System.out.println("Deteniendo servicio");
 
         stopRecording();
-        filterAudio();
         unregisterListeners();
         performDataOperations();
 
@@ -191,6 +191,7 @@ public class SleepTracker extends Service {
 
     private void startRecording() {
         pcmRecorder.startRecording();
+        System.out.println("3GP GRABAR?: " + preferencesDataAccess.getSaveRecordings());
         if (preferencesDataAccess.getSaveRecordings()) {
             recorder.startRecording();
         }
@@ -226,6 +227,8 @@ public class SleepTracker extends Service {
         System.out.println("Tiempo de sueño REM: " + remSleepTime);
 
         if (lightSleepTime > 0 && deepSleepTime > 0 && remSleepTime > 0) {
+            RecordingPreferences recordingPreferences = new RecordingPreferences();
+            AudioFilter.filterAudio(recordingPreferences.getPreferredSamplingRate());
             List<Sound> soundsList = Deserializer.deserializeFromXML(AudiosPaths.getListSoundsPath());
 
             int suddenMovementsCount = suddenMovements.getTotalSuddenMovements();
@@ -261,7 +264,7 @@ public class SleepTracker extends Service {
                     monsterConditions);
 
             ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
-            challengesUpdater.updateSleepingConditions(); // Actualiza las condiciones de sueño
+            challengesUpdater.updateSleepingConditions(); // Actualiza las condiciones de sueño de desafios
 
             //MissionsUpdater.updateMission4(lightMean);
 
@@ -423,7 +426,7 @@ public class SleepTracker extends Service {
                 }
             }
 
-            if (MonsterConditions.isSomnambulism(currentSleepPhase, isVertical)) {
+            if (MonsterConditions.isSomnambulism(currentSleepPhase) && isVertical) {
                 monsterConditions[4] = true;
                 System.out.println("Monstruos: ha aparecido un monstruo por sonambulismo");
             }

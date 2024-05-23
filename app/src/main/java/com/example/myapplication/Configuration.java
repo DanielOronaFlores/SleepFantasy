@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import AudioFilter.AudioFilter;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.PreferencesDataAccess;
 import Database.DataUpdates.AvatarCreator;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
 import SleepEvaluator.SleepEvaluator;
 import SleepEvaluator.Trainer.BayesCreator;
@@ -83,6 +85,11 @@ public class Configuration extends AppCompatActivity {
 
         Tips tips = new Tips();
         tips.updateTip();
+
+        ChallengesManager challengesManager = new ChallengesManager();
+        challengesManager.manageChallenges();
+
+        //AudioFilter.filterAudio(44100);
 
         //BayesCreator.createProbabilities();
         //case1();
@@ -173,7 +180,7 @@ public class Configuration extends AppCompatActivity {
 
     // ------------- CASOS
     private void case1() {
-        boolean[] monsters = {false, false, false, false, false};
+        boolean[] monsters = {true, false, false, true, true};
 
         SleepEvaluator sleepEvaluator = new SleepEvaluator();
         sleepEvaluator.evaluate(
@@ -182,7 +189,7 @@ public class Configuration extends AppCompatActivity {
                 120,
                 120,
                 0,
-                0,
+                4,
                 0,
                 monsters
         );

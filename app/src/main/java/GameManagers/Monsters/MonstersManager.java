@@ -16,7 +16,6 @@ public class MonstersManager {
     private final MonstersDataAccess monstersDataAccess;
     private final MonstersDataUpdate monstersDataUpdate;
     private final MissionsUpdater missionsUpdater;
-    private final DateManager dateManager;
     private final ExperienceManager experienceManager;
 
     public MonstersManager() {
@@ -27,7 +26,6 @@ public class MonstersManager {
 
         experienceManager = new ExperienceManager();
         missionsUpdater = new MissionsUpdater();
-        dateManager = new DateManager();
     }
 
     public void updateMonster(boolean[] monsterConditions) { // appearingMonsters = {insomnia, loudSound, anxiety, nightmare, somnambulism}
@@ -35,23 +33,26 @@ public class MonstersManager {
         System.out.println("Insomnio | Ruido | Ansiedad | Pesadilla | Sonambulismo");
 
         for (boolean monster : monsterConditions) {
-            System.out.print("Monstruo: " + monster + " ");
+            System.out.print(monster + " | ");
         } System.out.println();
 
+        System.out.println("Monstruo activo: " + monstersDataAccess.getActiveMonster());
         if (monstersDataAccess.getActiveMonster() == -1) { // Si no hay monstruo activo //
             if (isMonsterAppearing(monsterConditions) && new Random().nextBoolean()) { // 50% de probabilidad de que aparezca
                 int selectedMonster = selectMonster(monsterConditions);
+                System.out.println("Apareció un monstruo " + selectedMonster);
                 monstersDataUpdate.updateMonsterActiveStatus(selectedMonster, DateManager.getCurrentDate());
                 challengesUpdater.updateMonsterAppearedRecord(true);
             } else {
+                System.out.println("No apareció un monstruo");
                 challengesUpdater.updateMonsterAppearedRecord(false);
                 //missionsUpdater.updateMission5(); // Apareció un monstruo pero no se activó
-                System.out.println("No apareció un monstruo");
             }
         } else { // Si hay monstruo activo
             String dateAppeared = monstersDataAccess.getDateAppearedActiveMonster();
             String currentDate = DateManager.getCurrentDate();
             if (DateManager.getDaysDifference(dateAppeared, currentDate) >= 3) {
+                System.out.println("El monstruo activo ha sido desactivado");
                 monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
             } else { // Si no han pasado 3 días
                 handleActiveMonster(monsterConditions);
@@ -76,9 +77,12 @@ public class MonstersManager {
 
     private void handleActiveMonster(boolean[] monsterConditions) {
         if (!monsterConditions[monstersDataAccess.getActiveMonster() - 1]) { // False significa que el monstruo ha sido derrotado
+            System.out.println("El monstruo activo ha sido derrotado");
             monstersDataUpdate.updateMonsterInactiveStatus(monstersDataAccess.getActiveMonster());
             //missionsUpdater.updateMission18();
             experienceManager.addExperience(500);
+        } else {
+            System.out.println("El monstruo no fue derrotado");
         }
     }
 }

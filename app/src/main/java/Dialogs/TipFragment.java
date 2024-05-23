@@ -18,11 +18,13 @@ import AppContext.MyApplication;
 import Database.DataAccess.TipsDataAccess;
 import Database.DataUpdates.TipsDataUpdate;
 import Database.DatabaseConnection;
+import GameManagers.Missions.MissionsUpdater;
 
 public class TipFragment extends DialogFragment {
     private DatabaseConnection connection;
     private TipsDataAccess tipsDataAccess;
     private TipsDataUpdate tipsDataUpdate;
+    private MissionsUpdater missionsUpdater;
     private TextView tipText;
     private Button confirmButton;
     @NonNull
@@ -35,6 +37,7 @@ public class TipFragment extends DialogFragment {
         connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         tipsDataAccess = new TipsDataAccess(connection);
         tipsDataUpdate = new TipsDataUpdate(connection);
+        missionsUpdater = new MissionsUpdater();
         tipText = view.findViewById(R.id.tip_dialog_text);
         confirmButton = view.findViewById(R.id.tip_dialog_button);
 
@@ -45,6 +48,7 @@ public class TipFragment extends DialogFragment {
 
         confirmButton.setOnClickListener(v -> {
             tipsDataUpdate.updateDisplayed(true);
+            //missionsUpdater.updateMission19();
             dismiss();
         });
 

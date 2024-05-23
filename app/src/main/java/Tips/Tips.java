@@ -33,6 +33,7 @@ public class Tips {
     }
 
     public void updateTip() {
+        System.out.println("-------Consejos-------");
         String lastDateAppeared = tipsDataAccess.getLastDateAppeared();
         if (lastDateAppeared == null || tipsDataAccess.getCurrentTipType() == -1) {
             selectTip();
@@ -67,7 +68,6 @@ public class Tips {
 
         if (tipType == 0) {  // No hay tips disponibles
             //missionsUpdater.updateMission13();
-            //missionsUpdater.updateMission19(tipsConditions.length);
             System.out.println("No hay tips disponibles");
             return;
         }

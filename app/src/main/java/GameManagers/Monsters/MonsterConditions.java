@@ -5,7 +5,7 @@ public class MonsterConditions {
         return efficiency < 80;
     }
     public static boolean isLoudSound(int time) {
-        return time > 30;
+        return time > 1800;
     }
     public static boolean isAnxiety(int lpm, int positionChanges, int movements) { // Cada hora
         return lpm > 80 && movements > 10 && positionChanges > 5;
@@ -13,7 +13,7 @@ public class MonsterConditions {
     public static boolean isNightmare(int lpm, int movements) { // Cada hora
         return lpm > 80 && movements > 30;
     }
-    public static boolean isSomnambulism(int sleepPhase, boolean vertical) {
-        return sleepPhase >= 2 && vertical;
+    public static boolean isSomnambulism(int sleepPhase) {
+        return sleepPhase == 2;
     }
 }

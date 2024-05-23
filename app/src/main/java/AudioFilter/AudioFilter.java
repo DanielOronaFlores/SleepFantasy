@@ -19,7 +19,7 @@ public class AudioFilter {
         thread.start();
     }
 
-    private static void filterAudio(float sampleRate) {
+    public static void filterAudio(float sampleRate) {
         List<Sound> soundsList = new ArrayList<>();
         File file = new File(AudiosPaths.getRecordingsPCMPath());
 

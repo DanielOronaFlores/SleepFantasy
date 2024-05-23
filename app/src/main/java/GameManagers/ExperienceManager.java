@@ -31,8 +31,9 @@ public class ExperienceManager {
         if (itCanLevelUp(experience)) {
             levelUp();
         }
+        System.out.println("Se ha ganado " + experience + " de experiencia");
 
-        if (experience >= 500) {
+        if (experience >= 100) {
             ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
             challengesUpdater.updateExperienceRecord();
         }
@@ -47,6 +48,8 @@ public class ExperienceManager {
         MissionsUpdater missionsUpdater = new MissionsUpdater();
         missionsUpdater.updateMission7();
         Rewards.giveReward();
+
+        System.out.println("Se ha subido de nivel: " + newLevel);
     }
 
     private boolean itCanLevelUp(int experience) {

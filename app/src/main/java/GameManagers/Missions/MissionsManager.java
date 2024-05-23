@@ -72,20 +72,12 @@ public class MissionsManager {
     }
 
     private void addExperience(int difficult) {
-        int experience;
-        switch (difficult) {
-            case 1:
-                experience = 50;
-                break;
-            case 2:
-                experience = 200;
-                break;
-            case 3:
-                experience = 500;
-                break;
-            default:
-                experience = 0;
-        }
+        int experience = switch (difficult) {
+            case 1 -> 50;
+            case 2 -> 200;
+            case 3 -> 500;
+            default -> 0;
+        };
         systemExperience.addExperience(experience);
     }
     private boolean isMissionAvailable(int id) {
@@ -98,24 +90,13 @@ public class MissionsManager {
         return currentQuantity >= requiredQuantity;
     }
     private String getMissionType(int id) {
-        String missionType;
-        switch (id) {
-            case 7:
-                missionType = "niveles";
-                break;
-            case 13:
-                missionType = "ocasiones";
-                break;
-            case 18:
-                missionType = "monstruos";
-                break;
-            case 19:
-                missionType = "consejos";
-                break;
-            default:
-                missionType = "dias";
-        }
-        return missionType;
+        return switch (id) {
+            case 7 -> "niveles";
+            case 13 -> "ocasiones";
+            case 18 -> "monstruos";
+            case 19 -> "consejos";
+            default -> "dias";
+        };
     }
     private void updateRequiredQuantity(int id, int difficult) {
         String missionType = getMissionType(id);
@@ -138,9 +119,9 @@ public class MissionsManager {
                 else newRequiredQuantity = 30;
                 break;
             case "consejos":
-                if (difficult == 1) newRequiredQuantity = 10;
-                else if (difficult == 2) newRequiredQuantity = 5;
-                else newRequiredQuantity = 2;
+                if (difficult == 1) newRequiredQuantity = 5;
+                else if (difficult == 2) newRequiredQuantity = 10;
+                else newRequiredQuantity = 20;
                 break;
             case "dias":
                 if (difficult == 1) newRequiredQuantity = 3;
