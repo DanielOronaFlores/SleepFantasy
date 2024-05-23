@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,6 +18,7 @@ import Database.DataUpdates.AvatarCreator;
 import Database.DataUpdates.AvatarDataUpdate;
 import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
+import Files.AudiosPaths;
 import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
 import SleepEvaluator.SleepEvaluator;
@@ -89,7 +91,11 @@ public class Configuration extends AppCompatActivity {
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.manageChallenges();
 
-        //AudioFilter.filterAudio(44100);
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(AudiosPaths.getRecordings3GPPath());
+        float sampleRate = Float.parseFloat(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE));
+
+        AudioFilter.startFilter(sampleRate);
 
         //BayesCreator.createProbabilities();
         //case1();
@@ -180,7 +186,7 @@ public class Configuration extends AppCompatActivity {
 
     // ------------- CASOS
     private void case1() {
-        boolean[] monsters = {true, false, false, true, true};
+        boolean[] monsters = {true, false, false, true, false};
 
         SleepEvaluator sleepEvaluator = new SleepEvaluator();
         sleepEvaluator.evaluate(
