@@ -90,7 +90,7 @@ public class ChallengesDataAccess {
 
     public String getStartDate(int challenge) {
         String date = DateManager.getCurrentDate();
-        String query = "SELECT startDate FROM Challenges WHERE id = " + challenge + ";";
+        String query = "SELECT OldDate FROM Challenges WHERE id = " + challenge + ";";
 
         try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.moveToFirst()) date = cursor.getString(0);

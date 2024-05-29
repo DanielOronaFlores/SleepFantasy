@@ -24,10 +24,16 @@ public class ChallengesUpdater {
 
     public void updateSleepingConditions() {
         int currentActiveChallenge = challengesDataAccess.getActiveChallenge();
+        System.out.println("Current active challenge: " + currentActiveChallenge);
 
         switch (currentActiveChallenge) {
             case 4:
                 MediaPlayer mediaPlayer = AudioPlayer.getMediaPlayer();
+                if (mediaPlayer == null) {
+                    System.out.println("Media player is null");
+                    return;
+                }
+                System.out.println("Is playing music: " + mediaPlayer.isPlaying());
                 recordsDataUpdate.updateIsPlayingMusic(mediaPlayer.isPlaying());
                 break;
             case 5:

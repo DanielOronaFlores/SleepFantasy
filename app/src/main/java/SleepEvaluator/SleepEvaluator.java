@@ -1,6 +1,5 @@
 package SleepEvaluator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import Models.Sound;
 import Serializers.Deserializer;
 import SleepEvaluator.Trainer.PrioriCategories;
 import Tips.Tips;
+import Utils.PercentageConverter;
 import Utils.SecondsCounter;
 
 public class SleepEvaluator {
@@ -218,6 +218,9 @@ public class SleepEvaluator {
         Tips tips = new Tips();
         tips.updateTip();
 
+        ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+        challengesUpdater.updateSleepingConditions(); // Actualiza las condiciones de sueño de desafios
+
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.manageChallenges();
     }
@@ -251,27 +254,27 @@ public class SleepEvaluator {
         System.out.println("-------------------Misiones-------------------");
         MissionsUpdater missionsUpdater = new MissionsUpdater();
 
-        //missionsUpdater.updateMission1((int) totalSleepTime);
-        //missionsUpdater.updateMission2((int) awakenings);
-        //missionsUpdater.updateMission3(efficiency);
+        missionsUpdater.updateMission1((int) totalSleepTime);
+        missionsUpdater.updateMission2((int) awakenings);
+        missionsUpdater.updateMission3(efficiency);
 
-        //missionsUpdater.updateMission6(category);
+        missionsUpdater.updateMission6(category);
 
-        //missionsUpdater.updateMission8(remSleepTime);
-        //missionsUpdater.updateMission9((int) positionChanges);
-        //missionsUpdater.updateMission10(vigilTime);
-        //missionsUpdater.updateMission11((int) positionChanges);
-        //missionsUpdater.updateMission12(lightSleepTime);
+        missionsUpdater.updateMission8(remSleepTime);
+        missionsUpdater.updateMission9((int) positionChanges);
+        missionsUpdater.updateMission10(vigilTime);
+        missionsUpdater.updateMission11((int) positionChanges);
+        missionsUpdater.updateMission12(lightSleepTime);
 
         AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
         int oldCategory = avatarDataAccess.getCharacterPhase();
-        //missionsUpdater.updateMission14(category, oldCategory);
+        missionsUpdater.updateMission14(category, oldCategory);
 
         int totalEvents = (int) awakenings + (int) suddenMovements + (int) positionChanges;
-        //missionsUpdater.updateMission15(totalEvents);
+        missionsUpdater.updateMission15(totalEvents);
 
-        //missionsUpdater.updateMission16((int) suddenMovements);
-        //missionsUpdater.updateMission17(deepSleepTime);
+        missionsUpdater.updateMission16((int) suddenMovements);
+        missionsUpdater.updateMission17(deepSleepTime);
 
         System.out.println("Time in Bed: " + timeInBed);
         missionsUpdater.updateMission20(timeInBed);

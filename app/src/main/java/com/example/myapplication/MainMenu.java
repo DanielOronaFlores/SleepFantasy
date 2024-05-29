@@ -2,11 +2,13 @@ package com.example.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import AudioFilter.AudioFilter;
 import Avatar.CharactersList;
 import Database.DataAccess.AvatarDataAccess;
 import Database.DataAccess.TipsDataAccess;
@@ -69,9 +71,17 @@ public class MainMenu extends AppCompatActivity {
         });
 
         Intent intent = new Intent(this, PostureSensor.class);
-        startService(intent);
+        //startService(intent);
 
         //deleteRecordingsFiles();
+
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(AudiosPaths.getRecordings3GPPath());
+        float sampleRate = Float.parseFloat(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE));
+        //float sampleRate = 12000;
+
+        AudioFilter.startFilter(sampleRate);
+        System.out.println("Sample rate: " + sampleRate);
     }
     @Override
     protected void onStart() {

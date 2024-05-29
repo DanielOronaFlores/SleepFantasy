@@ -21,6 +21,8 @@ import Database.DatabaseConnection;
 import Files.AudiosPaths;
 import GameManagers.Challenges.ChallengesManager;
 import Permissions.Permissions;
+import Recorders.PCMRecorder;
+import Recorders.Recorder;
 import SleepEvaluator.SleepEvaluator;
 import SleepEvaluator.Trainer.BayesCreator;
 import Styles.Themes;
@@ -68,6 +70,7 @@ public class Configuration extends AppCompatActivity {
 
         buttonSavePreferences.setOnClickListener(view ->
                 setUserData(editTextName.getText().toString(), editTextAge.getText().toString())
+
         );
         buttonChangeAudioQuality.setOnClickListener(view -> updateQuality());
         buttonChangeTheme.setOnClickListener(view -> {
@@ -91,11 +94,11 @@ public class Configuration extends AppCompatActivity {
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.manageChallenges();
 
-        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-        mediaMetadataRetriever.setDataSource(AudiosPaths.getRecordings3GPPath());
-        float sampleRate = Float.parseFloat(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE));
+        PCMRecorder pcmRecorder = new PCMRecorder();
+        Recorder recorder = new Recorder();
 
-        AudioFilter.startFilter(sampleRate);
+        //pcmRecorder.startRecording();
+        //recorder.startRecording();
 
         //BayesCreator.createProbabilities();
         //case1();

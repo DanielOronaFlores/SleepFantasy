@@ -18,7 +18,7 @@ import Models.Playlist;
 import Styles.Themes;
 
 public class PlaylistSelector extends AppCompatActivity {
-    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
+    private DatabaseConnection connection;
     private PlaylistDataAccess playlistDataAccess;
     private List<Playlist> playlists;
     private RecyclerView recyclerView;
@@ -29,6 +29,8 @@ public class PlaylistSelector extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_selector);
+
+        connection = DatabaseConnection.getInstance(this);
 
         recyclerView = findViewById(R.id.recyclerPlaylists);
 

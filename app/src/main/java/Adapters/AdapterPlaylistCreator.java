@@ -21,10 +21,10 @@ public class AdapterPlaylistCreator extends RecyclerView.Adapter<AdapterPlaylist
     private final List<Audio> audios;
     private final List<Boolean> checkedList;
 
-    public AdapterPlaylistCreator(List<Audio> Audios) {
-        this.audios = Audios;
-        checkedList = new ArrayList<>(Audios.size());
-        for (int i = 0; i < Audios.size(); i++) {
+    public AdapterPlaylistCreator(List<Audio> audios) {
+        this.audios = audios;
+        checkedList = new ArrayList<>(audios.size());
+        for (int i = 0; i < audios.size(); i++) {
             checkedList.add(false);
         }
     }

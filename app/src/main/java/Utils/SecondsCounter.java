@@ -1,6 +1,7 @@
 package Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import Models.Sound;
@@ -24,15 +25,15 @@ public class SecondsCounter {
                 if (Math.abs(currentSecond - nextSecond) == 1) {
                     consecutiveNumbers.add(nextSecond);
                 } else {
-                    consecutiveNumbersList.add(new ArrayList<>(consecutiveNumbers));
+                    if (consecutiveNumbers.size() >= 3) {
+                        System.out.println("Consecutive numbers (list): " + consecutiveNumbers);
+                        consecutiveNumbersList.add(new ArrayList<>(consecutiveNumbers));
+                    }
                     consecutiveNumbers.clear();
                     consecutiveNumbers.add(nextSecond);
                 }
             }
         }
-
-        // Agregar la última secuencia consecutiva
-        consecutiveNumbersList.add(new ArrayList<>(consecutiveNumbers));
 
         return consecutiveNumbersList;
     }

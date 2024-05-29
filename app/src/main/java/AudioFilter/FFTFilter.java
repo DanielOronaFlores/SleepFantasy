@@ -18,7 +18,7 @@ public class FFTFilter {
 
     public void deleteHighFrequencies(double[] samples, int cutoffFrequency) {
         for (int i = 0; i < samplesPerSegment / 2; i++) {
-            double frequencyHz = i * sampleRate / samplesPerSegment;
+            double frequencyHz = (double) (i * sampleRate) / samplesPerSegment;
             if (frequencyHz >= cutoffFrequency) {
                 samples[2 * i] = 0; // Real
                 samples[2 * i + 1] = 0; // Imaginary

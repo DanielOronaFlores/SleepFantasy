@@ -48,7 +48,7 @@ public class TipFragment extends DialogFragment {
 
         confirmButton.setOnClickListener(v -> {
             tipsDataUpdate.updateDisplayed(true);
-            //missionsUpdater.updateMission19();
+            missionsUpdater.updateMission19();
             dismiss();
         });
 

@@ -15,7 +15,7 @@ import java.util.List;
 import Styles.Themes;
 
 public class AdapterChallenges extends RecyclerView.Adapter<AdapterChallenges.ViewHolder>{
-    private List<String> challenges;
+    private final List<String> challenges;
 
     public AdapterChallenges(List<String> challenges) {
         this.challenges = challenges;

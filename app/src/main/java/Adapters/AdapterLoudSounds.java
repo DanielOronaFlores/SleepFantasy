@@ -24,13 +24,23 @@ import Styles.Themes;
 
 public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.ViewHolder> {
     private final List<List<Integer>> sounds;
-    private final AudiosPaths audioFiles = new AudiosPaths();
     private final MediaPlayer mediaPlayer;
     private int soundsPlayer = 0;
 
     public AdapterLoudSounds(List<List<Integer>> sounds) {
+        //printSounds(sounds);
         this.sounds = sounds;
         mediaPlayer = new MediaPlayer();
+    }
+
+    public static void printSounds(List<List<Integer>> sounds) {
+        for (List<Integer> sound : sounds) {
+            System.out.print("[");
+            for (int frequency : sound) {
+                System.out.print(frequency + ", ");
+            }
+            System.out.println("]");
+        }
     }
 
     @NonNull
@@ -67,6 +77,11 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
     private void playSound(Context context, List<Integer> seconds) {
         String recordFilePath = AudiosPaths.getRecordings3GPPath();
 
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+        }
+
         int startMillis = seconds.get(0) * 1000;
         int endSecond = seconds.get(seconds.size() - 1) + 1;
         int endMillis = endSecond * 1000;
@@ -77,16 +92,14 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
             mediaPlayer.seekTo(startMillis);
             mediaPlayer.start();
 
-            System.out.println("Reproduciendo sonido desde " + startMillis + " hasta " + endMillis);
+            System.out.println("Reproduciendo sonido desde " + seconds.get(0) + " hasta " + endSecond);
 
             Handler handler = new Handler();
             handler.postDelayed(this::stopPlaying, endMillis - startMillis);
 
             soundsPlayer++;
             if (soundsPlayer == 3) {
-                DatabaseConnection connection = DatabaseConnection.getInstance(context);
-                ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
-                connection.openDatabase();
+                ChallengesUpdater challengesUpdater = new ChallengesUpdater(DatabaseConnection.getInstance(context));
                 challengesUpdater.updateLoudSoundsRecord();
             }
 

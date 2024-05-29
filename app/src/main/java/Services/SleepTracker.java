@@ -32,6 +32,7 @@ import Calculators.SleepCycle;
 import Files.AudiosPaths;
 import Files.StorageManager;
 import GameManagers.Challenges.ChallengesUpdater;
+import GameManagers.Missions.MissionsUpdater;
 import GameManagers.Monsters.MonsterConditions;
 import Models.Sound;
 import Notifications.Notifications;
@@ -47,6 +48,7 @@ import SleepEvaluator.SleepEvaluator;
 public class SleepTracker extends Service {
     private DatabaseConnection connection;
     private SleepDataUpdate sleepDataUpdate;
+    private MissionsUpdater missionsUpdater;
     private PreferencesDataAccess preferencesDataAccess;
     private SleepCycle sleepCycleCalculator;
     private AverageCalculator averageCalculator;
@@ -76,7 +78,6 @@ public class SleepTracker extends Service {
     // Sleep data variables
     private int vigilTime, lightSleepTime, deepSleepTime, remSleepTime;
     private float light;
-    private int lastHourMovements;
     boolean isVertical;
 
     // Monsters variables
@@ -173,6 +174,8 @@ public class SleepTracker extends Service {
     }
 
     private void initializeVariables() {
+        missionsUpdater = new MissionsUpdater();
+
         isEventRunning = false;
         isSleeping = false;
 
@@ -263,10 +266,7 @@ public class SleepTracker extends Service {
                     positionChangesCount,
                     monsterConditions);
 
-            ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
-            challengesUpdater.updateSleepingConditions(); // Actualiza las condiciones de sueño de desafios
-
-            //MissionsUpdater.updateMission4(lightMean);
+            missionsUpdater.updateMission4(lightMean);
 
         } else {
             System.out.println("No se han registrado datos");
@@ -359,7 +359,6 @@ public class SleepTracker extends Service {
             if (isSleeping && !isEventRunning) {
                 events.run();
                 isEventRunning = true;
-                lastHourMovements = 0;
                 System.out.println("Eventos: se han iniciado los eventos");
             }
 

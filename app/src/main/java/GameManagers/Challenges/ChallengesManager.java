@@ -79,9 +79,12 @@ public class ChallengesManager {
             challengesDataUpdate.updateCounter(challenge, days + 1);
             challengesDataUpdate.updateOldDate(challenge, currentDate);
 
-            if (consecutiveWeek(challenge)) {
+            if (isOneIterationChallenge(challenge)) {
                 challengesDataUpdate.markAsCompleted(challenge);
-                experienceManager.addExperience(500);
+                experienceManager.addExperience(150);
+            } else if (consecutiveWeek(challenge)) {
+                challengesDataUpdate.markAsCompleted(challenge);
+                experienceManager.addExperience(150);
             }
         } else {
             if (!currentDate.equals(challengesDataAccess.getOldDate(challenge))) {
@@ -98,9 +101,9 @@ public class ChallengesManager {
         return switch (challenge) {
             case 1 -> consecutiveDaysCondition(challenge);
             case 2 ->
-                    preferencesDataAccess.getSaveRecordings() && consecutiveDaysCondition(challenge);
-            case 3 ->
                     preferencesDataAccess.getRecordAudios() && consecutiveDaysCondition(challenge);
+            case 3 ->
+                    preferencesDataAccess.getSaveRecordings() && consecutiveDaysCondition(challenge);
             case 4 -> recordsDataAccess.isPlayingMusic() && consecutiveDaysCondition(challenge);
             case 5 -> recordsDataAccess.isTemporizerActive() && consecutiveDaysCondition(challenge);
             case 6 -> recordsDataAccess.hasMonsterAppeared() && consecutiveDaysCondition(challenge);
@@ -116,6 +119,10 @@ public class ChallengesManager {
             case 15 -> recordsDataAccess.hasObtainedExperience();
             default -> false;
         };
+    }
+
+    private static boolean isOneIterationChallenge(int challenge) {
+        return challenge == 8 || challenge == 13 || challenge == 15;
     }
 
     private static boolean consecutiveDaysCondition(int challenge) {
