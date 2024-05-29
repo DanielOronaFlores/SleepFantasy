@@ -11,6 +11,9 @@ public class GetSelectedAudios {
         for (int i = 0; i < audios.size(); i++) {
             if (checkedList.get(i)) {
                 selectedAudios.add(audios.get(i));
+                 //if (selectedAudios.size() > 7) {
+                    //break;
+                 //}
             }
         }
         return selectedAudios;

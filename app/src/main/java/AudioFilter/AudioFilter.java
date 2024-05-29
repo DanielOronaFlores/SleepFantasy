@@ -63,7 +63,7 @@ public class AudioFilter {
 
                     if (second % 2 != 0) {
                         if (samples[0] != 0) {
-                            int realSecond = (second / 12);
+                            int realSecond = (second / 2) / 10;
                             System.out.println("Second: " + second);
                             soundsList.add(new Sound(realSecond));
                         }
