@@ -3,7 +3,6 @@ package Dialogs;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,9 +31,7 @@ public class AvatarInformationFragment extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_avatar_information, null);
 
-        final Context context = MyApplication.getAppContext();
-        DatabaseConnection connection = DatabaseConnection.getInstance(context);
-        connection.openDatabase();
+        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         AvatarDataAccess avatarDataAccess = new AvatarDataAccess(connection);
 
         TextView txUserData = view.findViewById(R.id.userData);
@@ -56,7 +53,7 @@ public class AvatarInformationFragment extends DialogFragment {
 
         Button monsterVisualizer = view.findViewById(R.id.monster);
         monsterVisualizer.setOnClickListener(v -> {
-            Intent intent = new Intent(context, MonsterVisualizer.class);
+            Intent intent = new Intent(MyApplication.getAppContext(), MonsterVisualizer.class);
             startActivity(intent);
             dismiss();
         });

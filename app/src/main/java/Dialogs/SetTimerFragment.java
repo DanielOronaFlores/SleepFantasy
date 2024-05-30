@@ -16,15 +16,12 @@ import com.example.myapplication.R;
 
 import AppContext.MyApplication;
 import Clocker.Clock;
-import Database.DataAccess.PreferencesDataAccess;
-import Database.DataUpdates.ChallengesDataUpdate;
 import Database.DataUpdates.PreferencesDataUpdate;
 import Database.DatabaseConnection;
 import Styles.Themes;
 
 public class SetTimerFragment extends DialogFragment {
     private PreferencesDataUpdate preferencesDataUpdate;
-    private ChallengesDataUpdate challengesDataUpdate;
     private EditText timerHoursDuration, timerMinutesDuration;
     private DatabaseConnection connection;
     private Clock clock;
@@ -39,7 +36,6 @@ public class SetTimerFragment extends DialogFragment {
         clock = new Clock();
 
         connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
-        connection.openDatabase();
         preferencesDataUpdate = new PreferencesDataUpdate(connection);
 
         timerHoursDuration = view.findViewById(R.id.timerHoursDuration);
@@ -57,7 +53,7 @@ public class SetTimerFragment extends DialogFragment {
                             clock.convertMillisToHours(totalMillis) + " horas y " +
                             clock.convertMillisToMinutes(totalMillis) + " minutos",
                     Toast.LENGTH_SHORT).show();
-            getActivity().recreate();
+            requireActivity().recreate();
             dismiss();
         });
 

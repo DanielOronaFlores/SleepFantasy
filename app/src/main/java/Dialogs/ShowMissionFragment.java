@@ -18,7 +18,7 @@ import Database.DatabaseConnection;
 import Styles.Themes;
 
 public class ShowMissionFragment extends DialogFragment {
-    private final DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+    private DatabaseConnection connection;
     private TextView missionDescription, missionPeriod;
     private MissionDataAccess missionDataAccess;
     private final int missionId;
@@ -33,8 +33,9 @@ public class ShowMissionFragment extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_mission, null);
 
-        connection.openDatabase();
+        connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         missionDataAccess = new MissionDataAccess(connection);
+
         missionDescription = view.findViewById(R.id.missionDescription);
         missionPeriod = view.findViewById(R.id.missionPeriod);
 
@@ -52,24 +53,13 @@ public class ShowMissionFragment extends DialogFragment {
     }
     private String getMissionPeriod(int id) {
         int difficulty = getMissionDifficult(id);
-        int resourceId;
-
-        switch (id) {
-            case 7:
-                resourceId = R.string.avatar_level1;
-                break;
-            case 13:
-                resourceId = R.string.times_level1;
-                break;
-            case 18:
-                resourceId = R.string.monsters_level1;
-                break;
-            case 19:
-                resourceId = R.string.tips_level1;
-                break;
-            default:
-                resourceId = R.string.days_level1;
-        }
+        int resourceId = switch (id) {
+            case 7 -> R.string.avatar_level1;
+            case 13 -> R.string.times_level1;
+            case 18 -> R.string.monsters_level1;
+            case 19 -> R.string.tips_level1;
+            default -> R.string.days_level1;
+        };
 
         if (difficulty == 2) resourceId = resourceId + 1;
         else if (difficulty == 3) resourceId = resourceId + 2;
@@ -77,31 +67,29 @@ public class ShowMissionFragment extends DialogFragment {
         return getResources().getString(resourceId);
     }
     private String getMissionDescription(int id) {
-        int resourceId;
-
-        switch (id) {
-            case 1: resourceId = R.string.mission1; break;
-            case 2: resourceId = R.string.mission2; break;
-            case 3: resourceId = R.string.mission3; break;
-            case 4: resourceId = R.string.mission4; break;
-            case 5: resourceId = R.string.mission5; break;
-            case 6: resourceId = R.string.mission6; break;
-            case 7: resourceId = R.string.mission7; break;
-            case 8: resourceId = R.string.mission8; break;
-            case 9: resourceId = R.string.mission9; break;
-            case 10: resourceId = R.string.mission10; break;
-            case 11: resourceId = R.string.mission11; break;
-            case 12: resourceId = R.string.mission12; break;
-            case 13: resourceId = R.string.mission13; break;
-            case 14: resourceId = R.string.mission14; break;
-            case 15: resourceId = R.string.mission15; break;
-            case 16: resourceId = R.string.mission16; break;
-            case 17: resourceId = R.string.mission17; break;
-            case 18: resourceId = R.string.mission18; break;
-            case 19: resourceId = R.string.mission19; break;
-            //   case 20: resourceId = R.string.mission20; break;
-            default: resourceId = R.string.missionDefault;
-        }
+        int resourceId = switch (id) {
+            case 1 -> R.string.mission1;
+            case 2 -> R.string.mission2;
+            case 3 -> R.string.mission3;
+            case 4 -> R.string.mission4;
+            case 5 -> R.string.mission5;
+            case 6 -> R.string.mission6;
+            case 7 -> R.string.mission7;
+            case 8 -> R.string.mission8;
+            case 9 -> R.string.mission9;
+            case 10 -> R.string.mission10;
+            case 11 -> R.string.mission11;
+            case 12 -> R.string.mission12;
+            case 13 -> R.string.mission13;
+            case 14 -> R.string.mission14;
+            case 15 -> R.string.mission15;
+            case 16 -> R.string.mission16;
+            case 17 -> R.string.mission17;
+            case 18 -> R.string.mission18;
+            case 19 -> R.string.mission19;
+            case 20 -> R.string.mission20;
+            default -> R.string.missionDefault;
+        };
         return getResources().getString(resourceId);
     }
 }

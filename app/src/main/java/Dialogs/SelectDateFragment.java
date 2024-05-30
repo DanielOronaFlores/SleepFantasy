@@ -17,11 +17,14 @@ import androidx.fragment.app.DialogFragment;
 import com.example.myapplication.ChartSelector;
 import com.example.myapplication.R;
 
+import java.util.Objects;
+
+import AppContext.MyApplication;
 import Dates.DateManager;
 import Styles.Themes;
 
 public class SelectDateFragment extends DialogFragment {
-    private final Context context = AppContext.MyApplication.getAppContext();
+    private Context context;
     private DatePicker datePicker;
     @NonNull
     @Override
@@ -30,13 +33,14 @@ public class SelectDateFragment extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_date_picker, null);
 
+        context = MyApplication.getAppContext();
         datePicker = view.findViewById(R.id.datePicker);
 
         Button btnSelectDate = view.findViewById(R.id.okButton);
         btnSelectDate.setOnClickListener(v -> {
             String date = selectDate();
-            showSelectedDate(date);
-            getActivity().finish();
+            Toast.makeText(context, date, Toast.LENGTH_SHORT).show();
+            requireActivity().finish();
             returnSelector(date);
         });
 
@@ -56,10 +60,6 @@ public class SelectDateFragment extends DialogFragment {
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
         int year = datePicker.getYear();
-        DateManager dateManager = new DateManager();
-        return dateManager.formatDate(year + "-" + (month + 1) + "-" + day);
-    }
-    private void showSelectedDate(String date) {
-        Toast.makeText(context, date, Toast.LENGTH_SHORT).show();
+        return DateManager.formatDate(year + "-" + (month + 1) + "-" + day);
     }
 }

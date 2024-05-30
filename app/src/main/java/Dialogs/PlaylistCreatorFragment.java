@@ -27,7 +27,6 @@ import Styles.Themes;
 
 public class PlaylistCreatorFragment extends DialogFragment {
     private List<Audio> selectedAudios;
-    private Context context;
     private PlaylistDataAccess playlistDataAccess;
     private PlaylistDataUpdate playlistDataUpdate;
     private PlaylistAudiosDataUpdate PlaylistAudiosDataUpdate;
@@ -38,9 +37,7 @@ public class PlaylistCreatorFragment extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_playlist_creator, null);
 
-        context = MyApplication.getAppContext();
-        DatabaseConnection connection = DatabaseConnection.getInstance(context);
-        connection.openDatabase();
+        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         playlistDataAccess = new PlaylistDataAccess(connection);
         playlistDataUpdate = new PlaylistDataUpdate(connection);
         PlaylistAudiosDataUpdate = new PlaylistAudiosDataUpdate(connection);
@@ -49,14 +46,13 @@ public class PlaylistCreatorFragment extends DialogFragment {
         Button createPlaylist = view.findViewById(R.id.createPlaylist);
 
         createPlaylist.setOnClickListener(v -> {
-            if (isAnyAudioselected()) {
+            if (!selectedAudios.isEmpty()) {
                 createPlaylist(playlistName.getText().toString());
-                dismiss();
             } else {
-                Toast toast = Toast.makeText(context, "No hay musicas seleccionadas", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(MyApplication.getAppContext(), "No hay musicas seleccionadas", Toast.LENGTH_SHORT);
                 toast.show();
-                dismiss();
             }
+            dismiss();
         });
 
         Themes.setBackgroundColor(getActivity(), view);
@@ -69,10 +65,9 @@ public class PlaylistCreatorFragment extends DialogFragment {
         this.selectedAudios = selectedAudios;
     }
 
-    private boolean isAnyAudioselected() {
-        return selectedAudios.size() > 0;
-    }
     private void createPlaylist(String playlistName) {
+        Context context = MyApplication.getAppContext();
+
         if (playlistDataAccess.isPlaylistCreated(playlistName)) {
             Toast toast = Toast.makeText(context, "Playlist ya existe", Toast.LENGTH_SHORT);
             toast.show();
