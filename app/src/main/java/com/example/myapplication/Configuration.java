@@ -93,22 +93,6 @@ public class Configuration extends AppCompatActivity {
 
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.manageChallenges();
-
-        PCMRecorder pcmRecorder = new PCMRecorder();
-        Recorder recorder = new Recorder();
-
-        //pcmRecorder.startRecording();
-        //recorder.startRecording();
-
-        //BayesCreator.createProbabilities();
-        //case1();
-        //case2();
-        //case3();
-        //case4();
-        //case5();
-        //case6();
-        //case7();
-        //case8();
     }
 
     @Override
@@ -186,7 +170,6 @@ public class Configuration extends AppCompatActivity {
         Themes.setButtonDataTheme(this, buttonChangeAudioQuality);
     }
 
-
     // ------------- CASOS
     private void case1() {
         boolean[] monsters = {true, false, false, true, false};
@@ -200,111 +183,6 @@ public class Configuration extends AppCompatActivity {
                 0,
                 4,
                 0,
-                monsters
-        );
-    }
-
-    private void case2() {
-        boolean[] monsters = {false, false, false, false, false};
-
-        SleepEvaluator sleepEvaluator = new SleepEvaluator();
-        sleepEvaluator.evaluate(110,
-                215,
-                130,
-                100,
-                2,
-                1,
-                2,
-                monsters
-        );
-    }
-
-    private void case3() {
-        boolean[] monsters = {false, false, false, false, false};
-
-        SleepEvaluator sleepEvaluator = new SleepEvaluator();
-        sleepEvaluator.evaluate(60,
-                215,
-                130,
-                130,
-                2,
-                1,
-                4,
-                monsters
-        );
-    }
-
-    private void case4() {
-        boolean[] monsters = {false, false, false, false, false};
-
-        SleepEvaluator sleepEvaluator = new SleepEvaluator();
-        sleepEvaluator.evaluate(60,
-                175,
-                50,
-                25,
-                8,
-                20,
-                10,
-                monsters
-        );
-    }
-
-    private void case5() {
-        boolean[] monsters = {false, false, false, false, false};
-
-        SleepEvaluator sleepEvaluator = new SleepEvaluator();
-        sleepEvaluator.evaluate(90,
-                60,
-                20,
-                10,
-                5,
-                9,
-                15,
-                monsters
-        );
-    }
-
-    private void case6() {
-        boolean[] monsters = {false, false, false, false, false};
-
-        SleepEvaluator sleepEvaluator = new SleepEvaluator();
-        sleepEvaluator.evaluate(120,
-                60,
-                20,
-                10,
-                5,
-                9,
-                10,
-                monsters
-        );
-    }
-
-    private void case7() {
-        boolean[] monsters = {false, false, false, false, false};
-
-        SleepEvaluator sleepEvaluator = new SleepEvaluator();
-        sleepEvaluator.evaluate(90,
-                60,
-                20,
-                10,
-                5,
-                9,
-                22,
-                monsters
-        );
-    }
-
-    private void case8() {
-        boolean[] monsters = {false, false, false, false, false};
-
-        SleepEvaluator sleepEvaluator = new SleepEvaluator();
-        sleepEvaluator.evaluate(0,
-                300,
-                100,
-                50,
-                3,
-                10,
-                7,
                 monsters
         );
     }

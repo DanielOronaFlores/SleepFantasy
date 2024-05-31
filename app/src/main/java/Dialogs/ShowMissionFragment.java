@@ -26,6 +26,7 @@ public class ShowMissionFragment extends DialogFragment {
     public ShowMissionFragment(int missionId) {
         this.missionId = missionId;
     }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

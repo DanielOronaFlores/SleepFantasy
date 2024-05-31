@@ -73,7 +73,7 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = new Intent(this, PostureSensor.class);
         //startService(intent);
 
-        //deleteRecordingsFiles();
+        deleteRecordingsFiles();
 
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
         mediaMetadataRetriever.setDataSource(AudiosPaths.getRecordings3GPPath());
@@ -111,7 +111,7 @@ public class MainMenu extends AppCompatActivity {
 
 
         if (lastDateModified != null) {
-            //lastDateModified = DateManager.convertDate(lastDateModified);
+            lastDateModified = DateManager.convertDate(lastDateModified);
             //System.out.println("Last date modified: " + lastDateModified);
 
             System.out.println("Has passed 24 hours?: " + DateManager.hasPassedHoursSince(lastDateModified, 24));

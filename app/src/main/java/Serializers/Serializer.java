@@ -9,9 +9,8 @@ import Files.AudiosPaths;
 import Models.Sound;
 
 public class Serializer {
-    AudiosPaths audiosFiles = new AudiosPaths();
     public void serializeSoundsToXML(List<Sound> soundList) {
-        String fileName = audiosFiles.getListSoundsPath();
+        String fileName = AudiosPaths.getListSoundsPath();
         try (Writer writer = new FileWriter(fileName)) {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
             writer.write("<soundList>\n");

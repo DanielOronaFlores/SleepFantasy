@@ -55,16 +55,6 @@ public class SleepEvaluator {
     }
 
     private void setRanges() {
-        System.out.println("----------Rangos-------------");
-        System.out.println("totalSleepTime: " + totalSleepTime);
-        System.out.println("lightSleepTime: " + lightSleepTime);
-        System.out.println("deepSleepTime: " + deepSleepTime);
-        System.out.println("remSleepTime: " + remSleepTime);
-        System.out.println("efficiency: " + efficiency);
-        System.out.println("awakenings: " + awakenings);
-        System.out.println("suddenMovements: " + suddenMovements);
-        System.out.println("positionChanges: " + positionChanges);
-
         ranges[0] = RangesValues.totalSleepTime(totalSleepTime);
         ranges[1] = RangesValues.lightSleepTime(lightSleepTime);
         ranges[2] = RangesValues.deepSleepTime(deepSleepTime);
@@ -73,9 +63,6 @@ public class SleepEvaluator {
         ranges[5] = RangesValues.awakenings(awakenings);
         ranges[6] = RangesValues.suddenMovements(suddenMovements);
         ranges[7] = RangesValues.positionChanges(positionChanges);
-
-        System.out.println("----------Rangos-------------");
-        System.out.println(Arrays.toString(ranges));
     }
 
     private void getInitialAttributeProbabilitiesPerRange(float[] attribute, int range, String attributeName) {
@@ -91,17 +78,12 @@ public class SleepEvaluator {
 
     private void calculateFinalAttributeProbabilities() {
         float[] prioriCategories = PrioriCategories.getPrioriProbabilities();
-        System.out.println("-----------Probabilidades Priori--------------");
-        System.out.println(Arrays.toString(prioriCategories));
-        System.out.println("----------------------------------------------");
 
         for (int column = 0; column < categoryProbabilities[0].length; column++) {
             float mult = 1;
             for (float[] categoryProbability : categoryProbabilities) {
-                //System.out.println("Probabilidad: " + categoryProbability[column]);
                 mult *= categoryProbability[column];
             }
-            //System.out.println("Multiplicación: " + mult);
             mult *= prioriCategories[column];
             finalCategoriesProbabilities[column] = mult;
         }
@@ -114,8 +96,6 @@ public class SleepEvaluator {
 
         setRanges();
 
-        // Aqui solo se obtienen las probabilidades iniciales de cada atributo de la base de datos
-        System.out.println("----------------Probabilidades de cada atributo----------------");
         getInitialAttributeProbabilitiesPerRange(totalSleepTimeProbailities, ranges[0], "totalSleepTime");
         getInitialAttributeProbabilitiesPerRange(lightSleepTimeProbabilities, ranges[1], "lightSleepTime");
         getInitialAttributeProbabilitiesPerRange(deepSleepTimeProbabilities, ranges[2], "deepSleepTime");
@@ -124,7 +104,6 @@ public class SleepEvaluator {
         getInitialAttributeProbabilitiesPerRange(awakeningsProbabilities, ranges[5], "awakenings");
         getInitialAttributeProbabilitiesPerRange(suddenMovementsProbabilities, ranges[6], "suddenMovements");
         getInitialAttributeProbabilitiesPerRange(positionChangesProbabilities, ranges[7], "positionChanges");
-        printAll();
 
         // Generate the category probabilities
         generateCategoryProbabilities(0, totalSleepTimeProbailities);
@@ -136,12 +115,8 @@ public class SleepEvaluator {
         generateCategoryProbabilities(6, suddenMovementsProbabilities);
         generateCategoryProbabilities(7, positionChangesProbabilities);
 
-        //Imprimir las probabilidades de cada categoria
-        printProba();
-
         //Calculate the final probabilities
         calculateFinalAttributeProbabilities();
-        System.out.println("Probabilidades Finales: " + Arrays.toString(finalCategoriesProbabilities));
 
         //Evaluate Sleep
         double maxProbability = 0;
@@ -156,102 +131,24 @@ public class SleepEvaluator {
         return category;
     }
 
-    private void printProba() {
-        System.out.println("----------------Probabilidades categoryProbabilities----------------");
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 7; j++) {
-                System.out.print(categoryProbabilities[i][j] + "\t");
-            }
-            System.out.println(); // Saltar a la siguiente línea después de imprimir una fila completa
-        }
-    }
-
-
-    public void evaluate(int vigilTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int awakenings, int suddenMovements, int positionChanges, boolean[] monsterConditions) {
-        this.lightSleepTime = lightSleepTime;
-        this.deepSleepTime = deepSleepTime;
-        this.remSleepTime = remSleepTime;
-        this.awakenings = awakenings;
-        this.suddenMovements = suddenMovements;
-        this.positionChanges = positionChanges;
-
-        System.out.println("----------------- Evaluación de sueño -----------------");
-
-        totalSleepTime = SleepData.getTotalSleepTime(lightSleepTime, deepSleepTime, remSleepTime);
-        timeInBed = SleepData.getTimeInBed(vigilTime, (int) totalSleepTime);
-        efficiency = SleepData.getSleepEfficiency(totalSleepTime, timeInBed);
-
-        int category = evaluateSleep();
-
-        System.out.println("Tiempo total: " + totalSleepTime);
-        System.out.println("Tiempo en cama: " + timeInBed);
-        System.out.println("Eficiencia: " + efficiency);
-        System.out.println("Categoria: " + category);
-
-        AvatarDataUpdate avatarDataUpdate = new AvatarDataUpdate(connection);
-        avatarDataUpdate.updateCharacterPhase((byte) category);
-
-        ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
-        challengesUploader.updateCategoryRecord(category);
-
-        updateMissions(category, vigilTime);
-        addExperience(category);
-
-        if (MonsterConditions.isInsomnia((int) efficiency)) {
-            monsterConditions[0] = true;
-            System.out.println("Monstruos: ha aparecido un monstruo por insomnio");
-        }
-        
-        SecondsCounter secondsCounter = new SecondsCounter();
-        List<Sound> soundsList = Deserializer.deserializeFromXML(AudiosPaths.getListSoundsPath());
-        int loudSoundsSeconds = secondsCounter.getTotalSeconds(soundsList);
-        System.out.println("Sonidos fuertes: " + loudSoundsSeconds);
-        if (MonsterConditions.isLoudSound(loudSoundsSeconds)) {
-            monsterConditions[1] = true;
-            System.out.println("Monstruos: ha aparecido un monstruo por ruido fuerte");
-        }
-
-        // appearingMonsters = {insomnia, loudSound, anxiety, nightmare, somnambulism}
-        MonstersManager monstersManager = new MonstersManager();
-        monstersManager.updateMonster(monsterConditions);
-
-        Tips tips = new Tips();
-        tips.updateTip();
-
-        ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
-        challengesUpdater.updateSleepingConditions(); // Actualiza las condiciones de sueño de desafios
-
-        ChallengesManager challengesManager = new ChallengesManager();
-        challengesManager.manageChallenges();
-    }
-
     private void addExperience(int category) {
-        ExperienceManager experienceManager = new ExperienceManager();
+        int experience;
 
-        switch (category) {
-            case 1:
-                experienceManager.addExperience(100);
-                break;
-            case 2:
-                experienceManager.addExperience(80);
-                break;
-            case 3:
-                experienceManager.addExperience(60);
-                break;
-            case 4:
-                experienceManager.addExperience(40);
-                break;
-            case 5:
-                experienceManager.addExperience(20);
-                break;
-            case 6:
-                experienceManager.addExperience(10);
-                break;
-        }
+        experience = switch (category) {
+            case 1 -> 100;
+            case 2 -> 80;
+            case 3 -> 60;
+            case 4 -> 40;
+            case 5 -> 20;
+            case 6 -> 10;
+            default -> 0;
+        };
+
+        ExperienceManager experienceManager = new ExperienceManager();
+        experienceManager.addExperience(experience);
     }
 
     private void updateMissions(int category, int vigilTime) {
-        System.out.println("-------------------Misiones-------------------");
         MissionsUpdater missionsUpdater = new MissionsUpdater();
 
         missionsUpdater.updateMission1((int) totalSleepTime);
@@ -276,29 +173,56 @@ public class SleepEvaluator {
         missionsUpdater.updateMission16((int) suddenMovements);
         missionsUpdater.updateMission17(deepSleepTime);
 
-        System.out.println("Time in Bed: " + timeInBed);
         missionsUpdater.updateMission20(timeInBed);
     }
 
-    private void printAll() {
-        printArray(totalSleepTimeProbailities);
-        printArray(lightSleepTimeProbabilities);
-        printArray(deepSleepTimeProbabilities);
-        printArray(remSleepTimeProbabilities);
-        printArray(efficiencyProbabilities);
-        printArray(awakeningsProbabilities);
-        printArray(suddenMovementsProbabilities);
-        printArray(positionChangesProbabilities);
-    }
+    public void evaluate(int vigilTime, int lightSleepTime, int deepSleepTime, int remSleepTime, int awakenings, int suddenMovements, int positionChanges, boolean[] monsterConditions) {
+        this.lightSleepTime = lightSleepTime;
+        this.deepSleepTime = deepSleepTime;
+        this.remSleepTime = remSleepTime;
+        this.awakenings = awakenings;
+        this.suddenMovements = suddenMovements;
+        this.positionChanges = positionChanges;
 
-    private static void printArray(float[] array) {
-        System.out.print("[");
-        for (int i = 0; i < array.length; i++) {
-            System.out.print(array[i]);
-            if (i < array.length - 1) {
-                System.out.print(", ");
-            }
+        totalSleepTime = SleepData.getTotalSleepTime(lightSleepTime, deepSleepTime, remSleepTime);
+        timeInBed = SleepData.getTimeInBed(vigilTime, (int) totalSleepTime);
+        efficiency = SleepData.getSleepEfficiency(totalSleepTime, timeInBed);
+
+        int category = evaluateSleep();
+
+        AvatarDataUpdate avatarDataUpdate = new AvatarDataUpdate(connection);
+        avatarDataUpdate.updateCharacterPhase((byte) category);
+
+        ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
+        challengesUploader.updateCategoryRecord(category);
+
+        updateMissions(category, vigilTime);
+        addExperience(category);
+
+        if (MonsterConditions.isInsomnia((int) efficiency)) {
+            monsterConditions[0] = true;
+            System.out.println("Monstruos: ha aparecido un monstruo por insomnio");
         }
-        System.out.println("]");
+        
+        SecondsCounter secondsCounter = new SecondsCounter();
+        List<Sound> soundsList = Deserializer.deserializeFromXML(AudiosPaths.getListSoundsPath());
+        int loudSoundsSeconds = secondsCounter.getTotalSeconds(soundsList);
+        System.out.println("Sonidos fuertes: " + loudSoundsSeconds);
+        if (MonsterConditions.isLoudSound(loudSoundsSeconds)) {
+            monsterConditions[1] = true;
+            System.out.println("Monstruos: ha aparecido un monstruo por ruido fuerte");
+        }
+
+        MonstersManager monstersManager = new MonstersManager();
+        monstersManager.updateMonster(monsterConditions);
+
+        Tips tips = new Tips();
+        tips.updateTip();
+
+        ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+        challengesUpdater.updateSleepingConditions(); // Actualiza las condiciones de sueño de desafios
+
+        ChallengesManager challengesManager = new ChallengesManager();
+        challengesManager.manageChallenges();
     }
 }

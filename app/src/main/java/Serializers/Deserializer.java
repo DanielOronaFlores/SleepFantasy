@@ -14,7 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import Models.Sound;
 
-public class Deserializer {
+public class  Deserializer {
     public static List<Sound> deserializeFromXML(String fileName) {
         List<Sound> soundList = new ArrayList<>();
 
@@ -23,9 +23,7 @@ public class Deserializer {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(file);
-
             document.getDocumentElement().normalize();
-
             NodeList nodeList = document.getElementsByTagName("sound");
 
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -40,11 +38,9 @@ public class Deserializer {
                     soundList.add(sound);
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return soundList;
     }
 }

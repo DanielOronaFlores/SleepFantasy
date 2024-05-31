@@ -27,6 +27,7 @@ public class TipFragment extends DialogFragment {
     private MissionsUpdater missionsUpdater;
     private TextView tipText;
     private Button confirmButton;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class TipFragment extends DialogFragment {
         tipsDataAccess = new TipsDataAccess(connection);
         tipsDataUpdate = new TipsDataUpdate(connection);
         missionsUpdater = new MissionsUpdater();
+
         tipText = view.findViewById(R.id.tip_dialog_text);
         confirmButton = view.findViewById(R.id.tip_dialog_button);
 

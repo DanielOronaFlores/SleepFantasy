@@ -16,12 +16,18 @@ import Files.AudiosPaths;
 import Recorders.Preferences.RecordingPreferences;
 
 public class PCMRecorder {
-    private final RecordingPreferences recordingPreferences = new RecordingPreferences();
-    private final AudiosPaths audiosFiles = new AudiosPaths();
-    private boolean isRecording = false;
+    private RecordingPreferences recordingPreferences;
+    private boolean isRecording;
     private AudioRecord audioRecord;
 
+    private void initializeVariables() {
+        recordingPreferences = new RecordingPreferences();
+        isRecording = false;
+    }
+
     public void startRecording() {
+        initializeVariables();
+
         int RECORDER_SAMPLE_RATE = recordingPreferences.getPreferredSamplingRate();
         int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_MONO;
         int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
@@ -42,7 +48,6 @@ public class PCMRecorder {
         isRecording = true;
 
         Thread recordingThread = new Thread(() -> writeAudioDataToFile(RECORDER_SAMPLE_RATE, RECORDER_CHANNELS, RECORDER_AUDIO_ENCODING));
-
         recordingThread.start();
     }
 
@@ -52,7 +57,7 @@ public class PCMRecorder {
                 RECORDER_CHANNELS,
                 RECORDER_AUDIO_ENCODING)];
 
-        String filePath = audiosFiles.getRecordingsPCMPath();
+        String filePath = AudiosPaths.getRecordingsPCMPath();
 
         try {
             FileOutputStream os = new FileOutputStream(filePath);

@@ -15,7 +15,6 @@ public class ExperienceManager {
 
     public ExperienceManager() {
         connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
-        connection.openDatabase();
 
         avatarDataAccess = new AvatarDataAccess(connection);
         avatarDataUpdate = new AvatarDataUpdate(connection);

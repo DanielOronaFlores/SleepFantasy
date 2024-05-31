@@ -27,11 +27,8 @@ public class Rewards {
         initializeInstances();
         int reward = selectRandomReward();
         int rewardType = rewardsDataAccess.getRewardType(reward);
-        connection.openDatabase();
 
-        if (rewardType == 1) {
-            AudiosRewards.giveRewardAudio(reward, connection);
-        }
+        if (rewardType == 1) AudiosRewards.giveRewardAudio(reward);
 
         RewardsDataUpdate rewardsDataUpdate = new RewardsDataUpdate(connection);
         rewardsDataUpdate.updateRewardGiven(reward);

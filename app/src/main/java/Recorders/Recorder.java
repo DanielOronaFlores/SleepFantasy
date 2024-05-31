@@ -9,11 +9,13 @@ import Files.AudiosPaths;
 import Recorders.Preferences.RecordingPreferences;
 
 public class Recorder {
-    private final RecordingPreferences recordingPreferences = new RecordingPreferences();
+    private RecordingPreferences recordingPreferences;
     private MediaRecorder mediaRecorder;
 
     public void startRecording() {
+        recordingPreferences = new RecordingPreferences();
         mediaRecorder = new MediaRecorder();
+
         String outputFile = AudiosPaths.getRecordings3GPPath();
 
         File file = new File(outputFile);
@@ -44,7 +46,6 @@ public class Recorder {
         }
     }
     public boolean isRecording() {
-        System.out.println("is Recording: " + (mediaRecorder != null));
         return mediaRecorder != null;
     }
 }
