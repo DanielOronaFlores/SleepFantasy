@@ -1,10 +1,5 @@
 package GameManagers.Missions;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
-
 import AppContext.MyApplication;
 import Database.DataAccess.MissionDataAccess;
 import Database.DataUpdates.MissionDataUpdate;
@@ -13,45 +8,17 @@ import Dates.DateManager;
 import GameManagers.ExperienceManager;
 
 public class MissionsManager {
-    DatabaseConnection connection;
+    private final DatabaseConnection connection;
     private final MissionDataAccess missionDataAccess;
     private final MissionDataUpdate missionDataUpdate;
     private final ExperienceManager systemExperience;
 
     public MissionsManager() {
         connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
-        connection.openDatabase();
 
         missionDataAccess = new MissionDataAccess(connection);
         missionDataUpdate = new MissionDataUpdate(connection);
         systemExperience = new ExperienceManager();
-    }
-
-    public void updateMission(int id) {
-        System.out.println("Mision ID: " + id);
-        System.out.println("Mision disponible: " + isMissionAvailable(id));
-        if (isMissionAvailable(id)) {
-            String missionType = getMissionType(id);
-            System.out.println("Tipo de mision: " + missionType);
-
-            boolean areConsecutive = areConsecutiveDays(id);
-            System.out.println("Dias conesecutivos: " + areConsecutive);
-
-            missionDataUpdate.updateDate(id);
-            if (missionType.equals("dias") && !areConsecutive) {
-                return;
-            }
-
-            int currentQuantity = missionDataAccess.getCurrentQuantity(id);
-            int newQuantity = currentQuantity + 1;
-            missionDataUpdate.updateCurrentQuantity(id, newQuantity);
-
-            if (isMissionCompleted(id, newQuantity)) {
-                addExperience(missionDataAccess.getCurrentDifficult(id));
-                increaseMissionDifficulty(id);
-            }
-        }
-        checkAndUpdateMissionStatus(id);
     }
 
     private boolean areConsecutiveDays(int id) {
@@ -85,8 +52,6 @@ public class MissionsManager {
     }
     private boolean isMissionCompleted(int id, int currentQuantity) {
         int requiredQuantity = missionDataAccess.getRequiredQuantity(id);
-        System.out.println("Cantidad actual: " + currentQuantity);
-        System.out.println("Cantidad requerida: " + requiredQuantity);
         return currentQuantity >= requiredQuantity;
     }
     private String getMissionType(int id) {
@@ -132,5 +97,32 @@ public class MissionsManager {
                 newRequiredQuantity = 0;
         }
         missionDataUpdate.updateRequiredQuantity(id, newRequiredQuantity);
+    }
+
+    public void updateMission(int id) {
+        System.out.println("Mision ID: " + id);
+        System.out.println("Mision disponible: " + isMissionAvailable(id));
+        if (isMissionAvailable(id)) {
+            String missionType = getMissionType(id);
+            System.out.println("Tipo de mision: " + missionType);
+
+            boolean areConsecutive = areConsecutiveDays(id);
+            System.out.println("Dias conesecutivos: " + areConsecutive);
+
+            missionDataUpdate.updateDate(id);
+            if (missionType.equals("dias") && !areConsecutive) {
+                return;
+            }
+
+            int currentQuantity = missionDataAccess.getCurrentQuantity(id);
+            int newQuantity = currentQuantity + 1;
+            missionDataUpdate.updateCurrentQuantity(id, newQuantity);
+
+            if (isMissionCompleted(id, newQuantity)) {
+                addExperience(missionDataAccess.getCurrentDifficult(id));
+                increaseMissionDifficulty(id);
+            }
+        }
+        checkAndUpdateMissionStatus(id);
     }
 }

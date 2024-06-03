@@ -76,16 +76,14 @@ public class AddAudios extends AppCompatActivity {
                 PlaylistAudiosDataUpdate.addaudioToPlaylist(playListID, audioID);
             }
             Toast.makeText(this, "AUDIOS AGREGADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
-            ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+            ChallengesUpdater challengesUpdater = new ChallengesUpdater();
             challengesUpdater.updateAddAudio();
             finish();
         }
     }
 
     private void setTheme() {
-        View view = findViewById(R.id.addAudios);
-
-        Themes.setBackgroundColor(this, view);
+        Themes.setBackgroundColor(this, findViewById(R.id.addAudios));
         Themes.setButtonTheme(this, addAudios);
     }
 }

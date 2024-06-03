@@ -47,8 +47,8 @@ public class AdapterPlaylists extends RecyclerView.Adapter<AdapterPlaylists.View
         context.startActivity(intent);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private Button button;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final Button button;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             button = itemView.findViewById(R.id.selectPlaylist);

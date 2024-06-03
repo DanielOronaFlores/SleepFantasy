@@ -34,19 +34,6 @@ public class ChallengesManager {
         experienceManager = new ExperienceManager();
     }
 
-    private static void selectNewChallenge() {
-        if (challengesDataAccess.allChallengesDisplayed()) challengesDataUpdate.resetChallenges();
-
-        int currentActiveChallenge = challengesDataAccess.getActiveChallenge();
-        challengesDataUpdate.markAsInactive(currentActiveChallenge);
-        recordsDataUpdate.restartAllValues();
-
-        int newChallenge = getRandomChallenge();
-        setNewChallenge(newChallenge);
-
-        challengesDataUpdate.updateStartDate(newChallenge, DateManager.getCurrentDate());
-    }
-
     private static int getRandomChallenge() {
         Random random = new Random();
         int challenge;
@@ -63,37 +50,23 @@ public class ChallengesManager {
         challengesDataUpdate.markAsActive(challenge);
     }
 
+    private static void selectNewChallenge() {
+        if (challengesDataAccess.allChallengesDisplayed()) challengesDataUpdate.resetChallenges();
+
+        int currentActiveChallenge = challengesDataAccess.getActiveChallenge();
+        challengesDataUpdate.markAsInactive(currentActiveChallenge);
+        recordsDataUpdate.restartAllValues();
+
+        int newChallenge = getRandomChallenge();
+        setNewChallenge(newChallenge);
+
+        challengesDataUpdate.updateStartDate(newChallenge, DateManager.getCurrentDate());
+    }
+
     // Para manejar el reto actual
     private static void currentChallengeConditions(int challenge) {
         if (challenge >= MIN_CHALLENGE_NUMBER && challenge <= MAX_CHALLENGE_NUMBER) {
             handleChallenge(challenge);
-        }
-    }
-
-    private static void handleChallenge(int challenge) {
-        String currentDate = DateManager.getCurrentDate();
-        System.out.println("Se cumplio la condicion del reto " + challenge + ": " + challengeConditionsMet(challenge));
-        if (challengeConditionsMet(challenge)) {
-            int days = challengesDataAccess.getCounter(challenge);
-            System.out.println("Dias del reto (anterior) " + days);
-            challengesDataUpdate.updateCounter(challenge, days + 1);
-            challengesDataUpdate.updateOldDate(challenge, currentDate);
-
-            if (isOneIterationChallenge(challenge)) {
-                challengesDataUpdate.markAsCompleted(challenge);
-                experienceManager.addExperience(150);
-            } else if (consecutiveWeek(challenge)) {
-                challengesDataUpdate.markAsCompleted(challenge);
-                experienceManager.addExperience(150);
-            }
-        } else {
-            if (!currentDate.equals(challengesDataAccess.getOldDate(challenge))) {
-                System.out.println("Se reinicio el reto " + challenge);
-
-                challengesDataUpdate.updateCounter(challenge, 0);
-                challengesDataUpdate.updateOldDate(challenge, currentDate);
-                recordsDataUpdate.restartAllValues();
-            }
         }
     }
 
@@ -136,6 +109,33 @@ public class ChallengesManager {
 
     private static boolean consecutiveWeek(int challenge) {
         return challengesDataAccess.getCounter(challenge) >= 7;
+    }
+
+    private static void handleChallenge(int challenge) {
+        String currentDate = DateManager.getCurrentDate();
+        System.out.println("Se cumplio la condicion del reto " + challenge + ": " + challengeConditionsMet(challenge));
+        if (challengeConditionsMet(challenge)) {
+            int days = challengesDataAccess.getCounter(challenge);
+            System.out.println("Dias del reto (anterior) " + days);
+            challengesDataUpdate.updateCounter(challenge, days + 1);
+            challengesDataUpdate.updateOldDate(challenge, currentDate);
+
+            if (isOneIterationChallenge(challenge)) {
+                challengesDataUpdate.markAsCompleted(challenge);
+                experienceManager.addExperience(150);
+            } else if (consecutiveWeek(challenge)) {
+                challengesDataUpdate.markAsCompleted(challenge);
+                experienceManager.addExperience(150);
+            }
+        } else {
+            if (!currentDate.equals(challengesDataAccess.getOldDate(challenge))) {
+                System.out.println("Se reinicio el reto " + challenge);
+
+                challengesDataUpdate.updateCounter(challenge, 0);
+                challengesDataUpdate.updateOldDate(challenge, currentDate);
+                recordsDataUpdate.restartAllValues();
+            }
+        }
     }
 
     public void manageChallenges() {

@@ -2,6 +2,7 @@ package GameManagers.Challenges;
 
 import android.media.MediaPlayer;
 
+import AppContext.MyApplication;
 import Clocker.Clock;
 import Database.DataAccess.ChallengesDataAccess;
 import Database.DataUpdates.ChallengesDataUpdate;
@@ -15,8 +16,9 @@ public class ChallengesUpdater {
     private final ChallengesDataUpdate challengesDataUpdate;
     private final RecordsDataUpdate recordsDataUpdate;
 
-    public ChallengesUpdater(DatabaseConnection connection) {
-        this.connection = connection;
+    public ChallengesUpdater() {
+        connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
+
         this.challengesDataAccess = new ChallengesDataAccess(connection);
         this.recordsDataUpdate = new RecordsDataUpdate(connection);
         this.challengesDataUpdate = new ChallengesDataUpdate(connection);

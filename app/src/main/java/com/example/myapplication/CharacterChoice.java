@@ -42,7 +42,7 @@ public class CharacterChoice extends AppCompatActivity {
         age = avatarData.getByteExtra("age", (byte) 0);
 
         currentCharacter.setOnClickListener(view -> {
-            createProbabilities();
+            BayesCreator.createProbabilities();
             createAvatar(name, age);
         });
 
@@ -58,8 +58,6 @@ public class CharacterChoice extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        connection.openDatabase();
-
         currentCharacter.setImageResource(characters[idCharacter]);
         setTheme();
     }
@@ -89,13 +87,7 @@ public class CharacterChoice extends AppCompatActivity {
         goToMainMenu();
     }
 
-    private void createProbabilities() {
-        BayesCreator bayes = new BayesCreator();
-        bayes.createProbabilities();
-    }
-
     private void setTheme() {
-        View view = findViewById(R.id.characterChoice);
-        Themes.setBackgroundColor(this, view);
+        Themes.setBackgroundColor(this, findViewById(R.id.characterChoice));
     }
 }

@@ -24,8 +24,6 @@ public class DateManager {
         return formattedDate;
     }
 
-
-    // Ya limpio
     private static SimpleDateFormat getDateFormat() {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
@@ -158,12 +156,6 @@ public class DateManager {
         return sdf.format(dateFormatted);
     }
 
-    public boolean isDayOfWeek(int dayOfWeek) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        return calendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek;
-    }
-
     public String getPastWeek(String date) {
         SimpleDateFormat sdf = getDateFormat();
         String startDate;
@@ -192,8 +184,6 @@ public class DateManager {
         }
         return startDate;
     }
-    // --- Limpio
-
 
     public static String formatDate(String date) {
         Date dateFormatted;

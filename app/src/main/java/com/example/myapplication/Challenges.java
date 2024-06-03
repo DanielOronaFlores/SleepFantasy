@@ -41,7 +41,6 @@ public class Challenges extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        connection.openDatabase();
 
         int activeChallenge = challengesDataAccess.getActiveChallenge();
         System.out.println("Active Challenge: " + activeChallenge);

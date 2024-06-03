@@ -99,7 +99,7 @@ public class AdapterLoudSounds extends RecyclerView.Adapter<AdapterLoudSounds.Vi
 
             soundsPlayer++;
             if (soundsPlayer == 3) {
-                ChallengesUpdater challengesUpdater = new ChallengesUpdater(DatabaseConnection.getInstance(context));
+                ChallengesUpdater challengesUpdater = new ChallengesUpdater();
                 challengesUpdater.updateLoudSoundsRecord();
             }
 

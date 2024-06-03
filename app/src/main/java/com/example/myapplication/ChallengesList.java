@@ -32,7 +32,6 @@ public class ChallengesList extends AppCompatActivity {
         setContentView(R.layout.activity_challenges_list);
 
         connection = DatabaseConnection.getInstance(this);
-        connection.openDatabase();
         challengesDataAccess = new ChallengesDataAccess(connection);
 
         Intent intent = getIntent();
@@ -73,7 +72,6 @@ public class ChallengesList extends AppCompatActivity {
     }
 
     private void setTheme() {
-        View view = findViewById(R.id.challengesList);
-        Themes.setBackgroundColor(this, view);
+        Themes.setBackgroundColor(this, findViewById(R.id.challengesList));
     }
 }
