@@ -29,8 +29,6 @@ public class MonsterVisualizer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monsters);
 
-        connection.openDatabase();
-
         ImageView monster = findViewById(R.id.monsterImageView);
         TextView name = findViewById(R.id.monsterNameTextView);
         TextView description = findViewById(R.id.daysRemainingTextView);
@@ -64,17 +62,13 @@ public class MonsterVisualizer extends AppCompatActivity {
 
     private int getDaysRemaining() {
         String currentDay = DateManager.getCurrentDate();
-        System.out.println("Current day: " + currentDay);
         String appearedDay = monstersDataAccess.getDateAppearedActiveMonster();
-        System.out.println("Appeared day: " + appearedDay);
         String lastDay = DateManager.getDateNextDays(appearedDay, 3);
-        System.out.println("Last day: " + lastDay);
         if (lastDay == null) return 0;
         return (int) DateManager.getDaysDifference(currentDay, lastDay);
     }
 
     private void setTheme() {
         Themes.setBackgroundColor(this, findViewById(R.id.monsters));
-
     }
 }

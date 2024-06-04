@@ -33,7 +33,6 @@ public class GameModeSelector extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         setTheme();
     }
 

@@ -32,8 +32,8 @@ public class ThemeSelector extends AppCompatActivity {
         setContentView(R.layout.activity_theme_selector);
 
         preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
-        rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
-        challengesUpdater = new ChallengesUpdater(DatabaseConnection.getInstance(this));
+        rewardsDataAccess = new RewardsDataAccess();
+        challengesUpdater = new ChallengesUpdater();
         challengesDataUpdate = new ChallengesDataUpdate(DatabaseConnection.getInstance(this));
 
         theme1 = findViewById(R.id.theme1);

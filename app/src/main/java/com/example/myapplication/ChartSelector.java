@@ -103,9 +103,7 @@ public class ChartSelector extends AppCompatActivity {
     }
 
     private void setTheme() {
-        View view = findViewById(R.id.chartSelector);
-
-        Themes.setBackgroundColor(this, view);
+        Themes.setBackgroundColor(this, findViewById(R.id.chartSelector));
         Themes.setButtonTheme(this, btnConsult);
         Themes.setButtonDataTheme(this, btDate);
     }

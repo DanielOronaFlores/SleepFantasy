@@ -6,12 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import AppContext.MyApplication;
 import Database.DatabaseConnection;
 
 public class RewardsDataAccess {
     private final SQLiteDatabase database;
 
-    public RewardsDataAccess(DatabaseConnection connection) {
+    public RewardsDataAccess() {
+        DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
         database = connection.getDatabase();;
     }
 

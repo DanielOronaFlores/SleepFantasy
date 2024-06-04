@@ -18,8 +18,8 @@ import Models.Audio;
 import Styles.Themes;
 
 public class PlaylistCreator extends AppCompatActivity {
-    private final DatabaseConnection connection = DatabaseConnection.getInstance(this);
-    private final AudiosDataAccess AudiosDataAccess = new AudiosDataAccess(connection);
+    private DatabaseConnection connection;
+    private AudiosDataAccess audiosDataAccess;
     private RecyclerView recyclerView;
     private Button createPlaylist;
 
@@ -28,8 +28,10 @@ public class PlaylistCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_creator);
 
-        connection.openDatabase();
-        List<Audio> Audios = AudiosDataAccess.getAllAudios();
+        connection = DatabaseConnection.getInstance(this);
+        audiosDataAccess = new AudiosDataAccess(connection);
+
+        List<Audio> Audios = audiosDataAccess.getAllAudios();
 
         recyclerView = findViewById(R.id.recyclerAudios);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -42,7 +44,6 @@ public class PlaylistCreator extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         setTheme();
     }
 

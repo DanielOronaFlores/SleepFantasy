@@ -28,8 +28,8 @@ public class NotificationSelector extends AppCompatActivity {
         setContentView(R.layout.activity_notification_selector);
 
         preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
-        rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
-        challengesUpdater = new ChallengesUpdater(DatabaseConnection.getInstance(this));
+        rewardsDataAccess = new RewardsDataAccess();
+        challengesUpdater = new ChallengesUpdater();
 
         given = rewardsDataAccess.getGivenPerType(3);
         sounds = new ArrayList<>();

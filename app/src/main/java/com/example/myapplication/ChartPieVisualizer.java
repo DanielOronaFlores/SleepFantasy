@@ -48,7 +48,6 @@ public class ChartPieVisualizer extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        connection.openDatabase();
 
         float totalSleepTime = sleepDataAccess.getTotalSleepTime(date);
         float deepSleepPercentage = convertDataToPercentage(sleepDataAccess.getDeepSleepTime(date), totalSleepTime);
@@ -68,7 +67,7 @@ public class ChartPieVisualizer extends AppCompatActivity {
         deepText.setText(percentageFormat(deepSleepPercentage) + "%");
         remText.setText(percentageFormat(remSleepPercentage) + "%");
 
-        ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+        ChallengesUpdater challengesUpdater = new ChallengesUpdater();
         challengesUpdater.updateChartRecord();
 
         setTheme();
@@ -88,7 +87,6 @@ public class ChartPieVisualizer extends AppCompatActivity {
     }
 
     private void setTheme() {
-        View view = findViewById(R.id.chartPieVisualizer);
-        Themes.setBackgroundColor(this, view);
+        Themes.setBackgroundColor(this, findViewById(R.id.chartPieVisualizer));
     }
 }

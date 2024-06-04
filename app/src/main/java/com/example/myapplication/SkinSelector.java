@@ -28,8 +28,8 @@ public class SkinSelector extends AppCompatActivity {
         setContentView(R.layout.activity_skin_selector);
 
         preferencesDataUpdate = new PreferencesDataUpdate(DatabaseConnection.getInstance(this));
-        rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
-        challengesUpdater = new ChallengesUpdater(DatabaseConnection.getInstance(this));
+        rewardsDataAccess = new RewardsDataAccess();
+        challengesUpdater = new ChallengesUpdater();
 
         given = rewardsDataAccess.getGivenPerType(4);
         skins = new ArrayList<>();

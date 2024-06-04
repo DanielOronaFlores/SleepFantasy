@@ -24,7 +24,6 @@ public class Missions extends AppCompatActivity {
         setContentView(R.layout.activity_missions);
 
         connection = DatabaseConnection.getInstance(this);
-        connection.openDatabase();
         missionDataAccess = new MissionDataAccess(connection);
 
         List<Mission> missions = missionDataAccess.getAllMissions();

@@ -193,7 +193,7 @@ public class SleepEvaluator {
         AvatarDataUpdate avatarDataUpdate = new AvatarDataUpdate(connection);
         avatarDataUpdate.updateCharacterPhase((byte) category);
 
-        ChallengesUpdater challengesUploader = new ChallengesUpdater(connection);
+        ChallengesUpdater challengesUploader = new ChallengesUpdater();
         challengesUploader.updateCategoryRecord(category);
 
         updateMissions(category, vigilTime);
@@ -219,7 +219,7 @@ public class SleepEvaluator {
         Tips tips = new Tips();
         tips.updateTip();
 
-        ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+        ChallengesUpdater challengesUpdater = new ChallengesUpdater();
         challengesUpdater.updateSleepingConditions(); // Actualiza las condiciones de sueño de desafios
 
         ChallengesManager challengesManager = new ChallengesManager();

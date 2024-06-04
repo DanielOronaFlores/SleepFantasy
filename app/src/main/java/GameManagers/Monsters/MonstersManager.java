@@ -20,7 +20,7 @@ public class MonstersManager {
 
     public MonstersManager() {
         DatabaseConnection connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
-        challengesUpdater = new ChallengesUpdater(connection);
+        challengesUpdater = new ChallengesUpdater();
         monstersDataAccess = new MonstersDataAccess(connection);
         monstersDataUpdate = new MonstersDataUpdate(connection);
 

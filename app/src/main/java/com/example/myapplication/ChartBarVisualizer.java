@@ -93,20 +93,14 @@ public class ChartBarVisualizer extends AppCompatActivity {
     private int[] selectDataToShow(int valueToShow, String date, int filter) {
         boolean isWeek = (filter == 1);
 
-        switch (valueToShow) {
-            case 0:
-                return sleepDataAccess.getEfficiency(date, isWeek);
-            case 1:
-                return sleepDataAccess.getAwakeningAmount(date, isWeek);
-            case 2:
-                return sleepDataAccess.getLoudSoundsAmount(date, isWeek);
-            case 3:
-                return sleepDataAccess.getSuddenMovementsAmount(date, isWeek);
-            case 4:
-                return sleepDataAccess.getPositionChangesAmount(date, isWeek);
-            default:
-                return new int[0];
-        }
+        return switch (valueToShow) {
+            case 0 -> sleepDataAccess.getEfficiency(date, isWeek);
+            case 1 -> sleepDataAccess.getAwakeningAmount(date, isWeek);
+            case 2 -> sleepDataAccess.getLoudSoundsAmount(date, isWeek);
+            case 3 -> sleepDataAccess.getSuddenMovementsAmount(date, isWeek);
+            case 4 -> sleepDataAccess.getPositionChangesAmount(date, isWeek);
+            default -> new int[0];
+        };
     }
 
     private float[] setChartValues(int[] data) {
@@ -131,7 +125,6 @@ public class ChartBarVisualizer extends AppCompatActivity {
     }
 
     private void setTheme() {
-        View view = findViewById(R.id.chartBarView);
-        Themes.setBackgroundColor(this, view);
+        Themes.setBackgroundColor(this, findViewById(R.id.chartBarView));
     }
 }

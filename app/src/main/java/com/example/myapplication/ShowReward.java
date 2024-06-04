@@ -24,7 +24,7 @@ public class ShowReward extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewards);
 
-        rewardsDataAccess = new RewardsDataAccess(DatabaseConnection.getInstance(this));
+        rewardsDataAccess = new RewardsDataAccess();
         preferencesDataAccess = new PreferencesDataAccess(DatabaseConnection.getInstance(this));
 
         titleReward = findViewById(R.id.reward_name);

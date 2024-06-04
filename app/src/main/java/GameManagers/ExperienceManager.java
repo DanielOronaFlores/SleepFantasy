@@ -33,7 +33,7 @@ public class ExperienceManager {
         System.out.println("Se ha ganado " + experience + " de experiencia");
 
         if (experience >= 100) {
-            ChallengesUpdater challengesUpdater = new ChallengesUpdater(connection);
+            ChallengesUpdater challengesUpdater = new ChallengesUpdater();
             challengesUpdater.updateExperienceRecord();
         }
     }

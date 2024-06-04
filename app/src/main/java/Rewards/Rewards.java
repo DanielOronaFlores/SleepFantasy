@@ -14,7 +14,7 @@ public class Rewards {
 
     private static void initializeInstances() {
         connection = DatabaseConnection.getInstance(MyApplication.getAppContext());
-        rewardsDataAccess = new RewardsDataAccess(connection);
+        rewardsDataAccess = new RewardsDataAccess();
     }
 
     private static int selectRandomReward() {
