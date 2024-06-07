@@ -1,8 +1,6 @@
 package SleepEvaluator.Trainer;
 
-import android.util.Log;
-
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import android.annotation.SuppressLint;
 
 import java.util.ArrayList;
 
@@ -11,6 +9,7 @@ import Database.DataUpdates.ProbabilitiesDataUpdate;
 import Database.DatabaseConnection;
 import SleepEvaluator.RangesValues;
 
+@SuppressLint("StaticFieldLeak")
 public class BayesCreator {
     private static final Instances deserializer = new Instances();
     private static final float[][] frequencyTotalSleepTime = new float[7][7];
@@ -26,57 +25,32 @@ public class BayesCreator {
 
     private static void setFrequency(int category, float value, float[][] attributeValues, int id) {
         int column = category - 1;
-        int row = 0;
-        switch (id) {
-            case 0:
-                row = RangesValues.totalSleepTime(value) - 1;
-                break;
-            case 1:
-                row = RangesValues.lightSleepTime(value) - 1;
-                break;
-            case 2:
-                row = RangesValues.deepSleepTime(value) - 1;
-                break;
-            case 3:
-                row = RangesValues.remSleepTime(value) - 1;
-                break;
-            case 4:
-                row = RangesValues.efficiency(value) - 1;
-                break;
-            case 5:
-                row = RangesValues.awakenings(value) - 1;
-                break;
-            case 6:
-                row = RangesValues.suddenMovements(value) - 1;
-                break;
-            case 7:
-                row = RangesValues.positionChanges(value) - 1;
-                break;
-        }
+        int row = switch (id) {
+            case 0 -> RangesValues.totalSleepTime(value) - 1;
+            case 1 -> RangesValues.lightSleepTime(value) - 1;
+            case 2 -> RangesValues.deepSleepTime(value) - 1;
+            case 3 -> RangesValues.remSleepTime(value) - 1;
+            case 4 -> RangesValues.efficiency(value) - 1;
+            case 5 -> RangesValues.awakenings(value) - 1;
+            case 6 -> RangesValues.suddenMovements(value) - 1;
+            case 7 -> RangesValues.positionChanges(value) - 1;
+            default -> 0;
+        };
         attributeValues[row][column]++;
     }
 
     private static String getAttributeName(int attribute) {
-        switch (attribute) {
-            case 0:
-                return "totalSleepTime";
-            case 1:
-                return "lightSleepTime";
-            case 2:
-                return "deepSleepTime";
-            case 3:
-                return "remSleepTime";
-            case 4:
-                return "efficiency";
-            case 5:
-                return "awakenings";
-            case 6:
-                return "suddenMovements";
-            case 7:
-                return "positionChanges";
-            default:
-                return "";
-        }
+        return switch (attribute) {
+            case 0 -> "totalSleepTime";
+            case 1 -> "lightSleepTime";
+            case 2 -> "deepSleepTime";
+            case 3 -> "remSleepTime";
+            case 4 -> "efficiency";
+            case 5 -> "awakenings";
+            case 6 -> "suddenMovements";
+            case 7 -> "positionChanges";
+            default -> "";
+        };
     }
 
     private static float calculateSumColumn(float[][] attributeValues, int column) {
@@ -91,7 +65,6 @@ public class BayesCreator {
 
     private static void calculateFrequencyProbabilities() {
         totalInstances = deserializer.countInstances();
-        System.out.println("Total instancias: " + totalInstances);
 
         ArrayList<String> categoryValues, attributeValues;
         categoryValues = deserializer.getValueForElement("category");
@@ -183,57 +156,9 @@ public class BayesCreator {
     }
 
     public static void createProbabilities() {
-        System.out.println("---------Calcular frecuencias de probabilidades---------");
         calculateFrequencyProbabilities();
-        System.out.println();
-        printALL();
-
-        System.out.println("---------Suavizado de Laplace---------");
         setLaPlaceSmoothing();
-        System.out.println();
-        printALL();
-
-        System.out.println("---------Calcular probabilidades condicionales---------");
         calculateConditionalProbabilities();
-        System.out.println();
-        printALL();
-
         saveProbabilities();
-    }
-
-
-    private static void printALL() {
-        System.out.println("----Total Sleep Time----");
-        printMatrix(frequencyTotalSleepTime);
-
-        System.out.println("----Light Sleep Time----");
-        printMatrix(frequencyLightSleepTime);
-
-        System.out.println("----Deep Sleep Time----");
-        printMatrix(frequencyDeepSleepTime);
-
-        System.out.println("----Rem Sleep Time----");
-        printMatrix(frequencyRemSleepTime);
-
-        System.out.println("----Efficiency----");
-        printMatrix(frequencyEfficiency);
-
-        System.out.println("----Awakenings----");
-        printMatrix(frequencyAwakenings);
-
-        System.out.println("----Sudden Movements----");
-        printMatrix(frequencySuddenMovements);
-
-        System.out.println("----Position Changes----");
-        printMatrix(frequencyPositionChanges);
-    }
-
-    private static void printMatrix(float[][] matrix) {
-        for (float[] floats : matrix) {
-            for (float aFloat : floats) {
-                System.out.print(aFloat + "\t");
-            }
-            System.out.println();
-        }
     }
 }

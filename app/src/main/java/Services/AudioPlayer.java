@@ -51,8 +51,6 @@ public class AudioPlayer extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        connection.openDatabase();
-
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -90,22 +88,22 @@ public class AudioPlayer extends Service {
         int isCreatedBySystem = audios.get(position).getIsCreatedBySystem();
 
         if (isCreatedBySystem == 1) {
-            int audioID = selectaudio(audioName);
-            playaudioCreatedBySystem(audioID, MyApplication.getAppContext());
+            int audioID = selectAudio(audioName);
+            playAudioCreatedBySystem(audioID, MyApplication.getAppContext());
         } else {
-            playaudioCreatedByUser(audioName);
+            playAudioCreatedByUser(audioName);
         }
 
         mediaPlayer.setOnCompletionListener(mp -> resetAudioLoop());
     }
 
-    private void playaudioCreatedBySystem(int audioID, Context context) {
+    private void playAudioCreatedBySystem(int audioID, Context context) {
         mediaPlayer = MediaPlayer.create(context, audioID);
         mediaPlayer.start();
     }
 
     @SuppressLint("ForegroundServiceType")
-    private void playaudioCreatedByUser(String audioName) {
+    private void playAudioCreatedByUser(String audioName) {
         mediaPlayer = new MediaPlayer();
         String audioPath = AudiosPaths.getMusicPath() + audioName;
 
@@ -142,7 +140,7 @@ public class AudioPlayer extends Service {
         }
     }
 
-    private int selectaudio(String audioName) {
+    private int selectAudio(String audioName) {
         PlaylistAudios PlaylistAudios = new PlaylistAudios();
         return PlaylistAudios.getResourceId(audioName);
     }

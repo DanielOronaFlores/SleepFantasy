@@ -23,7 +23,6 @@ public class AudioFilter {
         List<Sound> soundsList = new ArrayList<>();
         File file = new File(AudiosPaths.getRecordingsPCMPath());
 
-        System.out.println("File exists: " + file.exists());
         if (file.exists()) {
             try {
                 double segmentDuration = 1.0;
@@ -64,7 +63,6 @@ public class AudioFilter {
                     if (second % 2 != 0) {
                         if (samples[0] != 0) {
                             int realSecond = (second / 2) / 10;
-                            System.out.println("Second: " + second);
                             soundsList.add(new Sound(realSecond));
                         }
                     }

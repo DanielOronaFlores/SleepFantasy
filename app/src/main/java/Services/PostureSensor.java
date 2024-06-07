@@ -14,7 +14,6 @@ import android.os.Looper;
 
 import androidx.annotation.Nullable;
 
-import AppContext.MyApplication;
 import Notifications.Notifications;
 
 public class PostureSensor extends Service {
@@ -22,9 +21,9 @@ public class PostureSensor extends Service {
     private Sensor sensorGyroscope, sensorHeartRate, sensorAccelerometer;
     private Handler handler;
     private Intent sleepTrackerServiceIntent;
-    private boolean isLowRotation = false;
-    private boolean isHeartRateLow = false;
-    private boolean isLyingDown = false;
+    private boolean isLowRotation;
+    private boolean isHeartRateLow;
+    private boolean isLyingDown;
 
     @Nullable
     @Override
@@ -35,13 +34,16 @@ public class PostureSensor extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        isLowRotation = false;
+        isHeartRateLow = false;
+        isLyingDown = false;
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorGyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         sensorHeartRate = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        if ( sensorGyroscope == null || sensorHeartRate == null || sensorAccelerometer == null) stopSelf();
-
+        if (sensorGyroscope == null || sensorHeartRate == null || sensorAccelerometer == null) stopSelf();
         handler = new Handler(Looper.getMainLooper());
 
         sleepTrackerServiceIntent = new Intent(PostureSensor.this, SleepTracker.class);
@@ -50,7 +52,6 @@ public class PostureSensor extends Service {
     @SuppressLint("ForegroundServiceType")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("Posture Sensor Service started");
         Notification notification = Notifications.getNotification();
         startForeground(1, notification);
 
@@ -129,10 +130,6 @@ public class PostureSensor extends Service {
     };
 
     private boolean isUserLyingDown() {
-        System.out.println("Rotacion: " + isLowRotation);
-        System.out.println("Latidos: " + isHeartRateLow);
-        System.out.println("Acostado: " + isLyingDown);
-        System.out.println("-----------------");
         return isLowRotation && isHeartRateLow && isLyingDown;
     }
 }

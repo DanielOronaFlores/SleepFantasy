@@ -93,6 +93,8 @@ public class Configuration extends AppCompatActivity {
 
         ChallengesManager challengesManager = new ChallengesManager();
         challengesManager.manageChallenges();
+
+        case1();
     }
 
     @Override

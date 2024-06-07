@@ -107,7 +107,6 @@ public class SleepTracker extends Service {
 
         if (preferencesDataAccess.getRecordAudios()) {
             if (StorageManager.isInsufficientStorage()) {
-                System.out.println("No hay suficiente espacio de almacenamiento");
                 Notifications.showLowStorageNotification();
             } else {
                 startRecording();
@@ -208,12 +207,6 @@ public class SleepTracker extends Service {
         if (pcmRecorder.isPlaying()) pcmRecorder.stopRecording();
         if (recorder.isRecording()) recorder.stopRecording();
     }
-
-    private void filterAudio() {
-        RecordingPreferences recordingPreferences = new RecordingPreferences();
-        AudioFilter.startFilter(recordingPreferences.getPreferredSamplingRate());
-    }
-
     private void unregisterListeners() {
         sensorManager.unregisterListener(heartRateListener);
         sensorManager.unregisterListener(lightListener);

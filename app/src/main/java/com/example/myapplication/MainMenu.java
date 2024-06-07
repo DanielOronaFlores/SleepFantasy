@@ -71,17 +71,9 @@ public class MainMenu extends AppCompatActivity {
         });
 
         Intent intent = new Intent(this, PostureSensor.class);
-        //startService(intent);
+        startService(intent);
 
-        deleteRecordingsFiles();
-
-        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-        mediaMetadataRetriever.setDataSource(AudiosPaths.getRecordings3GPPath());
-        float sampleRate = Float.parseFloat(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE));
-        //float sampleRate = 12000;
-
-        AudioFilter.startFilter(sampleRate);
-        System.out.println("Sample rate: " + sampleRate);
+        //deleteRecordingsFiles();
     }
     @Override
     protected void onStart() {
